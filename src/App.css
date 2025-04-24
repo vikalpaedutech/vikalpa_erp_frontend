@@ -1,3 +1,7 @@
+
+
+
+
 .App {
   text-align: center;
 }
@@ -40,7 +44,10 @@
 
 
 
-
+html, body, #root {
+  height: 100%;
+  margin: 0; /* Also reset default margin */
+}
 
 
 
@@ -153,6 +160,7 @@ body, html {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  width: 220vh;
 }
 
 .slider-toggle-btn {
@@ -181,7 +189,7 @@ body, html {
   left: -260px;
   width: 240px;
   height: 100%;
-  background-color:rgb(22, 217, 235);   /**#f3f4f6;*/
+  background-color:rgb(48, 232, 249);   /**#f3f4f6;*/
   box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
   transition: left 0.3s ease-in-out;
   padding: 20px;
@@ -406,3 +414,371 @@ body, html {
   align-items: center;
   
 }
+
+
+
+
+
+
+
+
+
+.prevent-overflow {
+  width: 100%;
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* custonm css*/
+
+/* UserSignup.component.jsx */
+
+.parent-user-signup {
+  /* background-color: #FFFFF0; */
+  
+  width: 100%;
+  height: 125%;
+  border-radius: 10px solid;
+display: flex;
+align-content: center;
+justify-content: center;
+}
+
+.user-signup-head-text{
+  font-size: 50vh;
+  text-align: center;
+  color: red;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+
+}
+
+.signup-form-child{
+  
+  width: 50vw;
+  border: solid #FFF0F5;
+  padding: 20px;
+  border-radius: 20px;
+  box-shadow: 5px 10px inset;
+  
+}
+
+
+
+.signup-form {
+  /* background-color: red; */
+  width:  100% ;
+}
+
+
+
+
+@media screen and (max-width: 768px) {
+  /* This will apply when the screen is 768px wide or less */
+  .parent-user-signup {
+    /* background-color: #FFFFF0; */
+    
+    width: 100%;
+    height: 100%;
+    border-radius: 10px solid;
+  display: flex;
+  align-content: center;
+  justify-content: center;
+  
+  
+  }
+  
+  .user-signup-head-text{
+    font-size: 50vh;
+    text-align: center;
+    color: red;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  
+  }
+  
+  .signup-form-child{
+    
+    width: 100vw;
+    border: solid #FFF0F5;
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 5px 10px inset;
+    
+  }
+  
+  
+  
+  .signup-form {
+    /* background-color: red; */
+    width:  100% ;
+  }
+
+
+}
+
+/* -------------------------------------------------------------- */
+
+/* UserSignIn.component.jsx */
+.parent-user-signin{
+  /* background-color: #F0FFF0; */
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-content: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.child-wrapper-div{
+
+  /* background-color: green; */
+  
+  
+
+  
+
+}
+.child-user-signin-head-text{
+  text-align: center;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  color: red;
+}
+.child-signin-form{
+  border: solid #DCDCDC;
+  border-radius: 20px;
+  box-shadow: 5px 10px inset;
+
+  padding: 30px;
+  width: 50%;
+  height: 50%;
+  margin-left: 25%;
+  text-align: center;
+}
+
+@media screen and (max-width: 768px) {
+
+  .parent-user-signin{
+    /* background-color: #F0FFF0; */
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    flex-direction: column;
+  }
+  
+  .child-wrapper-div{
+  
+    /* background-color: green; */
+    
+   
+   
+    
+  
+    
+  
+  }
+  .child-user-signin-head-text{
+    text-align: center;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    color: red;
+  }
+  .child-signin-form{
+    border: solid #DCDCDC;
+    border-radius: 20px;
+    box-shadow: 5px 10px inset;
+  
+    padding: 30px;
+    width: 80vw;
+    /* height: 50%; */
+    margin-left: 15%;
+    text-align: center;
+  }
+
+  
+}
+
+/* ---------------------------------------------------- */
+
+
+
+/* DistrictBlockSchool.component.jsx */
+
+.parent-districtBlockSchoolById{
+  /* border: solid black;
+  background-color: red; */
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+
+@media screen and (max-width: 768px) {
+  
+  .parent-districtBlockSchoolById{
+    /* border: solid black;
+    background-color: #FFFAF0; */
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+}
+
+
+/* ----------------------------------------------- */
+
+/* /UserScreens/CC.jsx */
+
+.parent-cc-creen-main{
+  width: 100vw;
+  height: 100vh;
+}
+
+.cc-screen-main-slider-on{
+  background-color: #FFFAF0;
+  width: 85vw;
+  height: 100vh;
+  margin-left: 250px;
+
+}
+
+.cc-screen-main-slider-off{
+  background-color: #FFFAF0;
+  width: 100vw;
+  height: 100vh;
+
+
+}
+
+@media screen and (max-width: 768) {
+  
+
+  .parent-cc-creen-main{
+    width: 100vw;
+    height: 100vh;
+  }
+  
+  .cc-screen-main{
+    background-color: #FFFAF0;
+    /* width: 100vw;
+    height: 100vh; */
+    
+  
+  }
+
+}
+
+/* -------------------- */
+
+
+
+
+
+
+
+
+/* Test CSS */
+.test-main {
+  background: red;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-content: center;
+  justify-content:center ;
+  gap: 20px;
+  flex-direction: row;
+ 
+
+}
+
+.test-child-1{
+
+  height: 20vh;
+  width: 20vw;
+  background: teal;
+  margin-top: 30vh;
+ 
+
+}
+
+.test-child-2{
+  height: 20vh;
+  width: 20vw;
+  background: green;
+  margin-top: 30vh;
+}
+
+.test-child-3{
+  height: 20vh;
+  width: 20vw;
+  background: purple;
+  margin-top: 30vh;
+}
+
+.test-child-4{
+  height: 20vh;
+  width: 20vw;
+  background: lightblue;
+  margin-top: 30vh;
+}
+
+@media screen and (max-width: 768px) {
+  /* This will apply when the screen is 768px wide or less */
+  .test-main {
+    background-color: lightblue;
+  
+
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-content: center;
+  justify-content:center ;
+  gap: 20px;
+  flex-direction: column;
+  }
+
+
+  .test-child-1 {
+height: 100vh;
+width:  100vw;
+display: flex;
+flex-direction: column;
+  
+
+  }
+  .test-child-2 {
+    width: 50vw;   /* wider */
+    height: 50vh;  /* keeps them tall */
+    margin-top: 0; /* remove margin so they stack properly */
+    /* display: flex;
+    align-content: center;
+    justify-content: center; */
+  
+  }
+.input-test {
+  height: 10%;
+  width: 80%;
+  
+}
+
+
+
+}
+
+/* --------------------------------------------------------*/

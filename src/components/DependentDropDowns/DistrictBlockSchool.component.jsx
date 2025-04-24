@@ -2,7 +2,7 @@
 //It will be used for where i will be needing to filter data on the basis of district only
 
 import React, { useEffect, useState, useContext } from "react";
-import { Table, Row, Col, Container } from "react-bootstrap";
+import { Table, Row, Col, Container, Breadcrumb } from "react-bootstrap";
 
 import {
   getDistrict,
@@ -187,7 +187,7 @@ export function School() {
     try {
       const response = await getSchool();
       setSchoolData(response.data);
-      console.log("school data", response.data)
+      console.log("school data", response.data);
     } catch (error) {
       console.error("Error fetching district data", error.message);
     }
@@ -420,13 +420,9 @@ export const DistrictBlockSchoolById = ({
   const { districtContext, setDistrictContext } = useContext(
     DistrictBlockSchoolContext
   ); // Use context
-  // const {blockContext, setBlockContext} = useContext(DistrictBlockSchoolContext); // Use context
-  // const {schoolContext, setSchoolContext} = useContext(DistrictBlockSchoolContext); // Use context
 
   const { blockContext, setBlockContext } = useContext(BlockContext); // Use context
   const { schoolContext, setSchoolContext } = useContext(SchoolContext); // Use context
-
- 
 
   //_______________________________________
 
@@ -467,6 +463,7 @@ export const DistrictBlockSchoolById = ({
   const [selectedBlock, setSelectedBlock] = useState("");
 
   const fetchBlock = async (districtData) => {
+    console.log("i am fresh block", Object.values(selectedDistrict)[0]);
     try {
       // const districtIdss = selectedDistrict.map((each)=>each.value)
 
@@ -544,7 +541,7 @@ export const DistrictBlockSchoolById = ({
   }, [selectedSchool]);
 
   return (
-    <div style={{ display: "flex", gap: "20px" }}>
+    <div className="parent-districtBlockSchoolById">
       <div>
         <label>District Drop Down</label>
 
@@ -574,7 +571,6 @@ export const DistrictBlockSchoolById = ({
           placeholder="Select a district"
         />
       </div>
-
       <div>
         <label>School Drop Down</label>
 
@@ -597,9 +593,7 @@ export const DistrictBlockSchoolById = ({
 export function ClassOfStudent() {
   //Context api using
 
-  const { classContext, setClassContext } = useContext(
-    ClassContext
-  ); // Use context
+  const { classContext, setClassContext } = useContext(ClassContext); // Use context
 
   //_______________________________________
 
@@ -614,24 +608,54 @@ export function ClassOfStudent() {
   }));
 
   return (
-    <div style={{ display: "flex" }}>
-      <div>
-        <label>Select Class</label>
+    // <Container fluid>
+    // <div style={{ display: "flex" }}>
+    //   <Row>
+    //     <label>Select Class</label>
 
-        <Select
-          
-          id="send-data"
-          options={classOptions}
-          value={classContext} // Set the selected value
-          onChange={(selectedOption) => {
-            setClassContext(selectedOption); // Set the selected value direct into context api
+    //     <Select
 
-            console.log("Selected district:", selectedOption);
+    //       id="send-data"
+    //       options={classOptions}
+    //       value={classContext} // Set the selected value
+    //       onChange={(selectedOption) => {
+    //         setClassContext(selectedOption); // Set the selected value direct into context api
+
+    //         console.log("Selected district:", selectedOption);
+    //       }}
+    //       placeholder="Select Class"
+    //     />
+    //   </Row>
+    // </div>
+    // </Container>
+
+    <Container fluid>
+      <label>Select Class</label>
+      <Breadcrumb>
+        <Breadcrumb.Item
+          active={classContext?.value === "9"}
+          onClick={() => {
+            const selectedOption = { label: "9", value: "9" };
+            setClassContext(selectedOption);
+            console.log("Selected class:", selectedOption);
           }}
-          placeholder="Select Class"
-        />
-      </div>
-    </div>
+          style={{ cursor: "pointer" }}
+        >
+          9
+        </Breadcrumb.Item>
+        <Breadcrumb.Item
+          active={classContext?.value === "10"}
+          onClick={() => {
+            const selectedOption = { label: "10", value: "10" };
+            setClassContext(selectedOption);
+            console.log("Selected class:", selectedOption);
+          }}
+          style={{ cursor: "pointer" }}
+        >
+          10
+        </Breadcrumb.Item>
+      </Breadcrumb>
+    </Container>
   );
 }
 

@@ -2,7 +2,7 @@
 
 //This components allows the users like, admin, cc, aci..etc.. to sign in and use their pages.
 
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, use } from "react";
 import {
   Container,
   Row,
@@ -28,9 +28,15 @@ export const UserSignIn = () => {
       setUserData(response.data);
 
       //Checking if password is correct or not
-      if (response.data && response.data[0].password === password){
-        navigate("/center-coordinator");
-      } else (
+      if (response.data && response.data[0].password === password && response.data[0].role === "CC"){
+
+        navigate("/center-coordinator")
+
+     
+      } else if (response.data && response.data[0].password === password && response.data[0].role === "ACI") {
+        navigate("/user-aci")
+      }
+      else (
         setUserData(null)
         
       )
@@ -46,18 +52,17 @@ export const UserSignIn = () => {
   }, [userData]);
 
   return (
-    <Container
-      className="user-sign-in-container d-flex justify-content-center align-items-center"
-      fluid
-      style={{ minHeight: "100vh" }}
-    >
-      <Card style={{ width: "30rem", borderRadius: "20px" }} className="justify-content-center">
-        <Card.Body className="user-sign-in-card-body">
-          <Card.Title className="text-center">Mission Buniyaad</Card.Title>
-          <Card.Subtitle className="mb-2 text-muted text-center">ERP-Login</Card.Subtitle>
+    <div className="parent-user-signin">
+      <div className="child-wrapper-div">
+        <div >
+          <div className="child-user-signin-head-text"> 
+          <h1>Vikalpa Foundation</h1>
+          <h2>ERP-Login</h2>
+          </div>
 
           {/* ✅ Replaced <p> with <div> to avoid form nesting error */}
-          <div className="card-text">
+          <div className="child-signin-form">
+            <img src="/vikalpaLogo.png" style={{height:65, width: 100}}/>
             <Form>
               <Form.Group className="mb-3" controlId="contactInput">
                 <Form.Label>Phone Number</Form.Label>
@@ -85,13 +90,15 @@ export const UserSignIn = () => {
                 <Button onClick={fetchData}>Login</Button>
               </Row>
             </Form>
-          </div>
-
-          <div>
+            <hr></hr>
+            <div>
             <p>New user click here to create account: <Card.Link href="/user-signup">Sign Up</Card.Link></p>
           </div>
-        </Card.Body>
-      </Card>
-    </Container>
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
   );
 };

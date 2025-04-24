@@ -12,7 +12,7 @@ This component will allow users or CCs to update students disciplinary issue in 
 import React, { useState, useEffect, useContext } from "react";
 import { createDisciplinaryOrInteraction } from "../../service/StudentDisciplinaryOrInteraction.services";
 import { getStudentsByQueryParams } from "../../service/Student.service";
-import { Container, Table, Button } from "react-bootstrap";
+import { Container, Table, Button, Row, Col } from "react-bootstrap";
 import Select from "react-select";
 import {
   DistrictBlockSchoolContext,
@@ -22,20 +22,22 @@ import {
 } from "../contextAPIs/DependentDropdowns.contextAPI";
 import { UserContext } from "../contextAPIs/User.context";
 
-import { DistrictBlockSchoolById } from "../DependentDropDowns/DistrictBlockSchool.component";
+import { DistrictBlockSchoolById, ClassOfStudent } from "../DependentDropDowns/DistrictBlockSchool.component";
 
 export const StudentDisciplinaryOrInteraction = () => {
+
+  
 
       //using userContext
       const { userData, setUserData } = useContext(UserContext);
       //___________________________________________________
 
 //District, block kschool context api hooks
-  const { districtContext } = useContext(DistrictBlockSchoolContext);
-  const { blockContext } = useContext(BlockContext);
-  const { schoolContext } = useContext(SchoolContext);
-  const { classContext } = useContext(ClassContext);
-  const { userContext } = useContext(UserContext);
+  const { districtContext, setDistrictContext } = useContext(DistrictBlockSchoolContext);
+  const { blockContext, setBlockContext } = useContext(BlockContext);
+  const { schoolContext, setSchoolContext } = useContext(SchoolContext);
+  const { classContext, setClassContext } = useContext(ClassContext);
+  const { userContext, setUserContext } = useContext(UserContext);
 
   //________________________________________________________________________
 
@@ -45,12 +47,16 @@ export const StudentDisciplinaryOrInteraction = () => {
   const [selectedStatus, setSelectedStatus] = useState({});
   const [remarks, setRemarks] = useState({});
 
+
   const queryParams = {
     
-    schoolId: "143",
+    schoolId: schoolContext?.[0]?.value ?? null,
+    // classContext: classContext.value
   };
 
-  useEffect(() => {
+  useEffect(() => { 
+    
+  console.log("i am student's class",classContext.value)
     const fetchStudentData = async () => {
       try {
         const response = await getStudentsByQueryParams(queryParams);
@@ -61,12 +67,28 @@ export const StudentDisciplinaryOrInteraction = () => {
     };
 console.log(userData.assignedDistricts)
     fetchStudentData();
-  }, [ schoolContext]);
+  }, [ schoolContext, classContext]);
 
+//Below snippet clears the filter
+
+useEffect (()=>{
+
+  setBlockContext("")
+  setSchoolContext("")
+
+}, [districtContext])
+
+
+
+  //Below blocks variables are to be shown in select drop downs
   const subject = [
     { value: "English", label: "English" },
     { value: "Hindi", label: "Hindi" },
     { value: "Maths", label: "Maths" },
+    { value: "Science", label: "Science" },
+    { value: "S.St", label: "S.St" },
+    { value: "S.Sc", label: "S.Sc" },
+    { value: "Optional", label: "Optional" },
   ];
 
   const disciplinaryAndInteractionOptions = [
@@ -79,13 +101,19 @@ console.log(userData.assignedDistricts)
       { value: "Eating", label: "Eating" },
       { value: "Running", label: "Running" },
       { value: "Talking", label: "Talking" },
+      { value: "Fighting", label: "Fighting" },
+      { value: "Abusing", label: "Abusing" },
     ],
     Interaction: [
-      { value: "Asked Questions", label: "Asked Questions" },
-      { value: "Answered Questions", label: "Answered Questions" },
-      { value: "Solved Questions", label: "Solved Questions" },
+      { value: "Student-Teacher", label: "Student-Teacher" },
+      { value: "Teacher-Student", label: "Teacher-Student" },
+      { value: "Teacher asked question", label: "Teacher asked question" },
+      { value: "Student answered", label: "Student answered" },
+      
     ],
   };
+
+  //_____________________________________________________________________________
 
   const handleSubmit = async (student) => {
     const srn = student.studentSrn;
@@ -103,15 +131,15 @@ console.log(userData.assignedDistricts)
       studentSrn: srn,
       firstName: student.firstName,
       fatherName: student.fatherName,
-      classofStudent: student.classId || classContext?.id || "10",
-      districtId: student.districtId || districtContext?.id || "1",
-      blockId: student.blockId || blockContext?.id || "1",
-      schoolId: student.schoolId || schoolContext?.id || "1",
+      classofStudent: student.classId || classContext?.id || "NA",
+      districtId: student.districtId || districtContext?.id || "NA",
+      blockId: student.blockId || blockContext?.id || "NA",
+      schoolId: student.schoolId || schoolContext?.id || "NA",
       subject: selectedSubject.value,
       disciplinaryOrInteraction: selectedType.value,
       disciplinaryOrInteractiionRemark: status.value,
       remark: remark,
-      userId: userContext?.userId || "test01",
+      userId: userData?.[0]?.userId ?? "Not-known",
     }));
 
     try {
@@ -139,21 +167,30 @@ console.log("i am user distrit", assignedDistricts);
 
 
   return (
-    <Container>
-        <nav>
-            <DistrictBlockSchoolById assignedDistricts = {assignedDistricts}/>
-        
-        </nav>
-      <Table bordered>
+    <Row className="justify-content-center">
+  <Col xs={12}>
+    <Container fluid className="prevent-overflow">
+      <Row>
+        <DistrictBlockSchoolById assignedDistricts={assignedDistricts} />
+      </Row>
+      
+          <Row>
+            <Col>
+              <ClassOfStudent />
+            </Col>
+          </Row>
+
+      <Row>
+      <Table responsive bordered>
         <thead>
           <tr>
             <th>#</th>
             <th>SRN</th>
             <th>Student</th>
             <th>Father</th>
-            <th>District</th>
+            {/* <th>District</th>
             <th>Block</th>
-            <th>School</th>
+            <th>School</th> */}
             <th>Subject</th>
             <th>Type</th>
             <th>Status</th>
@@ -173,9 +210,9 @@ console.log("i am user distrit", assignedDistricts);
                 <td>{srn}</td>
                 <td>{student.firstName}</td>
                 <td>{student.fatherName}</td>
-                <td>{student.districtId}</td>
+                {/* <td>{student.districtId}</td>
                 <td>{student.blockId}</td>
-                <td>{student.schoolId}</td>
+                <td>{student.schoolId}</td> */}
 
                 <td>
                   <Select
@@ -250,6 +287,10 @@ console.log("i am user distrit", assignedDistricts);
           })}
         </tbody>
       </Table>
+      </Row>
     </Container>
+  </Col>
+</Row>
+
   );
 };

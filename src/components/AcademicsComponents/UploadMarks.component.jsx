@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
+import { Container, Row, Col, Table } from "react-bootstrap";
 import {
   getAllMarksUsinQueryParams,
   updateMarksBySrnAndExamId,
@@ -41,6 +42,7 @@ export const UploadMarks = () => {
 
   const [marksData, setMarksData] = useState([]);
 
+  //Below query params filters the data and show it on frontend from backend
   const queryParams = {
     studentSrn: "",
     firstName: "",
@@ -66,6 +68,7 @@ export const UploadMarks = () => {
             console.log(response.data);
           } catch (error) {
             console.log("Error fetching marks data", error.message);
+            setMarksData([])
           }
     } else (console.log("Please select all filters"))
    
@@ -138,7 +141,9 @@ export const UploadMarks = () => {
   //____________________________________________________________________________
 
   return (
-    <>
+    <Row className="justify-content-center">
+  <Col xs={12}>
+    <Container fluid className="prevent-overflow">
       <h1>Apply Filter</h1>
 
       <DistrictBlockSchoolById assignedDistricts={assignedDistricts} />
@@ -148,22 +153,22 @@ export const UploadMarks = () => {
       <h2>Upload Marks</h2>
 
       {marksData.length > 0 ? (
-        <table border="1" cellPadding="10" cellSpacing="0">
+        <Table responsive bordered cellPadding="10" cellSpacing="0">
           <thead>
             <tr>
               <th>S.No</th>
               <th>Student SRN</th>
               <th>First Name</th>
               <th>Father's Name</th>
-              <th>District ID</th>
+              {/* <th>District ID</th>
               <th>Block ID</th>
-              <th>School ID</th>
+              <th>School ID</th> */}
               <th>Class</th>
               <th>Exam ID</th>
               <th>Marks Obtained</th>
               <th>Recorded By</th>
               <th>Remark</th>
-              <th>Marks Updated On</th>
+              {/* <th>Marks Updated On</th> */}
               <th>Obtained Marks</th>
             </tr>
           </thead>
@@ -174,19 +179,19 @@ export const UploadMarks = () => {
                 <td>{student.studentSrn}</td>
                 <td>{student.firstName}</td>
                 <td>{student.fatherName}</td>
-                <td>{student.districtId}</td>
+                {/* <td>{student.districtId}</td>
                 <td>{student.blockId}</td>
-                <td>{student.schoolId}</td>
+                <td>{student.schoolId}</td> */}
                 <td>{student.classofStudent}</td>
                 <td>{student.examId}</td>
                 <td>{student.marksObtained ?? "N/A"}</td>
                 <td>{student.recordedBy || "N/A"}</td>
                 <td>{student.remark || "N/A"}</td>
-                <td>
+                {/* <td>
                   {student.marksUpdatedOn
                     ? new Date(student.marksUpdatedOn).toLocaleString()
                     : "N/A"}
-                </td>
+                </td> */}
                 <td>
                   <input
                     type="text"
@@ -198,10 +203,12 @@ export const UploadMarks = () => {
               </tr>
             ))}
           </tbody>
-        </table>
+        </Table>
       ) : (
         <p>Please filter your data and start updating marks.</p>
       )}
-    </>
+    </Container>
+  </Col>
+</Row>
   );
 };

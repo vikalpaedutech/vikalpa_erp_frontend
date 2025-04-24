@@ -4,7 +4,8 @@
 
 // importing packages.
 import React, { useState, useEffect, useContext } from "react";
-import { Table, Row, Col, Container } from "react-bootstrap";
+import { Container, Row, Col, Form, Table, Alert, Breadcrumb  } from 'react-bootstrap';
+
 
 import { getAllAttendance, updateAttendanceBySrnAndDate } from "../../service/AttendanceMB.services.js";
 import { DistrictBlockSchoolById, ClassOfStudent  } from "../DependentDropDowns/DistrictBlockSchool.component.jsx";
@@ -101,7 +102,8 @@ const fetchAttendance = async () => {
       });
       setAttendanceState(initialAttendanceState);
     } catch (error) {
-      setError("Error fetching attendance data");
+      // setError("Error fetching attendance data");
+      console.log("Error fetching attendance data");
     }
   } else (console.log("Please select all filters"))
   
@@ -127,9 +129,21 @@ const fetchAttendance = async () => {
  useEffect(()=> {
   setBlockContext([])
   setSchoolContext([])
+  setSchoolContext({})
   setAttendanceData([])
 
- }, [districtContext,])
+
+ }, [districtContext, ])
+
+
+ useEffect(()=> {
+
+  setAttendanceData([])
+
+ }, [ classContext])
+
+
+
 
  useEffect(()=> {
   setSchoolContext([])
@@ -204,80 +218,131 @@ const fetchAttendance = async () => {
   };
 
   return (
-    <div>
-        <h1>Apply Filter</h1>
-        <label>Date</label>
-        <input type="date" name="date" id="date"
-        value={date}
-        onChange={(e)=>setDate(e.target.value)}
-        />
-        <label>End Date</label>
-        <input type="date" name="date" id="date"
-        value={endDate}
-        onChange={(e)=>setEndDate(e.target.value)}
-        />
-        <DistrictBlockSchoolById assignedDistricts={assignedDistricts}/>
-        <ClassOfStudent/>
-        
-        <hr></hr>
-      <h1>Student Attendance</h1>
-      
-      {error && <p>{error}</p>}
+    <Container fluid className="prevent-overflow">
+  <Form>
+    <Row className="mb-3">
+      <Col >
+        <Form.Group controlId="date">
+          <Form.Label>Date</Form.Label>
+          <Form.Control
+            type="date"
+            name="date"
+            value={date}
+            onChange={(e) => setDate(e.target.value)}
+          />
+        </Form.Group>
+      </Col>
+      {/* <Col >
+        <Form.Group controlId="endDate">
+          <Form.Label>End Date</Form.Label>
+          <Form.Control
+            type="date"
+            name="date"
+            value={endDate}
+            onChange={(e) => setEndDate(e.target.value)}
+          />
+        </Form.Group>
+      </Col> */}
+    </Row>
 
-      <table
-        border="1"
-        cellPadding="10"
-        style={{ width: "100%", marginTop: "20px", textAlign: "center" }}
-      >
-        <thead>
-          <tr>
-            <th>Student SRN</th>
-            <th>First Name</th>
-            <th>Father Name</th>
-            <th>District Id</th>
-            <th>Class</th>
-            <th>Batch</th>
-            <th>TA</th>
-            <th>Attendance Marked</th>
+    <Row>
+      <Col>
+        <DistrictBlockSchoolById assignedDistricts={assignedDistricts} />
+      </Col>
+    </Row>
+
+    <Row>
+      <Col>
+        <ClassOfStudent />
+      </Col>
+    </Row>
+
+    
+  </Form>
+
+  <hr />
+
+  <h1>Student Attendance</h1>
+
+  {error && <Alert variant="danger">{error}</Alert>}
+<Row>
+  <Table
+    bordered
+    hover
+    responsive
+    className="mt-4 text-center align-middle"
+  >
+    <thead>
+      <tr>
+        <th>SRN</th>
+        <th>Father</th>
+        <th>Student</th>
+        
+        {/* <th>District Id</th> */}
+        {/* <th>Class</th> */}
+        {/* <th>Batch</th> */}
+        <th>TA</th>
+        <th>Attendance Marked</th>
+      </tr>
+    </thead>
+    <tbody>
+      {attendanceData.length > 0 ? (
+        attendanceData.map((attendance) => (
+          <tr key={attendance._id}>
+            <td>{attendance.studentSrn}</td>
+            
+            <td>{attendance.fatherName}</td>
+            <td>{attendance.firstName}</td>
+            {/* <td>{attendance.districtId}</td>
+            <td>{attendance.classofStudent}</td>
+            <td>{attendance.batch}</td> */}
+            <td>{attendance.TA}</td>
+            <td>
+              {/* Toggle button for attendance */}
+              <div className="toggle-container">
+                <div
+                  className={`toggle-button ${
+                    attendanceState[attendance.studentSrn] ? 'on' : 'off'
+                  }`}
+                  onClick={() =>
+                    handleAttendanceUpdate(
+                      attendance.studentSrn,
+                      attendanceState[attendance.studentSrn]
+                    )
+                  }
+                >
+                  <div
+                    className={`circle ${
+                      attendanceState[attendance.studentSrn]
+                        ? 'move-right'
+                        : 'move-left'
+                    }`}
+                  ></div>
+                  <span
+                    className={`toggle-text ${
+                      attendanceState[attendance.studentSrn]
+                        ? 'on-text'
+                        : 'off-text'
+                    }`}
+                  >
+                    {attendanceState[attendance.studentSrn]
+                      ? 'Present'
+                      : 'Absent'}
+                  </span>
+                </div>
+              </div>
+            </td>
           </tr>
-        </thead>
-        <tbody>
-          {attendanceData.length > 0 ? (
-            attendanceData.map((attendance) => (
-              <tr key={attendance._id}>
-                <td>{attendance.studentSrn}</td>
-                <td>{attendance.firstName}</td>
-                <td>{attendance.fatherName}</td>
-                <td>{attendance.districtId}</td>
-                <td>{attendance.classofStudent}</td>
-                <td>{attendance.batch}</td>
-                <td>{attendance.TA}</td>
-                <td>
-                  {/* Toggle button for attendance */}
-                  <div className="toggle-container">
-                    <div
-                      className={`toggle-button ${attendanceState[attendance.studentSrn] ? "on" : "off"}`}
-                      onClick={() => handleAttendanceUpdate(attendance.studentSrn, attendanceState[attendance.studentSrn])}
-                    >
-                      <div
-                        className={`circle ${attendanceState[attendance.studentSrn] ? "move-right" : "move-left"}`}
-                      ></div>
-                      <span className={`toggle-text ${attendanceState[attendance.studentSrn] ? "on-text" : "off-text"}`}>
-                        {attendanceState[attendance.studentSrn] ? "Present" : "Absent"}
-                      </span>
-                    </div>
-                  </div>
-                </td>
-              </tr>
-            ))
-          ) : (
-            <tr>
-              <td colSpan="9">No attendance records found</td>
-            </tr>
-          )}
-        </tbody>
-      </table>
-    </div>
+        ))
+      ) : (
+        <tr>
+          <td colSpan="9">No attendance records found.</td>
+        </tr>
+      )}
+    </tbody>
+  </Table>
+  </Row>
+</Container>
   );
 };
 

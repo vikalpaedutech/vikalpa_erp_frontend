@@ -2,34 +2,14 @@
 
 //This page is going to be for cc, if cc logins then we will show him/her this page.
 
-import React, { useState, useEffect, useRef, useContext  } from "react";
-import { Accordion, Offcanvas, Button, Overlay, ButtonGroup , Dropdown , DropdownButton, Container , Row, Col, Navbar } from "react-bootstrap";
+import React, { useState, useEffect, useRef  } from "react";
+import { Accordion, Offcanvas, Button, Overlay, ButtonGroup , Dropdown , DropdownButton  } from "react-bootstrap";
 import UserLoggedIn from "../../components/user/UserLoggedIn.component";
 import { StudentDisciplinaryOrInteraction } from "../../components/AcademicsComponents/StudentDisciplinaryOrInteraction.component";
 import { UploadMarks } from "../../components/AcademicsComponents/UploadMarks.component";
 import Bills from "../../components/Bills/Bills";
-import { UserContext } from "../../components/contextAPIs/User.context";
-import { useNavigate } from "react-router-dom";
-import NavbarComponent from "../../components/Navbar/Navbar";
-import { MdMenuOpen } from "react-icons/md";
 
-export const CenterCoordinator = () => {
-
-  const navigate = useNavigate();
-
-  const {userData, setUserData} = useContext(UserContext)
-
-  const handleUserLogout = () => {
-    setUserData([]); // ✅ Reset to empty array to match expected structure
-    alert("Logged out");
-    navigate("/user-signin");
-  }
-
-  //________________________________________________________________________________
-
-
-
-
+export const ACI = () => {
   const [show, setShow] = useState(true);
 
     //For overlay
@@ -102,27 +82,18 @@ const [showBillsUpload, setShowBillsUpload] = useState(false)
   }
 
   return (
-    <div className="parent-cc-creen-main">
+    <>
       {/* Header */}
-      <Row>
-        {" "}
-        <NavbarComponent />
-      </Row>
-      <br />
-      <Row>
-        <Col xs="auto">
-          <MdMenuOpen
-            onClick={handleShow}
-            style={{
-              cursor: "pointer",
-              width: "30px", // Change this to your preferred width
-              height: "30px", // Change this to your preferred height
-              cursor: "pointer",
-            }}
-          />
-        </Col>
-      </Row>
-      <hr />
+      <header className="admin-header">
+        <Button
+          className="slider-toggle-btn"
+          variant="primary"
+          onClick={handleShow}
+        >
+          Open Menu
+        </Button>
+        <h1>Admin Dashboard</h1>
+      </header>
 
       {/* Main Content */}
       <main className="admin-main">
@@ -134,7 +105,7 @@ const [showBillsUpload, setShowBillsUpload] = useState(false)
           scroll={true}
           placement="start"
           className="admin-slider"
-         >
+        >
           <Offcanvas.Header closeButton>
             <Offcanvas.Title>Navigation</Offcanvas.Title>
           </Offcanvas.Header>
@@ -162,21 +133,22 @@ const [showBillsUpload, setShowBillsUpload] = useState(false)
         ),
       )}
     </> */}
-            <p>Home</p>
-            <hr />
+           <p>Home</p>
+<hr/>
 
-            <DropdownButton
-              className="slider-dropdown-1"
-              title="Academics"
-              onSelect={handleAcademicsSelect}
-            >
+
+<DropdownButton className="slider-dropdown-1" title="Academics"
+
+onSelect={handleAcademicsSelect}
+
+>
               {/* <Dropdown.Item eventKey="2">Another action</Dropdown.Item> */}
 
               <Dropdown.Item eventKey="1">Student Attendance</Dropdown.Item>
               <Dropdown.Item eventKey="2">Upload Pdfs</Dropdown.Item>
               <Dropdown.Item eventKey="3">Update Marks</Dropdown.Item>
               <Dropdown.Item eventKey="4">Disciplinary Issue</Dropdown.Item>
-
+             
               {/* <Dropdown.Item eventKey="3" active>
                 Active Item
               </Dropdown.Item>
@@ -184,8 +156,11 @@ const [showBillsUpload, setShowBillsUpload] = useState(false)
               <Dropdown.Item eventKey="4">Separated link</Dropdown.Item> */}
             </DropdownButton>
 
-            <hr />
+            <hr/>
 
+
+
+            
             <DropdownButton className="slider-dropdown-1" title="User">
               {/* <Dropdown.Item eventKey="2">Another action</Dropdown.Item> */}
 
@@ -198,43 +173,95 @@ const [showBillsUpload, setShowBillsUpload] = useState(false)
               <Dropdown.Item eventKey="4">Separated link</Dropdown.Item> */}
             </DropdownButton>
 
-            <hr />
 
-            <DropdownButton
-              className="slider-dropdown-1"
-              title="Bills"
-              onSelect={handleBillsSelect}
-            >
-              {/* <Dropdown.Item eventKey="2">Another action</Dropdown.Item> */}
 
-              <Dropdown.Item eventKey="1">Upload Bills</Dropdown.Item>
-              {/* <Dropdown.Item eventKey="2">Mark Your Attendance</Dropdown.Item> */}
-              {/* <Dropdown.Item eventKey="3" active>
+
+
+
+
+            <hr/>
+
+
+
+            
+<DropdownButton className="slider-dropdown-1" title="Bills"
+
+
+onSelect={handleBillsSelect}
+
+
+>
+  {/* <Dropdown.Item eventKey="2">Another action</Dropdown.Item> */}
+
+  <Dropdown.Item eventKey="1">Upload Bills</Dropdown.Item>
+  {/* <Dropdown.Item eventKey="2">Mark Your Attendance</Dropdown.Item> */}
+  {/* <Dropdown.Item eventKey="3" active>
     Active Item
   </Dropdown.Item> */}
-              {/* <Dropdown.Divider />
+  {/* <Dropdown.Divider />
   <Dropdown.Item eventKey="4">Separated link</Dropdown.Item> */}
-            </DropdownButton>
+</DropdownButton>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
           </Offcanvas.Body>
         </Offcanvas>
 
-        <main  className={show ? "cc-screen-main-slider-on" : "cc-screen-main-slider-off"}>
-          <div style={{}}>
-            <h2>Welcome to Admin Panel</h2>
-            <p>Use the menu to navigate through different sections.</p>
+        <main className={`admin-main ${show ? "sidebar-open" : ""}`}>
+  
+  <div className="admin-content">
 
-            <div>{showAttendance ? <UserLoggedIn /> : null}</div>
-            <div>
-              {showDisciplinaryOrInteraction ? (
-                <StudentDisciplinaryOrInteraction />
-              ) : null}
-            </div>
-            <div>{showMarks ? <UploadMarks /> : null}</div>
 
-            <div>{showBillsUpload ? <Bills /> : null}</div>
-          </div>
-        </main>
-      </main>
+
+
+    <h2>Welcome to Admin Panel</h2>
+    <p>Use the menu to navigate through different sections.</p>
+
+    <div>
+        {showAttendance ? (<UserLoggedIn/>):(null)}
     </div>
+    <div>
+        {showDisciplinaryOrInteraction ? (<StudentDisciplinaryOrInteraction/>):(null)}
+    </div>
+    <div>
+        {showMarks ? (<UploadMarks/>):(null)}
+    </div>
+
+    <div>
+        {showBillsUpload ? (<Bills/>):(null)}
+    </div>
+            
+            
+    
+
+
+
+  </div>
+  
+</main>
+      </main>
+
+      {/* Footer */}
+      <footer className="admin-footer">
+        <p>&copy; 2025 Admin Portal. All rights reserved.</p>
+      </footer>
+    </>
   );
 };
