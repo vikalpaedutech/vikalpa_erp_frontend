@@ -1,46 +1,9 @@
-//This records the center disciplinary issue.
-//Probably will be used by class presenter, academict team
-
-// import React, {useState, useEffect, useContext} from "react";
-// import { UserContext } from "../contextAPIs/User.context";
-// import DistrictBlockSchool from "./DistrictBlockSchool.json"
-// import Select from "react-select";
-// import { createCenterOrSchoolDisciplinary, getCenterOrSchoolDisciplinaryDataByUserId } from "../../service/MbCentersDisciplinary.services";
-
-
-// const MbCentersDisciplinary = () => {
-
-
-// //context api
-
-// const {userData, setUserData} = useContext(UserContext);
-
-// console.log(DistrictBlockSchool)
-
-// //Hooks for getting data from backend Apis.
-
-
-//     return (
-//         <div className="parent-MbcentersDisciplinary">
-            
-//         </div>
-
-//     )
-// }
-
-// export default MbCentersDisciplinary;
-
-
-
-// MbCentersDisciplinary.jsx
-
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useContext } from "react";
 import { UserContext } from "../contextAPIs/User.context";
 import DistrictBlockSchool from "./DistrictBlockSchool.json";
 import Select from "react-select";
 import {
   createCenterOrSchoolDisciplinary,
-  getCenterOrSchoolDisciplinaryDataByUserId,
 } from "../../service/MbCentersDisciplinary.services";
 import { Breadcrumb } from "react-bootstrap";
 
@@ -60,24 +23,20 @@ const types = [
 
 const statusOptions = {
   Disciplinary: [
-    { value: "Eating", label: "Eating" },
-    { value: "Running", label: "Running" },
-    { value: "Talking", label: "Talking" },
-    { value: "Fighting", label: "Fighting" },
-    { value: "Abusing", label: "Abusing" },
+    { value: "Indiscipline", label: "Indiscipline" },
+    { value: "Not Attentive", label: "Not Attentive" },
+    { value: "Lack Of Focus", label: "Lack Of Focus" },
   ],
   Interaction: [
     { value: "Student-Teacher", label: "Student-Teacher" },
     { value: "Teacher-Student", label: "Teacher-Student" },
-    { value: "Teacher asked question", label: "Teacher asked question" },
-    { value: "Student answered", label: "Student answered" },
+
   ],
 };
 
 const MbCentersDisciplinary = () => {
   const { userData } = useContext(UserContext);
   const userId = userData?.[0]?.userId;
-  console.log("i am user daata", userId)
 
   const [selectedDistrict, setSelectedDistrict] = useState(null);
   const [selectedBlock, setSelectedBlock] = useState(null);
@@ -86,9 +45,8 @@ const MbCentersDisciplinary = () => {
   const [showDataTable, setShowDataTable] = useState(false);
 
   const [remarks, setRemarks] = useState({});
-  const [selectedSubjects, setSelectedSubjects] = useState({});
-  const [selectedTypes, setSelectedTypes] = useState({});
-  const [selectedStatuses, setSelectedStatuses] = useState({});
+  const [selectedSubject, setSelectedSubject] = useState(null);
+  const [selectedType, setSelectedType] = useState(null);
 
   const districts = [...new Map(DistrictBlockSchool.map(item => [item.districtId, { value: item.districtId, label: item.districtName }])).values()];
   const blocks = selectedDistrict
@@ -112,36 +70,29 @@ const MbCentersDisciplinary = () => {
     setSelectedSchool(null);
   };
 
-  const handleSubmit = async (school) => {
-    const id = school.schoolId;
-    const selectedStatusList = selectedStatuses[id] || [];
-
-    if (!selectedSubjects[id] || !selectedTypes[id] || selectedStatusList.length === 0) {
-      alert("Please fill all fields before submitting.");
+  const handleRemarkSubmit = async (school, statusValue) => {
+    if (!selectedSubject || !selectedType) {
+      alert("Please select subject and type first.");
       return;
     }
 
-    const submissions = selectedStatusList.map((status) => ({
+    const id = school.schoolId;
+    const submission = {
       districtName: school.districtName,
       blockName: school.blockName,
       schoolName: school.schoolName,
       classOfStudent: selectedClass,
-      subject: selectedSubjects[id]?.value,
-      disciplinaryOrInteraction: selectedTypes[id]?.value,
-      disciplinaryOrInteractiionRemark: status.value,
+      subject: selectedSubject?.value,
+      disciplinaryOrInteraction: selectedType?.value,
+      disciplinaryOrInteractiionRemark: statusValue,
       remark: remarks[id] || "",
       userId: userId
-    }));
+    };
 
     try {
-      for (const submission of submissions) {
-        await createCenterOrSchoolDisciplinary(submission);
-      }
-      alert("Data submitted successfully!");
-      setSelectedSubjects((prev) => ({ ...prev, [id]: null }));
-      setSelectedTypes((prev) => ({ ...prev, [id]: null }));
-      setSelectedStatuses((prev) => ({ ...prev, [id]: [] }));
-      setRemarks((prev) => ({ ...prev, [id]: "" }));
+      await createCenterOrSchoolDisciplinary(submission);
+      //alert("Remark submitted successfully!");
+      setRemarks(prev => ({ ...prev, [id]: "" }));
     } catch (err) {
       alert("Failed to submit.");
       console.error(err);
@@ -165,58 +116,42 @@ const MbCentersDisciplinary = () => {
         <button className="btn btn-outline-secondary" onClick={handleClearFilters}>Clear Filters</button>
       </div>
 
+      <div className="d-flex gap-3 my-3 align-items-center">
+        <Select
+          options={subjects}
+          value={selectedSubject}
+          onChange={setSelectedSubject}
+          placeholder="Select Subject"
+        />
+        <Select
+          options={types}
+          value={selectedType}
+          onChange={setSelectedType}
+          placeholder="Select Type"
+        />
+      </div>
+
       <table className="table table-bordered">
         <thead>
           <tr>
             <th>#</th>
             <th>District</th>
             <th>School</th>
-            <th>Subject</th>
-            <th>Type</th>
-            <th>Status</th>
-            <th>Remark</th>
-            <th>Action</th>
+            {/* <th>Remark</th> */}
+            <th>Status Buttons</th>
           </tr>
         </thead>
         <tbody>
           {filteredData.map((school, index) => {
             const id = school.schoolId;
-            const currentType = selectedTypes[id]?.value;
+            const statuses = selectedType ? statusOptions[selectedType.value] : [];
+
             return (
               <tr key={id}>
                 <td>{index + 1}</td>
                 <td>{school.districtName}</td>
                 <td>{school.schoolName}</td>
-                <td>
-                  <Select
-                    options={subjects}
-                    value={selectedSubjects[id] || null}
-                    onChange={(val) => setSelectedSubjects(prev => ({ ...prev, [id]: val }))}
-                    placeholder="Subject"
-                  />
-                </td>
-                <td>
-                  <Select
-                    options={types}
-                    value={selectedTypes[id] || null}
-                    onChange={(val) => {
-                      setSelectedTypes(prev => ({ ...prev, [id]: val }));
-                      setSelectedStatuses(prev => ({ ...prev, [id]: [] }));
-                    }}
-                    placeholder="Type"
-                  />
-                </td>
-                <td>
-                  <Select
-                    options={statusOptions[currentType] || []}
-                    value={selectedStatuses[id] || []}
-                    onChange={(val) => setSelectedStatuses(prev => ({ ...prev, [id]: val }))}
-                    placeholder="Status"
-                    isMulti
-                    closeMenuOnSelect={false}
-                  />
-                </td>
-                <td>
+                {/* <td>
                   <input
                     type="text"
                     className="form-control"
@@ -224,9 +159,19 @@ const MbCentersDisciplinary = () => {
                     onChange={(e) => setRemarks(prev => ({ ...prev, [id]: e.target.value }))}
                     placeholder="Remark"
                   />
-                </td>
+                </td> */}
                 <td>
-                  <button className="btn btn-success" onClick={() => handleSubmit(school)}>Submit</button>
+                  <div className="d-flex flex-wrap gap-2">
+                    {statuses.map(status => (
+                      <button
+                        key={status.value}
+                        className="btn btn-sm btn-primary"
+                        onClick={() => handleRemarkSubmit(school, status.value)}
+                      >
+                        {status.label}
+                      </button>
+                    ))}
+                  </div>
                 </td>
               </tr>
             );

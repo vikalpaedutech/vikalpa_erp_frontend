@@ -87,6 +87,8 @@ const AttendanceMB = ({assignedDistricts, assignedBlocks, assignedSchools}) => {
 
 
 const fetchAttendance = async () => {
+  console.log(date)
+  console.log(queryParams)
 
   if (districtContext.length > 0 && blockContext.length > 0 && schoolContext.length > 0 && classContext.value) {
    
@@ -117,8 +119,8 @@ const fetchAttendance = async () => {
 
 
   useEffect(() => {
-    console.log(districtContext, blockContext, schoolContext)
-    console.log("length of block", blockContext.length)
+    // console.log(districtContext, blockContext, schoolContext)
+    // console.log("length of block", blockContext.length)
     // Call the service function when the component mounts
 
     fetchAttendance();
@@ -151,14 +153,14 @@ const fetchAttendance = async () => {
  }, [blockContext])
 
   
-  const today = new Date().toISOString().split('T')[0];
+  // const today = new Date().toISOString().split('T')[0];
 
   // Function to handle attendance update (marking attendance)
   const handleAttendanceUpdate = async (studentSrn, isMarked) => {
 
     const queryParamsForAttendance = {
         studentSrn: studentSrn,
-        date: today, 
+        date: date, 
     
       };
 
@@ -219,130 +221,129 @@ const fetchAttendance = async () => {
 
   return (
     <Container fluid className="prevent-overflow">
-  <Form>
-    <Row className="mb-3">
-      <Col >
-        <Form.Group controlId="date">
-          <Form.Label>Date</Form.Label>
-          <Form.Control
-            type="date"
-            name="date"
-            value={date}
-            onChange={(e) => setDate(e.target.value)}
-          />
-        </Form.Group>
-      </Col>
-      {/* <Col >
-        <Form.Group controlId="endDate">
-          <Form.Label>End Date</Form.Label>
-          <Form.Control
-            type="date"
-            name="date"
-            value={endDate}
-            onChange={(e) => setEndDate(e.target.value)}
-          />
-        </Form.Group>
-      </Col> */}
-    </Row>
+      <Form>
+        <div >
+        <div className="MBAttendance-filter-div" >
+          <div className="MBAttendance-filter-div-child-1"   >
+            <Form.Group controlId="date">
+              <label>Date</label>
+              <Form.Control
+                type="date"
+                name="date"
+                value={date}
+                onChange={(e) => setDate(e.target.value)}
+              />
+            </Form.Group>
+          </div>
+                  {/* <Col >
+                <Form.Group controlId="endDate">
+                <Form.Label>End Date</Form.Label>
+                <Form.Control
+                  type="date"
+                  name="date"
+                  value={endDate}
+                  onChange={(e) => setEndDate(e.target.value)}
+                />
+                </Form.Group>
+                  </Col> */}
 
-    <Row>
-      <Col>
-        <DistrictBlockSchoolById assignedDistricts={assignedDistricts} />
-      </Col>
-    </Row>
+          <div  className="MBAttendance-filter-div-child-2">
+            <DistrictBlockSchoolById assignedDistricts={assignedDistricts} />
+          </div>
+        </div>
 
-    <Row>
-      <Col>
-        <ClassOfStudent />
-      </Col>
-    </Row>
+        </div>
 
-    
-  </Form>
+        <Row>
+          <Col>
+            <ClassOfStudent />
+          </Col>
+        </Row>
+      </Form>
 
-  <hr />
+      <hr />
 
-  <h1>Student Attendance</h1>
+      <h1>Student Attendance</h1>
 
-  {error && <Alert variant="danger">{error}</Alert>}
-<Row>
-  <Table
-    bordered
-    hover
-    responsive
-    className="mt-4 text-center align-middle"
-  >
-    <thead>
-      <tr>
-        <th>SRN</th>
-        <th>Father</th>
-        <th>Student</th>
-        
-        {/* <th>District Id</th> */}
-        {/* <th>Class</th> */}
-        {/* <th>Batch</th> */}
-        <th>TA</th>
-        <th>Attendance Marked</th>
-      </tr>
-    </thead>
-    <tbody>
-      {attendanceData.length > 0 ? (
-        attendanceData.map((attendance) => (
-          <tr key={attendance._id}>
-            <td>{attendance.studentSrn}</td>
-            
-            <td>{attendance.fatherName}</td>
-            <td>{attendance.firstName}</td>
-            {/* <td>{attendance.districtId}</td>
+      {error && <Alert variant="danger">{error}</Alert>}
+      <Row>
+        <Table
+          bordered
+          hover
+          responsive
+          className="mt-4 text-center align-middle"
+        >
+          <thead>
+            <tr>
+              <th>SRN</th>
+              <th>Father</th>
+              <th>Student</th>
+
+              {/* <th>District Id</th> */}
+              {/* <th>Class</th> */}
+              {/* <th>Batch</th> */}
+              {/* <th>TA</th> */}
+              <th>Attendance Marked</th>
+            </tr>
+          </thead>
+          <tbody>
+            {attendanceData.length > 0 ? (
+              attendanceData.map((attendance) => (
+                <tr key={attendance._id}>
+                  <td>{attendance.studentSrn}</td>
+
+                  <td>{attendance.fatherName}</td>
+                  <td>{attendance.firstName}</td>
+                  {/* <td>{attendance.districtId}</td>
             <td>{attendance.classofStudent}</td>
             <td>{attendance.batch}</td> */}
-            <td>{attendance.TA}</td>
-            <td>
-              {/* Toggle button for attendance */}
-              <div className="toggle-container">
-                <div
-                  className={`toggle-button ${
-                    attendanceState[attendance.studentSrn] ? 'on' : 'off'
-                  }`}
-                  onClick={() =>
-                    handleAttendanceUpdate(
-                      attendance.studentSrn,
-                      attendanceState[attendance.studentSrn]
-                    )
-                  }
-                >
-                  <div
-                    className={`circle ${
-                      attendanceState[attendance.studentSrn]
-                        ? 'move-right'
-                        : 'move-left'
-                    }`}
-                  ></div>
-                  <span
-                    className={`toggle-text ${
-                      attendanceState[attendance.studentSrn]
-                        ? 'on-text'
-                        : 'off-text'
-                    }`}
-                  >
-                    {attendanceState[attendance.studentSrn]
-                      ? 'Present'
-                      : 'Absent'}
-                  </span>
-                </div>
-              </div>
-            </td>
-          </tr>
-        ))
-      ) : (
-        <tr>
-          <td colSpan="9">No attendance records found.</td>
-        </tr>
-      )}
-    </tbody>
-  </Table>
-  </Row>
-</Container>
+                  {/* <td>{attendance.TA}</td> */}
+                  <td>
+                    {/* Toggle button for attendance */}
+                    <div className="toggle-container">
+                      <div
+                        className={`toggle-button ${
+                          attendanceState[attendance.studentSrn] ? "on" : "off"
+                        }`}
+                        onClick={() =>
+                          handleAttendanceUpdate(
+                            attendance.studentSrn,
+                            attendanceState[attendance.studentSrn]
+                          )
+                        }
+                      >
+                        <div
+                          className={`circle ${
+                            attendanceState[attendance.studentSrn]
+                              ? "move-right"
+                              : "move-left"
+                          }`}
+                        ></div>
+                        <span
+                          className={`toggle-text ${
+                            attendanceState[attendance.studentSrn]
+                              ? "on-text"
+                              : "off-text"
+                          }`}
+                        >
+                          {attendanceState[attendance.studentSrn]
+                            ? "Present"
+                            : "Absent"}
+                        </span>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan="9">No attendance records found.</td>
+              </tr>
+            )}
+          </tbody>
+        </Table>
+      </Row>
+    </Container>
   );
 };
 

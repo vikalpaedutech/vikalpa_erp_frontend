@@ -431,7 +431,7 @@ export const DistrictBlockSchoolById = ({
   const [selectedDistrict, setSelectedDistrict] = useState("");
 
   const fetchDistrict = async (districtId) => {
-    console.log(" i am userrrrrrrrrrr from userrr", userData);
+    // console.log(" i am userrrrrrrrrrr from userrr", userData);
 
     try {
       const response = await getDistrictById(assignedDistricts);
@@ -463,7 +463,7 @@ export const DistrictBlockSchoolById = ({
   const [selectedBlock, setSelectedBlock] = useState("");
 
   const fetchBlock = async (districtData) => {
-    console.log("i am fresh block", Object.values(selectedDistrict)[0]);
+    // console.log("i am fresh block", Object.values(selectedDistrict)[0]);
     try {
       // const districtIdss = selectedDistrict.map((each)=>each.value)
 
@@ -510,7 +510,7 @@ export const DistrictBlockSchoolById = ({
   const [selectedSchool, setSelectedSchool] = useState("");
 
   const fetchSchool = async () => {
-    console.log(selectedBlock.value);
+    // console.log(selectedBlock.value);
     try {
       // const blockId = selectedBlock.map((each)=> each.value)
       // console.log(blockId)
@@ -544,7 +544,7 @@ export const DistrictBlockSchoolById = ({
     <div className="parent-districtBlockSchoolById">
       <div>
         <label>District Drop Down</label>
-
+        
         <Select
           options={districtOptions}
           value={selectedDistrict} // Set the selected value

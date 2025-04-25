@@ -39,10 +39,16 @@ import { ACI } from './pages/UserScreens/ACI.jsx';
 import MbCentersDisciplinary from './components/CentersOrSchools/MbCentersDisciplinary.jsx';
 import TestCss from './components/user/testCss.jsx';
 
+//Attendance pdf
+import { AttendancePdf } from './components/AcademicsComponents/AttendancePdf.component.jsx';
+
+import { SliderProvidedr } from './components/contextAPIs/SliderHook.context.js';
+
 function App() {
   return (
   <>
     <Router>
+      <SliderProvidedr>
     <DistrictBlockSchoolProvider>
       <BlockProvider>
         <SchoolProvider>
@@ -89,6 +95,10 @@ function App() {
 
         {/* Centers related routes */}
         <Route path='/center-disciplinary' element = {<MbCentersDisciplinary/>}/>
+        
+        {/* AttendancePdf */}
+        <Route path='/attendance-pdf' element = {<AttendancePdf/>}/>
+       
 
       </Routes>
       </UserProvider>
@@ -96,6 +106,7 @@ function App() {
       </SchoolProvider>
       </BlockProvider>
       </DistrictBlockSchoolProvider>
+      </SliderProvidedr>
     </Router>
   
   

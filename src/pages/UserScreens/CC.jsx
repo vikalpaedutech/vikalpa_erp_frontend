@@ -12,8 +12,14 @@ import { UserContext } from "../../components/contextAPIs/User.context";
 import { useNavigate } from "react-router-dom";
 import NavbarComponent from "../../components/Navbar/Navbar";
 import { MdMenuOpen } from "react-icons/md";
+import { AttendancePdf } from "../../components/AcademicsComponents/AttendancePdf.component";
+import { SliderContext } from "../../components/contextAPIs/SliderHook.context";
 
 export const CenterCoordinator = () => {
+
+//context hooks
+const {sliderContext, setSliderContext} = useContext(SliderContext)
+
 
   const navigate = useNavigate();
 
@@ -49,9 +55,17 @@ export const CenterCoordinator = () => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  const handleClose = () => setShow(false);
+  //Handles the opening and closing of slider from context api
+  const handleClose = () => {
+    
+    setSliderContext(false)
+    
+ 
+    
+    setShow(false)};
   const handleShow = () => setShow(true);
 
+  //_______________________________
   //_________________________________________________________________________
 
   //Logics
@@ -60,25 +74,37 @@ export const CenterCoordinator = () => {
   const [showAttendance, setShowAttendance] = useState(false)
   const [showDisciplinaryOrInteraction, setShowDisciplinaryOrInteraction] = useState(false);
   const [showMarks, setShowMarks] = useState(false);
+  const [showAttendancePdf, setShowAttendancePdf] = useState(false);
   const handleAcademicsSelect = (eventKey) => {
-    console.log(" this is my event key", eventKey)
+    // console.log(" this is my event key", eventKey)
 
     if (eventKey === "1") {
       setShowAttendance(true)
       setShowDisciplinaryOrInteraction(false)
       setShowMarks(false)
       setShowBillsUpload(false)
+      setShowAttendancePdf(false)
         
     } else if (eventKey === "4"){
       setShowDisciplinaryOrInteraction(true)
       setShowAttendance(false)
       setShowMarks(false)
       setShowBillsUpload(false)
+      setShowAttendancePdf(false)
     } else if (eventKey === "3") {
       setShowMarks(true)
       setShowDisciplinaryOrInteraction(false)
       setShowAttendance(false)
       setShowBillsUpload(false)
+      setShowAttendancePdf(false)
+    } else if (eventKey === "2") {
+      setShowAttendancePdf(true)
+
+      setShowMarks(false)
+      setShowDisciplinaryOrInteraction(false)
+      setShowAttendance(false)
+      setShowBillsUpload(false)
+
     }
 
   }
@@ -95,11 +121,17 @@ const [showBillsUpload, setShowBillsUpload] = useState(false)
       setShowAttendance(false)
       setShowDisciplinaryOrInteraction(false)
       setShowMarks(false)
-        
+      setShowAttendancePdf(false)
+
     }
 
 
   }
+
+  //Below useEffect is for showing default screen after login.
+  useEffect(()=>{
+ setShowAttendance(true)
+  }, [])
 
   return (
     <div className="parent-cc-creen-main">
@@ -109,7 +141,7 @@ const [showBillsUpload, setShowBillsUpload] = useState(false)
         <NavbarComponent />
       </Row>
       <br />
-      <Row>
+      {/* <Row>
         <Col xs="auto">
           <MdMenuOpen
             onClick={handleShow}
@@ -122,13 +154,13 @@ const [showBillsUpload, setShowBillsUpload] = useState(false)
           />
         </Col>
       </Row>
-      <hr />
+      <hr /> */}
 
       {/* Main Content */}
       <main className="admin-main">
         {/* Left Sidebar */}
         <Offcanvas
-          show={show}
+          show={sliderContext}
           onHide={handleClose}
           backdrop={false}
           scroll={true}
@@ -220,8 +252,6 @@ const [showBillsUpload, setShowBillsUpload] = useState(false)
 
         <main  className={show ? "cc-screen-main-slider-on" : "cc-screen-main-slider-off"}>
           <div style={{}}>
-            <h2>Welcome to Admin Panel</h2>
-            <p>Use the menu to navigate through different sections.</p>
 
             <div>{showAttendance ? <UserLoggedIn /> : null}</div>
             <div>
@@ -232,6 +262,9 @@ const [showBillsUpload, setShowBillsUpload] = useState(false)
             <div>{showMarks ? <UploadMarks /> : null}</div>
 
             <div>{showBillsUpload ? <Bills /> : null}</div>
+
+            <div>{showAttendancePdf ? <AttendancePdf /> : null}</div>
+            
           </div>
         </main>
       </main>
