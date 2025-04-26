@@ -35,6 +35,8 @@ export const UserSignIn = () => {
      
       } else if (response.data && response.data[0].password === password && response.data[0].role === "ACI") {
         navigate("/user-aci")
+      } else if (response.data && response.data[0].password === password && response.data[0].role === "Academic-Coordinator") {
+        navigate("/academic-coordinator")
       }
       else (
         setUserData(null)
@@ -55,14 +57,21 @@ export const UserSignIn = () => {
     <div className="parent-user-signin">
       <div className="child-wrapper-div">
         <div >
-          <div className="child-user-signin-head-text"> 
-          <h1>Vikalpa Foundation</h1>
-          <h2>ERP-Login</h2>
-          </div>
+       
 
           {/* ✅ Replaced <p> with <div> to avoid form nesting error */}
           <div className="child-signin-form">
+          
             <img src="/vikalpaLogo.png" style={{height:65, width: 100}}/>
+            
+            <div className="child-user-signin-head-text"> 
+          <h1>Vikalpa Foundation</h1>
+          <h2>ERP-Login</h2>
+          
+          </div>
+          <hr/>
+
+            
             <Form>
               <Form.Group className="mb-3" controlId="contactInput">
                 <Form.Label>Phone Number</Form.Label>

@@ -1,4 +1,4 @@
-//CC.jsx
+//AcademicPresenter.jsx
 
 //This page is going to be for cc, if cc logins then we will show him/her this page.
 
@@ -15,7 +15,8 @@ import { MdMenuOpen } from "react-icons/md";
 import { AttendancePdf } from "../../components/AcademicsComponents/AttendancePdf.component";
 import { SliderContext } from "../../components/contextAPIs/SliderHook.context";
 import { DownloadAttendancePdfFormat } from "../../components/AcademicsComponents/DownloadAttendancePdfFormat.component";
-export const CenterCoordinator = () => {
+import MbCentersDisciplinary from "../../components/CentersOrSchools/MbCentersDisciplinary";
+export const AcademicCoordinator = () => {
 
 //context hooks
 const {sliderContext, setSliderContext} = useContext(SliderContext)
@@ -70,8 +71,8 @@ const {sliderContext, setSliderContext} = useContext(SliderContext)
 
   //Logics
   //Handling Acadmic Section:
+  const [showCenterDisciplinary, setShowCenterDisciplinary] = useState(false)
 
-  const [showAttendance, setShowAttendance] = useState(false)
   const [showDisciplinaryOrInteraction, setShowDisciplinaryOrInteraction] = useState(false);
   const [showMarks, setShowMarks] = useState(false);
   const [showAttendancePdf, setShowAttendancePdf] = useState(false);
@@ -82,16 +83,12 @@ const {sliderContext, setSliderContext} = useContext(SliderContext)
     // console.log(" this is my event key", eventKey)
 
     if (eventKey === "1") {
-      setShowAttendance(true)
+      setShowCenterDisciplinary(true)
       setShowDisciplinaryOrInteraction(false)
-      setShowMarks(false)
-      setShowBillsUpload(false)
-      setShowAttendancePdf(false)
-      setShowAttendancePdFormat(false)
-        
-    } else if (eventKey === "4"){
+    } else if (eventKey === "2"){
       setShowDisciplinaryOrInteraction(true)
-      setShowAttendance(false)
+      
+      setShowCenterDisciplinary(false)
       setShowMarks(false)
       setShowBillsUpload(false)
       setShowAttendancePdf(false)
@@ -99,7 +96,7 @@ const {sliderContext, setSliderContext} = useContext(SliderContext)
     } else if (eventKey === "3") {
       setShowMarks(true)
       setShowDisciplinaryOrInteraction(false)
-      setShowAttendance(false)
+     
       setShowBillsUpload(false)
       setShowAttendancePdf(false)
       setShowAttendancePdFormat(false)
@@ -108,7 +105,7 @@ const {sliderContext, setSliderContext} = useContext(SliderContext)
 
       setShowMarks(false)
       setShowDisciplinaryOrInteraction(false)
-      setShowAttendance(false)
+     
       setShowBillsUpload(false)
       setShowAttendancePdFormat(false)
 
@@ -125,10 +122,11 @@ const [showBillsUpload, setShowBillsUpload] = useState(false)
     if (eventKey === "1") {
       setShowBillsUpload(true)
 
-      setShowAttendance(false)
+      setShowCenterDisciplinary(false)
       setShowDisciplinaryOrInteraction(false)
       setShowMarks(false)
       setShowAttendancePdf(false)
+      setShowAttendancePdFormat(false)
 
     }
 
@@ -143,7 +141,7 @@ const [showBillsUpload, setShowBillsUpload] = useState(false)
     if (eventKey === "1") {
       setShowBillsUpload(false)
 
-      setShowAttendance(false)
+      setShowCenterDisciplinary(false)
       setShowDisciplinaryOrInteraction(false)
       setShowMarks(false)
       setShowAttendancePdf(false)
@@ -157,7 +155,7 @@ const [showBillsUpload, setShowBillsUpload] = useState(false)
 
   //Below useEffect is for showing default screen after login.
   useEffect(()=>{
- setShowAttendance(true)
+setShowCenterDisciplinary(true)
   }, [])
 
   return (
@@ -182,10 +180,10 @@ const [showBillsUpload, setShowBillsUpload] = useState(false)
           className="admin-slider"
         >
           <Offcanvas.Header closeButton>
-            <Offcanvas.Title>Navigation</Offcanvas.Title>
+            <Offcanvas.Title style={{display:"flex"}}><img   src="/buniyaadLogo.png"/></Offcanvas.Title>
           </Offcanvas.Header>
           <Offcanvas.Body style={{ color: "white" }}>
-            <h2>Hello CC</h2>
+            <h2>Hello, {userData[0].name}</h2>
             <hr />
 
             <div>
@@ -204,18 +202,13 @@ const [showBillsUpload, setShowBillsUpload] = useState(false)
                   <Accordion.Header>Academics</Accordion.Header>
                   <Accordion.Body>
                     <ListGroup onSelect={handleAcademicsSelect}>
-                      <ListGroup.Item action variant="success" eventKey="1">
-                        Attendance
+                      <ListGroup.Item action variant="success" eventKey="1" style={{fontSize:'11px'}}>
+                        Center Disciplinary/Interaction
                       </ListGroup.Item>
-                      <ListGroup.Item action variant="success" eventKey="2">
-                        Upload Pdfs
+                      <ListGroup.Item action variant="success" eventKey="2" style={{fontSize:'11px'}}>
+                      Student Disciplinary/interaction
                       </ListGroup.Item>
-                      <ListGroup.Item action variant="success" eventKey="3">
-                        Marks
-                      </ListGroup.Item>
-                      <ListGroup.Item action variant="success" eventKey="4">
-                        Disciplinary
-                      </ListGroup.Item>
+                     
 
                       {/* <ListGroup.Item action variant="info">
         Info
@@ -265,7 +258,7 @@ const [showBillsUpload, setShowBillsUpload] = useState(false)
           }
         >
           <div style={{}}>
-            <div>{showAttendance ? <UserLoggedIn /> : null}</div>
+            <div>{showCenterDisciplinary ? <MbCentersDisciplinary /> : null}</div>
             <div>
               {showDisciplinaryOrInteraction ? (
                 <StudentDisciplinaryOrInteraction />

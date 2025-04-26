@@ -2,7 +2,7 @@
 //It will be used for where i will be needing to filter data on the basis of district only
 
 import React, { useEffect, useState, useContext } from "react";
-import { Table, Row, Col, Container, Breadcrumb } from "react-bootstrap";
+import { ListGroup , Table, Row, Col, Container, Breadcrumb } from "react-bootstrap";
 
 import {
   getDistrict,
@@ -608,29 +608,10 @@ export function ClassOfStudent() {
   }));
 
   return (
-    // <Container fluid>
-    // <div style={{ display: "flex" }}>
-    //   <Row>
-    //     <label>Select Class</label>
-
-    //     <Select
-
-    //       id="send-data"
-    //       options={classOptions}
-    //       value={classContext} // Set the selected value
-    //       onChange={(selectedOption) => {
-    //         setClassContext(selectedOption); // Set the selected value direct into context api
-
-    //         console.log("Selected district:", selectedOption);
-    //       }}
-    //       placeholder="Select Class"
-    //     />
-    //   </Row>
-    // </div>
-    // </Container>
+    
 
     <Container fluid>
-      <label>Select Class</label>
+      {/* <label>Select Class</label>
       <Breadcrumb>
         <Breadcrumb.Item
           active={classContext?.value === "9"}
@@ -654,7 +635,33 @@ export function ClassOfStudent() {
         >
           10
         </Breadcrumb.Item>
-      </Breadcrumb>
+      </Breadcrumb> */}
+
+<label>Select Class</label>
+<ListGroup>
+  <ListGroup.Item
+    
+    variant={classContext?.value === "9" ? "success" : ""}
+    onClick={() => {
+      const selectedOption = { label: "9", value: "9" };
+      setClassContext(selectedOption);
+      console.log("Selected class:", selectedOption);
+    }}
+  >
+    9
+  </ListGroup.Item>
+  <ListGroup.Item
+    
+    variant={classContext?.value === "10" ? "success" : ""}
+    onClick={() => {
+      const selectedOption = { label: "10", value: "10" };
+      setClassContext(selectedOption);
+      console.log("Selected class:", selectedOption);
+    }}
+  >
+    10
+  </ListGroup.Item>
+</ListGroup>
     </Container>
   );
 }

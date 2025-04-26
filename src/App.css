@@ -194,6 +194,8 @@ body, html {
   transition: left 0.3s ease-in-out;
   padding: 20px;
   z-index: 10;
+  
+  
 }
 
 .admin-slider.open {
@@ -451,10 +453,10 @@ body, html {
 /* UserSignup.component.jsx */
 
 .parent-user-signup {
-  /* background-color: #FFFFF0; */
+  background-color: #4e73df;
   
   width: 100%;
-  height: 125%;
+  height: 135%;
   border-radius: 10px solid;
 display: flex;
 align-content: center;
@@ -473,9 +475,11 @@ justify-content: center;
   
   width: 50vw;
   border: solid #FFF0F5;
+  background-color: white;
   padding: 20px;
   border-radius: 20px;
-  box-shadow: 5px 10px inset;
+  margin-top: 1em;
+  
   
 }
 
@@ -492,7 +496,7 @@ justify-content: center;
 @media screen and (max-width: 768px) {
   /* This will apply when the screen is 768px wide or less */
   .parent-user-signup {
-    /* background-color: #FFFFF0; */
+    background-color: #4e73df;
     
     width: 100%;
     height: 100%;
@@ -536,7 +540,7 @@ justify-content: center;
 
 /* UserSignIn.component.jsx */
 .parent-user-signin{
-  /* background-color: #F0FFF0; */
+  background-color: #4e73df;
   width: 100vw;
   height: 100vh;
   display: flex;
@@ -561,8 +565,9 @@ justify-content: center;
 }
 .child-signin-form{
   border: solid #DCDCDC;
+  background-color: white;
   border-radius: 20px;
-  box-shadow: 5px 10px inset;
+ 
 
   padding: 30px;
   width: 50%;
@@ -574,7 +579,7 @@ justify-content: center;
 @media screen and (max-width: 768px) {
 
   .parent-user-signin{
-    /* background-color: #F0FFF0; */
+    background-color: #4e73df;
     width: 100vw;
     height: 100vh;
     display: flex;
@@ -607,7 +612,7 @@ justify-content: center;
     padding: 30px;
     width: 80vw;
     /* height: 50%; */
-    margin-left: 15%;
+    margin-left: 10%;
     text-align: center;
   }
 

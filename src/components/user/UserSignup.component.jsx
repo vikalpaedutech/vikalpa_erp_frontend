@@ -1,60 +1,32 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useState, useContext } from "react";
 import { Button, Form, Container, Row, Col, Card } from "react-bootstrap";
-import { createUser } from "../../service/User.service.js"; // Import the service
+import { createUser } from "../../service/User.service.js";
 import Select from "react-select";
+import axios from "axios";
 
-//importing context api
+// Context APIs
 import {
   DistrictBlockSchoolContext,
   BlockContext,
   SchoolContext,
 } from "../contextAPIs/DependentDropdowns.contextAPI";
 
-//Importing dependent drop down.
 import {
   DistrictBlockSchool,
   District,
 } from "../DependentDropDowns/DistrictBlockSchool.component.jsx";
 
+// Spinner Loader Component
+import Spinner from 'react-bootstrap/Spinner';
+
 const UserSignup = () => {
-  //  const { districtContext, setDistrictContext } = useContext(DistrictBlockSchoolContext); // Use context
-  //      const [blockContext, setBlockContext] = useState (DistrictBlockSchoolContext);
-  //         const [schoolContext, setSchoolContext] = useState (DistrictBlockSchoolContext);
+  const { districtContext } = useContext(DistrictBlockSchoolContext);
+  const { blockContext } = useContext(BlockContext);
+  const { schoolContext } = useContext(SchoolContext);
 
-  const { districtContext, setDistrictContext } = useContext(
-    DistrictBlockSchoolContext
-  ); // Use context
-  const { blockContext, setBlockContext } = useContext(BlockContext); // Use context
-  const { schoolContext, setSchoolContext } = useContext(SchoolContext); // Use context
-
-  //_______________________________________
-
-  //In below code block, i am taking out district id which is storec in districtContext as an object of {value as districtId, label as districtName}
-  //...what it does is, it stores the district id in array, like this: ["1", "2"]. Because backend accepts array
-  let districtContextArray = districtContext.map(
-    (eachValue) => eachValue.value
-  );
-
-  console.log(
-    "i am dsitrictlskfjlakfjlkfj",
-    districtContextArray,
-    blockContext,
-    schoolContext
-  );
-  console.log(...districtContextArray);
-
-  //For block
-  let blockContextArray = blockContext.map((eachValue) => eachValue.value);
-  // console.log("i am block sdkfhskjfhsjf", blockContextArray)
-  // console.log(...blockContextArray)
-
-  //For school
-
-  let schoolContextArray = schoolContext.map((eachValue) => eachValue.value);
-  // console.log("i am school sdkfhskjfhsjf", schoolContextArray)
-  // console.log(...schoolContextArray)
-
-  //_______________________________________________
+  const districtContextArray = districtContext.map((d) => d.value);
+  const blockContextArray = blockContext.map((b) => b.value);
+  const schoolContextArray = schoolContext.map((s) => s.value);
 
   const [formData, setFormData] = useState({
     userId: "",
@@ -67,9 +39,9 @@ const UserSignup = () => {
     role: "",
     assignmentLevel: "School",
     isAdmin: false,
-    assignedDistricts: [...districtContextArray],
-    assignedBlocks: [...blockContextArray],
-    assignedSchools: [...schoolContextArray],
+    assignedDistricts: [],
+    assignedBlocks: [],
+    assignedSchools: [],
     districtIds: [],
     blockIds: [],
     schoolIds: [],
@@ -85,6 +57,14 @@ const UserSignup = () => {
   const [classOfStudent, setClassOfStudent] = useState([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState(null);
+
+  // OTP State
+  const [otp, setOtp] = useState("");
+  const [generatedOtp, setGeneratedOtp] = useState("");
+  const [otpSent, setOtpSent] = useState(false);
+  const [otpVerified, setOtpVerified] = useState(false);
+  const [isOtpSending, setIsOtpSending] = useState(false); // for loading spinner
+  const [isOtpVerifying, setIsOtpVerifying] = useState(false); // for loading spinner
 
   const deptAndRole = [
     { Operations: ["Manager", "T.L", "Incharge"] },
@@ -110,7 +90,6 @@ const UserSignup = () => {
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
-
     setFormData({
       ...formData,
       [name]: type === "checkbox" ? checked : value,
@@ -135,7 +114,6 @@ const UserSignup = () => {
 
   const handleClassChange = (selectedOptions) => {
     const selectedClasses = selectedOptions.map((option) => option.value);
-
     setClassOfStudent(selectedOptions);
     setFormData((prev) => ({
       ...prev,
@@ -143,52 +121,67 @@ const UserSignup = () => {
     }));
   };
 
-  // Handle district/block/school selection from child components
-  const handleLocationSelection = (type, values) => {
-    setFormData((prev) => ({
-      ...prev,
-      [`assigned${type}s`]: values, // e.g., assignedDistricts
-      [`${type.toLowerCase()}Ids`]: values, // e.g., districtIds
-    }));
+  const generateOTP = () => {
+    return Math.floor(100000 + Math.random() * 900000).toString(); // 6-digit OTP
+  };
+
+  const sendOTP = async () => {
+    setIsOtpSending(true);  // show loader
+    const otpCode = generateOTP();
+    setGeneratedOtp(otpCode);
+    setOtpSent(true);
+
+    const message = `Dear user, your OTP for Vikalpa Account Sign-up is: ${otpCode}. Please do not share it with anyone. Vikalpa.`;
+
+    const url = `http://sms.gooadvert.com/api/mt/SendSMS?APIKey=e3744d6493af43768cc71287368c1293&senderid=VIKLPA&channel=Trans&DCS=0&flashsms=0&number=91${formData.contact1}&text=${encodeURIComponent(
+      message
+    )}&route=5&PEId=1401539030000072375`;
+
+    try {
+      const response = await axios.get(url);
+      console.log("OTP sent:", otpCode, response.data);
+      alert(`OTP sent to ${formData.contact1}`);
+    } catch (error) {
+      console.error("Failed to send OTP", error);
+      alert("Failed to send OTP, but here’s your test OTP: " + otpCode);
+    } finally {
+      setIsOtpSending(false);  // hide loader
+    }
+  };
+
+  const verifyOTP = () => {
+    setIsOtpVerifying(true); // show loader
+    if (otp === generatedOtp) {
+      alert("OTP verified successfully!");
+      setOtpVerified(true);
+    } else {
+      alert("Incorrect OTP. Please try again.");
+    }
+    setIsOtpVerifying(false); // hide loader
   };
 
   const handleSubmit = async (e) => {
-    alert(" i got clicked");
-    console.log("i am district context inside handle submit,", districtContext);
-    console.log(Object.values(districtContext));
     e.preventDefault();
     setIsSubmitting(true);
     setError(null);
 
     try {
-      // Prepare the data according to your model
       const userData = {
         ...formData,
-        // Ensure arrays are properly formatted
         assignedDistricts: districtContextArray,
         assignedBlocks: blockContextArray,
         assignedSchools: schoolContextArray,
-        //assignedDistricts: Array.isArray(formData.assignedDistricts) ? formData.assignedDistricts : [],
-        // assignedBlocks: Array.isArray(formData.assignedBlocks) ? formData.assignedBlocks : [],
-        // assignedSchools: Array.isArray(formData.assignedSchools) ? formData.assignedSchools : [],
-
         districtIds: districtContextArray,
         blockIds: blockContextArray,
         schoolIds: schoolContextArray,
-
-        // districtIds: Array.isArray(formData.districtIds) ? formData.districtIds : [],
-        // blockIds: Array.isArray(formData.blockIds) ? formData.blockIds : [],
-        // schoolIds: Array.isArray(formData.schoolIds) ? formData.schoolIds : [],
         classId: Array.isArray(formData.classId) ? formData.classId : [],
       };
 
-      // Call the service
       const response = await createUser(userData);
-
       console.log("User created successfully:", response);
       alert("User created successfully!");
 
-      // Reset form after successful submission
+      // Reset form
       setFormData({
         userId: "",
         name: "",
@@ -208,18 +201,16 @@ const UserSignup = () => {
         schoolIds: [],
         classId: [],
         studentId: "",
-        permission: {
-          create: false,
-          read: false,
-          update: false,
-          delete: false,
-        },
+        permission: { create: false, read: false, update: false, delete: false },
         accessModules: [],
         isActive: true,
         profileImage: "",
       });
-      setClassOfStudent([]);
       setRoles({});
+      setClassOfStudent([]);
+      setOtp("");
+      setOtpSent(false);
+      setOtpVerified(false);
     } catch (error) {
       console.error("Error creating user:", error);
       setError(error.response?.data?.message || "Failed to create user");
@@ -231,194 +222,206 @@ const UserSignup = () => {
 
   return (
     <div className="parent-user-signup" fluid style={{ minHeight: "100vh" }}>
-     
-        <div>
-        <div>
-          <div className="user-signup-head-text" >
+      <div className="signup-form-child">
+        <div className="user-signup-head-text">
           <h1>Vikalpa Foundation</h1>
           <h2>ERP-Signup</h2>
-          </div>
-        
-          <div>
-            <div className="justify-content-center">
-              <div className="signup-form-child">
-                {error && <div className="alert alert-danger">{error}</div>}
-
-                <Form className = "signup-form" onSubmit={handleSubmit}>
-                  {/* Department Dropdown */}
-                  <Form.Group controlId="department" className="mb-3">
-                    <Form.Label>Department</Form.Label>
-                    <Form.Control
-                      as="select"
-                      name="department"
-                      value={formData.department}
-                      onChange={handleChange}
-                      required
-                    >
-                      <option value="">Select Department</option>
-                      {deptAndRole.map((dept, index) => {
-                        const deptName = Object.keys(dept)[0];
-                        return (
-                          <option key={index} value={deptName}>
-                            {deptName}
-                          </option>
-                        );
-                      })}
-                    </Form.Control>
-                  </Form.Group>
-
-                  {/* Role Dropdown */}
-                  <Form.Group controlId="role" className="mb-3">
-                    <Form.Label>Role</Form.Label>
-                    <Form.Control
-                      as="select"
-                      name="role"
-                      value={formData.role}
-                      onChange={handleChange}
-                      required
-                    >
-                      <option value="">Select Role</option>
-                      {deptAndRole
-                        .find((dept) => dept[formData.department])
-                        ?.[formData.department]?.map((role, index) => (
-                          <option key={index} value={role}>
-                            {role}
-                          </option>
-                        ))}
-                    </Form.Control>
-                  </Form.Group>
-
-                  {/* User ID */}
-                  <Form.Group controlId="userId" className="mb-3">
-                    <Form.Label>User ID/Employee ID</Form.Label>
-                    <Form.Control
-                      type="text"
-                      placeholder="Enter User ID"
-                      name="userId"
-                      value={formData.userId}
-                      onChange={handleChange}
-                      required
-                    />
-                  </Form.Group>
-
-                  {/* Name */}
-                  <Form.Group controlId="name" className="mb-3">
-                    <Form.Label>Name</Form.Label>
-                    <Form.Control
-                      type="text"
-                      placeholder="Enter your name"
-                      name="name"
-                      value={formData.name}
-                      onChange={handleChange}
-                      required
-                    />
-                  </Form.Group>
-
-                  {Object.values(roles).includes("CC") ? (
-                    <div className="mb-3">
-                      <DistrictBlockSchool
-                      // onDistrictSelect={(districts) => handleLocationSelection("District", districts)}
-                      // onBlockSelect={(blocks) => handleLocationSelection("Block", blocks)}
-                      // onSchoolSelect={(schools) => handleLocationSelection("School", schools)}
-                      />
-
-                      {/* Class Dropdown */}
-                      <Form.Group controlId="classId">
-                        <Form.Label>
-                          Class (Select multiple if needed)
-                        </Form.Label>
-                        <Select
-                          isMulti
-                          name="classes"
-                          options={classOptions}
-                          className="basic-multi-select"
-                          classNamePrefix="select"
-                          onChange={handleClassChange}
-                          value={classOfStudent}
-                          placeholder="Select classes..."
-                        />
-                      </Form.Group>
-                    </div>
-                  ) : (
-                    <div>
-                      {Object.values(roles).includes("ACI") ? (
-                        <District
-                        // onDistrictSelect={(districts) => handleLocationSelection("District", districts)}
-                        />
-                      ) : null}
-                    </div>
-                  )}
-
-                  {/* Email */}
-                  <Form.Group controlId="email" className="mb-3">
-                    <Form.Label>Email</Form.Label>
-                    <Form.Control
-                      type="email"
-                      placeholder="Enter email"
-                      name="email"
-                      value={formData.email}
-                      onChange={handleChange}
-                      required
-                    />
-                  </Form.Group>
-
-                  {/* Contact 1 */}
-                  <Form.Group controlId="contact1" className="mb-3">
-                    <Form.Label>Primary Phone Number</Form.Label>
-                    <Form.Control
-                      type="text"
-                      placeholder="Enter primary contact"
-                      name="contact1"
-                      value={formData.contact1}
-                      onChange={handleChange}
-                      required
-                    />
-                  </Form.Group>
-
-                  {/* Contact 2 */}
-                  <Form.Group controlId="contact2" className="mb-3">
-                    <Form.Label>Whatsapp Number</Form.Label>
-                    <Form.Control
-                      type="text"
-                      placeholder="Enter secondary contact"
-                      name="contact2"
-                      value={formData.contact2}
-                      onChange={handleChange}
-                    />
-                  </Form.Group>
-
-                  {/* Password */}
-                  <Form.Group controlId="password" className="mb-3">
-                    <Form.Label>Password</Form.Label>
-                    <Form.Control
-                      type="password"
-                      placeholder="Enter password"
-                      name="password"
-                      value={formData.password}
-                      onChange={handleChange}
-                      required
-                    />
-                  </Form.Group>
-
-                  {/* Submit Button */}
-                  <Button
-                    variant="primary"
-                    type="submit"
-                    disabled={isSubmitting}
-                  >
-                    {isSubmitting ? "Creating..." : "Create Account"}
-                  </Button>
-                </Form>
-              </div>
-            </div>
-          </div>
-          <div>
-            <p>
-              Already Created Acoount, then go to sign-in:{" "}
-              <Card.Link href="/user-signin">Another Link</Card.Link>{" "}
-            </p>
-          </div>
         </div>
+
+        {error && <div className="alert alert-danger">{error}</div>}
+
+        <Form className="signup-form" onSubmit={handleSubmit}>
+          <Form.Group className="mb-3">
+            <Form.Label>Department</Form.Label>
+            <Form.Control
+              as="select"
+              name="department"
+              value={formData.department}
+              onChange={handleChange}
+              required
+            >
+              <option value="">Select Department</option>
+              {deptAndRole.map((dept, index) => {
+                const deptName = Object.keys(dept)[0];
+                return (
+                  <option key={index} value={deptName}>
+                    {deptName}
+                  </option>
+                );
+              })}
+            </Form.Control>
+          </Form.Group>
+
+          <Form.Group className="mb-3">
+            <Form.Label>Role</Form.Label>
+            <Form.Control
+              as="select"
+              name="role"
+              value={formData.role}
+              onChange={handleChange}
+              required
+            >
+              <option value="">Select Role</option>
+              {deptAndRole
+                .find((dept) => dept[formData.department])
+                ?.[formData.department]?.map((role, index) => (
+                  <option key={index} value={role}>
+                    {role}
+                  </option>
+                ))}
+            </Form.Control>
+          </Form.Group>
+
+          <Form.Group className="mb-3">
+            <Form.Label>User ID / Employee ID</Form.Label>
+            <Form.Control
+              type="text"
+              name="userId"
+              value={formData.userId}
+              onChange={handleChange}
+              required
+            />
+          </Form.Group>
+
+          <Form.Group className="mb-3">
+            <Form.Label>Name</Form.Label>
+            <Form.Control
+              type="text"
+              name="name"
+              value={formData.name}
+              onChange={handleChange}
+              required
+            />
+          </Form.Group>
+
+          {Object.values(roles).includes("CC") ? (
+            <>
+              <DistrictBlockSchool />
+              <Form.Group className="mb-3">
+                <Form.Label>Class (multi-select)</Form.Label>
+                <Select
+                  isMulti
+                  name="classId"
+                  options={classOptions}
+                  onChange={handleClassChange}
+                  value={classOfStudent}
+                />
+              </Form.Group>
+            </>
+          ) : Object.values(roles).includes("ACI") ? (
+            <District />
+          ) : null}
+
+          <Form.Group className="mb-3">
+            <Form.Label>Email</Form.Label>
+            <Form.Control
+              type="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              required
+            />
+          </Form.Group>
+
+          <Form.Group className="mb-3">
+            <Form.Label>Primary Phone Number</Form.Label>
+            <Form.Control
+              type="text"
+              name="contact1"
+              value={formData.contact1}
+              onChange={handleChange}
+              required
+            />
+          </Form.Group>
+
+          <Form.Group className="mb-3">
+            <Form.Label>Whatsapp Number</Form.Label>
+            <Form.Control
+              type="text"
+              name="contact2"
+              value={formData.contact2}
+              onChange={handleChange}
+            />
+          </Form.Group>
+
+          {/* Send OTP Button with Spinner */}
+          {!otpSent && formData.contact1.length === 10 && (
+            <Button variant="warning" onClick={sendOTP} disabled={isOtpSending}>
+              {isOtpSending ? (
+                <Spinner
+                  as="span"
+                  animation="border"
+                  size="sm"
+                  role="status"
+                  aria-hidden="true"
+                />
+              ) : (
+                "Send OTP"
+              )}
+              <span className="visually-hidden">Loading...</span>
+            </Button>
+          )}
+
+          {/* Verify OTP Button with Spinner */}
+          {otpSent && !otpVerified && (
+            <>
+              <Form.Group className="mb-3 mt-3">
+                <Form.Label>Enter OTP</Form.Label>
+                <Form.Control
+                  type="text"
+                  value={otp}
+                  onChange={(e) => setOtp(e.target.value)}
+                />
+              </Form.Group>
+              <Button variant="info" onClick={verifyOTP} disabled={isOtpVerifying}>
+                {isOtpVerifying ? (
+                  <Spinner
+                    as="span"
+                    animation="border"
+                    size="sm"
+                    role="status"
+                    aria-hidden="true"
+                  />
+                ) : (
+                  "Verify OTP"
+                )}
+                <span className="visually-hidden">Loading...</span>
+              </Button>
+            </>
+          )}
+
+          {/* Resend OTP Button */}
+          {otpSent && !otpVerified && (
+            <Button variant="link" onClick={sendOTP}>
+              Resend OTP
+            </Button>
+          )}
+
+          {otpVerified && (
+            <Form.Group className="mb-3 mt-3">
+              <Form.Label>Create Password</Form.Label>
+              <Form.Control
+                type="password"
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
+                required
+              />
+            </Form.Group>
+          )}
+
+          {otpVerified && (
+            <Button variant="primary" type="submit" disabled={isSubmitting}>
+              {isSubmitting ? "Creating..." : "Create Account"}
+            </Button>
+          )}
+        </Form>
+
+        <hr />
+        <p>
+          Already have an account?{" "}
+          <Card.Link href="/user-signin">Sign In</Card.Link>
+        </p>
       </div>
     </div>
   );

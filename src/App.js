@@ -41,8 +41,14 @@ import TestCss from './components/user/testCss.jsx';
 
 //Attendance pdf
 import { AttendancePdf } from './components/AcademicsComponents/AttendancePdf.component.jsx';
+import { DownloadAttendancePdfFormat } from './components/AcademicsComponents/DownloadAttendancePdfFormat.component.jsx';
+
 
 import { SliderProvidedr } from './components/contextAPIs/SliderHook.context.js';
+
+//Academics imports
+import { AcademicCoordinator } from './pages/UserScreens/AcademicCoordinator.jsx';
+
 
 function App() {
   return (
@@ -94,11 +100,14 @@ function App() {
       <Route path = '/test' element = {<TestCss/>}/>
 
         {/* Centers related routes */}
-        <Route path='/center-disciplinary' element = {<MbCentersDisciplinary/>}/>
+        <Route path='/center-disciplinary-hold' element = {<MbCentersDisciplinary/>}/>
         
         {/* AttendancePdf */}
         <Route path='/attendance-pdf' element = {<AttendancePdf/>}/>
-       
+        <Route path='/download-attendance-pdf' element = {<DownloadAttendancePdfFormat/>}/>
+
+        {/* Academic Routes */}
+        <Route path='/academic-coordinator' element={<AcademicCoordinator/>}/>
 
       </Routes>
       </UserProvider>

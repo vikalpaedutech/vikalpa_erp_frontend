@@ -5,13 +5,15 @@ import Select from "react-select";
 import {
   createCenterOrSchoolDisciplinary,
 } from "../../service/MbCentersDisciplinary.services";
-import { Breadcrumb } from "react-bootstrap";
+import { Breadcrumb, ListGroup } from "react-bootstrap";
 
 const subjects = [
   { value: "English", label: "English" },
   { value: "Hindi", label: "Hindi" },
   { value: "Maths", label: "Maths" },
-  { value: "Science", label: "Science" },
+  { value: "Physics", label: "Physics" },
+  { value: "Chemistry", label: "Chemistry" },
+  { value: "Bio", label: "Bio" },
   { value: "S.St", label: "S.St" },
   { value: "Optional", label: "Optional" },
 ];
@@ -103,11 +105,11 @@ const MbCentersDisciplinary = () => {
     <div className="container py-4">
       <h4>Center / School Disciplinary Records</h4>
 
-      <Breadcrumb>
-        <Breadcrumb.Item active={selectedClass === "9"} onClick={() => setSelectedClass("9")}>Class 9</Breadcrumb.Item>
-        <Breadcrumb.Item active={selectedClass === "10"} onClick={() => setSelectedClass("10")}>Class 10</Breadcrumb.Item>
-        <Breadcrumb.Item active={selectedClass === "10"} onClick={() => setShowDataTable(true)}>See Data</Breadcrumb.Item>
-      </Breadcrumb>
+      <ListGroup horizontal>
+        <ListGroup.Item action variant="success" eventKey="9" active={selectedClass === "9"} onClick={() => setSelectedClass("9")}>Class 9</ListGroup.Item>
+        <ListGroup.Item action variant="success" eventKey="10" active={selectedClass === "10"} onClick={() => setSelectedClass("10")}>Class 10</ListGroup.Item>
+        <ListGroup.Item action variant="success" onClick={() => setShowDataTable(true)}>See Data</ListGroup.Item>
+      </ListGroup>
 
       <div className="d-flex gap-3 my-3 align-items-end">
         <Select options={districts} value={selectedDistrict} onChange={setSelectedDistrict} placeholder="Select District" />

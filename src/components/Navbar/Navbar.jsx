@@ -31,7 +31,7 @@ function NavbarComponent() {
 
   return (
     
-    <Navbar style={{background:'#FFFAF0', height:'15vh', borderBottom:'solid'}}>
+    <Navbar style={{background:'#4e73df', height:'15vh', borderBottom:'solid'}}>
       <Container>
 
       
