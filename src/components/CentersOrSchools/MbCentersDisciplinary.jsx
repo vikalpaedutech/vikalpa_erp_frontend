@@ -6,6 +6,7 @@ import {
   createCenterOrSchoolDisciplinary,
 } from "../../service/MbCentersDisciplinary.services";
 import { Breadcrumb, ListGroup } from "react-bootstrap";
+import { CenterDisciplinaryData } from "./CenterDisciplinaryData";
 
 const subjects = [
   { value: "English", label: "English" },
@@ -70,6 +71,7 @@ const MbCentersDisciplinary = () => {
     setSelectedDistrict(null);
     setSelectedBlock(null);
     setSelectedSchool(null);
+    setShowDataTable(false)
   };
 
   const handleRemarkSubmit = async (school, statusValue) => {
@@ -133,7 +135,10 @@ const MbCentersDisciplinary = () => {
         />
       </div>
 
-      <table className="table table-bordered">
+      {
+        !showDataTable ? (
+
+          <table className="table table-bordered">
         <thead>
           <tr>
             <th>#</th>
@@ -180,6 +185,14 @@ const MbCentersDisciplinary = () => {
           })}
         </tbody>
       </table>
+        ):(
+          <div>
+
+            <CenterDisciplinaryData/>
+
+          </div>
+        )
+      }
     </div>
   );
 };

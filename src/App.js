@@ -19,6 +19,8 @@ import { UserSignIn } from './components/user/UserSignIn.component.jsx';
 import { UserProvider } from './components/contextAPIs/User.context.js';
 import UserLoggedIn from './components/user/UserLoggedIn.component.jsx';
 import {CenterCoordinator} from '../src/pages/UserScreens/CC.jsx';
+import { UserAttendance } from './components/user/UserAttendance.jsx';
+import { UserAttendanceLogout } from './components/user/userAttendanceLogout.jsx';
 
 // Imports of Academics
 import AttendanceMB from './components/AcademicsComponents/AttendanceMB.component.jsx';
@@ -42,12 +44,19 @@ import TestCss from './components/user/testCss.jsx';
 //Attendance pdf
 import { AttendancePdf } from './components/AcademicsComponents/AttendancePdf.component.jsx';
 import { DownloadAttendancePdfFormat } from './components/AcademicsComponents/DownloadAttendancePdfFormat.component.jsx';
-
+import { CenterDisciplinaryData } from './components/CentersOrSchools/CenterDisciplinaryData.jsx';
 
 import { SliderProvidedr } from './components/contextAPIs/SliderHook.context.js';
 
 //Academics imports
 import { AcademicCoordinator } from './pages/UserScreens/AcademicCoordinator.jsx';
+
+//Template
+import { Template } from './pages/UserScreens/Template.jsx';
+
+
+//Practice
+import { Practice } from './practice/pactice.jsx';
 
 
 function App() {
@@ -81,6 +90,9 @@ function App() {
 
       <Route path='/center-coordinator'element = {<CenterCoordinator/>}/>
 
+      <Route path='user-attendance' element = {<UserAttendance/>}/>
+      <Route path='user-attendance-logout' element = {<UserAttendanceLogout/>}/>
+
       {/* ACI Routes */}
       <Route path='/user-aci' element = {<ACI/>}/>
 
@@ -101,6 +113,7 @@ function App() {
 
         {/* Centers related routes */}
         <Route path='/center-disciplinary-hold' element = {<MbCentersDisciplinary/>}/>
+        <Route path='/center-disciplinary-data' element = {<CenterDisciplinaryData/>}/>
         
         {/* AttendancePdf */}
         <Route path='/attendance-pdf' element = {<AttendancePdf/>}/>
@@ -108,6 +121,17 @@ function App() {
 
         {/* Academic Routes */}
         <Route path='/academic-coordinator' element={<AcademicCoordinator/>}/>
+
+
+        {/* Practice imports */}
+        <Route path='practice' element = {<Practice/>}/>
+
+
+        {/* Template */}
+
+        <Route path='/logged-in' element = {<Template/>}/>
+       
+
 
       </Routes>
       </UserProvider>

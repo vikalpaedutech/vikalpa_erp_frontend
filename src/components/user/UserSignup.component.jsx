@@ -20,6 +20,29 @@ import {
 import Spinner from 'react-bootstrap/Spinner';
 
 const UserSignup = () => {
+
+
+  
+  //It gets the current coordinates of the user at the tiime of signup for attendance purpose
+  let lat;
+  let lng;
+  navigator.geolocation.getCurrentPosition(
+    (position) => {
+
+       lat = position.coords.latitude;
+        lng = position.coords.longitude;
+      // send to backend
+      console.log(lat, lng)
+      
+    },
+    (err) => console.error(err),
+    { enableHighAccuracy: true }
+  );
+
+  //____________________________________________________________________
+
+
+
   const { districtContext } = useContext(DistrictBlockSchoolContext);
   const { blockContext } = useContext(BlockContext);
   const { schoolContext } = useContext(SchoolContext);
@@ -51,6 +74,8 @@ const UserSignup = () => {
     accessModules: [],
     isActive: true,
     profileImage: "",
+    longitude: lng,
+    latitude: lat
   });
 
   const [roles, setRoles] = useState({});
@@ -67,26 +92,31 @@ const UserSignup = () => {
   const [isOtpVerifying, setIsOtpVerifying] = useState(false); // for loading spinner
 
   const deptAndRole = [
-    { Operations: ["Manager", "T.L", "Incharge"] },
-    { Community: ["Manager", "Incharge", "T.L", "ACI", "CC"] },
+    { Operations: ["Manager", "T.L", "Coordinator"] },
+    { Community: ["Manager", "T.L", "ACI", "CC"] },
     {
       Academics: [
         "Teacher",
         "Academic-Coordinator",
         "DTP",
         "Presenter",
-        "TL",
+        "T.L.",
         "Manager",
       ],
     },
-    { Media: ["Manager", "TL", "Editor"] },
-    { Tech: ["MIS", "Tech Lead"] },
+    { Media: ["Manager", "T.L.", "Editor", "Designer"] },
+    { Tech: ["MIS", "Tech Lead",] },
   ];
 
   const classOptions = [
     { value: "9", label: "9" },
     { value: "10", label: "10" },
   ];
+
+
+
+
+
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -138,6 +168,7 @@ const UserSignup = () => {
     )}&route=5&PEId=1401539030000072375`;
 
     try {
+      alert(otpCode)
       const response = await axios.get(url);
       console.log("OTP sent:", otpCode, response.data);
       alert(`OTP sent to ${formData.contact1}`);
@@ -161,13 +192,27 @@ const UserSignup = () => {
   };
 
   const handleSubmit = async (e) => {
+
+    if(lat === "" ||  lng === ""){
+      alert("please refresh the page and allow location")
+      return;
+    }
     e.preventDefault();
     setIsSubmitting(true);
     setError(null);
 
+  let accessModules;
+
+  if(formData.department === "Community"){
+    accessModules = ["Academics", "Bills", "Downloads"]
+  } 
+
     try {
       const userData = {
         ...formData,
+        longitude: lng,
+    latitude: lat,
+    accessModules: accessModules,
         assignedDistricts: districtContextArray,
         assignedBlocks: blockContextArray,
         assignedSchools: schoolContextArray,
@@ -176,7 +221,7 @@ const UserSignup = () => {
         schoolIds: schoolContextArray,
         classId: Array.isArray(formData.classId) ? formData.classId : [],
       };
-
+console.log(userData)
       const response = await createUser(userData);
       console.log("User created successfully:", response);
       alert("User created successfully!");
@@ -203,7 +248,7 @@ const UserSignup = () => {
         studentId: "",
         permission: { create: false, read: false, update: false, delete: false },
         accessModules: [],
-        isActive: true,
+        isActive: false,
         profileImage: "",
       });
       setRoles({});
@@ -219,6 +264,8 @@ const UserSignup = () => {
       setIsSubmitting(false);
     }
   };
+
+
 
   return (
     <div className="parent-user-signup" fluid style={{ minHeight: "100vh" }}>

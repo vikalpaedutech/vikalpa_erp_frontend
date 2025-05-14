@@ -132,7 +132,9 @@ console.log("i am inside handleclick", dataArray)
     Travel: (
       <>
         <div>
+          <br/>
           <label>Travel From</label>
+          <br/>
           <input
             type="text"
             name="travelFrom"
@@ -143,10 +145,13 @@ console.log("i am inside handleclick", dataArray)
                 travelFrom: e.target.value,
               }))
             }
+            placeholder="Enter Travel From"
           />
         </div>
         <div>
+        <br/>
           <label>Travel to</label>
+          <br/>
           <input
             type="text"
             name="travelTo"
@@ -157,10 +162,13 @@ console.log("i am inside handleclick", dataArray)
                 travelTo: e.target.value,
               }))
             }
+            placeholder="Enter Travel To"
           />
         </div>
         <div>
+        <br/>
           <label>Travel Distance in Kms</label>
+          <br/>
           <input
             type="number"
             name="travelDistanceInKm"
@@ -171,10 +179,13 @@ console.log("i am inside handleclick", dataArray)
                 travelledDistance: e.target.value,
               }))
             }
+            placeholder="Distance In Km."
           />
         </div>
         <div>
+        <br/>
           <label>Travel Amount in Inr</label>
+          <br/>
           <input
             type="number"
             name="expenseAmount"
@@ -185,10 +196,13 @@ console.log("i am inside handleclick", dataArray)
                 expenseAmount: e.target.value,
               }))
             }
+            placeholder="Amount (Inr)"
           />
         </div>
         <div>
+        <br/>
           <label>Upload Bill</label>
+          <br/>
           <input
             type="file"
             name="file"
@@ -198,6 +212,7 @@ console.log("i am inside handleclick", dataArray)
             }}
           />
         </div>
+        <br/>
         <div>
           <button onClick={handleBillSubmit}>Submit</button>
         </div>
@@ -215,6 +230,7 @@ console.log("i am inside handleclick", dataArray)
       <>
         <div>
           <label>Food Type</label>
+          <br/>
           <Select
   options={[
     { value: "Breakfast", label: "Breakfast" },
@@ -238,6 +254,7 @@ console.log("i am inside handleclick", dataArray)
         
         <div>
           <label>Food Amount in Inr</label>
+          <br/>
           <input
             type="number"
             name="expenseAmount"
@@ -248,10 +265,12 @@ console.log("i am inside handleclick", dataArray)
                 expenseAmount: e.target.value,
               }))
             }
+            placeholder="Amount (Inr)"
           />
         </div>
         <div>
           <label>Upload Bill</label>
+          <br/>
           <input
             type="file"
             name="file"
@@ -261,6 +280,7 @@ console.log("i am inside handleclick", dataArray)
             }}
           />
         </div>
+        <br/>
         <div>
           <button onClick={handleBillSubmit}>Submit</button>
         </div>
@@ -280,6 +300,7 @@ Accomodation: (
   <>
     <div>
       <label>Accomodation Date</label>
+      <br/>
       <input
         type="date"
         name="accomodationDate"
@@ -294,6 +315,7 @@ Accomodation: (
     </div>
     <div>
       <label>Stayed For (In days)</label>
+      <br/>
       <input
         type="number"
         name="stayedFor"
@@ -304,11 +326,13 @@ Accomodation: (
             stayedForDays: e.target.value,
           }))
         }
+        placeholder="Enter Number Of Days"
       />
     </div>
     
     <div>
       <label>Accomodation Amount in Inr</label>
+      <br/>
       <input
         type="number"
         name="expenseAmount"
@@ -319,10 +343,12 @@ Accomodation: (
             expenseAmount: e.target.value,
           }))
         }
+        placeholder="Amount (Inr)s"
       />
     </div>
     <div>
       <label>Upload Bill</label>
+      <br/>
       <input
         type="file"
         name="file"
@@ -332,6 +358,7 @@ Accomodation: (
         }}
       />
     </div>
+    <br/>
     <div>
       <button onClick={handleBillSubmit}>Submit</button>
     </div>
@@ -354,6 +381,7 @@ Other: (
   <>
     <div>
       <label>Other Item Name</label>
+      <br/>
       <input
         type="text"
         name="otherItem"
@@ -364,10 +392,12 @@ Other: (
             otherItemName: e.target.value,
           }))
         }
+        placeholder="Enter Name"
       />
     </div>
     <div>
       <label>Purpose of purchasing this item</label>
+      <br/>
       <input
         type="text"
         name="purchasingPurpose"
@@ -378,11 +408,13 @@ Other: (
             otherItemPurchasingPurpose: e.target.value,
           }))
         }
+        placeholder="Enter Purpose"
       />
     </div>
     
     <div>
       <label>Amount of Item</label>
+      <br/>
       <input
         type="number"
         name="expenseAmount"
@@ -393,10 +425,12 @@ Other: (
             expenseAmount: e.target.value,
           }))
         }
+        placeholder="Amount (Inr)"
       />
     </div>
     <div>
       <label>Upload Bill</label>
+      <br/>
       <input
         type="file"
         name="file"
@@ -406,7 +440,9 @@ Other: (
         }}
       />
     </div>
+    <br/>
     <div>
+      
       <button onClick={handleBillSubmit}>Submit</button>
     </div>
   </>
@@ -438,6 +474,7 @@ Other: (
   return (
     <Container fluid>
       <label>Bill Date</label>
+      <br/>
       <input
         type="date"
         onChange={(e) =>

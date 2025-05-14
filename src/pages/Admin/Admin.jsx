@@ -1,4 +1,4 @@
-//CC.jsx
+//Admin.jsx
 
 //This page is going to be for cc, if cc logins then we will show him/her this page.
 
@@ -15,7 +15,9 @@ import { MdMenuOpen } from "react-icons/md";
 import { AttendancePdf } from "../../components/AcademicsComponents/AttendancePdf.component";
 import { SliderContext } from "../../components/contextAPIs/SliderHook.context";
 import { DownloadAttendancePdfFormat } from "../../components/AcademicsComponents/DownloadAttendancePdfFormat.component";
-export const CenterCoordinator = () => {
+
+
+export const Admin = () => {
 
 //context hooks
 const {sliderContext, setSliderContext} = useContext(SliderContext)

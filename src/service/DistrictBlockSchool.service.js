@@ -88,11 +88,18 @@ export const getSchool = async () => {
 
 
 //Below api fetches the blocks by districts id in mongo db.
-export const getBlocksByDistrictId = async (districtId) => {
+export const getBlocksByDistrictId = async (queryParams) => {
+
+
+    
+   // Prepare query parameters to send in the URL
+   const queryString = new URLSearchParams(queryParams).toString();
+   console.log(queryString, "from service")
+
 
     try {
 
-        const response = await axios.get(`${API_BASE_URL}/api/block/${districtId}`)
+        const response = await axios.get(`${API_BASE_URL}/api/block-by-id?${queryString}`)
 
         return response.data
         

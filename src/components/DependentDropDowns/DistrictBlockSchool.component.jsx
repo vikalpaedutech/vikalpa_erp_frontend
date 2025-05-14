@@ -24,6 +24,8 @@ import {
   SchoolContext,
   ClassContext,
 } from "../contextAPIs/DependentDropdowns.contextAPI";
+import { responsivePropType } from "react-bootstrap/esm/createUtilityClasses";
+import { queries } from "@testing-library/dom";
 
 //Belwo is the district drop down api
 export function District() {
@@ -39,6 +41,14 @@ export function District() {
 
   //Hooks to store district data.
   const [districtData, setDistrictData] = useState([]);
+  const [blockData, setBlockData] = useState([]);
+
+  const [assignedBlocks, setAssignedBlocks] = useState([])
+
+  const [schoolData, setSchoolData] = useState([]);
+  const [selectedSchool, setSelectedSchool] = useState("");
+
+
 
   // State to store district data
   const [selectedDistrict, setSelectedDistrict] = useState("");
@@ -54,6 +64,7 @@ export function District() {
 
   useEffect(() => {
     fetchDistrict();
+  
   }, []);
 
   // Convert the district data to the format required by react-select
@@ -62,13 +73,110 @@ export function District() {
     label: district.districtName,
   }));
 
+ 
+
+
+  //This code is being modified on date 30-04-2025.
+  //Now what below logic does if some user requires only district to be chose from, then below logic...
+  //...dynamically gives all the block and ceenters to the users. Mostly in case of ACI 
+
+
+
+  const fetchBlockByDistrictId = async () => {
+
+    try {
+      const districtIds = selectedDistrict.map((each) => each.value);
+
+     const queryParams = {
+        districtId: districtIds
+      }
+
+
+      const response = await getBlocksByDistrictId(queryParams);
+      setBlockData(response.data);
+      console.log(response.data)
+      setBlockData(response.data)
+    } catch (error) {
+      console.error("Error fetching district data", error.message);
+    }
+  };
+  
   useEffect(() => {
-    // console.log('i am inside useEffect')
-    // console.log(selectedDistrict)
-    // console.log('i am context')
-    // console.log(districtContext)
-    // console.log('i am context')
-  }, [selectedDistrict]);
+
+
+    fetchBlockByDistrictId();
+
+  }, [districtData, selectedDistrict]);
+  
+
+  
+  useEffect(() => {
+    if (blockData.length > 0) {
+      setBlockContext(
+        blockData.map((eachBlock) => ({
+          value: eachBlock.blockId,
+          label: eachBlock.blockName,
+          districtId: eachBlock.districtId
+        }))
+      );
+    }
+  }, [blockData]);
+ 
+  useEffect(() => {
+
+    console.log("New block object", blockContext)
+
+
+  }, [selectedDistrict, blockData, blockContext]);
+
+  //Fetch School
+
+  const fetchSchool = async () => {
+    //console.log(selectedBlock.value);
+    try {
+      const blockId = blockContext.map((each) => each.value);
+
+      const queryParams = {
+        blockId: blockId
+      }
+      console.log(queryParams)
+
+      const response = await getSchoolsByBlockId(blockId);
+      setSchoolData(response.data);
+      console.log("i am school data", response.data)
+    } catch (error) {
+      console.error("Error fetching district data", error.message);
+    }
+  };
+
+  useEffect(() => {
+    fetchSchool();
+  }, [blockContext]);
+
+
+  useEffect(() => {
+    if (blockData.length > 0) {
+      setSchoolContext(
+        schoolData.map((eachSchool) => ({
+          value: eachSchool.schoolId,
+          label: eachSchool.schoolName,
+          blockId: eachSchool.blockId,
+          districtId: eachSchool.districtId
+        }))
+      );
+    }
+  }, [blockData]);
+  useEffect(() => {
+
+    console.log("New school object", schoolContext)
+
+
+  }, [selectedDistrict, blockData, blockContext]);
+
+
+
+  
+//___________________________________
 
   return (
     <div>
@@ -230,6 +338,8 @@ export function School() {
   );
 }
 
+
+
 //_______________________________________________________________________
 
 //Below api is the District, block, School dependent drop down.
@@ -284,17 +394,27 @@ export function DistrictBlockSchool() {
   //Hooks to store district data.
   const [blockData, setBlockData] = useState([]);
 
-  // State to store district data
+  // State to store district datas
   const [selectedBlock, setSelectedBlock] = useState("");
 
   const fetchBlock = async (districtData) => {
     console.log(selectedDistrict);
 
+
+  
+
+
+
     try {
       const districtIds = selectedDistrict.map((each) => each.value);
+      const queryParams = {
+        districtId: districtIds
+      }
 
-      const response = await getBlocksByDistrictId(districtIds);
+
+      const response = await getBlocksByDistrictId(queryParams);
       setBlockData(response.data);
+      console.log("I am fetch block data fro cc", response.data)
     } catch (error) {
       console.error("Error fetching district data", error.message);
     }
@@ -395,7 +515,7 @@ export function DistrictBlockSchool() {
         onChange={(selectedOption) => {
           setSelectedSchool(selectedOption); // Set the selected value
           setSchoolContext(selectedOption); //updating context api.
-          console.log("Selected block:", selectedOption);
+          console.log("Selected School:", selectedOption);
         }}
         placeholder="Select a district"
       />
@@ -463,14 +583,19 @@ export const DistrictBlockSchoolById = ({
   const [selectedBlock, setSelectedBlock] = useState("");
 
   const fetchBlock = async (districtData) => {
+   
+    
     // console.log("i am fresh block", Object.values(selectedDistrict)[0]);
     try {
+
+      const queryParams = {
+        districtId: selectedDistrict.value
+      }
       // const districtIdss = selectedDistrict.map((each)=>each.value)
 
       // console.log("i am selecteeeeeeeed distriiiiiiiiict",districtIdss)
-      const response = await getBlocksByDistrictId([
-        Object.values(selectedDistrict)[0],
-      ]);
+
+      const response = await getBlocksByDistrictId(queryParams);
       setBlockData(response.data);
     } catch (error) {
       console.error("Error fetching district data", error.message);
@@ -580,7 +705,7 @@ export const DistrictBlockSchoolById = ({
           onChange={(selectedOption) => {
             setSelectedSchool(selectedOption); // Set the selected value
             setSchoolContext([selectedOption]); //updating context api.
-            console.log("Selected block:", selectedOption);
+            console.log("Selected School:", selectedOption);
           }}
           placeholder="Select a district"
         />
@@ -611,6 +736,7 @@ export function ClassOfStudent() {
     
 
     <Container fluid>
+
       {/* <label>Select Class</label>
       <Breadcrumb>
         <Breadcrumb.Item
@@ -623,7 +749,7 @@ export function ClassOfStudent() {
           style={{ cursor: "pointer" }}
         >
           9
-        </Breadcrumb.Item>
+        </Breadcrumb.Item>s
         <Breadcrumb.Item
           active={classContext?.value === "10"}
           onClick={() => {

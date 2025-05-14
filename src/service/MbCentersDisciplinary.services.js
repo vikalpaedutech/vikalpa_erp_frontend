@@ -20,11 +20,15 @@ export const createCenterOrSchoolDisciplinary = async (formData) => {
 
 
 //api to get data by userId
-export const getCenterOrSchoolDisciplinaryDataByUserId = async (formData) => {
-console.log(formData, "from service")
+export const getCenterOrSchoolDisciplinaryDataByUserId = async (queryParams) => {
+
+
+   // Prepare query parameters to send in the URL
+   const queryString = new URLSearchParams(queryParams).toString();
+   console.log(queryString, "from service")
 
     try {
-        const response = await axios.get(`${API_BASE_URL}/api/centerOrSchoolDisciplinary-by-userId/${formData}` )
+        const response = await axios.get(`${API_BASE_URL}/api/centerOrSchoolDisciplinary-by-userId?${queryString}` )
         return response.data
     } catch (error) {
         console.log("Error from service. Error posting data", error.message)

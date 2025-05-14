@@ -23,3 +23,6 @@ yarn-debug.log*
 yarn-error.log*
 
 
+
+#below are for practicing not meant for production
+/src/practice/pactice.jsx

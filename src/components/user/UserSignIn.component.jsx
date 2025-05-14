@@ -28,18 +28,13 @@ export const UserSignIn = () => {
       setUserData(response.data);
 
       //Checking if password is correct or not
-      if (response.data && response.data[0].password === password && response.data[0].role === "CC"){
-
-        navigate("/center-coordinator")
-
-     
-      } else if (response.data && response.data[0].password === password && response.data[0].role === "ACI") {
-        navigate("/user-aci")
-      } else if (response.data && response.data[0].password === password && response.data[0].role === "Academic-Coordinator") {
-        navigate("/academic-coordinator")
+      if (response.data && response.data[0].password === password && response.data[0].isActive === true){
+        navigate('/logged-in')
       }
       else (
-        setUserData(null)
+        alert("Your account has not been verified yet. Ask your manager!")
+      
+        
         
       )
       //______________________________________________  

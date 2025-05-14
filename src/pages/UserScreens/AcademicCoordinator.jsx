@@ -183,7 +183,7 @@ setShowCenterDisciplinary(true)
             <Offcanvas.Title style={{display:"flex"}}><img   src="/buniyaadLogo.png"/></Offcanvas.Title>
           </Offcanvas.Header>
           <Offcanvas.Body style={{ color: "white" }}>
-            <h2>Hello, {userData[0].name}</h2>
+            <h4>Hello, {userData[0].name}</h4>
             <hr />
 
             <div>
