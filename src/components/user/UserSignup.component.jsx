@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { Button, Form, Container, Row, Col, Card } from "react-bootstrap";
 import { createUser } from "../../service/User.service.js";
 import Select from "react-select";
@@ -20,29 +20,6 @@ import {
 import Spinner from 'react-bootstrap/Spinner';
 
 const UserSignup = () => {
-
-
-  
-  //It gets the current coordinates of the user at the tiime of signup for attendance purpose
-  let lat;
-  let lng;
-  navigator.geolocation.getCurrentPosition(
-    (position) => {
-
-       lat = position.coords.latitude;
-        lng = position.coords.longitude;
-      // send to backend
-      console.log(lat, lng)
-      
-    },
-    (err) => console.error(err),
-    { enableHighAccuracy: true }
-  );
-
-  //____________________________________________________________________
-
-
-
   const { districtContext } = useContext(DistrictBlockSchoolContext);
   const { blockContext } = useContext(BlockContext);
   const { schoolContext } = useContext(SchoolContext);
@@ -50,6 +27,12 @@ const UserSignup = () => {
   const districtContextArray = districtContext.map((d) => d.value);
   const blockContextArray = blockContext.map((b) => b.value);
   const schoolContextArray = schoolContext.map((s) => s.value);
+
+  const [coordinates, setCoordinates] = useState({
+    latitude: null,
+    longitude: null,
+    error: null
+  });
 
   const [formData, setFormData] = useState({
     userId: "",
@@ -74,8 +57,8 @@ const UserSignup = () => {
     accessModules: [],
     isActive: true,
     profileImage: "",
-    longitude: lng,
-    latitude: lat
+    longitude: null,
+    latitude: null
   });
 
   const [roles, setRoles] = useState({});
@@ -113,10 +96,51 @@ const UserSignup = () => {
     { value: "10", label: "10" },
   ];
 
+  // Get user's current location
+  useEffect(() => {
+    const getLocation = () => {
+      if (!navigator.geolocation) {
+        setCoordinates(prev => ({
+          ...prev,
+          error: "Geolocation is not supported by your browser"
+        }));
+        return;
+      }
 
+      const options = {
+        enableHighAccuracy: true,
+        timeout: 10000, // 10 seconds
+        maximumAge: 0 // force fresh location
+      };
 
+      const watchId = navigator.geolocation.watchPosition(
+        (position) => {
+          setCoordinates({
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude,
+            error: null
+          });
+          // Update formData with coordinates
+          setFormData(prev => ({
+            ...prev,
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude
+          }));
+        },
+        (err) => {
+          setCoordinates(prev => ({
+            ...prev,
+            error: `Unable to retrieve location: ${err.message}`
+          }));
+        },
+        options
+      );
 
+      return () => navigator.geolocation.clearWatch(watchId);
+    };
 
+    getLocation();
+  }, []);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -174,7 +198,7 @@ const UserSignup = () => {
       alert(`OTP sent to ${formData.contact1}`);
     } catch (error) {
       console.error("Failed to send OTP", error);
-      alert("Failed to send OTP, but here’s your test OTP: " + otpCode);
+      alert("Failed to send OTP, but here's your test OTP: " + otpCode);
     } finally {
       setIsOtpSending(false);  // hide loader
     }
@@ -192,27 +216,29 @@ const UserSignup = () => {
   };
 
   const handleSubmit = async (e) => {
-
-    if(lat === "" ||  lng === ""){
-      alert("please refresh the page and allow location")
+    e.preventDefault();
+    
+    // Check if coordinates are available
+    if (!coordinates.latitude || !coordinates.longitude) {
+      alert("Please enable location services and refresh the page to continue. Location is required for signup.");
       return;
     }
-    e.preventDefault();
+
     setIsSubmitting(true);
     setError(null);
 
-  let accessModules;
+    let accessModules;
 
-  if(formData.department === "Community"){
-    accessModules = ["Academics", "Bills", "Downloads"]
-  } 
+    if(formData.department === "Community"){
+      accessModules = ["Academics", "Bills", "Downloads"]
+    } 
 
     try {
       const userData = {
         ...formData,
-        longitude: lng,
-    latitude: lat,
-    accessModules: accessModules,
+        longitude: coordinates.longitude,
+        latitude: coordinates.latitude,
+        accessModules: accessModules,
         assignedDistricts: districtContextArray,
         assignedBlocks: blockContextArray,
         assignedSchools: schoolContextArray,
@@ -221,7 +247,8 @@ const UserSignup = () => {
         schoolIds: schoolContextArray,
         classId: Array.isArray(formData.classId) ? formData.classId : [],
       };
-console.log(userData)
+      
+      console.log(userData)
       const response = await createUser(userData);
       console.log("User created successfully:", response);
       alert("User created successfully!");
@@ -250,6 +277,8 @@ console.log(userData)
         accessModules: [],
         isActive: false,
         profileImage: "",
+        longitude: null,
+        latitude: null
       });
       setRoles({});
       setClassOfStudent([]);
@@ -265,8 +294,6 @@ console.log(userData)
     }
   };
 
-
-
   return (
     <div className="parent-user-signup" fluid style={{ minHeight: "100vh" }}>
       <div className="signup-form-child">
@@ -274,6 +301,12 @@ console.log(userData)
           <h1>Vikalpa Foundation</h1>
           <h2>ERP-Signup</h2>
         </div>
+
+        {coordinates.error && (
+          <div className="alert alert-warning">
+            {coordinates.error}. Please enable location services and refresh the page.
+          </div>
+        )}
 
         {error && <div className="alert alert-danger">{error}</div>}
 
@@ -391,6 +424,15 @@ console.log(userData)
             />
           </Form.Group>
 
+          {/* Location status */}
+          <div className="mb-3">
+            <small className="text-muted">
+              {coordinates.latitude && coordinates.longitude ? 
+                "Location obtained successfully" : 
+                "Waiting for location... Please ensure location services are enabled"}
+            </small>
+          </div>
+
           {/* Send OTP Button with Spinner */}
           {!otpSent && formData.contact1.length === 10 && (
             <Button variant="warning" onClick={sendOTP} disabled={isOtpSending}>
@@ -458,7 +500,11 @@ console.log(userData)
           )}
 
           {otpVerified && (
-            <Button variant="primary" type="submit" disabled={isSubmitting}>
+            <Button 
+              variant="primary" 
+              type="submit" 
+              disabled={isSubmitting || !coordinates.latitude || !coordinates.longitude}
+            >
               {isSubmitting ? "Creating..." : "Create Account"}
             </Button>
           )}
