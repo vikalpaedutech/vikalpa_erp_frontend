@@ -55,8 +55,8 @@ import { AcademicCoordinator } from './pages/UserScreens/AcademicCoordinator.jsx
 import { Template } from './pages/UserScreens/Template.jsx';
 
 
-//Practice
-import { Practice } from './practice/pactice.jsx';
+// //Practice
+// import { Practice } from './practice/pactice.jsx';
 
 
 function App() {
@@ -122,9 +122,9 @@ function App() {
         {/* Academic Routes */}
         <Route path='/academic-coordinator' element={<AcademicCoordinator/>}/>
 
-
-        {/* Practice imports */}
-        <Route path='practice' element = {<Practice/>}/>
+{/* 
+        Practice imports
+        <Route path='practice' element = {<Practice/>}/> */}
 
 
         {/* Template */}
