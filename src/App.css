@@ -935,3 +935,44 @@ align-items: center;
 
 
 }
+
+
+
+
+.mb-centers-disciplinary-list{
+  display: flex;
+  gap: 10px;
+  width: 30rem; 
+  
+
+}
+
+@media screen and (max-width: 768px) {
+  
+  .mb-centers-disciplinary-list{
+  display: flex;
+  
+  gap: 10px;
+  width: 20rem; 
+
+}
+
+
+}
+
+.center-disciplinary-dropdown{
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+}
+
+@media screen and (max-width: 768px) {
+  
+.center-disciplinary-dropdown{
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+
+}

@@ -5,7 +5,7 @@ import Select from "react-select";
 import {
   createCenterOrSchoolDisciplinary,
 } from "../../service/MbCentersDisciplinary.services";
-import { Breadcrumb, ListGroup } from "react-bootstrap";
+import { Breadcrumb, ListGroup, Table, Row, Col, Container } from "react-bootstrap";
 import { CenterDisciplinaryData } from "./CenterDisciplinaryData";
 
 const subjects = [
@@ -71,6 +71,8 @@ const MbCentersDisciplinary = () => {
     setSelectedDistrict(null);
     setSelectedBlock(null);
     setSelectedSchool(null);
+    setSelectedSubject(null);
+    setSelectedType(null)
     setShowDataTable(false)
   };
 
@@ -106,21 +108,21 @@ const MbCentersDisciplinary = () => {
   return (
     <div className="container py-4">
       <h4>Center / School Disciplinary Records</h4>
-
-      <ListGroup style={{display:'flex', gap:'20px', width:'30rem'}} horizontal>
-        <ListGroup.Item action variant="success"  onClick={() => setSelectedClass("9")}>Class 9</ListGroup.Item>
-        <ListGroup.Item action variant="success"  onClick={() => setSelectedClass("10")}>Class 10</ListGroup.Item>
-        <ListGroup.Item action variant="success" onClick={() => setShowDataTable(true)}>See Data</ListGroup.Item>
+    
+      <ListGroup className="mb-centers-disciplinary-list" horizontal >
+        <ListGroup.Item action variant="success"  onClick={() => setSelectedClass("9")}>9</ListGroup.Item>
+        <ListGroup.Item action variant="success"  onClick={() => setSelectedClass("10")}>10</ListGroup.Item>
+        <ListGroup.Item action variant="success" onClick={() => setShowDataTable(true)}>View</ListGroup.Item>
       </ListGroup>
-
-      <div className="d-flex gap-3 my-3 align-items-end">
+    <br/>
+      <div  className = 'center-disciplinary-dropdown'> 
         <Select options={districts} value={selectedDistrict} onChange={setSelectedDistrict} placeholder="Select District" />
         <Select options={blocks} value={selectedBlock} onChange={setSelectedBlock} placeholder="Select Block" />
         <Select options={schools} value={selectedSchool} onChange={setSelectedSchool} placeholder="Select School" />
-        <button className="btn btn-outline-secondary" onClick={handleClearFilters}>Clear Filters</button>
+       
       </div>
-
-      <div className="d-flex gap-3 my-3 align-items-center">
+    <br/>
+      <div className = 'center-disciplinary-dropdown'>
         <Select
           options={subjects}
           value={selectedSubject}
@@ -133,12 +135,19 @@ const MbCentersDisciplinary = () => {
           onChange={setSelectedType}
           placeholder="Select Type"
         />
+
+         <button className="btn btn-outline-secondary" onClick={handleClearFilters}>Clear Filters</button>
       </div>
 
       {
         !showDataTable ? (
 
-          <table className="table table-bordered">
+          <Table 
+          
+          bordered
+          hover
+          responsive
+          className="mt-4 text-center align-middle">
         <thead>
           <tr>
             <th>#</th>
@@ -184,7 +193,7 @@ const MbCentersDisciplinary = () => {
             );
           })}
         </tbody>
-      </table>
+      </Table>
         ):(
           <div>
 
