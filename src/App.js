@@ -70,7 +70,7 @@ function App() {
           <ClassOfStudentProvider>
           <UserProvider>
       <Routes>
-        <Route path='/' element = {""}/>
+        <Route path='/' element = {<UserSignIn/>}/>
 
         {/* Admin Routes */}
         <Route path= "/admin" element = {<AdminPage/>}/>

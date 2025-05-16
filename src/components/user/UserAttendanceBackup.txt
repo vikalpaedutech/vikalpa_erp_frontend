@@ -15,7 +15,6 @@ export const UserAttendance = () => {
   const [coordinateDifference, setCoordinateDifference] = useState(null);
   const [showAttendanceButton, setShowAttendanceButton] = useState(false);
 
- 
   // Enhanced geolocation function with permission handling
   const getLocation = () => {
     if (!navigator.geolocation) {
@@ -75,10 +74,9 @@ export const UserAttendance = () => {
       setUserLatitude(response.data.data?.[0]?.latitude);
       setUserLongitude(response.data.data?.[0]?.longitude);
 
-   
       if (response.data.data?.[0]?.attendances.attendance === "Present") {
         setToggleSwitchAttendance(true);
-      } 
+      }
     } catch (error) {
       console.log("Error fetching attendance data", error.message);
     }
@@ -136,13 +134,7 @@ export const UserAttendance = () => {
 
   // Update user attendance
   const updateUserAttendance = async () => {
-
-    
-  
-
-
     if (!currentLat || !currentLng) {
-      
       alert("Location is required to mark attendance");
       return;
     }
@@ -155,17 +147,10 @@ export const UserAttendance = () => {
 
     let formData;
     const loginTime = Date.now();
-    const logoutTime = Date.now();
 
     if (userAttendanceData?.[0]?.attendances?.attendance === "Present") {
       formData = {
-        // attendance: attendanceStatus,
-
-      logoutLongitude: currentLng,
-      logoutLatitude: currentLat,
-      logoutCoordinateDifference:coordinateDifference,
-      //  loginTime: loginTime,
-      logoutTime: logoutTime,
+        attendance: attendanceStatus,
       };
     } else {
       formData = {
@@ -179,12 +164,8 @@ export const UserAttendance = () => {
 
     try {
       await PatchUserAttendanceByUserId(queryParams, formData);
-
-      
     } catch (error) {
       console.log("Error updating attendance", error.message);
-
-      
     }
   };
 
@@ -219,9 +200,9 @@ export const UserAttendance = () => {
             onClick={handleAttendanceClick}
           ></div>
           {toggleSwitchAttendance ? (
-            <p style={{ marginTop: '15%', marginRight: '10%', fontWeight: 'bold' }}>In</p>
+            <p style={{ marginTop: '15%', marginRight: '10%', fontWeight: 'bold' }}>Present</p>
           ) : (
-            <p style={{ marginTop: '15%', marginRight: '10%', fontWeight: 'bold' }}>Out</p>
+            <p style={{ marginTop: '15%', marginRight: '10%', fontWeight: 'bold' }}>Absent</p>
           )}
         </div>
       ) : (

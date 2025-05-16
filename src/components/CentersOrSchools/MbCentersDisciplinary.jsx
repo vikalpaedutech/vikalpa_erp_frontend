@@ -107,9 +107,9 @@ const MbCentersDisciplinary = () => {
     <div className="container py-4">
       <h4>Center / School Disciplinary Records</h4>
 
-      <ListGroup horizontal>
-        <ListGroup.Item action variant="success" eventKey="9" active={selectedClass === "9"} onClick={() => setSelectedClass("9")}>Class 9</ListGroup.Item>
-        <ListGroup.Item action variant="success" eventKey="10" active={selectedClass === "10"} onClick={() => setSelectedClass("10")}>Class 10</ListGroup.Item>
+      <ListGroup style={{display:'flex', gap:'20px', width:'30rem'}} horizontal>
+        <ListGroup.Item action variant="success"  onClick={() => setSelectedClass("9")}>Class 9</ListGroup.Item>
+        <ListGroup.Item action variant="success"  onClick={() => setSelectedClass("10")}>Class 10</ListGroup.Item>
         <ListGroup.Item action variant="success" onClick={() => setShowDataTable(true)}>See Data</ListGroup.Item>
       </ListGroup>
 

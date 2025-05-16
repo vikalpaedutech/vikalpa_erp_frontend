@@ -3,68 +3,92 @@
 
 //This component is for user attendances.
 
-import React, {useState, useEffect, useContext} from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { UserContext } from "../contextAPIs/User.context";
 import { GetAttendanceByUserId, PatchUserAttendanceByUserId } from "../../service/userAttendance.services";
-
-
+import { useNavigate } from "react-router-dom";
 export const UserAttendanceLogout = () => {
 
-  
-const [currentLat, setCurrentLat] = useState("");
-const [currentLng, setCurrentLng] = useState("");
+  const navigate = useNavigate();;
 
-  //It gets the current coordinates of the user at the tiime of signup for attendance purpose
-  useEffect(() => {
+  const [currentLat, setCurrentLat] = useState(null);
+  const [currentLng, setCurrentLng] = useState(null);
+  const [locationError, setLocationError] = useState(null);
+  const [locationPermission, setLocationPermission] = useState(null);
+  const { userData, setUserData } = useContext(UserContext);
+  const [userAttendanceData, setUserAttendanceData] = useState([]);
+  const [toggleSwitchAttendance, setToggleSwitchAttendance] = useState(false);
+  const [userLatitude, setUserLatitude] = useState("");
+  const [userLongitude, setUserLongitude] = useState("");
+  const [coordinateDifference, setCoordinateDifference] = useState(null);
+  const [showAttendanceButton, setShowAttendanceButton] = useState(false);
+
+  // Enhanced geolocation function with permission handling
+  const getLocation = () => {
+    if (!navigator.geolocation) {
+      setLocationError("Geolocation is not supported by your browser");
+      return;
+    }
+
+    const options = {
+      enableHighAccuracy: true,
+      timeout: 10000, // 10 seconds
+      maximumAge: 0 // Force fresh location
+    };
+
     navigator.geolocation.getCurrentPosition(
       (position) => {
         setCurrentLat(position.coords.latitude);
         setCurrentLng(position.coords.longitude);
+        setLocationError(null);
+        setLocationPermission("granted");
       },
-      (err) => console.error(err),
+      (err) => {
+        setLocationError(`Location access denied: ${err.message}`);
+        setLocationPermission("denied");
+        if (err.code === err.PERMISSION_DENIED) {
+          // This will help us know if user explicitly denied permission
+          setLocationPermission("denied");
+        }
+      },
+      options
+    );
+  };
+
+  // Check and request location permission on component mount
+  useEffect(() => {
+    getLocation();
+    
+    // For iOS devices, we need to watch position to keep asking for permission
+    const watchId = navigator.geolocation.watchPosition(
+      () => {}, 
+      () => {},
       { enableHighAccuracy: true }
     );
+    
+    return () => navigator.geolocation.clearWatch(watchId);
   }, []);
-  //____________________________________________________________________
 
+  // Fetch user attendance data
+  const fetchUserAttendanceData = async () => {
+    const queryParams = {
+      userId: userData?.[0]?.userId,
+      date: new Date().toISOString().split("T")[0]
+    };
 
-    //Using context api
-    const {userData, setUserData} = useContext(UserContext)
+    try {
+      const response = await GetAttendanceByUserId(queryParams);
+      setUserAttendanceData(response.data.data);
+      setUserLatitude(response.data.data?.[0]?.latitude);
+      setUserLongitude(response.data.data?.[0]?.longitude);
 
-    //__________________________________
-
-    //All Hooks
-      const [userAttendanceData, setUserAttendanceData] = useState([])
-      const [toggleSwitchAttendance, setToggleSwitchAttendance] = useState(false)
-      const [userLatitude, setUserLatitude] = useState("")
-      const [userLongitude, setUserLongitude] = useState("")
-      const [coordinateDifference, setCoordinateDifference] = useState(null)
-
-    //_______________________
-
-    //Fetching user data by user id
-    const fetchUserAttendanceData = async () => {
-
-      const queryParams = {
-        userId: userData?.[0]?.userId,
-        date: new Date().toISOString().split("T")[0]
-      }
-
-      try {
-        const response = await GetAttendanceByUserId(queryParams)
-          setUserAttendanceData(response.data.data)
-          setUserLatitude(response.data.data?.[0]?.latitude)
-          setUserLongitude(response.data.data?.[0]?.longitude)
-          
-
-
-        
+     
           //Checking if the user is marked Present or Absent. If present then toggle button remains on.
            if (response.data.data?.[0]?.attendances.logoutTime === null){
             setToggleSwitchAttendance(false)
 
-           } else if (response.data.data?.[0]?.attendances.logoutTime !== null){
-            setToggleSwitchAttendance(true)
+           } else {
+            setToggleSwitchAttendance(false)
            }
 
            console.log("logout time isssss", response.data.data?.[0]?.attendances.logoutTime)
@@ -80,92 +104,71 @@ const [currentLng, setCurrentLng] = useState("");
       
     },[])
 
-    useEffect(()=>{
-  
-      console.log("i am userAttendance data", userAttendanceData)
-      console.log(userLatitude)
-      console.log(userLongitude)
 
-
-
-      getDistanceInMeters();
-    },[fetchUserAttendanceData])
-  
-   
-
-
-  //Calculating distance between user coordinates and current coordinates:
+  // Calculate distance between coordinates
   function getDistanceInMeters(lat1, lon1, lat2, lon2) {
     const toRadians = (degrees) => degrees * (Math.PI / 180);
-  
     const R = 6371000; // radius of Earth in meters
     const φ1 = toRadians(lat1);
     const φ2 = toRadians(lat2);
     const Δφ = toRadians(lat2 - lat1);
     const Δλ = toRadians(lon2 - lon1);
-  
+
     const a =
       Math.sin(Δφ / 2) * Math.sin(Δφ / 2) +
       Math.cos(φ1) * Math.cos(φ2) *
       Math.sin(Δλ / 2) * Math.sin(Δλ / 2);
-  
+
     const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    const distance = R * c;
-    // setCoordinateDifference(distance);
-    return distance;
-  }
-  
-//__________________________________________
-      
-useEffect(() => {
-  if (userLatitude && userLongitude && currentLat && currentLng) {
-    const distance = getDistanceInMeters(
-      parseFloat(userLatitude),
-      parseFloat(userLongitude),
-      currentLat,
-      currentLng
-    );
-    console.log("Distance in meters:", distance.toFixed(2));
-    setCoordinateDifference(distance.toFixed(2))
-  }
-}, [userLatitude, userLongitude, currentLat, currentLng]);
-
-//-----------------------------------------------------------
-
-
-//Below api updates the user attendance by user id and date.
-
-const updateUserAttendance = async () =>{
-
-// alert(userAttendanceData?.[0]?.attendances?.attendance)
-
-  let attendanceStatus;
-  if (toggleSwitchAttendance === true){
-    attendanceStatus = "Present"
-  } else {attendanceStatus = "Absent"}
-
-
-  const queryParams = {
-
-    userId: userData?.[0]?.userId,
-    date: new Date().toISOString().split("T")[0],
-
+    return R * c;
   }
 
+  // Update distance when coordinates change
+  useEffect(() => {
+    if (userLatitude && userLongitude && currentLat && currentLng) {
+      const distance = getDistanceInMeters(
+        parseFloat(userLatitude),
+        parseFloat(userLongitude),
+        currentLat,
+        currentLng
+      );
+      setCoordinateDifference(distance.toFixed(2));
+    }
+  }, [userLatitude, userLongitude, currentLat, currentLng]);
 
+  // Check if user is within 100m radius
+  useEffect(() => {
+    if (coordinateDifference !== null) {
+      setShowAttendanceButton(coordinateDifference <= 100);
+    }
+  }, [coordinateDifference]);
 
-let formData;
+  const showCoordinateAlert = () => {
+    if (!currentLat || !currentLng) {
+      alert("Please enable location services to mark attendance");
+    } else {
+      alert("Attendance will only be allowed when you are in your center (within 100m)");
+    }
+  };
 
+  // Update user attendance
+  const updateUserAttendance = async () => {
+    if (!currentLat || !currentLng) {
+      //alert("Location is required to mark attendance");
+      return;
+    }
 
+    const attendanceStatus = toggleSwitchAttendance ? "Present" : "Absent";
+    const queryParams = {
+      userId: userData?.[0]?.userId,
+      date: new Date().toISOString().split("T")[0],
+    };
 
-//LOGIN AND LOGOUT TIME
-let loginTime = Date.now();
+    let formData;
+    const logoutTime = Date.now();
 
-let logoutTime = Date.now();
-
-if (userAttendanceData?.[0]?.attendances?.logoutTime === null){
-
- formData = {
+    if (userAttendanceData?.[0]?.attendances?.logoutTime === null) {
+       formData = {
 
     // attendance: attendanceStatus,
     logoutLongitude: currentLng,
@@ -175,57 +178,75 @@ if (userAttendanceData?.[0]?.attendances?.logoutTime === null){
     logoutTime: logoutTime,
   }
 
-} else if (userAttendanceData?.[0]?.attendances?.attendance === "Absent"){
-
-  formData = {
+    } else {
+       formData = {
     // attendance: attendanceStatus,
     // longitude: currentLng,
     // latitude: currentLat,
     // coordinateDifference:coordinateDifference
 
   }
-}
 
+    }
 
+    try {
+      await PatchUserAttendanceByUserId(queryParams, formData);
 
-  try {
+      // ✅ Reset to empty array to match expected structure
+        
+        navigate("/user-signin");
+        // Defer clearing user data (after a tick)
+setTimeout(() => setUserData([]), 1000);
+    } catch (error) {
+      console.log("Error updating attendance", error.message);
+    }
+  };
 
-    const response = await PatchUserAttendanceByUserId(queryParams, formData)
-    
-    // alert('attendance updated')
-  } catch (error) {
-    console.log("Error occured while updating data", error.message)
-  }
+  useEffect(() => {
+    if (toggleSwitchAttendance !== null) {
+      updateUserAttendance();
+    }
+  }, [toggleSwitchAttendance]);
 
-}
+  // Button click handler with location check
+  const handleAttendanceClick = () => {
+    if (!currentLat || !currentLng) {
+      alert("Please enable location services to mark attendance");
+      getLocation(); // Try to get location again
+      return;
+    }
+    setToggleSwitchAttendance(!toggleSwitchAttendance);
+  };
 
-useEffect(()=>{
-  console.log(toggleSwitchAttendance)
-  console.log("i am userAttendance data", userAttendanceData)
-  console.log(userLatitude)
-  console.log(userLongitude)
+  return (
+    <>
+      {locationError && (
+        <div className="location-error">
+          {locationError}. Please enable location services.
+        </div>
+      )}
 
- updateUserAttendance();
-
-
-},[toggleSwitchAttendance])
-
-
-
-
-    return (
-      <div className={`User-attendance-main ${toggleSwitchAttendance ? "green" : "red"}`}
-      
-     
-      
-      >
-        <div
-          className={`user-attendance-circle ${
-            toggleSwitchAttendance ? "active" : "inactive"
-          }`}
-          onClick={() => setToggleSwitchAttendance(!toggleSwitchAttendance)}
-        ></div>
-      {toggleSwitchAttendance ? (<p style={{marginTop:'15%', marginRight:'10%', fontWeight:'bold', fontSize:'12px'}}>Logged In</p>):(
-        <p style={{marginTop:'15%', marginRight:'10%', fontWeight:'bold', fontSize:'12px'}}>Log-Out</p>)}</div>
-    );
-}
+      {showAttendanceButton ? (
+        <div className={`User-attendance-main ${toggleSwitchAttendance ? "green" : "red"}`}>
+          <div
+            className={`user-attendance-circle ${toggleSwitchAttendance ? "active" : "inactive"}`}
+            onClick={handleAttendanceClick}
+          ></div>
+          {toggleSwitchAttendance ? (
+            <p style={{ marginTop: '15%', marginRight: '10%', fontWeight: 'bold', fontSize:'10px' }}>Logged-In</p>
+          ) : (
+            <p style={{ marginTop: '15%', marginRight: '10%', fontWeight: 'bold', fontSize:'10px' }}>Log-Out</p>
+          )}
+        </div>
+      ) : (
+        <div className={`User-attendance-main ${toggleSwitchAttendance ? "green" : "red"}`}>
+          <div
+            className={`user-attendance-circle ${toggleSwitchAttendance ? "active" : "inactive"}`}
+            onClick={showCoordinateAlert}
+          ></div>
+          <p style={{ marginTop: '15%', marginRight: '10%', fontWeight: 'bold' }}>⛈️</p>
+        </div>
+      )}
+    </>
+  );
+};

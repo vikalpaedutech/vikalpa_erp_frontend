@@ -192,13 +192,13 @@ const UserSignup = () => {
     )}&route=5&PEId=1401539030000072375`;
 
     try {
-      alert(otpCode)
+      alert(`YOUR OTP:`, otpCode)
       const response = await axios.get(url);
       console.log("OTP sent:", otpCode, response.data);
       alert(`OTP sent to ${formData.contact1}`);
     } catch (error) {
       console.error("Failed to send OTP", error);
-      alert("Failed to send OTP, but here's your test OTP: " + otpCode);
+      //alert("Failed to send OTP, but here's your test OTP: " + otpCode);
     } finally {
       setIsOtpSending(false);  // hide loader
     }
@@ -231,7 +231,9 @@ const UserSignup = () => {
 
     if(formData.department === "Community"){
       accessModules = ["Academics", "Bills", "Downloads"]
-    } 
+    } else if (formData.department === "Academics"){
+      accessModules = ["Academics", "Bills", "Downloads", "Monitoring"]
+    }
 
     try {
       const userData = {
