@@ -51,3 +51,19 @@ export const PatchUserAttendanceByUserId = (queryParams, formData) => {
 
 
 //________________________________________
+
+//Post cron attendance
+
+export const cronJobUserAttendance = async () => {
+
+    try {
+        const response = await axios.post(`${API_BASE_URL}/api/initiate-user-attendance`);
+        return response
+    } catch (error) {
+        console.log(error.status)
+      
+        console.log(error.message)
+    }
+}
+
+//-----------------------------------------------

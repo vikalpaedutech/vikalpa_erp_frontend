@@ -106,6 +106,7 @@ const fetchAttendance = async () => {
     } catch (error) {
       // setError("Error fetching attendance data");
       console.log("Error fetching attendance data");
+      setAttendanceData([])
     }
   } else (console.log("Please select all filters"))
   

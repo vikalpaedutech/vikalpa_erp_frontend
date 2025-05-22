@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Container, Row, Col, Table } from "react-bootstrap";
+import { Container, Row, Col, Table, Form } from "react-bootstrap";
 import {
   getAllMarksUsinQueryParams,
   updateMarksBySrnAndExamId,
@@ -18,6 +18,8 @@ import {
 } from "../contextAPIs/DependentDropdowns.contextAPI";
 
 import { UserContext } from "../../components/contextAPIs/User.context.js";
+import Select from "react-select"
+import { GetTests } from '../../service/ExamAndTestController';
 
 export const UploadMarks = () => {
   //using userContext
@@ -42,6 +44,31 @@ export const UploadMarks = () => {
 
   const [marksData, setMarksData] = useState([]);
 
+
+
+//Fetchin examId data
+const [getTest, setGetTest] =useState([])
+const [examId, setExamId] = useState("")
+ 
+ const fetchTest = async () =>{
+
+        try {
+            const response = await GetTests();
+            console.log(response.data.data);
+            setGetTest(response.data.data)
+        } catch (error) {
+            console.log("Error fetching test data", error.message)
+        }
+    }
+
+    useEffect(()=> {
+        fetchTest()
+
+    }, [])
+
+//--------------------------------------
+
+
   //Below query params filters the data and show it on frontend from backend
   const queryParams = {
     studentSrn: "",
@@ -51,7 +78,7 @@ export const UploadMarks = () => {
     blockId: Object(blockContext[0]).value || "",
     schoolId: Object(schoolContext[0]).value || "",
     classofStudent: classContext.value || "",
-    examId: "",
+    examId: examId.value,
     marksObtained: "",
     recordedBy: "",
     remark: "",
@@ -76,7 +103,7 @@ export const UploadMarks = () => {
 
   useEffect(() => {
     fetchMarksData();
-  }, [districtContext, blockContext, schoolContext, classContext]);
+  }, [districtContext, blockContext, schoolContext, classContext, examId]);
 
   //Clearing drop down values if user selects different value.
 
@@ -110,7 +137,7 @@ export const UploadMarks = () => {
     try {
       const payload = {
         marksObtained: cleanedInput,
-        recordedBy: "admin", // or dynamically from user
+        recordedBy: userData?.[0]?.userId ?? "Admin", // or dynamically from user
         marksUpdatedOn: new Date().toISOString(),
       };
 
@@ -147,6 +174,26 @@ export const UploadMarks = () => {
       <h1>Apply Filter</h1>
 
       <DistrictBlockSchoolById assignedDistricts={assignedDistricts} />
+        <Form>
+      
+      <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
+        <Form.Label>Test Id</Form.Label>
+            <Select
+           options= 
+            {getTest.length > 0 ? getTest.map((eachTest)=>{
+                
+             return (
+                {value: eachTest.examId, label: eachTest.examId}
+                )
+                
+               
+            }):(null)}
+           value={examId}
+           onChange={setExamId}
+            />
+      </Form.Group>
+    </Form>
+    
       <ClassOfStudent />
 
       <hr></hr>
@@ -163,11 +210,11 @@ export const UploadMarks = () => {
               {/* <th>District ID</th>
               <th>Block ID</th>
               <th>School ID</th> */}
-              <th>Class</th>
-              <th>Exam ID</th>
-              <th>Marks Obtained</th>
-              <th>Recorded By</th>
-              <th>Remark</th>
+              {/* <th>Class</th> */}
+              {/* <th>Exam ID</th> */}
+              {/* <th>Marks Obtained</th> */}
+              {/* <th>Recorded By</th> */}
+              {/* <th>Remark</th> */}
               {/* <th>Marks Updated On</th> */}
               <th>Obtained Marks</th>
             </tr>
@@ -182,11 +229,11 @@ export const UploadMarks = () => {
                 {/* <td>{student.districtId}</td>
                 <td>{student.blockId}</td>
                 <td>{student.schoolId}</td> */}
-                <td>{student.classofStudent}</td>
+                {/* <td>{student.classofStudent}</td>
                 <td>{student.examId}</td>
                 <td>{student.marksObtained ?? "N/A"}</td>
                 <td>{student.recordedBy || "N/A"}</td>
-                <td>{student.remark || "N/A"}</td>
+                <td>{student.remark || "N/A"}</td> */}
                 {/* <td>
                   {student.marksUpdatedOn
                     ? new Date(student.marksUpdatedOn).toLocaleString()

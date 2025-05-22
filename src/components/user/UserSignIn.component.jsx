@@ -29,7 +29,7 @@ export const UserSignIn = () => {
 
       //Checking if password is correct or not
       if (response.data && response.data[0].password === password && response.data[0].isActive === true){
-        navigate('/logged-in')
+        navigate('/dashboard')
       }
       else (
         alert("Your account has not been verified yet. Ask your manager!")

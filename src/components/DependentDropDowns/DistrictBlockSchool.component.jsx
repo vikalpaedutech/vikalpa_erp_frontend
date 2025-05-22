@@ -532,6 +532,7 @@ export const DistrictBlockSchoolById = ({
   schoolId,
 }) => {
   const { userData, setUserData } = useContext(UserContext);
+  
 
   //Props:
   const districtId = assignedDistricts;
@@ -555,7 +556,7 @@ export const DistrictBlockSchoolById = ({
     // console.log(" i am userrrrrrrrrrr from userrr", userData);
 
     try {
-      const response = await getDistrictById(assignedDistricts);
+      const response = await getDistrictById(userData?.[0]?.districtIds); //assignedDistricts
       setDistrictData(response.data);
     } catch (error) {
       console.error("Error fetching district data", error.message);
