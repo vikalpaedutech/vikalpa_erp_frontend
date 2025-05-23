@@ -53,7 +53,7 @@
         label: "🕵️ Monitoring",
         module: "Monitoring",
         main: [
-            { id: '1', label: "Student Disciplinary/Interaction", path: "student-disciplinary-or-interaction" },
+            { id: '1', label: "Center Disciplinary/Interaction", path: "center-disciplinary-or-interaction" },
         ],
         },
            {
