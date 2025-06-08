@@ -167,6 +167,10 @@ const [examId, setExamId] = useState("")
 
   //____________________________________________________________________________
 
+
+  //Sorting the marks data  
+marksData.sort((a, b)=>a.firstName.localeCompare(b.firstName))
+
   return (
     <Row className="justify-content-center">
   <Col xs={12}>
@@ -205,8 +209,9 @@ const [examId, setExamId] = useState("")
             <tr>
               <th>S.No</th>
               <th>Student SRN</th>
-              <th>First Name</th>
+              
               <th>Father's Name</th>
+              <th>First Name</th>
               {/* <th>District ID</th>
               <th>Block ID</th>
               <th>School ID</th> */}
@@ -224,8 +229,9 @@ const [examId, setExamId] = useState("")
               <tr key={student._id}>
                 <td>{index + 1}</td>
                 <td>{student.studentSrn}</td>
-                <td>{student.firstName}</td>
+                
                 <td>{student.fatherName}</td>
+                <td>{student.firstName}</td>
                 {/* <td>{student.districtId}</td>
                 <td>{student.blockId}</td>
                 <td>{student.schoolId}</td> */}

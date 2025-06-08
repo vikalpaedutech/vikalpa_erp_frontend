@@ -15,10 +15,17 @@ import { MdMenuOpen } from "react-icons/md";
 import { UserAttendance } from "../../components/user/UserAttendance";
 import { studentAndAttendanceAndAbsenteeCallingCount } from "../../service/dashboardServices/dashboardCounts.services";
 //import logoutLogo from '../../assets/logout.png'; // Replace with correct path
-import { Link } from "react-router-dom";
-import { NewNavbar } from "../../components/Navbar/NewNavbar";
+import { Link, useParams } from "react-router-dom";
 
-const MainLayout = () => {
+const MainSubScreen = () => {
+
+  //accessing id from useParams react-router-dom. 
+  //This id comes from user-dash. once user clicks on any app, sub apps are laid out here in this screen.
+
+  const {app_id} = useParams();
+
+  //----------------------------------
+
   const navigate = useNavigate();
 
   const [show, setShow] = useState(false);
@@ -38,7 +45,10 @@ const MainLayout = () => {
     }, 1000);
   };
 
+  const handleHome = () => {
+    navigate('/dashboard')
 
+  }
 
   const fetchStudentRelatedCounts = async () => {
     const payload = {
@@ -66,26 +76,19 @@ const MainLayout = () => {
     {
       indexKey: "1",
       label: "Academics",
-      logo: "/attendance.png",
+      logo: '/attendance.png',
       module: "Academics",
       main: [
-        {
-          id: "1",
-          label: "Attendance",
-          logo: "/attendance.png",
-          path: "mb-attendance",
-        },
-        { id: "2", label: "Upload Marks", logo: "/exam.png", path: "upload-marks" },
+        { id: "1", label: "Attendance", path: "mb-attendance" },
+        { id: "2", label: "Upload Marks", path: "upload-marks" },
         {
           id: "3",
           label: "Disciplinary and Interaction",
-          logo: "/disciplinary.png",
           path: "student-disciplinary-or-interaction",
         },
         {
           id: "4",
           label: "Upload Attendance PDF",
-          logo: "/upload.png",
           path: "upload-attendance-pdf",
         },
       ],
@@ -93,13 +96,12 @@ const MainLayout = () => {
     {
       indexKey: "2",
       label: "Downloads",
-      logo: "/download.png",
+      logo: '/download.png',
       module: "Downloads",
       main: [
         {
           id: "1",
           label: "Manual Attendance Format",
-          logo: "/download.png",
           path: "attendance-pdf-format",
         },
       ],
@@ -107,17 +109,17 @@ const MainLayout = () => {
     {
       indexKey: "3",
       label: "Bills",
-      logo: "/bills.png",
+      logo: '/bills.png',
       module: "Bills",
       main: [
-        { id: "1", label: "Upload Bills", logo: "/bills.png", path: "upload-bills" },
-        { id: "2", label: "Bills Verification", logo: "/bill-verification.png", path: "verify-bills" },
+        { id: "1", label: "Upload Bills", path: "upload-bills" },
+        { id: "2", label: "Bills Verification", path: "verify-bills" },
       ],
     },
     {
       indexKey: "4",
       label: "Monitoring",
-      logo: "/monitoring.png",
+      logo: '/monitoring.png',
       module: "Monitoring",
       main: [
         {
@@ -131,9 +133,9 @@ const MainLayout = () => {
     {
       indexKey: "6",
       label: "Callings",
-      logo: "/client.png",
+      logo: '/client.png',
       module: "Callings",
-      main: [{ id: "1", label: "Absentee Callings", logo: "/call.png", path: "absentee-calling" }],
+      main: [{ id: "1", label: "Absentee Callings", path: "absentee-calling" }],
     },
 
     //Only for Admin
@@ -181,8 +183,9 @@ const MainLayout = () => {
   );
 
   const filteredSidbarMenusByRole = sideBarMenusByRole.filter((item) =>
-    userData?.[0]?.accessModules.includes(item.module)
+   app_id.includes(item.indexKey)
   );
+  
 
   const logo = "./";
 
@@ -205,24 +208,15 @@ const MainLayout = () => {
     alert("hi");
     navigate("/admin-dash/mb-attendance");
   };
-
-  //Handling app squares clicks. So that people can navigate to the sub apps.
-
-  const handleAppClicks = (e) => {
-    e.preventDefault();
-
-    //alert(e.target.id)
-   navigate(`/${e.target.id}`);
-  };
-  //------------------------------------------------
-
   return (
     <div>
       <div>
-        <img src="/logout.png" className="logout" onClick={handleLogout} />
-        <NewNavbar/>
+    <img src="/logout.png" className="logout" onClick={handleLogout} />
+    <img src="/home-button.png" className="home-button" onClick={handleHome}/>
       </div>
-
+      app id: 
+      {app_id}
+      
       <div className="main-layout">
         <Carousel
           fade
@@ -386,41 +380,39 @@ const MainLayout = () => {
           </Carousel.Item>
         </Carousel>
 
-
-        <div className="mainlayout-other-functionalities">
-          {filteredSidbarMenusByRole.map((eachModule, index) => {
-            return (
-              <div key={index} id={index} style={{ textAlign: "left" }}>
-                <h1>{eachModule.label}</h1>
-                <hr />
-                <div className="sub-app-div">
-                  {eachModule.main.map((eachApp, index) => {
-                    return (
-                     <div className="each-app-wrapper">
-  <div
-    id={eachApp.path}
-    onClick={(e)=>handleAppClicks(e)}
-    className="each-div"
-    style={{
-      backgroundImage: `url(${eachApp.logo})`,
-      backgroundSize: "cover",
-      backgroundPosition: "left",
-      backgroundRepeat: "no-repeat",
-    
-    }}
-  ></div>
-  <p className="app-label">{eachApp.label}</p>
-</div>
-                    );
-                  })}
-                </div>
-              </div>
-            );
-          })}
+        
+ <div className="mainlayout-other-functionalities">
+  {filteredSidbarMenusByRole.map((eachModule, index) => (
+    <div key={index} id={index} style={{ textAlign: "center" }}>
+      <div
+       
+      />
+      {eachModule.main.map((eachApp, appIndex)=>(
+        <div
+        
+             className="each-div"
+        style={{
+          
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat',
+          width: '100px',
+          height: '100px',
+          borderRadius: '10px',
+          margin: '0 auto'
+        }}
+        
+        >{eachApp.label}
+      
         </div>
+      ))}
+     
+    </div>
+  ))}
+</div>
       </div>
     </div>
   );
 };
 
-export default MainLayout;
+export default MainSubScreen;

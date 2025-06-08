@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import { UserContext } from "../contextAPIs/User.context";
 import { createPost } from "../../service/Bills.services";
-import { Container, Row, Table, Col } from "react-bootstrap";
+import { Container, Row, Table, Col, Button } from "react-bootstrap";
 import Select from "react-select";
 
 const Bills = () => {
@@ -58,7 +58,7 @@ const Bills = () => {
 const [dataArray, setDataArray] = useState([]);
   const handleBillSubmit = async () => {
     const payLoad = {
-      expenseId: "111",
+     
       userId: userData?.[0]?.userId ?? "Not-known",
       role:userData?.[0]?.role ?? "Not-known",
       purposeOfExpense: selectedPurposeOfExpense.value || "",
@@ -95,6 +95,7 @@ console.log("i am inside handleclick", dataArray)
 
     //Sending data to backend api
     try {
+      console.log(payLoad)
       const response = await createPost(formDataUpdated);
       console.log("Response from server:", response);
 
@@ -214,7 +215,7 @@ console.log("i am inside handleclick", dataArray)
         </div>
         <br/>
         <div>
-          <button onClick={handleBillSubmit}>Submit</button>
+          <Button onClick={handleBillSubmit}>Submit</Button>
         </div>
       </>
     ),
@@ -282,7 +283,7 @@ console.log("i am inside handleclick", dataArray)
         </div>
         <br/>
         <div>
-          <button onClick={handleBillSubmit}>Submit</button>
+          <Button onClick={handleBillSubmit}>Submit</Button>
         </div>
       </>
     ),
@@ -360,7 +361,7 @@ Accomodation: (
     </div>
     <br/>
     <div>
-      <button onClick={handleBillSubmit}>Submit</button>
+      <Button onClick={handleBillSubmit}>Submit</Button>
     </div>
   </>
 ),
@@ -443,7 +444,7 @@ Other: (
     <br/>
     <div>
       
-      <button onClick={handleBillSubmit}>Submit</button>
+      <Button onClick={handleBillSubmit}>Submit</Button>
     </div>
   </>
 ),

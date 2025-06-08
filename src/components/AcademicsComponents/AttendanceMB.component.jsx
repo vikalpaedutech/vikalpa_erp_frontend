@@ -13,6 +13,7 @@ import { DistrictBlockSchoolById, ClassOfStudent  } from "../DependentDropDowns/
 
 //importing context api (District Block School Context API)
 import { DistrictBlockSchoolContext, BlockContext,  SchoolContext, ClassContext} from "../contextAPIs/DependentDropdowns.contextAPI";
+import { UserContext } from "../contextAPIs/User.context.js";
 
 
 
@@ -22,7 +23,7 @@ const AttendanceMB = ({assignedDistricts, assignedBlocks, assignedSchools}) => {
   
 
     //Accessing context DistrictBlockSchool Context api. These are being used to filter attendance data dynamically
-    
+    const {userData, setUserData} = useContext(UserContext)
      const { districtContext, setDistrictContext } = useContext(DistrictBlockSchoolContext); // Use context
      const {blockContext, setBlockContext} = useContext(BlockContext); // Use context
      const {schoolContext, setSchoolContext} = useContext(SchoolContext); // Use context
@@ -63,7 +64,10 @@ const AttendanceMB = ({assignedDistricts, assignedBlocks, assignedSchools}) => {
   // }, [districtContext, blockContext, schoolContext, date])
 
 
-
+//Below useEffect handles date thing
+useEffect(()=>{
+setDate(new Date().toISOString().split("T")[0])
+}, [])
 
 
   // Define query parameters for loading data on frontend
@@ -72,31 +76,33 @@ const AttendanceMB = ({assignedDistricts, assignedBlocks, assignedSchools}) => {
     studentSrn:"",
     firstName:"",
     fatherName:"",
-    date: date || new Date().toISOString().split("T")[0],
+    date: date ,//|| new Date().toISOString().split("T")[0],
     startDate: date, // Example query param, 
     endDate: endDate || "",   // New query param for end date
-    districtId: Object(districtContext[0]).value , 
+    districtId: Object(districtContext[0]).value || userData[0].assignedDistricts, 
     blockId:Object(blockContext[0]).value || "",
     schoolId:Object(schoolContext[0]).value || "",
-    classofStudent:classContext.value,
+    classofStudent:classContext.value || ['9', '10'],
     batch:"",
-    status:"",
+    status:['Absent', 'Present'],
     // isAttendanceMarked:"",
     // isAttendanceUpdated:""
 };
-
+console.log(Object(districtContext[0]).value)
 
 const fetchAttendance = async () => {
+  console.log(userData[0].assignedDistricts)
   console.log(date)
   console.log(queryParams)
 
-  if (districtContext.length > 0 && blockContext.length > 0 && schoolContext.length > 0 && classContext.value) {
+  if (true) {
    
       
     try {
       const response = await getAllAttendance(queryParams);
       setAttendanceData(response.data); // Assuming response has a `data` field
-  
+      console.log("I am inside attendance mb")
+      console.log(response.data)
       // Initialize attendanceState based on the initial data from the API
       const initialAttendanceState = {};
       response.data.forEach((attendance) => {
@@ -117,7 +123,9 @@ const fetchAttendance = async () => {
 
 
 
-
+// useEffect(()=>{
+//   fetchAttendance()
+// }, [])
 
   useEffect(() => {
     // console.log(districtContext, blockContext, schoolContext)
@@ -219,8 +227,10 @@ const fetchAttendance = async () => {
 
    
   };
-
-  return (
+//Sorting the students attendance array  
+attendanceData.sort((a, b)=>a.studentDetails.firstName.localeCompare(b.studentDetails.firstName))
+  
+return (
     <Container fluid className="prevent-overflow">
       <Form>
         <div >
@@ -276,6 +286,7 @@ const fetchAttendance = async () => {
         >
           <thead>
             <tr>
+              <th>#</th>
               <th>SRN</th>
               <th>Father</th>
               <th>Student</th>
@@ -289,12 +300,13 @@ const fetchAttendance = async () => {
           </thead>
           <tbody>
             {attendanceData.length > 0 ? (
-              attendanceData.map((attendance) => (
+              attendanceData.map((attendance, index) => (
                 <tr key={attendance._id}>
+                  <td>{index+1}</td>
                   <td>{attendance.studentSrn}</td>
 
-                  <td>{attendance.fatherName}</td>
-                  <td>{attendance.firstName}</td>
+                  <td>{attendance.studentDetails.fatherName}</td>
+                  <td>{attendance.studentDetails.firstName}</td>
                   {/* <td>{attendance.districtId}</td>
             <td>{attendance.classofStudent}</td>
             <td>{attendance.batch}</td> */}

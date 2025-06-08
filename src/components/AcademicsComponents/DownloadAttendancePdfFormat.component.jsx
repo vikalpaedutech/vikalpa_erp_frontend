@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import { getStudentIfisSlcTakenIsFalse } from "../../service/Student.service";
 import { UserContext } from "../contextAPIs/User.context";
-import { DistrictBlockSchoolById } from "../DependentDropDowns/DistrictBlockSchool.component";
+import { ClassOfStudent, DistrictBlockSchoolById } from "../DependentDropDowns/DistrictBlockSchool.component";
 import { ListGroup , Button, Table, Spinner } from "react-bootstrap";
 import jsPDF from 'jspdf';
 import 'jspdf-autotable'; 
@@ -20,20 +20,29 @@ export const DownloadAttendancePdfFormat = () => {
   const { districtContext } = useContext(DistrictBlockSchoolContext);
   const { blockContext } = useContext(BlockContext);
   const { schoolContext } = useContext(SchoolContext);
-  const { classContext } = useContext(ClassContext);
+   
+  //ClassContext API
+   const {classContext, setClassContext} = useContext(ClassContext);
+
+
+ 
+  
+
 
   const [studentData, setStudentData] = useState([]);
   const [filteredStudents, setFilteredStudents] = useState([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isPDFGenerating, setIsPDFGenerating] = useState(false);
   const [isReadyToDownload, setIsReadyToDownload] = useState(false);
-  const [selectedClass, setSelectedClass] = useState(null);
+  // const [selectedClass, setSelectedClass] = useState(null);
+  const [selectedDate, setSelectedDate] = useState("")
 
   // Fetch student data when component mounts or school context changes
   const fetchStudentData = async () => {
     try {
       const response = await getStudentIfisSlcTakenIsFalse();
       setStudentData(response.data);
+      console.log(response.data)
     } catch (error) {
       console.log("Error fetching students data", error);
     }
@@ -50,7 +59,7 @@ export const DownloadAttendancePdfFormat = () => {
       return;
     }
 
-    if (!selectedClass) {
+    if (!classContext) {
       alert("Please select class.");
       return;
     }
@@ -60,7 +69,7 @@ export const DownloadAttendancePdfFormat = () => {
 
     setTimeout(() => {
       const filtered = studentData.filter((student) => {
-        return String(student.schoolId) === String(schoolContext[0].value) && String(student.classofStudent) === String(selectedClass);
+        return String(student.schoolId) === String(schoolContext[0].value) && String(student.classofStudent) === String(classContext.value);
       });
 
       if (filtered.length === 0) {
@@ -94,7 +103,8 @@ export const DownloadAttendancePdfFormat = () => {
     pdf.setFontSize(14);
     pdf.text(`Attendance Sheet`, 105, 18, { align: "center" });
     pdf.setFontSize(12);
-    pdf.text(`Date: _________________`, 20, 30);
+    pdf.text(`Date: ${selectedDate}`, 20, 30);  //_________________
+    pdf.line(30, 31, 55, 31);
     pdf.text(`Center Incharge Name: ______________________________`, 80, 30);
     pdf.text(`Role: _________________`, 20, 38);
     pdf.text(`Remarks (if any): ___________________________________`, 80, 38);
@@ -172,12 +182,18 @@ export const DownloadAttendancePdfFormat = () => {
       <h3>Download Manual Attendance Pdf Format</h3>
       <DistrictBlockSchoolById assignedDistricts={userData[0].assignedDistricts} />
       <br/>
-      <ListGroup>
-      
-      <ListGroup.Item action variant="success" eventKey="9" onClick={() => setSelectedClass(9)}>9</ListGroup.Item>
-      <ListGroup.Item action variant="success" eventKey="10" onClick={() => setSelectedClass(10)}>10</ListGroup.Item>
-      
-    </ListGroup>
+      <div>
+        <div>
+          <input type="date" 
+          
+          onChange={(e) => setSelectedDate(e.target.value)}
+
+          />
+        </div>
+          <div>
+            <ClassOfStudent />
+          </div>
+        </div>
       
       <hr />
 

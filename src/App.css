@@ -46,7 +46,9 @@
 
 html, body, #root {
   height: 100%;
+  width: 100%;
   margin: 0; /* Also reset default margin */
+  
 }
 
 
@@ -972,6 +974,223 @@ align-items: center;
   display: flex;
   flex-direction: column;
   gap: 5px;
+}
+
+
+}
+
+
+/* new css for new layout */
+
+
+p {
+  font-family: 'Poppins', sans-serif;
+  font-size: 45px;
+}
+
+.mainlayout-cards-title{
+  font-family: 'Poppins', sans-serif;
+  font-size: 50px;
+}
+
+
+
+.main-layout{
+  
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 0vh;
+  gap: 15px;
+ 
+}
+
+.logout{
+  width: 5vh;
+}
+
+.mainlayout-cards{
+
+  /* width: 80%; */
+    min-height: 320px; /* adjust as needed */
+
+ 
+
+}
+
+
+.mainlayout-bulletin{
+  width: 80%;
+  height: 80%;
+}
+
+
+
+.mainlayout-other-functionalities {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 0.2rem;
+  padding: 1rem;
+  box-sizing: border-box;
+  max-width: 100vw;
+  overflow-x: hidden;
+  text-align: left;
+  
+  width: 100%;
+}
+
+
+/* .label-box{
+  background-color: red;
+
+} */
+
+.each-div {
+  background-color: rgb(168, 252, 255);
+  display: flex;
+  flex-direction: row;
+  height: 12vh;
+  width: 12vh;
+  border: solid gray;
+  opacity: 100;
+  box-sizing: border-box;
+  border-radius: 10px;
+  
+}
+
+.sub-app-div{
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+ 
+  gap: .5rem;
+}
+
+
+.each-app-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 15vh;
+}
+
+.app-label {
+  margin-top: 0.3rem;
+  font-size: 0.9rem;
+  text-align: center;
+  color: black; /* or black based on background */
+}
+
+
+
+/* media query */
+@media screen and (max-width: 768px) {
+  p {
+  font-family: 'Poppins', sans-serif;
+  font-size: 12px;
+}
+
+.mainlayout-cards-title{
+  font-family: 'Poppins', sans-serif;
+  font-size: 25px;
+}
+
+
+  .main-layout{
+  
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 0vh;
+  gap: 15px;
+ 
+}
+
+.logout{
+  width: 5vh;
+}
+
+.home-button{
+  width: 5vh;
+}
+
+.mainlayout-cards{
+
+  width: 80vw;
+  height: 20vh;
+  min-height: 320px;
+
+   display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* .mainlayout-bulletin{
+
+} */
+
+
+.mainlayout-other-functionalities {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 0.2rem;
+  padding: 1rem;
+  box-sizing: border-box;
+  max-width: 100vw;
+  overflow-x: hidden;
+  text-align: left;
+  
+  width: 100%;
+}
+
+
+/* .label-box{
+  background-color: red;
+
+} */
+
+.each-div {
+  background-color: rgb(168, 252, 255);
+  display: flex;
+  flex-direction: row;
+  height: 12vh;
+  width: 12vh;
+  border: solid gray;
+  opacity: 100;
+  box-sizing: border-box;
+  border-radius: 10px;
+  
+}
+
+.sub-app-div{
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+ 
+  gap: .5rem;
+}
+
+
+.each-app-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 15vh;
+}
+
+.app-label {
+  margin-top: 0.3rem;
+  font-size: 0.9rem;
+  text-align: center;
+  color: black; /* or black based on background */
 }
 
 

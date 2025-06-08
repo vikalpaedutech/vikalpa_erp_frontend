@@ -90,6 +90,7 @@ export function District() {
      const queryParams = {
         districtId: districtIds
       }
+      console.log(queryParams)
 
 
       const response = await getBlocksByDistrictId(queryParams);
@@ -142,8 +143,28 @@ export function District() {
       console.log(queryParams)
 
       const response = await getSchoolsByBlockId(blockId);
+   
+      console.log(response.data)
       setSchoolData(response.data);
-      console.log("i am school data", response.data)
+
+
+
+      // if(blockContext.length > 0){
+
+      //     setSchoolContext(
+      //       response.data.map((eachSchool) => ({
+      //     value: eachSchool.schoolId,
+      //     label: eachSchool.schoolName,
+      //     blockId: eachSchool.blockId,
+      //     districtId: eachSchool.districtId
+      //   }))
+      //     )
+
+
+
+      // }
+      
+      // console.log("i am school data", schoolContext)
     } catch (error) {
       console.error("Error fetching district data", error.message);
     }
@@ -151,11 +172,15 @@ export function District() {
 
   useEffect(() => {
     fetchSchool();
-  }, [blockContext]);
 
+   
+  }, [selectedDistrict, blockData, blockContext]);
+ 
 
   useEffect(() => {
+    
     if (blockData.length > 0) {
+     
       setSchoolContext(
         schoolData.map((eachSchool) => ({
           value: eachSchool.schoolId,
@@ -165,13 +190,14 @@ export function District() {
         }))
       );
     }
-  }, [blockData]);
+   
+  }, [blockData, blockContext]);
   useEffect(() => {
 
     console.log("New school object", schoolContext)
 
 
-  }, [selectedDistrict, blockData, blockContext]);
+  }, [ blockData, blockContext]);
 
 
 
@@ -180,7 +206,7 @@ export function District() {
 
   return (
     <div>
-      <label>District Drop Down</label>
+      <label>Select District</label>
       {/* Use react-select here */}
       <Select
         isMulti

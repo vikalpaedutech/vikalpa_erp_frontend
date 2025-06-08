@@ -7,6 +7,30 @@ import axios from "axios";
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
 
+
+//POST API. Initiating attendance pdf by admin in db
+
+export const createAttendancePdfCronJob = async () => {
+    console.log("I am inside Attendance pdf cron job")
+    console.log("i am file")
+        try {
+
+       
+          
+
+
+            const response = await axios.post(`${API_BASE_URL}/api/initiate-attendance-pdf`)
+            return response.data;
+        } catch (error) {
+            console.log("Some error occured while uploading attendance pdf into spaces", error.message)
+        }
+    }
+    //_____________________________________________________________________________
+
+
+
+
+
 //Get API by schoolId
 
 export const GetDataBySchoolId = async (schoolId, selectedDate) => {
@@ -42,3 +66,4 @@ export const PatchAttendancePdf = async (queyrParams, file) => {
         }
     }
     //_____________________________________________________________________________
+

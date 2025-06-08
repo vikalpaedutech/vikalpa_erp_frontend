@@ -1,5 +1,7 @@
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
+
+
 import MainLayout from "./pages/UserScreens/MainLayout.jsx";
 import {
   BrowserRouter as Router,
@@ -68,9 +70,12 @@ import { CreateEmpAttendanceData } from "./Admin/CreateEmpAttendanceData.jsx";
 import { CreateStudentAttendanceData } from "./Admin/CreateStudentAttendanceData.jsx";
 
 import { StudentRelatedCallings } from "./Callings/StudentRelatedCallings.jsx";
+import { AbsenteeCalling } from "./Callings/AbsenteeCallings.jsx";
+import { CreateUploadAttendancePdf } from "./Admin/CreateUploadAttendancePdf.jsx";
 // //Practice
 // import { Practice } from './practice/pactice.jsx';
-
+import MainLayoutAdmin from "./pages/UserScreens/MainLayoutPhoneAndPc.jsx";
+import MainSubScreen from "./pages/UserScreens/MainSubScreen.jsx";
 function App() {
   return (
     <>
@@ -84,210 +89,88 @@ function App() {
                     <Routes>
                       <Route path="/" element={<UserSignIn />} />
 
-                      {/* Admin Routes */}
-                      <Route path="/admin" element={<AdminPage />} />
-                      <Route
-                        path="/edit-student-details"
-                        element={<UpdateStudent />}
-                      />
-                      <Route path="/landing" element={<TemplateLanding />} />
+                      
 
-                      {/* ________________________________________________________________________ */}
 
-                      {/* User Routes */}
+                      <Route path="/user-dash" element = {<MainLayout/>}/>
+                      <Route path="/app/:app_id" element = {<MainSubScreen/>}/>
 
-                      <Route path="/user-signin" element={<UserSignIn />} />
 
-                      <Route path="/user-signup" element={<UserSignup />} />
-
-                      <Route path="/user" element={<UserLoggedIn />} />
-
-                      <Route
-                        path="/center-coordinator"
-                        element={<CenterCoordinator />}
-                      />
-
-                      <Route
-                        path="user-attendance"
-                        element={<UserAttendance />}
-                      />
-                      <Route
-                        path="user-attendance-logout"
-                        element={<UserAttendanceLogout />}
-                      />
-
-                      {/* ACI Routes */}
-                      <Route path="/user-aci" element={<ACI />} />
-
-                      {/* Academics routes */}
-                      <Route path="/attendance-mb" element={<AttendanceMB />} />
-                      <Route path="/update-marks" element={<UploadMarks />} />
-                      <Route
-                        path="/student-disciplinaryinteraction"
-                        element={<StudentDisciplinaryOrInteraction />}
-                      />
-
-                      {/* Bill related routes */}
-                      <Route path="/bills" element={<Bills />} />
-                      <Route path="/bills-pending" element={<BillsPending />} />
-                      <Route
-                        path="/bills-verifiaction"
-                        element={<BillsVerification />}
-                      />
-                      <Route
-                        path="/bills-approval"
-                        element={<BillsApproval />}
-                      />
-
-                      <Route path="/test" element={<TestCss />} />
-
-                      {/* Centers related routes */}
-                      <Route
-                        path="/center-disciplinary-hold"
-                        element={<MbCentersDisciplinary />}
-                      />
-                      <Route
-                        path="/center-disciplinary-data"
-                        element={<CenterDisciplinaryData />}
-                      />
-
-                      {/* AttendancePdf */}
-                      <Route
-                        path="/attendance-pdf"
-                        element={<AttendancePdf />}
-                      />
-                      <Route
-                        path="/download-attendance-pdf"
-                        element={<DownloadAttendancePdfFormat />}
-                      />
-
-                      {/* Academic Routes */}
-                      <Route
-                        path="/academic-coordinator"
-                        element={<AcademicCoordinator />}
-                      />
-
-                      {/* 
-        Practice imports
-        <Route path='practice' element = {<Practice/>}/> */}
-
-                      {/* Template */}
-
-                      <Route path="/logged-in" element={<Template />} />
-
-                      {/* dashboard */}
-                      <Route path="/dashboard" element={<MainLayout />}>
+                      {/* Acadmecis routes */}
                         <Route
-                          path="mb-attendance"
+                          path="/mb-attendance"
                           element={<AttendanceMB />}
                         />
-                        <Route path="upload-marks" element={<UploadMarks />} />
-                        <Route
-                          path="student-disciplinary-or-interaction"
+                        <Route path="/upload-marks" element={<UploadMarks />} />
+     <Route
+                          path="/student-disciplinary-or-interaction"
                           element={<StudentDisciplinaryOrInteraction />}
                         />
-                        <Route
-                          path="upload-attendance-pdf"
+
+
+                          <Route
+                          path="/upload-attendance-pdf"
                           element={<AttendancePdf />}
                         />
-                        <Route
-                          path="attendance-pdf-format"
+
+                        {/* download module */}
+
+                          <Route
+                          path="/attendance-pdf-format"
                           element={<DownloadAttendancePdfFormat />}
                         />
-                        <Route path="upload-bills" element={<Bills />} />
-                        <Route
-                          path="center-disciplinary-or-interaction"
+
+          {/* Bills moudle */}
+                        <Route path="/upload-bills" element={<Bills />} />
+
+{/* Monitoring module */}
+                          <Route
+                          path="/center-disciplinary-or-interaction"
                           element={<MbCentersDisciplinary />}
                         />
-
-                        {/* Test ande exam controller */}
-
-                        <Route
-                          path="test-controller"
+{/* Admin module */}
+ {/* Below will be accessible to admin only */}
+<Route
+                          path="/test-controller"
                           element={<TestController />}
                         />
-                        <Route
-                          path="initiate-test"
+
+                            <Route
+                          path="/initiate-test"
                           element={<CreateTest_Admin />}
                         />
-                        {/* ---------------------------------- */}
-
-                        {/* User Attendance */}
-
-                        <Route
-                          path="initiate-user-attendance"
+ <Route
+                          path="/initiate-user-attendance"
                           element={<CreateEmpAttendanceData />}
                         />
 
-                         <Route
-                          path="student-callings"
-                          element={<StudentRelatedCallings />}
-                        />
-
-
-                      </Route>
-
-
-
-                      {/* adming */}
-                      <Route path="/admin" element={<MainLayout />}>
-                        <Route
-                          path="mb-attendance"
-                          element={<AttendanceMB />}
-                        />
-                        <Route path="upload-marks" element={<UploadMarks />} />
-                        <Route
-                          path="student-disciplinary-or-interaction"
-                          element={<StudentDisciplinaryOrInteraction />}
-                        />
-                        <Route
-                          path="upload-attendance-pdf"
-                          element={<AttendancePdf />}
-                        />
-                        <Route
-                          path="attendance-pdf-format"
-                          element={<DownloadAttendancePdfFormat />}
-                        />
-                        <Route path="upload-bills" element={<Bills />} />
-                        <Route
-                          path="center-disciplinary-or-interaction"
-                          element={<MbCentersDisciplinary />}
-                        />
-
-                        {/* Test ande exam controller */}
-
-                        <Route
-                          path="test-controller"
-                          element={<TestController />}
-                        />
-                        <Route
-                          path="initiate-test"
-                          element={<CreateTest_Admin />}
-                        />
-                        {/* ---------------------------------- */}
-
-                        {/* User Attendance */}
-
-                        <Route
-                          path="initiate-user-attendance"
-                          element={<CreateEmpAttendanceData />}
-                        />
-                        
-                         <Route
-                          path="initiate-student-attendance"
+                             <Route
+                          path="/initiate-student-attendance"
                           element={<CreateStudentAttendanceData />}
                         />
 
+                        {/* calling module */}
                          <Route
-                          path="student-callings"
+                          path="/student-callings"
                           element={<StudentRelatedCallings />}
                         />
 
+                        <Route 
+                        path="/absentee-calling"
+                        element = {<AbsenteeCalling/>}
+                        />
+  
+                        <Route
+                        path="/initiate-upload-attendance-pdf"
+                        element = {<CreateUploadAttendancePdf/>}
+                        />
+
+                         <Route
+                        path="/verify-bills"
+                        element = {<BillsVerification/>}
+                        />
 
 
-                      </Route>    
-
-                      
 
 
 

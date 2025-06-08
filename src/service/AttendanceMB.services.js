@@ -12,9 +12,16 @@ export const createAttendanceRecords = async ()=> {
 
     try {
         const response = await axios.post(`${API_BASE_URL}/api/initiate-student-attendance`)
+
+        if(response.status === 200){
+            alert('Attendance instance created successfully!')
+        } 
         return response;
     } catch (error) {
         console.log(error)
+        if (error.status === 400){
+            alert('Attendance instance was already created!')
+        }
     }
 
 }
