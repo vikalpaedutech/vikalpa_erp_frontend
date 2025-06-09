@@ -581,7 +581,7 @@ justify-content: center;
 @media screen and (max-width: 768px) {
 
   .parent-user-signin{
-    background-color: #4e73df;
+    background-color: #F2FBFF;
     width: 100vw;
     height: 100vh;
     display: flex;
@@ -609,7 +609,7 @@ justify-content: center;
   .child-signin-form{
     border: solid #DCDCDC;
     border-radius: 20px;
-    box-shadow: 5px 10px inset;
+    /* box-shadow: 5px 10px inset; */
   
     padding: 30px;
     width: 80vw;

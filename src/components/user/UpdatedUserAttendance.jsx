@@ -4,10 +4,13 @@ import {
   GetAttendanceByUserId,
   PatchUserAttendanceByUserId,
 } from "../../service/userAttendance.services";
+import { patchUser } from "../../service/User.service";
 import { Modal, Button, Card, Form } from "react-bootstrap";
-import { createUser } from "../../service/User.service";
+import { useNavigate } from "react-router-dom";
+export const UserAttendanceUpdated = () => {
 
-export const UserAttendance = () => {
+    const navigate = useNavigate();
+
   const [currentLat, setCurrentLat] = useState(null);
   const [currentLng, setCurrentLng] = useState(null);
   const [locationError, setLocationError] = useState(null);
@@ -20,6 +23,10 @@ export const UserAttendance = () => {
   const [coordinateDifference, setCoordinateDifference] = useState(null);
   const [showAttendanceButton, setShowAttendanceButton] = useState(false);
   const [showModal, setShowModal] = useState(true); // show modal on login
+
+  const userId = userData?.[0]?.userId;
+  const storedLat = userData?.[0]?.latitude;
+  const storedLng = userData?.[0]?.longitude;
 
   // Get geolocation
   const getLocation = () => {
@@ -58,17 +65,10 @@ export const UserAttendance = () => {
     return () => navigator.geolocation.clearWatch(watchId);
   }, []);
 
-
-  console.log(userData)
-  
-
-
-
-
   // Fetch attendance data
   const fetchUserAttendanceData = async () => {
     const queryParams = {
-      userId: userData?.[0]?.userId,
+      userId,
       date: new Date().toISOString().split("T")[0],
     };
 
@@ -116,32 +116,27 @@ export const UserAttendance = () => {
 
   // Update coordinate difference
   useEffect(() => {
-    if (userLatitude && userLongitude && currentLat && currentLng) {
+    if (storedLat && storedLng && currentLat && currentLng) {
       const distance = getDistanceInMeters(
-        parseFloat(userLatitude),
-        parseFloat(userLongitude),
+        parseFloat(storedLat),
+        parseFloat(storedLng),
         currentLat,
         currentLng
       );
       const fixedDistance = distance.toFixed(2);
 
       console.log("✅ Coordinates:");
-      console.log("🗺️ DB Latitude:", userLatitude);
-      console.log("🗺️ DB Longitude:", userLongitude);
+      console.log("🗺️ DB Latitude:", storedLat);
+      console.log("🗺️ DB Longitude:", storedLng);
       console.log("📍 Current Latitude:", currentLat);
       console.log("📍 Current Longitude:", currentLng);
       console.log("📏 Distance from center (m):", fixedDistance);
 
       setCoordinateDifference(fixedDistance);
     } else {
-      console.log("⚠️ Missing coordinates:", {
-        userLatitude,
-        userLongitude,
-        currentLat,
-        currentLng,
-      });
+      console.log("⚠️ Missing coordinates to calculate distance.");
     }
-  }, [userLatitude, userLongitude, currentLat, currentLng]);
+  }, [storedLat, storedLng, currentLat, currentLng]);
 
   // Update showAttendanceButton based on distance
   useEffect(() => {
@@ -159,7 +154,7 @@ export const UserAttendance = () => {
 
     const attendanceStatus = checked ? "Present" : "Absent";
     const queryParams = {
-      userId: userData?.[0]?.userId,
+      userId,
       date: new Date().toISOString().split("T")[0],
     };
 
@@ -169,7 +164,6 @@ export const UserAttendance = () => {
     let formData;
 
     if (userAttendanceData?.[0]?.attendances?.attendance === "Present") {
-      // Update logout info
       formData = {
         logoutLongitude: currentLng,
         logoutLatitude: currentLat,
@@ -177,7 +171,6 @@ export const UserAttendance = () => {
         logoutTime: logoutTime,
       };
     } else {
-      // Mark as present
       formData = {
         attendance: attendanceStatus,
         longitude: currentLng,
@@ -195,8 +188,8 @@ export const UserAttendance = () => {
     }
   };
 
-  // Checkbox toggle
-  const handleCheckboxChange = (e) => {
+  // Main handler when user clicks the checkbox
+  const handleCheckboxChange = async (e) => {
     const checked = e.target.checked;
 
     if (!showAttendanceButton) {
@@ -205,12 +198,30 @@ export const UserAttendance = () => {
     }
 
     setAttendanceChecked(checked);
-    updateUserAttendance(checked);
+
+    // Step 1: If user does NOT have geo data, patch it first
+    if (!storedLat || !storedLng || storedLat === "" || storedLng === "") {
+      try {
+        const patchData = {
+          latitude: currentLat,
+          longitude: currentLng,
+        };
+        await patchUser(userId, patchData);
+        console.log("✅ User coordinates updated");
+      } catch (error) {
+        console.error("❌ Error updating user geolocation:", error.message);
+        alert("Unable to update your location. Please try again.");
+        return;
+      }
+    }
+
+    // Step 2: Then mark attendance
+    await updateUserAttendance(checked);
   };
 
-  // Modal close
   const handleModalClose = () => {
     setShowModal(false);
+    navigate('/user-dash')
   };
 
   return (

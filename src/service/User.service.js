@@ -21,3 +21,9 @@ export const getUserByContact1 = async (contact1) => {
     const response = await axios.get (`${API_BASE_URL}/api/user/login/${contact1}`);
     return response.data;
 }
+
+
+export const patchUser = async (userId, formData) => {
+    const response = await axios.patch(`${API_BASE_URL}/api/user/${userId}`, formData);
+    return response.data;
+};

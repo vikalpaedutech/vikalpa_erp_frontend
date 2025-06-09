@@ -78,12 +78,18 @@ const MainLayout = () => {
         { id: "2", label: "Upload Marks", logo: "/exam.png", path: "upload-marks" },
         {
           id: "3",
-          label: "Disciplinary and Interaction",
+          label: "Disciplinary",
           logo: "/disciplinary.png",
           path: "student-disciplinary-or-interaction",
         },
-        {
+          {
           id: "4",
+          label: "Copy-checking",
+          logo: "/copy-checking.png",
+          path: "copy-checking",
+        },
+        {
+          id: "5",
           label: "Upload Attendance PDF",
           logo: "/upload.png",
           path: "upload-attendance-pdf",
@@ -106,12 +112,16 @@ const MainLayout = () => {
     },
     {
       indexKey: "3",
-      label: "Bills",
+      label: "Bills & Issues",
       logo: "/bills.png",
       module: "Bills",
       main: [
         { id: "1", label: "Upload Bills", logo: "/bills.png", path: "upload-bills" },
         { id: "2", label: "Bills Verification", logo: "/bill-verification.png", path: "verify-bills" },
+        { id: "3", label: "School Issues", logo: "/school.png", path: "school-concerns" },
+        { id: "4", label: "Tech Issues", logo: "/tech.png", path: "tech-concerns" },
+      
+      
       ],
     },
     {
@@ -218,11 +228,11 @@ const MainLayout = () => {
 
   return (
     <div>
-      <div>
+      {/* <div>
         <img src="/logout.png" className="logout" onClick={handleLogout} />
         <NewNavbar/>
-      </div>
-
+      </div> */}
+  <NewNavbar/>
       <div className="main-layout">
         <Carousel
           fade

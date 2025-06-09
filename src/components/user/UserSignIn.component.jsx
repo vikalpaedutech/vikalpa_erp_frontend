@@ -29,7 +29,7 @@ export const UserSignIn = () => {
 
       //Checking if password is correct or not
       if (response.data && response.data[0].password === password && response.data[0].isActive === true){
-        navigate('/user-dash')
+        navigate('/user-attendance-updated')
       }
       else (
         alert("Your account has not been verified yet. Ask your manager!")
@@ -61,7 +61,7 @@ export const UserSignIn = () => {
             
             <div className="child-user-signin-head-text"> 
           <h1>Vikalpa Foundation</h1>
-          <h2>ERP-Login</h2>
+          <h2>Login</h2>
           
           </div>
           <hr/>

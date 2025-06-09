@@ -115,6 +115,32 @@ export const getBlocksByDistrictId = async (queryParams) => {
 
 
 
+//Below api fetches the blocks by districts id in mongo db.
+export const getSchoolsBySchoolId = async (queryParams) => {
+
+
+    
+   // Prepare query parameters to send in the URL
+   const queryString = new URLSearchParams(queryParams).toString();
+   console.log(queryString, "from service")
+
+
+    try {
+
+        const response = await axios.get(`${API_BASE_URL}/api/school-by-schoolId?${queryString}`)
+
+        return response.data
+        
+    } catch (error) {
+        console.error("Error getting block data", error.message);
+        throw error;
+    }
+   
+}
+
+//____________________________________________________________________
+
+
 //Below api fetches the school by block id in mongo db.
 export const getSchoolsByBlockId = async (blockId) => {
 
