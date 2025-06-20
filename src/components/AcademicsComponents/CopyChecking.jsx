@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import { createDisciplinaryOrInteraction } from "../../service/StudentDisciplinaryOrInteraction.services";
 import { getStudentsByQueryParams } from "../../service/Student.service";
-import { Container, Table, Button, Row, Col } from "react-bootstrap";
+import { Container, Table, Button, Row, Col, Form, Card } from "react-bootstrap";
 import Select from "react-select";
 import {
   DistrictBlockSchoolContext,
@@ -14,6 +14,7 @@ import {
 import { UserContext } from "../contextAPIs/User.context";
 
 import { DistrictBlockSchoolById, ClassOfStudent } from "../DependentDropDowns/DistrictBlockSchool.component";
+import SchoolDropDowns from "../DependentDropDowns/SchoolDropDowns";
 
 export const CopyChecking = () => {
   const { userData } = useContext(UserContext);
@@ -22,14 +23,16 @@ export const CopyChecking = () => {
   const { schoolContext, setSchoolContext } = useContext(SchoolContext);
   const { classContext } = useContext(ClassContext);
 
+  const [firstName, setFirstName] = useState('')
   const [studentData, setStudentData] = useState([]);
   const [subjectSelected, setSubjectSelected] = useState(null);
   const [classWorkStatus, setClassWorkStatus] = useState({});
   const [homeWorkStatus, setHomeWorkStatus] = useState({});
 
   const queryParams = {
-    schoolId: schoolContext?.[0]?.value ?? null,
-    classofStudent: classContext?.value ?? null,
+    schoolId: schoolContext?.[0]?.value ?? userData[0].assignedSchools ,
+    classofStudent: classContext?.value ?? ['9', '10'],
+    firstName: firstName
   };
 
   useEffect(() => {
@@ -43,7 +46,7 @@ export const CopyChecking = () => {
     };
 
     fetchStudentData();
-  }, [schoolContext, classContext]);
+  }, [schoolContext, classContext, firstName]);
 
   useEffect(() => {
     setBlockContext("");
@@ -114,9 +117,11 @@ export const CopyChecking = () => {
     <Row className="justify-content-center">
       <Col xs={12}>
         <Container fluid className="prevent-overflow">
-          <Row>
+          {/* <Row>
             <DistrictBlockSchoolById assignedDistricts={assignedDistricts} />
-          </Row>
+          </Row> */}
+
+          <SchoolDropDowns/>
 
           <Row>
             <Col>
@@ -136,64 +141,76 @@ export const CopyChecking = () => {
           </Row>
 
           <Row>
-            <Table responsive bordered>
-              <thead>
-                <tr>
-                  <th>#</th>
-                  <th>SRN</th>
-                  <th>Student</th>
-                  <th>Father</th>
-                  <th>Class Work</th>
-                  <th>Home Work</th>
-                  <th>Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                {studentData.map((student, index) => {
-                  const srn = student.studentSrn;
-                  return (
-                    <tr key={srn}>
-                      <td>{index + 1}</td>
-                      <td>{srn}</td>
-                      <td>{student.firstName}</td>
-                      <td>{student.fatherName}</td>
-                      <td>
-                        <Select
-                          options={checkingOptions}
-                          value={classWorkStatus[srn] || null}
-                          onChange={(option) =>
-                            setClassWorkStatus((prev) => ({
-                              ...prev,
-                              [srn]: option,
-                            }))
-                          }
-                          placeholder="Class Work"
-                        />
-                      </td>
-                      <td>
-                        <Select
-                          options={checkingOptions}
-                          value={homeWorkStatus[srn] || null}
-                          onChange={(option) =>
-                            setHomeWorkStatus((prev) => ({
-                              ...prev,
-                              [srn]: option,
-                            }))
-                          }
-                          placeholder="Home Work"
-                        />
-                      </td>
-                      <td>
-                        <Button variant="primary" onClick={() => handleSubmit(student)}>
-                          Submit
-                        </Button>
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </Table>
+            <Form>
+            <Form.Group
+              as={Row}
+              className="mb-3"
+              controlId="formPlaintextPassword"
+            >
+              <Form.Label column sm="2">
+                Filter Student Name
+              </Form.Label>
+              <Col sm="10">
+                <Form.Control
+                  type="text"
+                  placeholder="text"
+                  onChange={(e) => setFirstName(e.target.value)}
+                />
+              </Col>
+            </Form.Group>
+          </Form>
           </Row>
+
+          <Row>
+      {studentData.map((student, index) => {
+        const srn = student.studentSrn;
+        return (
+          <Col md={6} lg={4} key={srn} className="mb-3">
+            <Card>
+              <Card.Body>
+                <Card.Title>
+                  {index + 1}. {student.firstName} (SRN: {srn})
+                </Card.Title>
+
+                <Form.Group className="mb-2">
+                  <Form.Label>Class Work</Form.Label>
+                  <Select
+                    options={checkingOptions}
+                    value={classWorkStatus[srn] || null}
+                    onChange={(option) =>
+                      setClassWorkStatus((prev) => ({
+                        ...prev,
+                        [srn]: option,
+                      }))
+                    }
+                    placeholder="Select Class Work"
+                  />
+                </Form.Group>
+
+                <Form.Group className="mb-2">
+                  <Form.Label>Home Work</Form.Label>
+                  <Select
+                    options={checkingOptions}
+                    value={homeWorkStatus[srn] || null}
+                    onChange={(option) =>
+                      setHomeWorkStatus((prev) => ({
+                        ...prev,
+                        [srn]: option,
+                      }))
+                    }
+                    placeholder="Select Home Work"
+                  />
+                </Form.Group>
+
+                <Button variant="primary" onClick={() => handleSubmit(student)}>
+                  Submit
+                </Button>
+              </Card.Body>
+            </Card>
+          </Col>
+        );
+      })}
+    </Row>
         </Container>
       </Col>
     </Row>

@@ -15,17 +15,10 @@ import { MdMenuOpen } from "react-icons/md";
 import { UserAttendance } from "../../components/user/UserAttendance";
 import { studentAndAttendanceAndAbsenteeCallingCount } from "../../service/dashboardServices/dashboardCounts.services";
 //import logoutLogo from '../../assets/logout.png'; // Replace with correct path
-import { Link, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { NewNavbar } from "../../components/Navbar/NewNavbar";
 
-const MainSubScreen = () => {
-
-  //accessing id from useParams react-router-dom. 
-  //This id comes from user-dash. once user clicks on any app, sub apps are laid out here in this screen.
-
-  const {app_id} = useParams();
-
-  //----------------------------------
-
+const MainLayoutAciLevel = () => {
   const navigate = useNavigate();
 
   const [show, setShow] = useState(false);
@@ -45,10 +38,7 @@ const MainSubScreen = () => {
     }, 1000);
   };
 
-  const handleHome = () => {
-    navigate('/dashboard')
 
-  }
 
   const fetchStudentRelatedCounts = async () => {
     const payload = {
@@ -76,50 +66,72 @@ const MainSubScreen = () => {
     {
       indexKey: "1",
       label: "Academics",
-      logo: '/attendance.png',
+      logo: "/attendance.png",
       module: "Academics",
-      main: [
-        { id: "1", label: "Attendance", path: "mb-attendance" },
-        { id: "2", label: "Upload Marks", path: "upload-marks" },
-        {
-          id: "3",
-          label: "Disciplinary and Interaction",
-          path: "student-disciplinary-or-interaction",
-        },
-        {
-          id: "4",
-          label: "Upload Attendance PDF",
-          path: "upload-attendance-pdf",
-        },
-      ],
-    },
-    {
-      indexKey: "2",
-      label: "Downloads",
-      logo: '/download.png',
-      module: "Downloads",
       main: [
         {
           id: "1",
-          label: "Manual Attendance Format",
-          path: "attendance-pdf-format",
+          label: "Attendance",
+          logo: "/attendance.png",
+          path: "mb-attendance",
+        },
+        { id: "2", label: "Upload Marks", logo: "/exam.png", path: "upload-marks" },
+        {
+          id: "3",
+          label: "Disciplinary",
+          logo: "/disciplinary.png",
+          path: "student-disciplinary-or-interaction",
+        },
+          {
+          id: "4",
+          label: "Copy-checking",
+          logo: "/copy-checking.png",
+          path: "copy-checking",
+        },
+        {
+          id: "5",
+          label: "Manual Attendance",
+          logo: "/upload.png",
+          path: "manual-attendance", // path: "upload-attendance-pdf",
         },
       ],
     },
+    // {
+    //   indexKey: "2",
+    //   label: "Downloads",
+    //   logo: "/download.png",
+    //   module: "Downloads",
+    //   main: [
+    //     {
+    //       id: "1",
+    //       label: "Manual Attendance Format",
+    //       logo: "/download.png",
+    //       path: "attendance-pdf-format",
+    //     },
+    //   ],
+    // },
     {
       indexKey: "3",
-      label: "Bills",
-      logo: '/bills.png',
+      label: "Bills & Issues",
+      logo: "/bills.png",
       module: "Bills",
       main: [
-        { id: "1", label: "Upload Bills", path: "upload-bills" },
-        { id: "2", label: "Bills Verification", path: "verify-bills" },
+        { id: "1", label: "Upload Bills", logo: "/bills.png", path: "upload-bills" },
+        { id: "2", label: "Bills Verification", logo: "/bill-verification.png", path: "verify-bills" },
+        // { id: "3", label: "School Issues", logo: "/school.png", path: "school-concerns" },
+        { id: "7", label: "School Concerns Request", logo: "/school.png", path: "school-concerns-request" },
+        // { id: "4", label: "Tech Issues", logo: "/tech.png", path: "tech-concerns" },
+        { id: "5", label: "Tech Solution", logo: "/techSolution.png", path: "tech-concerns-resolution" },
+        { id: "6", label: "Leave Requests", logo: "/leave.png", path: "individual-concerns-resolution" },
+        // { id: "6", label: "School Concerns Request", logo: "/leave.png", path: "individual-concerns-resolution" },
+      
+      
       ],
     },
     {
       indexKey: "4",
       label: "Monitoring",
-      logo: '/monitoring.png',
+      logo: "/monitoring.png",
       module: "Monitoring",
       main: [
         {
@@ -133,9 +145,9 @@ const MainSubScreen = () => {
     {
       indexKey: "6",
       label: "Callings",
-      logo: '/client.png',
+      logo: "/client.png",
       module: "Callings",
-      main: [{ id: "1", label: "Absentee Callings", path: "absentee-calling" }],
+      main: [{ id: "1", label: "Absentee Callings", logo: "/call.png", path: "absent-calling" }],
     },
 
     //Only for Admin
@@ -183,9 +195,8 @@ const MainSubScreen = () => {
   );
 
   const filteredSidbarMenusByRole = sideBarMenusByRole.filter((item) =>
-   app_id.includes(item.indexKey)
+    userData?.[0]?.accessModules.includes(item.module)
   );
-  
 
   const logo = "./";
 
@@ -208,15 +219,24 @@ const MainSubScreen = () => {
     alert("hi");
     navigate("/admin-dash/mb-attendance");
   };
+
+  //Handling app squares clicks. So that people can navigate to the sub apps.
+
+  const handleAppClicks = (e) => {
+    e.preventDefault();
+
+    //alert(e.target.id)
+   navigate(`/${e.target.id}`);
+  };
+  //------------------------------------------------
+
   return (
     <div>
-      <div>
-    <img src="/logout.png" className="logout" onClick={handleLogout} />
-    <img src="/home-button.png" className="home-button" onClick={handleHome}/>
-      </div>
-      app id: 
-      {app_id}
-      
+      {/* <div>
+        <img src="/logout.png" className="logout" onClick={handleLogout} />
+        <NewNavbar/>
+      </div> */}
+
       <div className="main-layout">
         <Carousel
           fade
@@ -225,6 +245,8 @@ const MainSubScreen = () => {
           className="mainlayout-bulletin"
         >
           <Carousel.Item>
+            <Link to={"/mb-attendance"} onClick={(e) => e.stopPropagation()} style={{ textDecoration: "none" }}>
+            
             <Card className="mainlayout-cards">
               <Card.Body>
                 <p className="mainlayout-cards-title">Attendance</p>
@@ -287,17 +309,14 @@ const MainSubScreen = () => {
                 </div>
               </Card.Body>
 
-              <Card.Link
-                as={Link}
-                to="/dashboard/mb-attendance"
-                onClick={(e) => e.stopPropagation()}
-              >
-                Card Link
-              </Card.Link>
+             
             </Card>
+            </Link>
           </Carousel.Item>
 
           <Carousel.Item>
+            <Link to={"/absent-calling"} onClick={(e) => e.stopPropagation()} style={{ textDecoration: "none" }}>
+            
             <Card className="mainlayout-cards">
               <Card.Body>
                 <p className="mainlayout-cards-title">Callings</p>
@@ -369,50 +388,47 @@ const MainSubScreen = () => {
                   </table>
                 </div>
               </Card.Body>
-              <Card.Link
-                as={Link}
-                to="/dashboard/mb-attendance"
-                onClick={(e) => e.stopPropagation()}
-              >
-                Card Link
-              </Card.Link>
+            
             </Card>
+            </Link>
           </Carousel.Item>
         </Carousel>
 
-        
- <div className="mainlayout-other-functionalities">
-  {filteredSidbarMenusByRole.map((eachModule, index) => (
-    <div key={index} id={index} style={{ textAlign: "center" }}>
-      <div
-       
-      />
-      {eachModule.main.map((eachApp, appIndex)=>(
-        <div
-        
-             className="each-div"
-        style={{
-          
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundRepeat: 'no-repeat',
-          width: '100px',
-          height: '100px',
-          borderRadius: '10px',
-          margin: '0 auto'
-        }}
-        
-        >{eachApp.label}
-      
-        </div>
-      ))}
-     
-    </div>
-  ))}
+
+        <div className="mainlayout-other-functionalities">
+          {filteredSidbarMenusByRole.map((eachModule, index) => {
+            return (
+              <div key={index} id={index} style={{ textAlign: "left" }}>
+                <h1>{eachModule.label}</h1>
+                <hr />
+                <div className="sub-app-div" key={index}>
+                  {eachModule.main.map((eachApp, index) => {
+                    return (
+                     <div className="each-app-wrapper">
+  <div
+    id={eachApp.path}
+    onClick={(e)=>handleAppClicks(e)}
+    className="each-div"
+    style={{
+      backgroundImage: `url(${eachApp.logo})`,
+      backgroundSize: "cover",
+      backgroundPosition: "left",
+      backgroundRepeat: "no-repeat",
+    
+    }}
+  ></div>
+  <p className="app-label">{eachApp.label}</p>
 </div>
+                    );
+                  })}
+                </div>
+              </div>
+            );
+          })}
+        </div>
       </div>
     </div>
   );
 };
 
-export default MainSubScreen;
+export default MainLayoutAciLevel;

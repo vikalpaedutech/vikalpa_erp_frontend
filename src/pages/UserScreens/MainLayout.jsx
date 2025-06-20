@@ -90,26 +90,26 @@ const MainLayout = () => {
         },
         {
           id: "5",
-          label: "Upload Attendance PDF",
+          label: "Manual Attendance",
           logo: "/upload.png",
-          path: "upload-attendance-pdf",
+          path: "manual-attendance", // path: "upload-attendance-pdf",
         },
       ],
     },
-    {
-      indexKey: "2",
-      label: "Downloads",
-      logo: "/download.png",
-      module: "Downloads",
-      main: [
-        {
-          id: "1",
-          label: "Manual Attendance Format",
-          logo: "/download.png",
-          path: "attendance-pdf-format",
-        },
-      ],
-    },
+    // {
+    //   indexKey: "2",
+    //   label: "Downloads",
+    //   logo: "/download.png",
+    //   module: "Downloads",
+    //   main: [
+    //     {
+    //       id: "1",
+    //       label: "Manual Attendance Format",
+    //       logo: "/download.png",
+    //       path: "attendance-pdf-format",
+    //     },
+    //   ],
+    // },
     {
       indexKey: "3",
       label: "Bills & Issues",
@@ -117,9 +117,9 @@ const MainLayout = () => {
       module: "Bills",
       main: [
         { id: "1", label: "Upload Bills", logo: "/bills.png", path: "upload-bills" },
-        { id: "2", label: "Bills Verification", logo: "/bill-verification.png", path: "verify-bills" },
-        { id: "3", label: "School Issues", logo: "/school.png", path: "school-concerns" },
-        { id: "4", label: "Tech Issues", logo: "/tech.png", path: "tech-concerns" },
+        // { id: "2", label: "Bills Verification", logo: "/bill-verification.png", path: "verify-bills" },
+        { id: "2", label: "School Issues", logo: "/school.png", path: "school-concerns" },
+        { id: "3", label: "Tech Issues", logo: "/tech.png", path: "tech-concerns" },
       
       
       ],
@@ -143,7 +143,7 @@ const MainLayout = () => {
       label: "Callings",
       logo: "/client.png",
       module: "Callings",
-      main: [{ id: "1", label: "Absentee Callings", logo: "/call.png", path: "absentee-calling" }],
+      main: [{ id: "1", label: "Absentee Callings", logo: "/call.png", path: "absent-calling" }],
     },
 
     //Only for Admin
@@ -232,7 +232,7 @@ const MainLayout = () => {
         <img src="/logout.png" className="logout" onClick={handleLogout} />
         <NewNavbar/>
       </div> */}
-  <NewNavbar/>
+
       <div className="main-layout">
         <Carousel
           fade
@@ -241,6 +241,8 @@ const MainLayout = () => {
           className="mainlayout-bulletin"
         >
           <Carousel.Item>
+            <Link to={"/mb-attendance"} onClick={(e) => e.stopPropagation()} style={{ textDecoration: "none" }}>
+            
             <Card className="mainlayout-cards">
               <Card.Body>
                 <p className="mainlayout-cards-title">Attendance</p>
@@ -303,17 +305,14 @@ const MainLayout = () => {
                 </div>
               </Card.Body>
 
-              <Card.Link
-                as={Link}
-                to="/dashboard/mb-attendance"
-                onClick={(e) => e.stopPropagation()}
-              >
-                Card Link
-              </Card.Link>
+             
             </Card>
+            </Link>
           </Carousel.Item>
 
           <Carousel.Item>
+            <Link to={"/absent-calling"} onClick={(e) => e.stopPropagation()} style={{ textDecoration: "none" }}>
+            
             <Card className="mainlayout-cards">
               <Card.Body>
                 <p className="mainlayout-cards-title">Callings</p>
@@ -385,14 +384,9 @@ const MainLayout = () => {
                   </table>
                 </div>
               </Card.Body>
-              <Card.Link
-                as={Link}
-                to="/dashboard/mb-attendance"
-                onClick={(e) => e.stopPropagation()}
-              >
-                Card Link
-              </Card.Link>
+            
             </Card>
+            </Link>
           </Carousel.Item>
         </Carousel>
 
@@ -403,7 +397,7 @@ const MainLayout = () => {
               <div key={index} id={index} style={{ textAlign: "left" }}>
                 <h1>{eachModule.label}</h1>
                 <hr />
-                <div className="sub-app-div">
+                <div className="sub-app-div" key={index}>
                   {eachModule.main.map((eachApp, index) => {
                     return (
                      <div className="each-app-wrapper">

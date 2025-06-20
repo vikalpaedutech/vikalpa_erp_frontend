@@ -12,10 +12,11 @@ import {
 } from "../contextAPIs/DependentDropdowns.contextAPI";
 import { createConcern } from "../../service/ConcernsServices/Concern.services";
 import SchoolDropDowns from "../DependentDropDowns/SchoolDropDowns";
-import TechConcernForm from "./TechConcernForm";
-import { TechConcernsStatus } from "./TechConcernsStatus";
+import BillsVerification from "./BillsVerification";
+import { BillsVerificationStatus } from "./BillsVerificationStatus";
 
-const TechConcerns = () => {
+
+const BillsVerificationPage = () => {
   const { userData } = useContext(UserContext);
   const { schoolContext, setSchoolContext } = useContext(SchoolContext);
 
@@ -36,16 +37,16 @@ const TechConcerns = () => {
   return (
     <Container className="my-4">
       <Breadcrumb>
-      <Breadcrumb.Item  onClick={()=>handleSubmit('form')} >Home</Breadcrumb.Item>
+      <Breadcrumb.Item  onClick={()=>handleSubmit('form')} >CC Bills</Breadcrumb.Item>
       <Breadcrumb.Item  onClick={()=>handleSubmit('status')}>
-        Status
+        Verified Bills
       </Breadcrumb.Item>
     
     </Breadcrumb>
 
 
 
-{handleForm === "form" ? (<TechConcernForm/>):(<TechConcernsStatus/>)}
+{handleForm === "form" ? (<BillsVerification/>):(<BillsVerificationStatus/>)}
 
 
    
@@ -54,4 +55,4 @@ const TechConcerns = () => {
   );
 };
 
-export default TechConcerns;
+export default BillsVerificationPage;

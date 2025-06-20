@@ -25,11 +25,19 @@ export const UserSignIn = () => {
     try {
       const response = await getUserByContact1(contact1);
       console.log(response.data[0]._id);
+      console.log(response.data[0].role);
       setUserData(response.data);
 
       //Checking if password is correct or not
       if (response.data && response.data[0].password === password && response.data[0].isActive === true){
-        navigate('/user-attendance-updated')
+       
+       if(response.data[0].role === 'ACI'){
+         navigate('/user-attendance-aci')
+       } else {
+          navigate('/user-attendance-updated')
+       }
+       
+        
       }
       else (
         alert("Your account has not been verified yet. Ask your manager!")
@@ -57,11 +65,11 @@ export const UserSignIn = () => {
           {/* ✅ Replaced <p> with <div> to avoid form nesting error */}
           <div className="child-signin-form">
           
-            <img src="/vikalpaLogo.png" style={{height:65, width: 100}}/>
+            <img src="/vikalpaFull.png" style={{height:60, width: 100}}/>
             
             <div className="child-user-signin-head-text"> 
-          <h1>Vikalpa Foundation</h1>
-          <h2>Login</h2>
+          {/* <h1>Vikalpa Foundation</h1> */}
+          {/* <h2>Login</h2> */}
           
           </div>
           <hr/>
@@ -72,7 +80,7 @@ export const UserSignIn = () => {
                 <Form.Label>Phone Number</Form.Label>
                 <Form.Control
                   type="text"
-                  placeholder="Phone Number"
+                  placeholder=""
                   value={contact1}
                   onChange={(e) => setContact1(e.target.value)}
                   autoComplete="tel"
@@ -83,7 +91,7 @@ export const UserSignIn = () => {
                 <Form.Label>Password</Form.Label>
                 <Form.Control
                   type="password"
-                  placeholder="Password"
+                  placeholder=""
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   autoComplete="current-password"

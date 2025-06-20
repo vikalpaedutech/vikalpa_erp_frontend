@@ -12,10 +12,12 @@ import {
 } from "../contextAPIs/DependentDropdowns.contextAPI";
 import { createConcern } from "../../service/ConcernsServices/Concern.services";
 import SchoolDropDowns from "../DependentDropDowns/SchoolDropDowns";
-import TechConcernForm from "./TechConcernForm";
-import { TechConcernsStatus } from "./TechConcernsStatus";
+import { IndividualConcernsForm } from "./IndividualConcernsForm";
+import { IndividualLeave } from "./IndividualLeave";
+import { IndividualConcernsStatus } from "./IndividualConcernsStatus";
 
-const TechConcerns = () => {
+
+export const IndividualConcerns = () => {
   const { userData } = useContext(UserContext);
   const { schoolContext, setSchoolContext } = useContext(SchoolContext);
 
@@ -26,8 +28,6 @@ const TechConcerns = () => {
 
   const handleSubmit = (value) => {
    
-    
-   
     setHandleForm(value)
 
   }
@@ -37,7 +37,10 @@ const TechConcerns = () => {
     <Container className="my-4">
       <Breadcrumb>
       <Breadcrumb.Item  onClick={()=>handleSubmit('form')} >Home</Breadcrumb.Item>
-      <Breadcrumb.Item  onClick={()=>handleSubmit('status')}>
+      <Breadcrumb.Item  onClick={()=>handleSubmit('LeaveApplication')}>
+        Leave Application
+      </Breadcrumb.Item>
+        <Breadcrumb.Item  onClick={()=>handleSubmit('Status')}>
         Status
       </Breadcrumb.Item>
     
@@ -45,13 +48,17 @@ const TechConcerns = () => {
 
 
 
-{handleForm === "form" ? (<TechConcernForm/>):(<TechConcernsStatus/>)}
+{/* {handleForm === "form" ? (<IndividualConcernsForm/>):(<IndividualLeave/>)} */}
 
+{handleForm === "form" ? (<IndividualConcernsForm />): (
+<>
+{handleForm === "LeaveApplication" ? (<IndividualLeave/>):(<IndividualConcernsStatus/>)}
 
+</>
+
+)}
    
     
     </Container>
   );
 };
-
-export default TechConcerns;

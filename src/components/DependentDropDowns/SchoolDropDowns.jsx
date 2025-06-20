@@ -5,7 +5,7 @@ import {
   SchoolContext,
 } from "../contextAPIs/DependentDropdowns.contextAPI";
 import { getSchoolsBySchoolId } from "../../service/DistrictBlockSchool.service";
-
+import { Container } from "react-bootstrap";
 const SchoolDropDowns = () => {
   const { userData } = useContext(UserContext);
   const { schoolContext, setSchoolContext } = useContext(SchoolContext);
@@ -43,7 +43,7 @@ const SchoolDropDowns = () => {
   };
 
   return (
-    <div className="d-flex gap-3 flex-wrap my-3">
+    <Container className="d-flex gap-3 flex-wrap my-3">
       <div style={{ minWidth: "250px" }}>
         <label>School</label>
         <Select
@@ -53,7 +53,7 @@ const SchoolDropDowns = () => {
           placeholder="Select School"
         />
       </div>
-    </div>
+    </Container>
   );
 };
 

@@ -12,10 +12,14 @@ import {
 } from "../contextAPIs/DependentDropdowns.contextAPI";
 import { createConcern } from "../../service/ConcernsServices/Concern.services";
 import SchoolDropDowns from "../DependentDropDowns/SchoolDropDowns";
-import TechConcernForm from "./TechConcernForm";
-import { TechConcernsStatus } from "./TechConcernsStatus";
+import { IndividualConcernsForm } from "./IndividualConcernsForm";
+import { IndividualLeave } from "./IndividualLeave";
+import { IndividualConcernsStatus } from "./IndividualConcernsStatus";
+import { IndividualLeaveRequests } from "./IndividualLeaveRequests";
+import { IndividualConcernsRequest } from "./IndividualConcernsRequest";
 
-const TechConcerns = () => {
+
+export const IndividualConcenrsResolution = () => {
   const { userData } = useContext(UserContext);
   const { schoolContext, setSchoolContext } = useContext(SchoolContext);
 
@@ -26,8 +30,6 @@ const TechConcerns = () => {
 
   const handleSubmit = (value) => {
    
-    
-   
     setHandleForm(value)
 
   }
@@ -36,8 +38,11 @@ const TechConcerns = () => {
   return (
     <Container className="my-4">
       <Breadcrumb>
-      <Breadcrumb.Item  onClick={()=>handleSubmit('form')} >Home</Breadcrumb.Item>
-      <Breadcrumb.Item  onClick={()=>handleSubmit('status')}>
+      <Breadcrumb.Item  onClick={()=>handleSubmit('form')} >Individual Concerns</Breadcrumb.Item>
+      <Breadcrumb.Item  onClick={()=>handleSubmit('LeaveApplication')}>
+        Leave Requests
+      </Breadcrumb.Item>
+        <Breadcrumb.Item  onClick={()=>handleSubmit('Status')}>
         Status
       </Breadcrumb.Item>
     
@@ -45,13 +50,17 @@ const TechConcerns = () => {
 
 
 
-{handleForm === "form" ? (<TechConcernForm/>):(<TechConcernsStatus/>)}
+{/* {handleForm === "form" ? (<IndividualConcernsForm/>):(<IndividualLeave/>)} */}
 
+{handleForm === "form" ? (<IndividualConcernsRequest />): (
+<>
+{handleForm === "LeaveApplication" ? (<IndividualLeaveRequests/>):(<IndividualConcernsStatus/>)}
 
+</>
+
+)}
    
     
     </Container>
   );
 };
-
-export default TechConcerns;

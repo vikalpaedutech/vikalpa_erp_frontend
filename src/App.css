@@ -542,7 +542,7 @@ justify-content: center;
 
 /* UserSignIn.component.jsx */
 .parent-user-signin{
-  background-color: #4e73df;
+  background-color: #F2FBFF;
   width: 100vw;
   height: 100vh;
   display: flex;
@@ -1087,6 +1087,69 @@ p {
 
 
 
+
+
+.custom-progress-container {
+  position: relative;
+  width: 100%;
+  height: 8px;
+  background-color: #e0e0e0;
+  border-radius: 4px;
+  margin: 20px 0 40px 0;
+}
+
+.custom-progress-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 8px;
+  background-color: #4caf50;
+  border-radius: 4px;
+  transition: width 0.3s ease-in-out;
+  z-index: 1;
+}
+
+.checkpoints {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  height: 0;
+  z-index: 2;
+}
+
+.checkpoint {
+  position: absolute;
+  top: 50%;
+  width: 26px;
+  height: 26px;
+  background-color: #fff;
+  border: 2px solid #4caf50;
+  border-radius: 50%;
+  text-align: center;
+  line-height: 22px;
+  font-size: 11px;
+  color: #4caf50;
+  transform: translate(-50%, -50%);
+}
+
+.checkpoint-label {
+  position: absolute;
+  top: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 11px;
+  color: #333;
+  white-space: nowrap;
+}
+
+.checkpoint.active {
+  background-color: #4caf50;
+  color: #fff;
+}
+
+
+
 /* media query */
 @media screen and (max-width: 768px) {
   p {
@@ -1107,8 +1170,9 @@ p {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin-top: 0vh;
+  margin-top: 2vh;
   gap: 15px;
+
  
 }
 
@@ -1192,6 +1256,101 @@ p {
   text-align: center;
   color: black; /* or black based on background */
 }
+
+
+
+
+/* absentee calling cards color */
+
+.Not-called {
+  background-color: #FCE4D6 !important;
+  margin-top: 5vh;
+}
+
+.Connected {
+  background-color: #E2EFDA !important;
+}
+
+
+
+
+
+
+
+.custom-progress-container {
+  position: relative;
+  width: 100%;
+  height: 8px;
+  background-color: #e0e0e0;
+  border-radius: 4px;
+  margin: 20px 0 40px 0;
+}
+
+.custom-progress-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 8px;
+  background-color: #4caf50;
+  border-radius: 4px;
+  transition: width 0.3s ease-in-out;
+  z-index: 1;
+}
+
+.checkpoints {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  height: 0;
+  z-index: 2;
+}
+
+.checkpoint {
+  position: absolute;
+  top: 50%;
+  width: 26px;
+  height: 26px;
+  background-color: #fff;
+  border: 2px solid #4caf50;
+  border-radius: 50%;
+  text-align: center;
+  line-height: 22px;
+  font-size: 11px;
+  color: #4caf50;
+  transform: translate(-50%, -50%);
+}
+
+.checkpoint-label {
+  position: absolute;
+  top: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 11px;
+  color: #333;
+  white-space: nowrap;
+}
+
+.checkpoint.active {
+  background-color: #4caf50;
+  color: #fff;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 }

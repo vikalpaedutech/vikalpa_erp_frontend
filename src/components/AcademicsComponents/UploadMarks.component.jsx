@@ -20,6 +20,7 @@ import {
 import { UserContext } from "../../components/contextAPIs/User.context.js";
 import Select from "react-select"
 import { GetTests } from '../../service/ExamAndTestController';
+import SchoolDropDowns from "../DependentDropDowns/SchoolDropDowns.jsx";
 
 export const UploadMarks = () => {
   //using userContext
@@ -41,7 +42,7 @@ export const UploadMarks = () => {
     //______________________________________________________
   
   
-
+const [firstName, setFirstName] = useState('')
   const [marksData, setMarksData] = useState([]);
 
 
@@ -72,21 +73,22 @@ const [examId, setExamId] = useState("")
   //Below query params filters the data and show it on frontend from backend
   const queryParams = {
     studentSrn: "",
-    firstName: "",
+    firstName: firstName,
     fatherName: "",
-    districtId: Object(districtContext[0]).value || "",
-    blockId: Object(blockContext[0]).value || "",
-    schoolId: Object(schoolContext[0]).value || "",
-    classofStudent: classContext.value || "",
-    examId: examId.value,
+    // districtId: Object(districtContext[0]).value || "",
+    // blockId: Object(blockContext[0]).value || "",
+    schoolId: Object(schoolContext[0]).value || userData[0].assignedSchools,
+    classofStudent: classContext.value || ['9', '10'],
+    examId: examId.value || "",
     marksObtained: "",
     recordedBy: "",
     remark: "",
     marksUpdatedOn: "",
   };
-
+useEffect(() => {
   const fetchMarksData = async () => {
-    if (districtContext.length>0 && blockContext.length>0 && schoolContext.length>0 && classContext.value) {
+  
+ 
 
         console.log("i am class of student ", classContext.value)
         try {
@@ -97,13 +99,14 @@ const [examId, setExamId] = useState("")
             console.log("Error fetching marks data", error.message);
             setMarksData([])
           }
-    } else (console.log("Please select all filters"))
+   
    
   };
 
-  useEffect(() => {
+  
+   
     fetchMarksData();
-  }, [districtContext, blockContext, schoolContext, classContext, examId]);
+  }, [districtContext, blockContext, schoolContext, classContext, examId, firstName]);
 
   //Clearing drop down values if user selects different value.
 
@@ -173,95 +176,121 @@ marksData.sort((a, b)=>a.firstName.localeCompare(b.firstName))
 
   return (
     <Row className="justify-content-center">
-  <Col xs={12}>
-    <Container fluid className="prevent-overflow">
-      <h1>Apply Filter</h1>
+      <Col xs={12}>
+        <Container fluid className="prevent-overflow">
+          {/* <h1>Apply Filter</h1> */}
 
-      <DistrictBlockSchoolById assignedDistricts={assignedDistricts} />
-        <Form>
-      
-      <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
-        <Form.Label>Test Id</Form.Label>
-            <Select
-           options= 
-            {getTest.length > 0 ? getTest.map((eachTest)=>{
-                
-             return (
-                {value: eachTest.examId, label: eachTest.examId}
-                )
-                
-               
-            }):(null)}
-           value={examId}
-           onChange={setExamId}
-            />
-      </Form.Group>
-    </Form>
-    
-      <ClassOfStudent />
+          {/* <DistrictBlockSchoolById assignedDistricts={assignedDistricts} /> */}
+          <SchoolDropDowns />
 
-      <hr></hr>
-      <h2>Upload Marks</h2>
+          <Form>
+            <Form.Group
+              className="mb-3"
+              controlId="exampleForm.ControlTextarea1"
+            >
+              <Form.Label>Test Id</Form.Label>
+              <Select
+                options={
+                  getTest.length > 0
+                    ? getTest.map((eachTest) => {
+                        return {
+                          value: eachTest.examId,
+                          label: eachTest.examId,
+                        };
+                      })
+                    : null
+                }
+                value={examId}
+                onChange={setExamId}
+              />
+            </Form.Group>
+          </Form>
 
-      {marksData.length > 0 ? (
-        <Table responsive bordered cellPadding="10" cellSpacing="0">
-          <thead>
-            <tr>
-              <th>S.No</th>
-              <th>Student SRN</th>
-              
-              <th>Father's Name</th>
-              <th>First Name</th>
-              {/* <th>District ID</th>
+          <ClassOfStudent />
+
+          <Form>
+            <Form.Group
+              as={Row}
+              className="mb-3"
+              controlId="formPlaintextPassword"
+            >
+              <Form.Label column sm="2">
+                Filter Student Name
+              </Form.Label>
+              <Col sm="10">
+                <Form.Control
+                  type="text"
+                  placeholder="text"
+                  onChange={(e) => setFirstName(e.target.value)}
+                />
+              </Col>
+            </Form.Group>
+          </Form>
+
+          <hr></hr>
+          <h2>Upload Marks</h2>
+
+          {marksData.length > 0 ? (
+            <Table responsive bordered cellPadding="10" cellSpacing="0">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>SRN</th>
+                  {/*               
+              <th>Father's Name</th> */}
+                  <th>Name</th>
+                  {/* <th>District ID</th>
               <th>Block ID</th>
               <th>School ID</th> */}
-              {/* <th>Class</th> */}
-              {/* <th>Exam ID</th> */}
-              {/* <th>Marks Obtained</th> */}
-              {/* <th>Recorded By</th> */}
-              {/* <th>Remark</th> */}
-              {/* <th>Marks Updated On</th> */}
-              <th>Obtained Marks</th>
-            </tr>
-          </thead>
-          <tbody>
-            {marksData.map((student, index) => (
-              <tr key={student._id}>
-                <td>{index + 1}</td>
-                <td>{student.studentSrn}</td>
-                
-                <td>{student.fatherName}</td>
-                <td>{student.firstName}</td>
-                {/* <td>{student.districtId}</td>
+                  {/* <th>Class</th> */}
+                  {/* <th>Exam ID</th> */}
+                  {/* <th>Marks Obtained</th> */}
+                  {/* <th>Recorded By</th> */}
+                  {/* <th>Remark</th> */}
+                  {/* <th>Marks Updated On</th> */}
+                  <th>Marks</th>
+                </tr>
+              </thead>
+              <tbody>
+                {marksData.map((student, index) => (
+                  <tr key={student._id}>
+                    <td>{index + 1}</td>
+                    <td>{student.studentSrn}</td>
+
+                    {/* <td>{student.fatherName}</td> */}
+                    <td>{student.firstName}</td>
+                    {/* <td>{student.districtId}</td>
                 <td>{student.blockId}</td>
                 <td>{student.schoolId}</td> */}
-                {/* <td>{student.classofStudent}</td>
+                    {/* <td>{student.classofStudent}</td>
                 <td>{student.examId}</td>
                 <td>{student.marksObtained ?? "N/A"}</td>
                 <td>{student.recordedBy || "N/A"}</td>
                 <td>{student.remark || "N/A"}</td> */}
-                {/* <td>
+                    {/* <td>
                   {student.marksUpdatedOn
                     ? new Date(student.marksUpdatedOn).toLocaleString()
                     : "N/A"}
                 </td> */}
-                <td>
-                  <input
-                    type="text"
-                    placeholder="Obtained Marks"
-                    defaultValue={student.marksObtained ?? ""}
-                    onChange={(e) => handleMarksChange(e, student)}
-                  />
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </Table>
-      ) : (
-        <p>Please filter your data and start updating marks.</p>
-      )}
-    </Container>
-  </Col>
-</Row>
+                    <td>
+                      <input
+                      style={{width:'4rem'}}
+                        type="text"
+                        placeholder=""
+                        defaultValue={student.marksObtained ?? ""}
+                        onChange={(e) => handleMarksChange(e, student)}
+                        disabled={!examId?.value} // <<< DISABLES INPUT IF TEST ID NOT SELECTED
+                      />
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </Table>
+          ) : (
+            <p>Please filter your data and start updating marks.</p>
+          )}
+        </Container>
+      </Col>
+    </Row>
   );
 };

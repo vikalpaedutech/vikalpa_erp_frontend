@@ -16,7 +16,8 @@ import { DistrictBlockSchoolContext, BlockContext,  SchoolContext, ClassContext}
 
 import Select from 'react-select'
 import { formToJSON } from "axios";
-
+import SchoolDropDowns from "../components/DependentDropDowns/SchoolDropDowns.jsx";
+import { UserContext } from "../components/contextAPIs/User.context.js";
 
 export const AbsenteeCalling = ({assignedDistricts, assignedBlocks, assignedSchools}) => {
 
@@ -29,6 +30,7 @@ export const AbsenteeCalling = ({assignedDistricts, assignedBlocks, assignedScho
 
   //ClassContext API
   const {classContext, setClassContext} = useContext(ClassContext);
+  const {userData, setUserData} = useContext(UserContext);
 
   //_____________________________________________________
 
@@ -65,16 +67,16 @@ export const AbsenteeCalling = ({assignedDistricts, assignedBlocks, assignedScho
     status: "Absent",
     startDate: date,
     endDate: endDate || "",
-    districtId: Object(districtContext[0]).value , 
-    blockId:Object(blockContext[0]).value || "",
-    schoolId:Object(schoolContext[0]).value || "",
-    classofStudent:classContext.value,
+    // districtId: Object(districtContext[0]).value  , 
+    // blockId:Object(blockContext[0]).value || "",
+    schoolId:Object(schoolContext[0]).value || userData[0].assignedSchools,
+    classofStudent:classContext.value || ['9', '10'],
     batch:"",
   };
 
   const fetchAttendance = async () => {
     console.log(queryParams)
-    if (districtContext.length > 0 && blockContext.length > 0 && schoolContext.length > 0 && classContext.value) {
+    if (true) {
       try {
         const response = await getAllAttendance(queryParams);
         setAttendanceData(response.data);
@@ -160,7 +162,7 @@ useEffect(() => {
       handleAbsenteeCalling(srn);
     }
   });
-}, [callingRemark1]);
+}, [callingRemark1, absenteeCallingStatus]);
 
   // NEW useEffect TO UPDATE REMARK OPTIONS BASED ON CALLING STATUS
   useEffect(() => {
@@ -215,8 +217,13 @@ attendanceData.sort((a, b)=>a.studentDetails.firstName.localeCompare(b.studentDe
                 />
               </Form.Group>
             </div>
-            <div className="MBAttendance-filter-div-child-2">
+            {/* <div className="MBAttendance-filter-div-child-2">
               <DistrictBlockSchoolById assignedDistricts={assignedDistricts} />
+            </div> */}
+
+
+            <div>
+              <SchoolDropDowns/>
             </div>
           </div>
         </div>

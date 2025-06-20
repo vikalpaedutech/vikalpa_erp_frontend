@@ -1,4 +1,4 @@
-// /FRONTEND/src/components/Concern/TechConcerns.jsx
+// /FRONTEND/src/components/Bills/BillsPage.jsx
 
 import React, { useContext, useState } from "react";
 import { Button, Col, Container, Form, Row, Tab, Tabs, Breadcrumb } from "react-bootstrap";
@@ -12,10 +12,11 @@ import {
 } from "../contextAPIs/DependentDropdowns.contextAPI";
 import { createConcern } from "../../service/ConcernsServices/Concern.services";
 import SchoolDropDowns from "../DependentDropDowns/SchoolDropDowns";
-import TechConcernForm from "./TechConcernForm";
-import { TechConcernsStatus } from "./TechConcernsStatus";
+import Bills from "./Bills";
+import { BillsStatus } from "./BillsStatus";
 
-const TechConcerns = () => {
+
+const BillsPage = () => {
   const { userData } = useContext(UserContext);
   const { schoolContext, setSchoolContext } = useContext(SchoolContext);
 
@@ -38,14 +39,14 @@ const TechConcerns = () => {
       <Breadcrumb>
       <Breadcrumb.Item  onClick={()=>handleSubmit('form')} >Home</Breadcrumb.Item>
       <Breadcrumb.Item  onClick={()=>handleSubmit('status')}>
-        Status
+        My Bills
       </Breadcrumb.Item>
     
     </Breadcrumb>
 
 
 
-{handleForm === "form" ? (<TechConcernForm/>):(<TechConcernsStatus/>)}
+{handleForm === "form" ? (<Bills/>):(<BillsStatus/>)}
 
 
    
@@ -54,4 +55,4 @@ const TechConcerns = () => {
   );
 };
 
-export default TechConcerns;
+export default BillsPage;

@@ -504,7 +504,7 @@ export function DistrictBlockSchool() {
 
   return (
     <div>
-      <label>District Drop Down</label>
+      <label>District</label>
       {/* Use react-select here */}
       
       <Select
@@ -695,8 +695,8 @@ export const DistrictBlockSchoolById = ({
 
   return (
     <div className="parent-districtBlockSchoolById">
-      <div>
-        <label>District Drop Down</label>
+      <div style={{ width:'80vw'}}>
+        <label>District</label>
         
         <Select
           options={districtOptions}
@@ -710,8 +710,8 @@ export const DistrictBlockSchoolById = ({
         />
       </div>
 
-      <div>
-        <label>Block Drop Down</label>
+      <div style={{ width:'80vw'}}>
+        <label>Block</label>
 
         <Select
           options={blockOptions}
@@ -724,10 +724,11 @@ export const DistrictBlockSchoolById = ({
           placeholder="Select a district"
         />
       </div>
-      <div>
-        <label>School Drop Down</label>
+      <div style={{ width:'80vw'}}>
+        <label>School</label>
 
         <Select
+        
           options={schoolOptions}
           value={schoolContext} // Set the selected value
           onChange={(selectedOption) => {
@@ -804,6 +805,7 @@ export function ClassOfStudent() {
   >
     9
   </ListGroup.Item>
+  <br></br>
   <ListGroup.Item
     
     variant={classContext?.value === "10" ? "success" : ""}

@@ -35,9 +35,10 @@ export const getAllBills = async () => {
   //________________________________________________________________
 
   //Below api to get pending bills.
-  export const getPendingBills = async () => {
+  export const getPendingAndVerifiedBillsByAci = async (query) => {
+    // alert("hi")
     try {
-      const response = await axios.get(`${API_BASE_URL}/api/get-pending-bills`);
+      const response = await axios.get(`${API_BASE_URL}/api/get-pending-bills?${query}`);
       return response.data;
     } catch (error) {
       console.log("Error while fetching pending bills", error.message);

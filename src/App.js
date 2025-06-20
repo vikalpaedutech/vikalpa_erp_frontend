@@ -20,7 +20,7 @@ import {
 //UI Components
 
 //Imports of Admin
-import AdminPage from "./pages/Admin.page.jsx";
+
 import UpdateStudent from "./components/AcademicsComponents/UpdateStudent.component.jsx";
 import { TemplateLanding } from "./pages/ModularPage/AdminPage.jsx";
 
@@ -29,7 +29,7 @@ import { TemplateLanding } from "./pages/ModularPage/AdminPage.jsx";
 import { UserSignIn } from "./components/user/UserSignIn.component.jsx";
 import { UserProvider } from "./components/contextAPIs/User.context.js";
 import UserLoggedIn from "./components/user/UserLoggedIn.component.jsx";
-import { CenterCoordinator } from "../src/pages/UserScreens/CC.jsx";
+
 import { UserAttendance } from "./components/user/UserAttendance.jsx";
 import { UserAttendanceLogout } from "./components/user/userAttendanceLogout.jsx";
 
@@ -37,6 +37,7 @@ import { UserAttendanceLogout } from "./components/user/userAttendanceLogout.jsx
 import AttendanceMB from "./components/AcademicsComponents/AttendanceMB.component.jsx";
 import { UploadMarks } from "../src/components/AcademicsComponents/UploadMarks.component.jsx";
 import { StudentDisciplinaryOrInteraction } from "./components/AcademicsComponents/StudentDisciplinaryOrInteraction.component.jsx";
+import { ManualAttendance } from "./components/AcademicsComponents/ManualAttendance.jsx";
 
 //Import of bills
 import Bills from "./components/Bills/Bills.jsx";
@@ -45,8 +46,7 @@ import BillsVerification from "./components/Bills/BillsVerification.jsx";
 import BillsApproval from "./components/Bills/BillsApproval.jsx";
 import UserSignup from "./components/user/UserSignup.component.jsx";
 
-//Importing ACI
-import { ACI } from "./pages/UserScreens/ACI.jsx";
+
 
 //Imports of Centers
 import MbCentersDisciplinary from "./components/CentersOrSchools/MbCentersDisciplinary.jsx";
@@ -59,8 +59,6 @@ import { CenterDisciplinaryData } from "./components/CentersOrSchools/CenterDisc
 
 import { SliderProvidedr } from "./components/contextAPIs/SliderHook.context.js";
 
-//Academics imports
-import { AcademicCoordinator } from "./pages/UserScreens/AcademicCoordinator.jsx";
 
 //Template
 import { Template } from "./pages/UserScreens/Template.jsx";
@@ -75,12 +73,26 @@ import { CreateUploadAttendancePdf } from "./Admin/CreateUploadAttendancePdf.jsx
 // //Practice
 // import { Practice } from './practice/pactice.jsx';
 import MainLayoutAdmin from "./pages/UserScreens/MainLayoutPhoneAndPc.jsx";
-import MainSubScreen from "./pages/UserScreens/MainSubScreen.jsx";
+
 import { CopyChecking } from "./components/AcademicsComponents/CopyChecking.jsx";
-import SchoolConcerns from "./components/Concern/SchoolConcerns.jsx"
+import SchoolConcernsForm from "./components/Concern/SchoolConcernsForm.jsx"
 import TechConcerns from "./components/Concern/TechConcerns.jsx";
 import { UserAttendanceUpdated } from "./components/user/UpdatedUserAttendance.jsx";
 import { NewNavbar } from "./components/Navbar/NewNavbar.jsx";
+import { AbsentCalling } from "./Callings/AbsentCalling.jsx";
+import LayoutWithNewNavbar from "./components/Navbar/LayoutWithNewNavbar.jsx";
+import MainLayoutAciLevel from "./pages/UserScreens/MainLayoutAciLevel.jsx";
+import { TechConcernsResolution } from "./components/Concern/TechConcernsResolution.jsx";
+import { TechConcernsStatus } from "./components/Concern/TechConcernsStatus.jsx";
+import SchoolConcerns from "./components/Concern/SchoolConcerns.jsx";
+import BillsPage from "./components/Bills/BillsPage.jsx";
+import BillsVerificationPage from "./components/Bills/BillsVerificationPage.jsx";
+import {IndividualConcernsForm } from "./components/Concern/IndividualConcernsForm.jsx";
+import { IndividualConcerns } from "./components/Concern/IndividualConcerns.jsx";
+import { IndividualLeaveRequests } from "./components/Concern/IndividualLeaveRequests.jsx";
+import { IndividualConcenrsResolution } from "./components/Concern/IndividualConcernsResolutions.jsx";
+import { UserAttendanceACI } from "./components/user/UserAttendanceACI.jsx";
+import SchoolConcernsRequest from "./components/Concern/SchoolConcernsRequest.jsx";
 function App() {
   
   return (
@@ -98,14 +110,17 @@ function App() {
                     <Routes>
                       <Route path="/" element={<UserSignIn />} />
 
+                       <Route element = {<LayoutWithNewNavbar/>}> 
                       <Route path="/user-dash" element={<MainLayout />} />
-                      <Route path="/app/:app_id" element={<MainSubScreen />} />
+                      <Route path="l2-user-dash" element = {<MainLayoutAciLevel/>}/>                      
+
 
                       {/* Acadmecis routes */}
                       <Route path="/mb-attendance" element={<AttendanceMB />} />
                       <Route path="/upload-marks" element={<UploadMarks />} />
                       <Route path="/student-disciplinary-or-interaction" element={<StudentDisciplinaryOrInteraction />}/>
                       <Route path="/copy-checking" element={<CopyChecking />}/>
+                      <Route path="/manual-attendance" element={<ManualAttendance />}/>
 
                       <Route
                         path="/upload-attendance-pdf"
@@ -120,7 +135,11 @@ function App() {
                       />
 
                       {/* Bills moudle */}
-                      <Route path="/upload-bills" element={<Bills />} />
+                      <Route path="/upload-bills" element={<BillsPage />} />
+                          <Route
+                        path="/verify-bills"
+                        element={<BillsVerificationPage />}
+                      />
 
                       {/* Monitoring module */}
                       <Route
@@ -159,24 +178,37 @@ function App() {
                         element={<AbsenteeCalling />}
                       />
 
+                      <Route path="/absent-calling" element = {<AbsentCalling/>}/>
+
                       <Route
                         path="/initiate-upload-attendance-pdf"
                         element={<CreateUploadAttendancePdf />}
                       />
 
-                      <Route
-                        path="/verify-bills"
-                        element={<BillsVerification />}
-                      />
+                  
 
                       {/* Concerns module */}
 
+                      {/* <Route path="/school-concerns" element = {<SchoolConcernsForm/>}/> */}
                       <Route path="/school-concerns" element = {<SchoolConcerns/>}/>
-                       <Route path="/tech-concerns" element = {<TechConcerns/>}/>
-                         <Route path="/attendance-user" element = {<UserAttendance/>}/>
+                      
+                      <Route path="/tech-concerns" element = {<TechConcerns/>}/>
+                      <Route path="/tech-concerns-resolution" element = {<TechConcernsResolution/>}/>
+                      <Route path="/tech-concerns-status" element = {<TechConcernsStatus/>}/>
+                      <Route path="/tech-concerns-status" element = {<TechConcernsStatus/>}/>
+                      <Route path ="/individual-concerns-form" element = {<IndividualConcerns/>}/>
+                      <Route path="/individual-leave-requests" element = {<IndividualLeaveRequests/>}/>
+                      <Route path="/individual-concerns-resolution" element = {<IndividualConcenrsResolution/>}/> 
+                      <Route path="/school-concerns-request" element = {<SchoolConcernsRequest/>}/> 
+
+
+                  <Route path="/attendance-user" element = {<UserAttendance/>}/>
                   <Route path="/user-attendance-updated" element = {<UserAttendanceUpdated/>}/>
-
-
+                   <Route path="/user-attendance-aci" element = {<UserAttendanceACI/>}/>
+                    
+                      
+                      
+                      </Route>
                     </Routes>
                   </UserProvider>
                 </ClassOfStudentProvider>

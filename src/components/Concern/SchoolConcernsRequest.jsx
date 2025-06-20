@@ -14,8 +14,10 @@ import { createConcern } from "../../service/ConcernsServices/Concern.services";
 import SchoolDropDowns from "../DependentDropDowns/SchoolDropDowns";
 import TechConcernForm from "./TechConcernForm";
 import { TechConcernsStatus } from "./TechConcernsStatus";
+import { SchoolConcernsResolution } from "./SchoolConcernsResolution";
+import { SchoolConcernsResolvedStatus } from "./SchoolConcernsResolvedStatus";
 
-const TechConcerns = () => {
+const SchoolConcernsRequest = () => {
   const { userData } = useContext(UserContext);
   const { schoolContext, setSchoolContext } = useContext(SchoolContext);
 
@@ -45,7 +47,7 @@ const TechConcerns = () => {
 
 
 
-{handleForm === "form" ? (<TechConcernForm/>):(<TechConcernsStatus/>)}
+{handleForm === "form" ? (<SchoolConcernsResolution/>):(<SchoolConcernsResolvedStatus/>)}
 
 
    
@@ -54,4 +56,4 @@ const TechConcerns = () => {
   );
 };
 
-export default TechConcerns;
+export default SchoolConcernsRequest;

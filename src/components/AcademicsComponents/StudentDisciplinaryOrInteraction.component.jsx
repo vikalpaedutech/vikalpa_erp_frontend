@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import { createDisciplinaryOrInteraction } from "../../service/StudentDisciplinaryOrInteraction.services";
 import { getStudentsByQueryParams } from "../../service/Student.service";
-import { Container, Table, Button, Row, Col } from "react-bootstrap";
+import { Container, Table, Button, Row, Col ,Card, Form} from "react-bootstrap";
 import Select from "react-select";
 import {
   DistrictBlockSchoolContext,
@@ -14,6 +14,7 @@ import {
 import { UserContext } from "../contextAPIs/User.context";
 
 import { DistrictBlockSchoolById, ClassOfStudent } from "../DependentDropDowns/DistrictBlockSchool.component";
+import SchoolDropDowns from "../DependentDropDowns/SchoolDropDowns";
 
 export const StudentDisciplinaryOrInteraction = () => {
   const { userData } = useContext(UserContext);
@@ -23,6 +24,7 @@ export const StudentDisciplinaryOrInteraction = () => {
   const { schoolContext, setSchoolContext } = useContext(SchoolContext);
   const { classContext } = useContext(ClassContext);
 
+  const [firstName, setFirstName] = useState('')
   const [studentData, setStudentData] = useState([]);
   const [globalSubject, setGlobalSubject] = useState(null);
   const [globalType, setGlobalType] = useState(null);
@@ -30,8 +32,9 @@ export const StudentDisciplinaryOrInteraction = () => {
   const [remarks, setRemarks] = useState({});
 
   const queryParams = {
-    schoolId: schoolContext?.[0]?.value ?? null,
-    classofStudent: classContext?.value ?? null,
+    schoolId: schoolContext?.[0]?.value ?? userData[0].assignedSchools,
+    classofStudent: classContext?.value ?? ['9', '10'],
+    firstName: firstName
   };
 
   useEffect(() => {
@@ -44,7 +47,7 @@ export const StudentDisciplinaryOrInteraction = () => {
       }
     };
     fetchStudentData();
-  }, [schoolContext, classContext]);
+  }, [schoolContext, classContext, firstName]);
 
   useEffect(() => {
     setBlockContext("");
@@ -68,12 +71,25 @@ export const StudentDisciplinaryOrInteraction = () => {
 
   const statusOptions = {
     Disciplinary: [
-      { value: "Eating", label: "Eating" },
-      { value: "Running", label: "Running" },
-      { value: "Talking", label: "Talking" },
-      { value: "Fighting", label: "Fighting" },
-      { value: "Abusing", label: "Abusing" },
-    ],
+  { value: "Late Arrival", label: "Late Arrival" },
+  { value: "Absenteeism", label: "Absenteeism" },
+  { value: "Using Mobile Phone", label: "Using Mobile Phone" },
+  { value: "Talking", label: "Talking" },
+  { value: "Disrespectful to Teacher", label: "Disrespectful to Teacher" },
+  { value: "Cheating", label: "Cheating" },
+  { value: "Leaving Class", label: "Leaving Class" },
+  { value: "Fighting", label: "Fighting" },
+  { value: "Inappropriate Language", label: "Inappropriate Language" },
+  { value: "Disrupting Class", label: "Disrupting Class" },
+  { value: "Prohibited Items", label: "Prohibited Items" },
+  { value: "Defiance", label: "Defiance" },
+  { value: "Theft", label: "Theft" },
+  { value: "Misuse of Resources", label: "Misuse of Resources" },
+  { value: "Sleeping", label: "Sleeping" },
+  { value: "Encouraging Indiscipline", label: "Encouraging Indiscipline" },
+ 
+  ],
+
     Interaction: [
       { value: "Student-Teacher", label: "Student-Teacher" },
       { value: "Teacher-Student", label: "Teacher-Student" },
@@ -83,11 +99,12 @@ export const StudentDisciplinaryOrInteraction = () => {
   };
 
   const handleSubmit = async (student) => {
+    
     const srn = student.studentSrn;
     const selectedStatuses = selectedStatus[srn];
     const remark = remarks[srn] || "";
 
-    if (!globalSubject || !globalType || !selectedStatuses || selectedStatuses.length === 0) {
+    if ( !selectedStatuses || selectedStatuses.length === 0) {
       alert("Please fill subject, type, and status before submitting.");
       return;
     }
@@ -100,10 +117,10 @@ export const StudentDisciplinaryOrInteraction = () => {
       districtId: student.districtId || districtContext?.id || "NA",
       blockId: student.blockId || blockContext?.id || "NA",
       schoolId: student.schoolId || schoolContext?.id || "NA",
-      subject: globalSubject.value,
-      disciplinaryOrInteraction: globalType.value,
-      disciplinaryOrInteractiionRemark: status.value,
-      remark: remark,
+      subject: "NA",
+      status: "Disciplinary",
+      remark: status.value,
+      // remark: remark,
       userId: userData?.[0]?.userId ?? "Not-known",
     }));
 
@@ -130,8 +147,12 @@ export const StudentDisciplinaryOrInteraction = () => {
     <Row className="justify-content-center">
       <Col xs={12}>
         <Container fluid className="prevent-overflow">
-          <Row>
+          {/* <Row>
             <DistrictBlockSchoolById assignedDistricts={assignedDistricts} />
+          </Row> */}
+
+          <Row>
+            <SchoolDropDowns/>
           </Row>
 
           <Row>
@@ -140,7 +161,20 @@ export const StudentDisciplinaryOrInteraction = () => {
             </Col>
           </Row>
 
-          <Row className="my-3">
+          <Row>
+            <Form>
+             <Form.Group as={Row} className="mb-3" controlId="formPlaintextPassword">
+        <Form.Label column sm="2">
+          Filter Student Name
+        </Form.Label>
+        <Col sm="10">
+          <Form.Control type="text" placeholder="text" onChange={(e)=>setFirstName(e.target.value)} />
+        </Col>
+      </Form.Group>
+      </Form>
+          </Row>
+
+          {/* <Row className="my-3">
             <Col md={6}>
               <Select
                 options={subject}
@@ -160,74 +194,52 @@ export const StudentDisciplinaryOrInteraction = () => {
                 placeholder="Select Type (Applies to All)"
               />
             </Col>
-          </Row>
+          </Row> */}
 
           <Row>
-            <Table responsive bordered>
-              <thead>
-                <tr>
-                  <th>#</th>
-                  <th>SRN</th>
-                  <th>Student</th>
-                  <th>Father</th>
-                  <th>Status</th>
-                  {/* <th>Remark</th> */}
-                  <th>Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                {studentData.map((student, index) => {
-                  const srn = student.studentSrn;
+      {studentData.map((student, index) => {
+        const srn = student.studentSrn;
 
-                  return (
-                    <tr key={srn}>
-                      <td>{index + 1}</td>
-                      <td>{srn}</td>
-                      <td>{student.firstName}</td>
-                      <td>{student.fatherName}</td>
+        return (
+          <Col md={6} lg={4} key={srn} className="mb-4">
+            <br></br>
+            <Card className="h-100 shadow-sm">
+              <Card.Body>
+                <Card.Title className="mb-2">
+                  {index + 1}. {student.firstName}
+                </Card.Title>
+                <Card.Subtitle className="mb-3 text-muted">SRN: {srn}</Card.Subtitle>
 
-                      <td>
-                        <Select
-                          options={statusList}
-                          value={selectedStatus[srn] || []}
-                          onChange={(option) =>
-                            setSelectedStatus((prev) => ({
-                              ...prev,
-                              [srn]: option,
-                            }))
-                          }
-                          placeholder="Status"
-                          isMulti
-                          closeMenuOnSelect={false}
-                        />
-                      </td>
+                <div className="mb-3">
+                  <label className="form-label fw-bold">Status</label>
+                  <Select
+                    options={statusOptions.Disciplinary}
+                    value={selectedStatus[srn] || []}
+                    onChange={(option) =>
+                      setSelectedStatus((prev) => ({
+                        ...prev,
+                        [srn]: option,
+                      }))
+                    }
+                    placeholder="Select Status"
+                    isMulti
+                    closeMenuOnSelect={false}
+                  />
+                </div>
 
-                      {/* <td>
-                        <input
-                          type="text"
-                          className="form-control"
-                          value={remarks[srn] || ""}
-                          onChange={(e) =>
-                            setRemarks((prev) => ({
-                              ...prev,
-                              [srn]: e.target.value,
-                            }))
-                          }
-                          placeholder="Remark"
-                        />
-                      </td> */}
-
-                      <td>
-                        <Button variant="success" onClick={() => handleSubmit(student)}>
-                          Submit
-                        </Button>
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </Table>
-          </Row>
+                <Button
+                  variant="success"
+                  onClick={() => handleSubmit(student)}
+                  className="w-100"
+                >
+                  Submit
+                </Button>
+              </Card.Body>
+            </Card>
+          </Col>
+        );
+      })}
+    </Row>
         </Container>
       </Col>
     </Row>

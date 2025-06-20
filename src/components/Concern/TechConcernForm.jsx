@@ -1,0 +1,190 @@
+// /FRONTEND/src/components/Concern/TechConcerns.jsx
+
+import React, { useContext, useState } from "react";
+import { Button, Col, Container, Form, Row, Tab, Tabs } from "react-bootstrap";
+import Select from "react-select";
+import { UserContext } from "../contextAPIs/User.context";
+import {
+  DistrictBlockSchoolContext,
+  BlockContext,
+  SchoolContext,
+  SchoolProvider,
+} from "../contextAPIs/DependentDropdowns.contextAPI";
+import { createConcern } from "../../service/ConcernsServices/Concern.services";
+import SchoolDropDowns from "../DependentDropDowns/SchoolDropDowns";
+
+const TechConcernForm = () => {
+  const { userData } = useContext(UserContext);
+  const { schoolContext, setSchoolContext } = useContext(SchoolContext);
+
+  const [concern, setConcern] = useState(null);
+  const [remark, setRemark] = useState(null);
+  const [selectedClass, setSelectedClass] = useState(null);
+  const [file, setFile] = useState(null);
+
+  const concernOptions = [
+    { value: "Screen", label: "Screen" },
+    { value: "Inverter", label: "Inverter" },
+    { value: "Microphone", label: "Microphone" },
+    {value:"Internet", label:"Internet"},
+    {value:"Camera", label:"Camera"},
+    {value:"Mini_PC", label:"Mini_PC"},
+    {value:"Electricity", label:"Electricity"},
+  ];
+
+  const remarkOptionsMap = {
+    Screen: [
+      { value: "Not working", label: "Not working" },
+      { value: "Unavailable", label: "Unavailable" },
+      
+    ],
+    Inverter: [
+      { value: "Poor power backup", label: "Poor power backup" },
+      { value: "Not connected", label: "Not connected" },
+    ],
+    Microphone: [
+       { value: "Not working", label: "Not working" },
+      { value: "Unavailable", label: "Unavailable" },
+    ],
+     Internet: [
+       { value: "Connectivity Issue", label: "Connectivity Issue" },
+      { value: "Unavailable", label: "Unavailable" },
+      { value: "Slow", label: "Slow" },
+    ],
+      Camera: [
+       { value: "Not working", label: "Not working" },
+      { value: "Unavailable", label: "Unavailable" },
+   
+    ],
+    Mini_PC: [
+       { value: "Not working", label: "Not working" },
+      { value: "Unavailable", label: "Unavailable" },
+   
+    ],
+    Electricity:[
+       { value: "Not working", label: "Not working" },
+      { value: "Unavailable", label: "Unavailable" },
+   
+    ],
+  };
+
+  const classOptions = [
+    { value: "9", label: "Class 9" },
+    { value: "10", label: "Class 10" },
+  ];
+
+  const handleSubmit = async () => {
+    if (!concern || !remark || !schoolContext?.[0] || !selectedClass) {
+      alert("Please fill in all fields.");
+      return;
+    }
+
+    const schoolSelected = schoolContext[0];
+    const currentDate = new Date().toISOString().split("T")[0];
+    const concernId = `${concern.value}-${schoolSelected.value}-${selectedClass.value}`;
+
+    const formData = new FormData();
+    formData.append("concernId", concernId);
+    formData.append("userId", userData?.[0]?.userId ?? "NA");
+     formData.append("districtId", schoolSelected.districtId);
+    formData.append("blockId", schoolSelected.blockId);
+    formData.append("schoolId", schoolSelected.value);
+    formData.append("concernType", "Tech Concern");
+    formData.append("concern", concern.value);
+    formData.append("remark", remark.value);
+    formData.append("classOfConcern", selectedClass.value);
+    formData.append("concernStatusBySubmitter", "Pending");
+    formData.append("dateOfSubmission", currentDate);
+    formData.append("concernStatusByResolver", "Pending");
+    if (file) {
+      formData.append("file", file);
+    }
+
+    try {
+      await createConcern(formData);
+      // alert("Tech Concern submitted successfully!");
+      setConcern(null);
+      setRemark(null);
+      setFile(null);
+      setSelectedClass(null);
+      setSchoolContext("");
+    } catch (error) {
+      console.error("Error submitting tech concern:", error.message);
+      alert("Submission failed.");
+    }
+  };
+
+  return (
+    <Container className="my-4">
+
+      <h4>Tech Concern Submission</h4>
+      <hr></hr>
+
+      {/* School dropdowns */}
+      <Row>
+        <SchoolDropDowns />
+      </Row>
+
+      {/* Concern and Remark */}
+      <Row className="mb-3">
+        <Col md={4}>
+          <label>Concern Type</label>
+          <Select
+            options={concernOptions}
+            value={concern}
+            onChange={(selected) => {
+              setConcern(selected);
+              setRemark(null);
+            }}
+            placeholder="Concern Type"
+          />
+        </Col>
+
+        <Col md={4}>
+          <label>Remark</label>
+          <Select
+            options={remarkOptionsMap[concern?.value] || []}
+            value={remark}
+            onChange={(selected) => setRemark(selected)}
+            placeholder="Remark"
+          />
+        </Col>
+      </Row>
+
+      {/* Class of Concern */}
+      <Row className="mb-3">
+        <Col md={4}>
+          <label>Class</label>
+          <Select
+            options={classOptions}
+            value={selectedClass}
+            onChange={(selected) => setSelectedClass(selected)}
+            placeholder="Class"
+          />
+        </Col>
+      </Row>
+
+      {/* File Upload */}
+      <Row className="mb-3">
+        <Col md={6}>
+          <Form.Group>
+            <Form.Label>Attach File (optional)</Form.Label>
+            <Form.Control
+              type="file"
+              onChange={(e) => setFile(e.target.files[0])}
+            />
+          </Form.Group>
+        </Col>
+      </Row>
+
+      {/* Submit */}
+      <Button variant="primary" onClick={handleSubmit}>
+        Submit Tech Concern
+      </Button>
+
+    
+    </Container>
+  );
+};
+
+export default TechConcernForm;
