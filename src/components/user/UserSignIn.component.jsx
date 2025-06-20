@@ -104,7 +104,8 @@ export const UserSignIn = () => {
             </Form>
             <hr></hr>
             <div>
-            <p>New user click here to create account: <Card.Link href="/user-signup">Sign Up</Card.Link></p>
+            {/* <p>New Users: <Card.Link href="/user-signup">Sign Up</Card.Link></p> */}
+            <p>Forgot Password: <Card.Link href="/forgot-password">Click Here</Card.Link></p>
           </div>
           </div>
 

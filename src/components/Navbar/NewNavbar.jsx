@@ -12,7 +12,7 @@ export const NewNavbar = () => {
 
   const fetchNotification = async () => {
     const queryParams = {
-      userId: userData[0].userId,
+      userId: userData?.[0]?.userId,
     };
 
     try {

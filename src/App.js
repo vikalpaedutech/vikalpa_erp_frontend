@@ -93,6 +93,7 @@ import { IndividualLeaveRequests } from "./components/Concern/IndividualLeaveReq
 import { IndividualConcenrsResolution } from "./components/Concern/IndividualConcernsResolutions.jsx";
 import { UserAttendanceACI } from "./components/user/UserAttendanceACI.jsx";
 import SchoolConcernsRequest from "./components/Concern/SchoolConcernsRequest.jsx";
+import { ForgotPassword } from "./components/user/ForgotPassword.jsx";
 function App() {
   
   return (
@@ -205,7 +206,7 @@ function App() {
                   <Route path="/attendance-user" element = {<UserAttendance/>}/>
                   <Route path="/user-attendance-updated" element = {<UserAttendanceUpdated/>}/>
                    <Route path="/user-attendance-aci" element = {<UserAttendanceACI/>}/>
-                    
+                    <Route path="/forgot-password" element = {<ForgotPassword/>}/>
                       
                       
                       </Route>

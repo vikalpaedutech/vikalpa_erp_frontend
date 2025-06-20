@@ -27,3 +27,13 @@ export const patchUserById = async (userId, formData) => {
     const response = await axios.patch(`${API_BASE_URL}/api/user/${userId}`, formData);
     return response.data;
 };
+
+
+export const patchUserByContact = async (contact1, formData) => {
+
+    console.log(contact1)
+    console.log(formData)
+    
+    const response = await axios.patch(`${API_BASE_URL}/api/patch-user-by-contact/${contact1}`, formData);
+    return response.data;
+};
