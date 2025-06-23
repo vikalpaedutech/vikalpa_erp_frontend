@@ -756,11 +756,11 @@ export const UserAttendanceUpdated = () => {
 
   return (
     <>
-      {locationError && (
+      {/* {locationError && (
         <div className="location-error">
           {locationError}. Please enable location services.
         </div>
-      )}
+      )} */}
 
       <Modal
         show={showModal}
@@ -771,7 +771,7 @@ export const UserAttendanceUpdated = () => {
         size="sm"
       >
         <Modal.Header closeButton>
-          <Modal.Title>Mark Your Attendance 🖊️</Modal.Title>
+          <Modal.Title>Mark Your Attendance ✅</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Card className="p-3 text-center">
