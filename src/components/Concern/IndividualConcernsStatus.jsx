@@ -92,24 +92,24 @@ export const IndividualConcernsStatus = () => {
                     <p>Remark: {eachConcern.remark}</p>
                      <p>Status: {eachConcern.concernStatusByResolver}</p>
                     </Card.Text>
-{/* 
+
                     <div className="custom-progress-container">
                       <div className="custom-progress-bar" style={{ width: `${progressPercent}%` }}></div>
                       <div className="checkpoints">
                         <div className={`checkpoint ${progressPercent >= 0 ? "active" : ""}`} style={{ left: "0%" }}>
                           <span>1</span>
-                          <div className="checkpoint-label">Pending</div>
+                          <div className="checkpoint-label">Submitted</div>
                         </div>
                         <div className={`checkpoint ${progressPercent >= 50 ? "active" : ""}`} style={{ left: "50%" }}>
                           <span>2</span>
-                          <div className="checkpoint-label">Resolved</div>
+                          <div className="checkpoint-label">Gurgaon Office</div>
                         </div>
                         <div className={`checkpoint ${progressPercent >= 100 ? "active" : ""}`} style={{ left: "100%" }}>
                           <span>3</span>
-                          <div className="checkpoint-label">Closed</div>
+                          <div className="checkpoint-label">Resolved</div>
                         </div>
                       </div>
-                    </div> */}
+                    </div>
 
                     <br />
 
