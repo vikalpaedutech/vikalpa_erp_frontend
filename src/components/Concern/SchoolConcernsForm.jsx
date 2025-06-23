@@ -162,6 +162,23 @@ const SchoolConcernsForm = () => {
             placeholder="Remark"
           />
         </Col>
+         {/* Student SRN Field (only for Student) */}
+      {concern?.value === "Student" && (
+        <Row className="mb-3">
+          <Col md={4}>
+            <Form.Group>
+              <Form.Label>Student SRN (10 digits)</Form.Label>
+              <Form.Control
+                type="text"
+                value={studentSrn}
+                onChange={(e) => setStudentSrn(e.target.value)}
+                placeholder="Enter 10-digit SRN"
+              />
+            </Form.Group>
+          </Col>
+        </Row>
+      )}
+
 
         <Col md={3}>
           <label>Class</label>
@@ -203,23 +220,7 @@ const SchoolConcernsForm = () => {
         </Col>
       </Row>
 
-      {/* Student SRN Field (only for Student) */}
-      {concern?.value === "Student" && (
-        <Row className="mb-3">
-          <Col md={4}>
-            <Form.Group>
-              <Form.Label>Student SRN (10 digits)</Form.Label>
-              <Form.Control
-                type="text"
-                value={studentSrn}
-                onChange={(e) => setStudentSrn(e.target.value)}
-                placeholder="Enter 10-digit SRN"
-              />
-            </Form.Group>
-          </Col>
-        </Row>
-      )}
-
+     
       {/* Submit Button */}
       <Button variant="primary" onClick={handleSubmit}>
         Submit Concern

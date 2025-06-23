@@ -210,7 +210,7 @@ export const UserAttendanceUpdated = () => {
         size="sm"
       >
         <Modal.Header closeButton>
-          <Modal.Title>Mark Your Attendance test</Modal.Title>
+          <Modal.Title>Mark Your Attendance</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Card className="p-3 text-center">

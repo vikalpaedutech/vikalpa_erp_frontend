@@ -15,47 +15,47 @@ const { userData } = useContext(UserContext);
   const [file, setFile] = useState(null);
 
   const concernOptions = [
-    { value: "Salary", label: "Salary" },
-    { value: "Work Environment", label: "Work Environment" },
-    { value: "Leave & Attendance", label: "Leave & Attendance" },
-    { value: "Reporting Issue", label: "Reporting Issue" },
-    { value: "Transfer/Work Location", label: "Transfer/Work Location" },
-    { value: "Shift and Duty Allocation", label: "Shift and Duty Allocation" },
-    { value: "Payroll/Payslip", label: "Payroll/Payslip" },
-  ];
+  { value: "Salary", label: "Salary (वेतन)" },
+  { value: "Work Environment", label: "Work Environment (कार्य वातावरण)" },
+  { value: "Attendance", label: "Attendance (छुट्टी और उपस्थिति)" },
+  { value: "Reporting Issue", label: "Reporting Issue (रिपोर्टिंग समस्या)" },
+  { value: "Transfer/Work Location", label: "Transfer/Work Location (स्थानांतरण/कार्य स्थान)" },
+  { value: "Shift and Duty Allocation", label: "Shift and Duty Allocation (पारी और कार्य आवंटन)" },
+  { value: "Payslip", label: "Payslip (वेतन पर्ची)" },
+];
 
-  const remarkOptionsMap = {
-    "Salary": [
-      { value: "Salary not credited", label: "Salary not credited" },
-      { value: "Salary discrepancy", label: "Salary discrepancy" },
-    ],
-    "Work Environment": [
-      { value: "Harassment", label: "Harassment" },
-      { value: "Behavioral issue", label: "Behavioral issue" },
-      { value: "Workspace hygiene", label: "Workspace hygiene" },
-      { value: "Safety concern", label: "Safety concern" },
-    ],
-    "Leave & Attendance": [
-      { value: "Attendance Correction", label: "Attendance Correction" },
-      { value: "Leave balance query", label: "Leave balance query" },
-      
-    ],
-    "Reporting Issue": [
-      { value: "Manager Behavior", label: "Manager Behavior" },
-      { value: "Unfair treatment", label: "Unfair treatment" },
-    ],
-    "Transfer/Work Location": [
-      { value: "Request to location change", label: "Request to location change" },
-      { value: "Distance Issue", label: "Distance Issue" },
-    ],
-    "Shift and Duty Allocation": [
-      { value: "Duty timing", label: "Duty timing" },
-      { value: "Work Overload", label: "Work Overload" },
-    ],
-    "Payroll/Payslip": [
-      { value: "Payslip Required", label: "Payslip Required" },
-    ],
-  };
+const remarkOptionsMap = {
+  "Salary": [
+    { value: "Salary not credited", label: "Salary not credited (वेतन जमा नहीं हुआ)" },
+    { value: "Salary discrepancy", label: "Salary discrepancy (वेतन में विसंगति)" },
+  ],
+  "Work Environment": [
+    { value: "Harassment", label: "Harassment (उत्पीड़न)" },
+    { value: "Behavioral issue", label: "Behavioral issue (व्यवहार संबंधी समस्या)" },
+    { value: "Workspace hygiene", label: "Workspace hygiene (कार्यस्थल स्वच्छता)" },
+    { value: "Safety concern", label: "Safety concern (सुरक्षा संबंधी चिंता)" },
+  ],
+  "Leave & Attendance": [
+    { value: "Attendance Correction", label: "Attendance Correction (उपस्थिति सुधार)" },
+    { value: "Leave balance query", label: "Leave balance query (छुट्टी शेष पूछताछ)" },
+  ],
+  "Reporting Issue": [
+    { value: "Manager Behavior", label: "Manager Behavior (प्रबंधक का व्यवहार)" },
+    { value: "Unfair treatment", label: "Unfair treatment (अनुचित व्यवहार)" },
+  ],
+  "Transfer/Work Location": [
+    { value: "Request to location change", label: "Request to location change (स्थान परिवर्तन का अनुरोध)" },
+    { value: "Distance Issue", label: "Distance Issue (दूरी संबंधी समस्या)" },
+  ],
+  "Shift and Duty Allocation": [
+    { value: "Duty timing", label: "Duty timing (कार्य समय)" },
+    { value: "Work Overload", label: "Work Overload (कार्यभार अधिक होना)" },
+  ],
+  "Payroll/Payslip": [
+    { value: "Payslip Required", label: "Payslip Required (वेतन पर्ची आवश्यक)" },
+  ],
+};
+
 
   const handleSubmit = async () => {
     if (!concern || !remark || comment.trim() === "") {
