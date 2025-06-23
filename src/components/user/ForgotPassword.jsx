@@ -41,7 +41,7 @@ export const ForgotPassword = () => {
       alert(`OTP sent to ${contact1}`);
     } catch (err) {
       console.error("OTP send error", err);
-      alert("Here's your test OTP: " + otpCode);
+      alert("Otp Sent on your number"); // + otpCode
     } finally {
       setIsOtpSending(false);
     }
