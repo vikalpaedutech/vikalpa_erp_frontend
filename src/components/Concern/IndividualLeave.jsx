@@ -1,5 +1,3 @@
-// FRONTEND/src/Concern/IndividualLeave.jsx
-
 import React, { useState, useEffect, useContext } from "react";
 import {
   Card,
@@ -13,6 +11,7 @@ import {
 import Select from "react-select";
 import { createConcern } from "../../service/ConcernsServices/Concern.services";
 import { UserContext } from "../contextAPIs/User.context";
+import Spinner from "react-bootstrap/Spinner"; // ✅ NEW IMPORT
 
 export const IndividualLeave = () => {
   const { userData } = useContext(UserContext);
@@ -23,6 +22,7 @@ export const IndividualLeave = () => {
   const [totalDays, setTotalDays] = useState("");
   const [leaveBody, setLeaveBody] = useState("");
   const [file, setFile] = useState(null);
+  const [isSubmitting, setIsSubmitting] = useState(false); // ✅ NEW STATE
 
   const leaveOptions = [
     { value: "WFH", label: "WFH" },
@@ -61,6 +61,7 @@ export const IndividualLeave = () => {
     }
 
     try {
+      setIsSubmitting(true); // ✅ START LOADING
       await createConcern(formData);
       alert("Leave application submitted successfully!");
 
@@ -74,6 +75,8 @@ export const IndividualLeave = () => {
     } catch (error) {
       console.error("Leave application failed:", error);
       alert("Submission failed.");
+    } finally {
+      setIsSubmitting(false); // ✅ STOP LOADING
     }
   };
 
@@ -155,8 +158,21 @@ export const IndividualLeave = () => {
         </Col>
       </Row>
 
-      <Button variant="primary" onClick={handleSubmit}>
-        Submit Leave Application
+      <Button variant="primary" onClick={handleSubmit} disabled={isSubmitting}>
+        {isSubmitting ? (
+          <>
+            <Spinner
+              as="span"
+              animation="border"
+              size="sm"
+              role="status"
+              aria-hidden="true"
+            />
+            <span className="ms-2">Submitting...</span>
+          </>
+        ) : (
+          "Submit Leave Application"
+        )}
       </Button>
     </Container>
   );

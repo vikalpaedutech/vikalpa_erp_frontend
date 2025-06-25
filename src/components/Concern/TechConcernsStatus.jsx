@@ -128,6 +128,13 @@ export const TechConcernsStatus = () => {
 
                     <br />
 
+                    <hr/>
+                    <span style={{fontWeight:'bold'}}>
+                      Technician-Remark: {eachConcern.techVisitorRemark ? (eachConcern.techVisitorRemark):(null)}
+
+                    </span>
+                    <hr/>
+
                     <Select
                       options={options}
                       onChange={(selected) => handleStatusChange(selected, eachConcern._id)}

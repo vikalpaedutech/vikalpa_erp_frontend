@@ -103,8 +103,8 @@ export const DownloadAttendancePdfFormat = () => {
     pdf.setFontSize(14);
     pdf.text(`Attendance Sheet`, 105, 18, { align: "center" });
     pdf.setFontSize(12);
-    pdf.text(`Date: ${selectedDate}`, 20, 30);  //_________________
-    pdf.line(30, 31, 55, 31);
+    pdf.text(`Date: _________________`, 20, 30);  //_________________  pdf.text(`Date: ${''}`, 20, 30)
+    // pdf.line(30, 31, 55, 31);
     pdf.text(`Center Incharge Name: ______________________________`, 80, 30);
     pdf.text(`Role: _________________`, 20, 38);
     pdf.text(`Remarks (if any): ___________________________________`, 80, 38);

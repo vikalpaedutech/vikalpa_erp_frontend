@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from "react";
-import { Button, Col, Container, Form, Row } from "react-bootstrap";
+import { Button, Col, Container, Form, Row, Spinner  } from "react-bootstrap";
 import Select from "react-select";
 import { UserContext } from "../contextAPIs/User.context";
 import {
@@ -22,11 +22,12 @@ const SchoolConcernsForm = () => {
   const [file, setFile] = useState(null);
   const [comment, setComment] = useState(""); // added comment field
   const [studentSrn, setStudentSrn] = useState(""); // for SLC option
+  const [isSubmitting, setIsSubmitting] = useState(false); // NEW: For spinner
+  const [key, setKey] = useState(Date.now()); // NEW: For resetting SchoolDropDowns
 
   const concernOptions = [
     { value: "School", label: "School" },
     { value: "Student", label: "Student" },
-    
   ];
 
   const remarkOptionsMap = {
@@ -84,8 +85,8 @@ const SchoolConcernsForm = () => {
     }
 
     const schoolSelected = schoolContext[0];
-    const concernId = `${concern.value}-${remark.value}-${schoolSelected.value}`;
     const currentDate = new Date().toISOString().split("T")[0];
+    const concernId = `${concern.value}-${remark.value.replace(" ", "")}-${schoolSelected.value}-${currentDate}`;
 
     const formData = new FormData();
     formData.append("concernId", concernId);
@@ -97,9 +98,9 @@ const SchoolConcernsForm = () => {
     formData.append("concern", concern.value);
     formData.append("remark", remark.value);
     formData.append("classOfConcern", classOfConcern.value); // added class
-    formData.append("concernStatusBySubmitter", "NA"); // default
+    formData.append("concernStatusBySubmitter", "Raised"); // default
     formData.append("dateOfSubmission", currentDate);
-    formData.append("concernStatusByResolver", "NA"); // default
+    formData.append("concernStatusByResolver", "Pending"); // default
     if (comment) {
       formData.append("comment", comment);
     }
@@ -111,6 +112,7 @@ const SchoolConcernsForm = () => {
     }
 
     try {
+      setIsSubmitting(true); // NEW
       await createConcern(formData);
       alert("Concern submitted successfully!");
       setConcern(null);
@@ -120,9 +122,12 @@ const SchoolConcernsForm = () => {
       setComment(""); // reset comment
       setStudentSrn(""); // reset srn
       setSchoolContext("");
+      setKey(Date.now()); // force re-render of SchoolDropDowns
     } catch (error) {
       console.error("Error submitting concern:", error.message);
       alert("Submission failed.");
+    } finally {
+      setIsSubmitting(false); // NEW
     }
   };
 
@@ -135,7 +140,7 @@ const SchoolConcernsForm = () => {
 
       {/* Dependent Dropdowns */}
       <Row>
-        <SchoolDropDowns />
+        <SchoolDropDowns key={key} />
       </Row>
 
       {/* Concern, Remark & Class */}
@@ -162,23 +167,23 @@ const SchoolConcernsForm = () => {
             placeholder="Remark"
           />
         </Col>
-         {/* Student SRN Field (only for Student) */}
-      {concern?.value === "Student" && (
-        <Row className="mb-3">
-          <Col md={4}>
-            <Form.Group>
-              <Form.Label>Student SRN (10 digits)</Form.Label>
-              <Form.Control
-                type="text"
-                value={studentSrn}
-                onChange={(e) => setStudentSrn(e.target.value)}
-                placeholder="Enter 10-digit SRN"
-              />
-            </Form.Group>
-          </Col>
-        </Row>
-      )}
 
+        {/* Student SRN Field (only for Student) */}
+        {concern?.value === "Student" && (
+          <Row className="mb-3">
+            <Col md={4}>
+              <Form.Group>
+                <Form.Label>Student SRN (10 digits)</Form.Label>
+                <Form.Control
+                  type="text"
+                  value={studentSrn}
+                  onChange={(e) => setStudentSrn(e.target.value)}
+                  placeholder="Enter 10-digit SRN"
+                />
+              </Form.Group>
+            </Col>
+          </Row>
+        )}
 
         <Col md={3}>
           <label>Class</label>
@@ -220,10 +225,22 @@ const SchoolConcernsForm = () => {
         </Col>
       </Row>
 
-     
       {/* Submit Button */}
-      <Button variant="primary" onClick={handleSubmit}>
-        Submit Concern
+      <Button variant="primary" onClick={handleSubmit} disabled={isSubmitting}>
+        {isSubmitting ? (
+          <>
+            <Spinner
+              as="span"
+              animation="border"
+              size="sm"
+              role="status"
+              aria-hidden="true"
+            />
+            <span className="ms-2">Submitting...</span>
+          </>
+        ) : (
+          "Submit Concern"
+        )}
       </Button>
     </Container>
   );

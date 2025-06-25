@@ -61,10 +61,26 @@ export const SchoolConcernsStatus = () => {
 
       };
 
-      const payload = {
-        concernStatusBySubmitter: selectedStatus,
+
+      let payload;
+
+      if (selectedStatus === "Still Not Resolved"){
         
+         payload = {
+        concernStatusBySubmitter: selectedStatus,
+        concernStatusByResolver: "Pending"
       };
+
+      } else {
+
+         payload = {
+        concernStatusBySubmitter: selectedStatus,
+       
+      };
+
+      }
+
+      
 
       await PatchConcernsByQueryParams(query, payload);
       fetchTechConcerns(); // refresh after update
@@ -101,7 +117,7 @@ if (eachConcern.concernStatusBySubmitter === "Resolved") {
   progressPercent = 75;
 } else if (eachConcern.concernStatusByResolver === "Escalate to Gurgaon Office") {
   progressPercent = 50;
-} else if (eachConcern.concernStatusByResolver === "NA") {
+} else if (eachConcern.concernStatusByResolver === "Pending") {
   progressPercent = 0;
 }
             return (

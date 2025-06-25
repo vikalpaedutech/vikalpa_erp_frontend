@@ -14,9 +14,9 @@ export const createConcern = async (formData) => {
 
         const response = await axios.post(`${API_BASE_URL}/api/create-concern`, formData)
         
-        console.log(response.status)
+     
 
-        alert("Concern submitted successfully!")
+     
         
         return response;
     } catch (error) {

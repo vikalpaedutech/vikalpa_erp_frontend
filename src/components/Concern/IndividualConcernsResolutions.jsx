@@ -38,7 +38,7 @@ export const IndividualConcenrsResolution = () => {
   return (
     <Container className="my-4">
       <Breadcrumb>
-      <Breadcrumb.Item  onClick={()=>handleSubmit('form')} >Individual Concerns</Breadcrumb.Item>
+      {/* <Breadcrumb.Item  onClick={()=>handleSubmit('form')} >Individual Concerns</Breadcrumb.Item> */}
       <Breadcrumb.Item  onClick={()=>handleSubmit('LeaveApplication')}>
         Leave Requests
       </Breadcrumb.Item>
@@ -52,7 +52,7 @@ export const IndividualConcenrsResolution = () => {
 
 {/* {handleForm === "form" ? (<IndividualConcernsForm/>):(<IndividualLeave/>)} */}
 
-{handleForm === "form" ? (<IndividualConcernsRequest />): (
+{(
 <>
 {handleForm === "LeaveApplication" ? (<IndividualLeaveRequests/>):(<IndividualConcernsStatus/>)}
 
@@ -64,3 +64,5 @@ export const IndividualConcenrsResolution = () => {
     </Container>
   );
 };
+
+//handleForm === "form" ? (<IndividualConcernsRequest />): 

@@ -110,6 +110,7 @@ function App() {
                  
                     <Routes>
                       <Route path="/" element={<UserSignIn />} />
+                      <Route path="/forgot-password" element = {<ForgotPassword/>}/>
 
                        <Route element = {<LayoutWithNewNavbar/>}> 
                       <Route path="/user-dash" element={<MainLayout />} />
@@ -206,7 +207,7 @@ function App() {
                   <Route path="/attendance-user" element = {<UserAttendance/>}/>
                   <Route path="/user-attendance-updated" element = {<UserAttendanceUpdated/>}/>
                    <Route path="/user-attendance-aci" element = {<UserAttendanceACI/>}/>
-                    <Route path="/forgot-password" element = {<ForgotPassword/>}/>
+                    
                       
                       
                       </Route>
