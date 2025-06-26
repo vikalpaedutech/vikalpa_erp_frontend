@@ -751,6 +751,8 @@ export const UserAttendanceUpdated = () => {
       navigate("/user-dash");
     } else if (userData?.[0]?.role === "ACI") {
       navigate("/l2-user-dash");
+    } else if (userData?.[0]?.role === "Community Manager"){
+      navigate("/l3-user-dash")
     }
   };
 

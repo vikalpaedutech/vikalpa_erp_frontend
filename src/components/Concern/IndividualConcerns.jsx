@@ -15,6 +15,7 @@ import SchoolDropDowns from "../DependentDropDowns/SchoolDropDowns";
 import { IndividualConcernsForm } from "./IndividualConcernsForm";
 import { IndividualLeave } from "./IndividualLeave";
 import { IndividualConcernsStatus } from "./IndividualConcernsStatus";
+import { IndividualLeaveStatus } from "./IndividualLeaveStatus"; // 🆕 Import added
 
 
 export const IndividualConcerns = () => {
@@ -40,9 +41,13 @@ export const IndividualConcerns = () => {
       <Breadcrumb.Item  onClick={()=>handleSubmit('LeaveApplication')}>
         Leave Application
       </Breadcrumb.Item>
-        <Breadcrumb.Item  onClick={()=>handleSubmit('Status')}>
-        Status
+       <Breadcrumb.Item  onClick={()=>handleSubmit('LeaveStatus')}>
+        Leave Status
       </Breadcrumb.Item>
+        <Breadcrumb.Item  onClick={()=>handleSubmit('Status')}>
+        Concern Status
+      </Breadcrumb.Item>
+      
     
     </Breadcrumb>
 
@@ -52,7 +57,9 @@ export const IndividualConcerns = () => {
 
 {handleForm === "form" ? (<IndividualConcernsForm />): (
 <>
-{handleForm === "LeaveApplication" ? (<IndividualLeave/>):(<IndividualConcernsStatus/>)}
+{handleForm === "LeaveApplication" ? (<IndividualLeave/>):(
+  handleForm === "LeaveStatus" ? (<IndividualLeaveStatus/>):(<IndividualConcernsStatus/>)
+)}
 
 </>
 

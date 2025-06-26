@@ -19,6 +19,7 @@ import { IndividualLeaveRequests } from "./IndividualLeaveRequests";
 import { IndividualConcernsRequest } from "./IndividualConcernsRequest";
 
 
+
 export const IndividualConcenrsResolution = () => {
   const { userData } = useContext(UserContext);
   const { schoolContext, setSchoolContext } = useContext(SchoolContext);
@@ -39,26 +40,26 @@ export const IndividualConcenrsResolution = () => {
     <Container className="my-4">
       <Breadcrumb>
       {/* <Breadcrumb.Item  onClick={()=>handleSubmit('form')} >Individual Concerns</Breadcrumb.Item> */}
-      <Breadcrumb.Item  onClick={()=>handleSubmit('LeaveApplication')}>
+      <Breadcrumb.Item  onClick={()=>handleSubmit('form')}>
         Leave Requests
       </Breadcrumb.Item>
-        <Breadcrumb.Item  onClick={()=>handleSubmit('Status')}>
+        {/* <Breadcrumb.Item  onClick={()=>handleSubmit('Status')}>
         Status
-      </Breadcrumb.Item>
+      </Breadcrumb.Item> */}
     
     </Breadcrumb>
 
 
 
-{/* {handleForm === "form" ? (<IndividualConcernsForm/>):(<IndividualLeave/>)} */}
+{handleForm === "form" ? (<IndividualLeaveRequests/>):(null)}
 
-{(
+{/* {(
 <>
-{handleForm === "LeaveApplication" ? (<IndividualLeaveRequests/>):(<IndividualConcernsStatus/>)}
+{handleForm === "LeaveApplication" ? (<IndividualLeaveRequests/>):(<IndividualApprovedAndRejectedLeaveStatus/>)}
 
 </>
 
-)}
+)} */}
    
     
     </Container>

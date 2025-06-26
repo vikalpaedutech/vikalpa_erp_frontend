@@ -27,14 +27,24 @@ export const IndividualLeaveRequests = () =>{
 //Usestate hooks.
     const [concernData, setConcernData] = useState([]);
     const [statusSelections, setStatusSelections] = useState({});
+    const [remarks, setRemarks] = useState({}); // 🆕 New state for remarks
 
 //API to fetch concerns data. Tech Concerns Only.
 const fetchTechConcerns = async () =>{
    
+  let conditionalRole;
+
+  if (userData?.[0]?.role==="ACI"){
+    conditionalRole = "CC"
+  } else if (userData?.[0]?.role === "Community Manager"){
+    conditionalRole = ["ACI", "CC"]
+  }
 
     const queryParams = {
          userId: userData?.[0]?.userId,
-         concernType: 'Leave'
+         concernType: 'Leave',
+         role: userData?.[0]?.role, 
+         conditionalRole: conditionalRole
 
         //  districtId: districtContext?.[0]?.value || userData?.[0]?.assignedDistricts,
         //  blockId: userData?.[0]?.assignedBlocks, 
@@ -75,6 +85,14 @@ const handleStatusChange = (selectedOption, concernId) => {
     });
 };
 
+// 🆕 Input remark change handler
+const handleRemarkChange = (e, concernId) => {
+    setRemarks({
+        ...remarks,
+        [concernId]: e.target.value,
+    });
+};
+
 
 //Submitting concern status
 
@@ -82,6 +100,11 @@ const handleStatusChange = (selectedOption, concernId) => {
 const handleSubmitStatus = async (concernId) => {
     const selectedStatus = statusSelections[concernId];
     if (!selectedStatus) return;
+
+    if (selectedStatus === "Rejected" && (!remarks[concernId] || remarks[concernId].trim() === "")) {
+        alert("Remark is mandatory when rejecting leave.");
+        return;
+    }
 
     try {
       const query = {
@@ -91,11 +114,14 @@ const handleSubmitStatus = async (concernId) => {
 
       const payload = {
   l1ApprovalOnLeave: {
+    status: statusSelections[concernId] || 'NA',
     approvedBy: userData?.[0]?.userId,
+
     approvedOn: new Date(),
-    comment: 'NA'
+    comment: remarks[concernId] || 'NA' // 🆕 use remark if provided
   }
   // concernStatusByResolver: selectedStatus,
+  
 };
       await PatchConcernsByQueryParams(query, payload);
       fetchTechConcerns(); // refresh after update
@@ -123,75 +149,108 @@ const formatDate = (isoString) => {
 
 //
     return (
-        <Container>
-            <div>
-                <DistrictBlockSchoolById assignedDistricts={assignedDistricts}/>
-            </div>
-            {/* <div>
-                <ClassOfStudent/>
-            </div> */}
-            <hr/>
-        
-        <div>
-            {concernData.length > 0 ? concernData.map((eachConcern, index)=>{
-                return (
-                  <div key={index}>
+       <Container>
+    <div>
+        <DistrictBlockSchoolById assignedDistricts={assignedDistricts}/>
+    </div>
+    {/* <div>
+        <ClassOfStudent/>
+    </div> */}
+    <hr/>
 
-                    <br/>
-                    <Card style={{ width: "18rem", backgroundColor:'red' }}>
-                      {/* <Card.Img variant="top" src="holder.js/100px180" /> */}
-                      <Card.Body>
-                        <Card.Title>Name: {eachConcern.userDetails.name}</Card.Title>
-                        <Card.Title>Subject: {eachConcern.subjectOfLeave}</Card.Title>
-                        <Card.Text>
-                          <p>Leave from {formatDate(eachConcern.leavePeriodFrom)} to {formatDate(eachConcern.leavePeriodTo)} </p>
-                          <p>Leave applied for: {eachConcern.totalDaysOfLeaveAppliedFor} days</p>
-                        </Card.Text>
+    <div>
+        {concernData.length > 0 ? concernData
+          // ✅ Sort: show approved/rejected cards last
+          .sort((a, b) => {
+              const aStatus = a?.l1ApprovalOnLeave?.status;
+              const bStatus = b?.l1ApprovalOnLeave?.status;
+              const aResolved = aStatus === "Approved" || aStatus === "Rejected";
+              const bResolved = bStatus === "Approved" || bStatus === "Rejected";
+              return aResolved - bResolved;
+          })
+          .map((eachConcern, index) => {
+            const isResolved = eachConcern?.l1ApprovalOnLeave?.status === "Approved" || eachConcern?.l1ApprovalOnLeave?.status === "Rejected";
+            const resolvedStatus = eachConcern?.l1ApprovalOnLeave?.status || '';
+            const resolvedComment = eachConcern?.l1ApprovalOnLeave?.comment || '';
+            return (
+              <div key={index}>
+                <br />
+                <Card style={{ width: "18rem" }}>
+                  {/* <Card.Img variant="top" src="holder.js/100px180" /> */}
+                  <Card.Body>
+                    <Card.Title>Name: {eachConcern.userDetails.name}</Card.Title>
+                    <Card.Title>Subject: {eachConcern.subjectOfLeave}</Card.Title>
+                    <Card.Text>
+                      <p>Leave from {formatDate(eachConcern.leavePeriodFrom)} to {formatDate(eachConcern.leavePeriodTo)} </p>
+                      <p>Leave applied for: {eachConcern.totalDaysOfLeaveAppliedFor} days</p>
+                    </Card.Text>
 
-                        {/* <div className="custom-progress-container">
-                          <div className="custom-progress-bar" style={{ width: `${progressPercent}%` }}></div>
-                          <div className="checkpoints">
-                            <div className={`checkpoint ${progressPercent >= 0 ? "active" : ""}`} style={{ left: "0%" }}>
-                              <span>1</span>
-                              <div className="checkpoint-label">Pending</div>
-                            </div>
-                            <div className={`checkpoint ${progressPercent >= 50 ? "active" : ""}`} style={{ left: "50%" }}>
-                              <span>2</span>
-                              <div className="checkpoint-label">Visited</div>
-                            </div>
-                            <div className={`checkpoint ${progressPercent >= 100 ? "active" : ""}`} style={{ left: "100%" }}>
-                              <span>3</span>
-                              <div className="checkpoint-label">Resolved</div>
-                            </div>
-                          </div>
+                    {/* <div className="custom-progress-container">
+                      <div className="custom-progress-bar" style={{ width: `${progressPercent}%` }}></div>
+                      <div className="checkpoints">
+                        <div className={`checkpoint ${progressPercent >= 0 ? "active" : ""}`} style={{ left: "0%" }}>
+                          <span>1</span>
+                          <div className="checkpoint-label">Pending</div>
                         </div>
+                        <div className={`checkpoint ${progressPercent >= 50 ? "active" : ""}`} style={{ left: "50%" }}>
+                          <span>2</span>
+                          <div className="checkpoint-label">Visited</div>
+                        </div>
+                        <div className={`checkpoint ${progressPercent >= 100 ? "active" : ""}`} style={{ left: "100%" }}>
+                          <span>3</span>
+                          <div className="checkpoint-label">Resolved</div>
+                        </div>
+                      </div>
+                    </div>
 
-                        <br /> */}
+                    <br /> */}
 
-                        
-                        <hr></hr>
-                        <p style={{fontWeight:'bold'}}>Description:</p>
-                        <p>{eachConcern.leaveBody}</p>
+                    <hr></hr>
+                    <p style={{ fontWeight: 'bold' }}>Description:</p>
+                    <p>{eachConcern.leaveBody}</p>
 
-                        <Select
-                          options={options}
-                          onChange={(selected) => handleStatusChange(selected, eachConcern.concernId)}
-                          value={options.find((opt) => opt.value === statusSelections[eachConcern.concernId]) || null}
-                          placeholder="-- Select Status --"
-                        />
+                    {/* ✅ Show status and comment if resolved */}
+                    {isResolved && (
+                      <>
+                        <p><strong>Status:</strong> {resolvedStatus}</p>
+                        <p><strong>Remark:</strong> {resolvedComment}</p>
+                      </>
+                    )}
 
-                        <br />
-                        <Button id={eachConcern.concernId} variant="primary" onClick={(e) => handleSubmitStatus(eachConcern.concernId)}>
-                          Submit
-                        </Button>
-                      </Card.Body>
-                    </Card>
+                    <Select
+                      options={options}
+                      onChange={(selected) => handleStatusChange(selected, eachConcern.concernId)}
+                      value={options.find((opt) => opt.value === statusSelections[eachConcern.concernId]) || null}
+                      placeholder="-- Select Status --"
+                      isDisabled={isResolved} // ✅ disable if resolved
+                    />
 
-                  </div>
-                );
-            }):(<div>No concerns yet</div>)}
-        </div>
-          
-        </Container>
+                    {/* 🆕 Remark input field */}
+                    <Form.Control
+                      className="mt-2"
+                      type="text"
+                      placeholder="Enter remark (optional)"
+                      value={remarks[eachConcern.concernId] || ''}
+                      onChange={(e) => handleRemarkChange(e, eachConcern.concernId)}
+                      disabled={isResolved} // ✅ disable if resolved
+                    />
+
+                    <br />
+                    <Button
+                      id={eachConcern.concernId}
+                      variant="primary"
+                      onClick={(e) => handleSubmitStatus(eachConcern.concernId)}
+                      disabled={isResolved} // ✅ disable if resolved
+                    >
+                      Submit
+                    </Button>
+                  </Card.Body>
+                </Card>
+              </div>
+            );
+          }) : (<div>No concerns yet</div>)}
+    </div>
+</Container>
+
     )
 }

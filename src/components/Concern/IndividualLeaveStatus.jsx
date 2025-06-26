@@ -9,7 +9,7 @@ import { SchoolContext, BlockContext, DistrictBlockSchoolContext, ClassContext }
 import { getConcernsByQueryParameters, PatchConcernsByQueryParams } from "../../service/ConcernsServices/Concern.services";
 import { District, DistrictBlockSchoolById, ClassOfStudent } from "../DependentDropDowns/DistrictBlockSchool.component";
 
-export const IndividualConcernsStatus = () => {
+export const IndividualLeaveStatus = () => {
   //Context apis
   const { userData, setUserData } = useContext(UserContext);
   const { districtContext, setDistrictContext } = useContext(DistrictBlockSchoolContext);
@@ -25,7 +25,7 @@ export const IndividualConcernsStatus = () => {
   const fetchTechConcerns = async () => {
     const queryParams = {
       userId: userData?.[0]?.userId,
-      concernType:['Individual']
+      concernType:['Leave']
     };
 
     console.log(queryParams);
@@ -73,8 +73,7 @@ export const IndividualConcernsStatus = () => {
   }, []);
 
   const options = [
-    { value: "Resolved", label: "Resolved" },
-    { value: "Still Not Resolved", label: "Still Not Resolved" }
+    { value: "Closed", label: "Closed" },
   ];
 
   return (
@@ -87,48 +86,59 @@ export const IndividualConcernsStatus = () => {
                 <br />
                 <Card style={{ width: "18rem" }}>
                   <Card.Body>
-                    <Card.Title>{eachConcern.concern}</Card.Title>
+                    <Card.Title>Subject: {eachConcern.remark}</Card.Title>
                     <Card.Text>
-                    <p>Concern: {eachConcern.concern}</p>
-                    <p>Remark: {eachConcern.remark}</p>
-                     <p>Status: {eachConcern.concernStatusByResolver}</p>
+                    <p>From: {eachConcern.userDetails.name}</p>
+                    <p>Leave Period: {eachConcern.leavePeriodFrom.replace("T00:00:00.000Z", "")} to {eachConcern.leavePeriodTo.replace("T00:00:00.000Z", "")}</p>
+                    <p>Total days: {eachConcern.totalDaysOfLeaveAppliedFor}</p>
+                    
+                    <hr></hr>
+                    <p>Reason:</p>
+                     <p>{eachConcern.leaveBody}</p>
+
+                     <p>Attachement: {eachConcern.fileUrl ? (
+                        <>
+                        <a href={eachConcern.fileUrl} target="_blank" rel="noopener noreferrer">View</a>
+                        </>
+                     ):("No attachement")}</p>
+                     <hr></hr>
+
+                    {eachConcern.l1ApprovalOnLeave.status === "Pending" ? (
+                        <p>Approval Status: {eachConcern.l1ApprovalOnLeave.status}</p>
+                    ):(
+                        
+                        <div>
+                            <p style={{color:'red', fontWeight:'bold'}}>Approval Status: {eachConcern.l1ApprovalOnLeave.status}</p>
+                            <p style={{color:'red', fontWeight:'bold'}}>Remark: {eachConcern.l1ApprovalOnLeave.comment}</p>
+                        </div>
+                       
+                    )}
+                     
                     </Card.Text>
 
 
-
-
-                  <div className="custom-progress-container">
+                  {/* <div className="custom-progress-container">
                       <div className="custom-progress-bar" style={{ width: `${progressPercent}%` }}></div>
                       <div className="checkpoints">
                         <div className={`checkpoint ${progressPercent >= 0 ? "active" : ""}`} style={{ left: "0%" }}>
                           <span>1</span>
                           <div className="checkpoint-label">Submitted</div>
                         </div>
-                        <div className={`checkpoint ${progressPercent >= 33 ? "active" : ""}`} style={{ left: "33%" }}>
+                        <div className={`checkpoint ${progressPercent >= 50 ? "active" : ""}`} style={{ left: "50%" }}>
                           <span>2</span>
-                          <div className="checkpoint-label">Gurgaon Office</div>
+                          <div className="checkpoint-label">ACI Approval</div>
                         </div>
-                        <div className={`checkpoint ${progressPercent >= 66 ? "active" : ""}`} style={{ left: "66%" }}>
+                        <div className={`checkpoint ${progressPercent >= 100 ? "active" : ""}`} style={{ left: "100%" }}>
                           <span>3</span>
                           <div className="checkpoint-label">Resolved</div>
                         </div>
-                        <div className={`checkpoint ${progressPercent >= 100 ? "active" : ""}`} style={{ left: "100%" }}>
-                          <span>4</span>
-                          <div className="checkpoint-label">Closed</div>
-                        </div>
                       </div>
-                    </div>
+                    </div> */}
 
 
 
 
-                     <hr></hr>
-                    <Select
-                      options={options}
-                      onChange={(selected) => handleStatusChange(selected, eachConcern._id)}
-                      value={options.find((opt) => opt.value === statusSelections[eachConcern._id]) || null}
-                      placeholder="-- Select Status --"
-                    />
+                    
 
                     <br />
 

@@ -28,6 +28,10 @@ const UserSignup = () => {
   const blockContextArray = blockContext.map((b) => b.value);
   const schoolContextArray = schoolContext.map((s) => s.value);
 
+
+  
+
+
   const [coordinates, setCoordinates] = useState({
     latitude: null,
     longitude: null,
@@ -76,7 +80,7 @@ const UserSignup = () => {
 
   const deptAndRole = [
     { Operations: ["Manager", "T.L", "Coordinator"] },
-    { Community: ["Manager", "T.L", "ACI", "CC"] },
+    { Community: ["Community Manager", "Community Incharge", "ACI", "CC"] },
     {
       Academics: [
         "Teacher",

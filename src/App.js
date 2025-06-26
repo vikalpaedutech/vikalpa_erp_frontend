@@ -94,6 +94,7 @@ import { IndividualConcenrsResolution } from "./components/Concern/IndividualCon
 import { UserAttendanceACI } from "./components/user/UserAttendanceACI.jsx";
 import SchoolConcernsRequest from "./components/Concern/SchoolConcernsRequest.jsx";
 import { ForgotPassword } from "./components/user/ForgotPassword.jsx";
+import MainLayoutManagerLevel from "./pages/UserScreens/MainLayoutManager.jsx";
 function App() {
   
   return (
@@ -111,10 +112,12 @@ function App() {
                     <Routes>
                       <Route path="/" element={<UserSignIn />} />
                       <Route path="/forgot-password" element = {<ForgotPassword/>}/>
+                      <Route path="/user-signup" element = {<UserSignup/>}/>
 
                        <Route element = {<LayoutWithNewNavbar/>}> 
                       <Route path="/user-dash" element={<MainLayout />} />
-                      <Route path="l2-user-dash" element = {<MainLayoutAciLevel/>}/>                      
+                      <Route path="/l2-user-dash" element = {<MainLayoutAciLevel/>}/>  
+                      <Route path="/l3-user-dash" element = {<MainLayoutManagerLevel/>}/>                    
 
 
                       {/* Acadmecis routes */}
