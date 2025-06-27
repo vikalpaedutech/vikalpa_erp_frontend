@@ -95,6 +95,7 @@ import { UserAttendanceACI } from "./components/user/UserAttendanceACI.jsx";
 import SchoolConcernsRequest from "./components/Concern/SchoolConcernsRequest.jsx";
 import { ForgotPassword } from "./components/user/ForgotPassword.jsx";
 import MainLayoutManagerLevel from "./pages/UserScreens/MainLayoutManager.jsx";
+import OfficeCommunityTeam from "./pages/UserScreens/OfficeCommunityTeam.jsx";
 function App() {
   
   return (
@@ -117,7 +118,8 @@ function App() {
                        <Route element = {<LayoutWithNewNavbar/>}> 
                       <Route path="/user-dash" element={<MainLayout />} />
                       <Route path="/l2-user-dash" element = {<MainLayoutAciLevel/>}/>  
-                      <Route path="/l3-user-dash" element = {<MainLayoutManagerLevel/>}/>                    
+                      <Route path="/l3-user-dash" element = {<MainLayoutManagerLevel/>}/>  
+                      <Route path="/l0-user-dash" element = {<OfficeCommunityTeam/>}/>                    
 
 
                       {/* Acadmecis routes */}

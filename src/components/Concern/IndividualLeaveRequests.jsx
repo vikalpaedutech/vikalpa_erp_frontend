@@ -33,18 +33,26 @@ export const IndividualLeaveRequests = () =>{
 const fetchTechConcerns = async () =>{
    
   let conditionalRole;
+  let conditionalDepartment;
 
   if (userData?.[0]?.role==="ACI"){
-    conditionalRole = "CC"
+    conditionalRole = ["CC"]
+    conditionalDepartment = ["Community"]
   } else if (userData?.[0]?.role === "Community Manager"){
-    conditionalRole = ["ACI", "CC"]
-  }
+    conditionalRole = ["ACI", "CC", "Community Incharge"]
+    conditionalDepartment = ["Community"]
+  } 
+
+
+
 
     const queryParams = {
          userId: userData?.[0]?.userId,
          concernType: 'Leave',
          role: userData?.[0]?.role, 
-         conditionalRole: conditionalRole
+         conditionalRole: conditionalRole,
+         conditionalDepartment: conditionalDepartment
+
 
         //  districtId: districtContext?.[0]?.value || userData?.[0]?.assignedDistricts,
         //  blockId: userData?.[0]?.assignedBlocks, 

@@ -1,231 +1,9 @@
 // // /FRONTEND/src/components/AcademicsComponents/CopyChecking.jsx
 
-// import React, { useState, useEffect, useContext } from "react";
-// import { createDisciplinaryOrInteraction } from "../../service/StudentDisciplinaryOrInteraction.services";
-// import { getStudentsByQueryParams } from "../../service/Student.service";
-// import { Container, Table, Button, Row, Col, Form, Card } from "react-bootstrap";
-// import Select from "react-select";
-// import {
-//   DistrictBlockSchoolContext,
-//   BlockContext,
-//   SchoolContext,
-//   ClassContext,
-// } from "../contextAPIs/DependentDropdowns.contextAPI";
-// import { UserContext } from "../contextAPIs/User.context";
-
-// import { DistrictBlockSchoolById, ClassOfStudent } from "../DependentDropDowns/DistrictBlockSchool.component";
-// import SchoolDropDowns from "../DependentDropDowns/SchoolDropDowns";
-
-// export const CopyChecking = () => {
-//   const { userData } = useContext(UserContext);
-//   const { districtContext, setDistrictContext } = useContext(DistrictBlockSchoolContext);
-//   const { blockContext, setBlockContext } = useContext(BlockContext);
-//   const { schoolContext, setSchoolContext } = useContext(SchoolContext);
-//   const { classContext } = useContext(ClassContext);
-
-//   const [firstName, setFirstName] = useState('')
-//   const [studentData, setStudentData] = useState([]);
-//   const [subjectSelected, setSubjectSelected] = useState(null);
-//   const [classWorkStatus, setClassWorkStatus] = useState({});
-//   const [homeWorkStatus, setHomeWorkStatus] = useState({});
-
-//   const queryParams = {
-//     schoolId: schoolContext?.[0]?.value ?? userData[0].assignedSchools ,
-//     classofStudent: classContext?.value ?? ['9', '10'],
-//     firstName: firstName
-//   };
-
-//   useEffect(() => {
-//     const fetchStudentData = async () => {
-//       try {
-//         const response = await getStudentsByQueryParams(queryParams);
-//         setStudentData(response.data);
-//       } catch (error) {
-//         console.error("Error fetching student data", error.message);
-//       }
-//     };
-
-//     fetchStudentData();
-//   }, [schoolContext, classContext, firstName]);
-
-//   useEffect(() => {
-//     setBlockContext("");
-//     setSchoolContext("");
-//   }, [districtContext]);
-
-//   const subjectOptions = [
-//     { value: "English", label: "English" },
-//     { value: "Hindi", label: "Hindi" },
-//     { value: "Maths", label: "Maths" },
-//     { value: "Science", label: "Science" },
-//     { value: "S.St", label: "S.St" },
-//     // { value: "S.Sc", label: "S.Sc" },
-//     // { value: "Optional", label: "Optional" },
-//   ];
-
-//   const checkingOptions = [
-//     { value: "Complete", label: "Complete" },
-//     { value: "Incomplete", label: "Incomplete" },
-//     { value: "Copy-not-brought", label: "Copy-not-brought" },
-//   ];
-
-//   const handleSubmit = async (student) => {
-//     if (!subjectSelected) {
-//       alert("Please select the subject at the top before submitting.");
-//       return;
-//     }
-
-//     const srn = student.studentSrn;
-//     const classWork = classWorkStatus[srn]?.value;
-//     const homeWork = homeWorkStatus[srn]?.value;
-
-//     if (!classWork || !homeWork) {
-//       alert("Please select both class work and home work status.");
-//       return;
-//     }
-
-//     const formData = {
-//       studentSrn: srn,
-//       firstName: student.firstName,
-//       fatherName: student.fatherName,
-//       classofStudent: student.classofStudent || classContext?.id || "NA",
-//       districtId: student.districtId || districtContext?.id || "NA",
-//       blockId: student.blockId || blockContext?.id || "NA",
-//       schoolId: student.schoolId || schoolContext?.id || "NA",
-//       subject: subjectSelected.value,
-//       status: "Copy Checking",
-//       classWorkChecking: classWork,
-//       homeWorkChecking: homeWork,
-//       userId: userData?.[0]?.userId ?? "Not-known",
-//     };
-
-//     try {
-//       await createDisciplinaryOrInteraction(formData);
-//       alert("Copy checking submitted!");
-
-//       setClassWorkStatus((prev) => ({ ...prev, [srn]: null }));
-//       setHomeWorkStatus((prev) => ({ ...prev, [srn]: null }));
-//     } catch (error) {
-//       console.error("Error submitting:", error.message);
-//       alert("Failed to submit data.");
-//     }
-//   };
-
-//   const assignedDistricts = userData?.[0]?.assignedDistricts;
-
-//   return (
-//     <Row className="justify-content-center">
-//       <Col xs={12}>
-//         <Container fluid className="prevent-overflow">
-//           {/* <Row>
-//             <DistrictBlockSchoolById assignedDistricts={assignedDistricts} />
-//           </Row> */}
-
-//           <SchoolDropDowns/>
-
-//           <Row>
-//             <Col>
-//               <ClassOfStudent />
-//             </Col>
-//           </Row>
-
-//           <Row className="my-3">
-//             <Col md={4}>
-//               <Select
-//                 options={subjectOptions}
-//                 value={subjectSelected}
-//                 onChange={setSubjectSelected}
-//                 placeholder="Select Subject (applies to all)"
-//               />
-//             </Col>
-//           </Row>
-
-//           <Row>
-//             <Form>
-//             <Form.Group
-//               as={Row}
-//               className="mb-3"
-//               controlId="formPlaintextPassword"
-//             >
-//               <Form.Label column sm="2">
-//                 Filter Student Name
-//               </Form.Label>
-//               <Col sm="10">
-//                 <Form.Control
-//                   type="text"
-//                   placeholder="text"
-//                   onChange={(e) => setFirstName(e.target.value)}
-//                 />
-//               </Col>
-//             </Form.Group>
-//           </Form>
-//           </Row>
-
-//           <Row>
-//       {studentData.map((student, index) => {
-//         const srn = student.studentSrn;
-//         return (
-//           <Col md={6} lg={4} key={srn} className="mb-3">
-//             <Card>
-//               <Card.Body>
-//                 <Card.Title>
-//                   {index + 1}. {student.firstName} (SRN: {srn})
-//                 </Card.Title>
-
-//                 <Form.Group className="mb-2">
-//                   <Form.Label>Class Work</Form.Label>
-//                   <Select
-//                     options={checkingOptions}
-//                     value={classWorkStatus[srn] || null}
-//                     onChange={(option) =>
-//                       setClassWorkStatus((prev) => ({
-//                         ...prev,
-//                         [srn]: option,
-//                       }))
-//                     }
-//                     placeholder="Select Class Work"
-//                   />
-//                 </Form.Group>
-
-//                 <Form.Group className="mb-2">
-//                   <Form.Label>Home Work</Form.Label>
-//                   <Select
-//                     options={checkingOptions}
-//                     value={homeWorkStatus[srn] || null}
-//                     onChange={(option) =>
-//                       setHomeWorkStatus((prev) => ({
-//                         ...prev,
-//                         [srn]: option,
-//                       }))
-//                     }
-//                     placeholder="Select Home Work"
-//                   />
-//                 </Form.Group>
-
-//                 <Button variant="primary" onClick={() => handleSubmit(student)}>
-//                   Submit
-//                 </Button>
-//               </Card.Body>
-//             </Card>
-//           </Col>
-//         );
-//       })}
-//     </Row>
-//         </Container>
-//       </Col>
-//     </Row>
-//   );
-// };
-
-
-
-
-// /FRONTEND/src/components/AcademicsComponents/CopyChecking.jsx
-
 import React, { useState, useEffect, useContext } from "react";
 import { createDisciplinaryOrInteraction } from "../../service/StudentDisciplinaryOrInteraction.services";
 import { getStudentsByQueryParams } from "../../service/Student.service";
-import { Container, Table, Button, Row, Col, Form, Card } from "react-bootstrap";
+import { Container, Button, Row, Col, Form, Card } from "react-bootstrap";
 import Select from "react-select";
 import {
   DistrictBlockSchoolContext,
@@ -247,9 +25,8 @@ export const CopyChecking = () => {
 
   const [firstName, setFirstName] = useState('');
   const [studentData, setStudentData] = useState([]);
-  const [classWorkStatus, setClassWorkStatus] = useState({});
-  const [homeWorkStatus, setHomeWorkStatus] = useState({});
-  const [selectedSubjectsPerStudent, setSelectedSubjectsPerStudent] = useState({});
+  const [selectedStatusesPerStudent, setSelectedStatusesPerStudent] = useState({});
+  const [checkingTypePerStudent, setCheckingTypePerStudent] = useState({});
 
   const queryParams = {
     schoolId: schoolContext?.[0]?.value ?? userData[0].assignedSchools,
@@ -286,65 +63,66 @@ export const CopyChecking = () => {
   const checkingOptions = [
     { value: "Complete", label: "Complete" },
     { value: "Incomplete", label: "Incomplete" },
-    { value: "Copy-not-brought", label: "Copy-not-brought" },
+    { value: "Unavailable", label: "Unavailable" },
   ];
 
-  const handleSubjectCheckboxChange = (srn, subjectValue) => {
-    setSelectedSubjectsPerStudent((prev) => {
-      const currentSubjects = prev[srn] || [];
-      const updatedSubjects = currentSubjects.includes(subjectValue)
-        ? currentSubjects.filter((s) => s !== subjectValue)
-        : [...currentSubjects, subjectValue];
-      return { ...prev, [srn]: updatedSubjects };
+  const handleStatusChange = (srn, subject, status) => {
+    setSelectedStatusesPerStudent(prev => {
+      const studentStatuses = prev[srn] || {};
+      return {
+        ...prev,
+        [srn]: {
+          ...studentStatuses,
+          [subject]: status
+        }
+      };
     });
   };
 
   const handleSubmit = async (student) => {
-  const srn = student.studentSrn;
-  const classWork = classWorkStatus[srn]?.value;
-  const homeWork = homeWorkStatus[srn]?.value;
-  const selectedSubjects = selectedSubjectsPerStudent[srn] || [];
+    const srn = student.studentSrn;
+    const checkType = checkingTypePerStudent[srn]?.value;
+    const subjectStatusMap = selectedStatusesPerStudent[srn];
 
-  if (selectedSubjects.length === 0) {
-    alert("Please select at least one subject.");
-    return;
-  }
-
-  if (!classWork && !homeWork) {
-    alert("Please select either Class Work or Home Work status.");
-    return;
-  }
-
-  try {
-    for (let subject of selectedSubjects) {
-      const formData = {
-        studentSrn: srn,
-        firstName: student.firstName,
-        fatherName: student.fatherName,
-        classofStudent: student.classofStudent || classContext?.id || "NA",
-        districtId: student.districtId || districtContext?.id || "NA",
-        blockId: student.blockId || blockContext?.id || "NA",
-        schoolId: student.schoolId || schoolContext?.id || "NA",
-        subject: subject,
-        status: "Copy Checking",
-        classWorkChecking: classWork ?? "Not-selected",
-        homeWorkChecking: homeWork ?? "Not-selected",
-        userId: userData?.[0]?.userId ?? "Not-known",
-      };
-
-      await createDisciplinaryOrInteraction(formData);
+    if (!checkType) {
+      alert("Please select whether you're checking Class Work or Home Work.");
+      return;
     }
 
-    alert("Copy checking submitted!");
+    if (!subjectStatusMap || Object.keys(subjectStatusMap).length === 0) {
+      alert("Please select at least one subject's status.");
+      return;
+    }
 
-    setClassWorkStatus((prev) => ({ ...prev, [srn]: null }));
-    setHomeWorkStatus((prev) => ({ ...prev, [srn]: null }));
-    setSelectedSubjectsPerStudent((prev) => ({ ...prev, [srn]: [] }));
-  } catch (error) {
-    console.error("Error submitting:", error.message);
-    alert("Failed to submit data.");
-  }
-};
+    try {
+      for (let [subject, status] of Object.entries(subjectStatusMap)) {
+        const formData = {
+          studentSrn: srn,
+          firstName: student.firstName,
+          fatherName: student.fatherName,
+          classofStudent: student.classofStudent || classContext?.id || "NA",
+          districtId: student.districtId || districtContext?.id || "NA",
+          blockId: student.blockId || blockContext?.id || "NA",
+          schoolId: student.schoolId || schoolContext?.id || "NA",
+          subject: subject,
+          status: "Copy Checking",
+          classWorkChecking: checkType === "Class Work" ? status : "NA",
+          homeWorkChecking: checkType === "Home Work" ? status : "NA",
+          userId: userData?.[0]?.userId ?? "Not-known",
+        };
+
+        await createDisciplinaryOrInteraction(formData);
+      }
+
+      alert("Copy checking submitted!");
+
+      setSelectedStatusesPerStudent(prev => ({ ...prev, [srn]: {} }));
+      setCheckingTypePerStudent(prev => ({ ...prev, [srn]: null }));
+    } catch (error) {
+      console.error("Error submitting:", error.message);
+      alert("Failed to submit data.");
+    }
+  };
 
   const assignedDistricts = userData?.[0]?.assignedDistricts;
 
@@ -366,7 +144,7 @@ export const CopyChecking = () => {
 
           <Row className="my-3">
             <Col md={4}>
-              <p><b>Select subjects inside each student card</b></p>
+              <p><b>Select work type and subject statuses inside each student card</b></p>
             </Col>
           </Row>
 
@@ -394,7 +172,7 @@ export const CopyChecking = () => {
           <Row>
             {studentData.map((student, index) => {
               const srn = student.studentSrn;
-              const selectedSubjects = selectedSubjectsPerStudent[srn] || [];
+              const statuses = selectedStatusesPerStudent[srn] || {};
               return (
                 <Col md={6} lg={4} key={srn} className="mb-3">
                   <Card>
@@ -404,50 +182,50 @@ export const CopyChecking = () => {
                       </Card.Title>
 
                       <Form.Group className="mb-2">
+                        <Form.Label>Select Checking Type</Form.Label>
+                        <Select
+                          options={[{ value: "Class Work", label: "Class Work" }, { value: "Home Work", label: "Home Work" }]}
+                          value={checkingTypePerStudent[srn] || null}
+                          onChange={(option) =>
+                            setCheckingTypePerStudent((prev) => ({
+                              ...prev,
+                              [srn]: option,
+                            }))
+                          }
+                          placeholder="Select Type"
+                        />
+                      </Form.Group>
+
+                      <Form.Group className="mb-2">
                         <Form.Label>Subjects</Form.Label>
-                        <div>
-                          {subjectOptions.map((subject) => (
-                            <Form.Check
-                              key={subject.value}
-                              type="checkbox"
-                              label={subject.label}
-                              checked={selectedSubjects.includes(subject.value)}
-                              onChange={() =>
-                                handleSubjectCheckboxChange(srn, subject.value)
-                              }
-                            />
-                          ))}
+                        <div className="table-responsive">
+                          <table className="table table-bordered">
+                            <thead>
+                              <tr>
+                                <th>Subject</th>
+                                {checkingOptions.map((opt) => (
+                                  <th key={opt.value}>{opt.label}</th>
+                                ))}
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {subjectOptions.map((subj) => (
+                                <tr key={subj.value}>
+                                  <td>{subj.label}</td>
+                                  {checkingOptions.map((opt) => (
+                                    <td key={opt.value}>
+                                      <Form.Check
+                                        type="checkbox"
+                                        checked={statuses[subj.value] === opt.value}
+                                        onChange={() => handleStatusChange(srn, subj.value, opt.value)}
+                                      />
+                                    </td>
+                                  ))}
+                                </tr>
+                              ))}
+                            </tbody>
+                          </table>
                         </div>
-                      </Form.Group>
-
-                      <Form.Group className="mb-2">
-                        <Form.Label>Class Work</Form.Label>
-                        <Select
-                          options={checkingOptions}
-                          value={classWorkStatus[srn] || null}
-                          onChange={(option) =>
-                            setClassWorkStatus((prev) => ({
-                              ...prev,
-                              [srn]: option,
-                            }))
-                          }
-                          placeholder="Select Class Work"
-                        />
-                      </Form.Group>
-
-                      <Form.Group className="mb-2">
-                        <Form.Label>Home Work</Form.Label>
-                        <Select
-                          options={checkingOptions}
-                          value={homeWorkStatus[srn] || null}
-                          onChange={(option) =>
-                            setHomeWorkStatus((prev) => ({
-                              ...prev,
-                              [srn]: option,
-                            }))
-                          }
-                          placeholder="Select Home Work"
-                        />
                       </Form.Group>
 
                       <Button
@@ -467,4 +245,3 @@ export const CopyChecking = () => {
     </Row>
   );
 };
-
