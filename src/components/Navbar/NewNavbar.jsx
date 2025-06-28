@@ -18,7 +18,7 @@ export const NewNavbar = () => {
     try {
       const response = await GetNotificationByUserIdOnQueryParams(queryParams);
 
-      console.log(response.data.data);
+      // console.log(response.data.data);
       setNotificationData(response.data.data);
     } catch (error) {
       console.log("Error fetching notification data", error);
@@ -63,11 +63,15 @@ export const NewNavbar = () => {
             style={{ height: "30px" }}
           />
         </div>
-
+        {/* <p>{userData[0].role}</p> */}
         {/* Center: Empty (optional - or could place logo) */}
         <Nav className="me-auto" />
 
         {/* Right: Gear Dropdown */}
+
+        
+
+
         <Nav>
           <NavDropdown
             align="end"

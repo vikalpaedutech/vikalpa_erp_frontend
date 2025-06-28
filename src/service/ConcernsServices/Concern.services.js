@@ -132,6 +132,32 @@ export const getIndividualLeave = async (queryParams) => {
 }
 
 
+
+
+export const getConcernsPipeLineMethod = async (queryParams) => {
+
+
+    try {
+        
+         //Prepare query parametrs to send in the URL
+
+        const queryString = new URLSearchParams(queryParams).toString();
+
+        const response = axios.get(`${API_BASE_URL}/api/get-concerns?${queryString}`)
+
+        return response;
+        
+    } catch (error) {
+        
+        console.log("Error :", error.message);
+
+    }
+    
+
+
+}
+
+
 //get notification api
 
 export const GetNotificationByUserIdOnQueryParams = async (queryParams) =>{

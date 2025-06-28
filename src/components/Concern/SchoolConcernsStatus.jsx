@@ -126,6 +126,7 @@ if (eachConcern.concernStatusBySubmitter === "Resolved") {
                 <Card style={{ width: "18rem" }}>
                   <Card.Body>
                     <Card.Title>Concern Type: {eachConcern.concern}</Card.Title>
+                    <Card.Title>District: {}</Card.Title>
                     <Card.Title>Class: {eachConcern.classOfConcern} </Card.Title>
                     <Card.Text>
                       <p>Concern: {eachConcern.remark}</p>
@@ -163,7 +164,7 @@ if (eachConcern.concernStatusBySubmitter === "Resolved") {
                         </div>
 
                         <div className={`checkpoint ${progressPercent >= 100 ? "active" : ""}`} style={{ left: "100%" }}>
-                          <span>3</span>
+                          <span>4</span>
                           <div className="checkpoint-label">Closed</div>
                         </div>
                       </div>

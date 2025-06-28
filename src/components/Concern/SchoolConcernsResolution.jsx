@@ -13,6 +13,7 @@ import {
 } from "../contextAPIs/DependentDropdowns.contextAPI";
 import {
   getConcernsByQueryParameters,
+  getConcernsPipeLineMethod,
   PatchConcernsByQueryParams,
 } from "../../service/ConcernsServices/Concern.services";
 import {
@@ -40,19 +41,65 @@ export const SchoolConcernsResolution = () => {
 
   //API to fetch concerns data. Tech Concerns Only.
   const fetchTechConcerns = async () => {
-    const queryParams = {
-      //  userId: userData?.[0]?.userId,
-      districtId: districtContext?.[0]?.value || userData?.[0]?.assignedDistricts,
-      //  blockId: userData?.[0]?.assignedBlocks,
-      schoolId: schoolContext?.[0]?.value || userData?.[0]?.assignedSchools,
 
-      classOfConcern: classContext.value || ["9", "10"],
-      concernType: ["School-Individual-Student"],
-      // concernStatusByResolver:'NA'
-    };
+
+    let conditionalRole;
+  let conditionalDepartment;
+
+  if (userData?.[0]?.role==="ACI"){
+    conditionalRole = ["CC"]
+    conditionalDepartment = ["Community"]
+  
+} else if (userData?.[0]?.role === "Community Incharge"){
+      conditionalRole = ["ACI", "CC"]
+    conditionalDepartment = ["Community"]
+
+}else if (userData?.[0]?.role === "Community Manager"){
+    conditionalRole = ["ACI", "CC", "Community Incharge"]
+    conditionalDepartment = ["Community"]
+  } 
+
+
+
+
+    const queryParams = {
+         userId: userData?.[0]?.userId,
+         concernType: 'School-Individual-Student',
+         role: userData?.[0]?.role, 
+         conditionalRole: conditionalRole,
+         conditionalDepartment: conditionalDepartment
+
+
+        //  districtId: districtContext?.[0]?.value || userData?.[0]?.assignedDistricts,
+        //  blockId: userData?.[0]?.assignedBlocks, 
+        //  schoolId: schoolContext?.[0]?.value || userData?.[0]?.assignedSchools,
+
+        //  classOfConcern: classContext.value || ['9', '10'],
+        //  concernType: 'Individual'
+
+    }
+
+
+
+
+
+
+
+
+
+    // const queryParams = {
+    //   //  userId: userData?.[0]?.userId,
+    //   districtId: districtContext?.[0]?.value || userData?.[0]?.assignedDistricts,
+    //   //  blockId: userData?.[0]?.assignedBlocks,
+    //   schoolId: schoolContext?.[0]?.value || userData?.[0]?.assignedSchools,
+
+    //   classOfConcern: classContext.value || ["9", "10"],
+    //   concernType: ["School-Individual-Student"],
+    //   // concernStatusByResolver:'NA'
+    // };
     console.log(queryParams);
     try {
-      const response = await getConcernsByQueryParameters(queryParams);
+      const response = await  getConcernsPipeLineMethod(queryParams); //getConcernsByQueryParameters
 
       console.log(response.data.data);
 
@@ -156,16 +203,41 @@ if (eachConcern.concernStatusBySubmitter === "Resolved") {
               ];
             }
 
+
+            //Dynamically disabling the card features for different users.
+            //If aci escalates the issue to gurgaon office, then from his end, concern gets disabled.
+
+            let isEditable;
+            let msgOfCard;
+            if(userData[0].role === "ACI"){
+              isEditable = userData?.[0]?.role === "ACI" && progressPercent >= 50;
+              
+            } else if (userData[0].role === "Community Incharge"  ){
+              isEditable = userData?.[0]?.role === "Community Incharge"  && progressPercent <= 0 || progressPercent >= 75 ;
+            }
+
+
+
+          //   const isEditable =
+          // userData?.[0]?.role === "ACI" && progressPercent >= 50; // Only ACI can edit before step 3
+        
+
+
             return (
+
+
               <div key={index}>
                 <br />
                 <Card style={{ width: "18rem" }}>
                   {/* <Card.Img variant="top" src="holder.js/100px180" /> */}
                   <Card.Body>
+                    <p>{progressPercent}</p>
                     <Card.Title>Concern Type: {eachConcern.concern}</Card.Title>
+                    <Card.Title>Concern: {eachConcern.remark}</Card.Title>
                     <Card.Title>Class: {eachConcern.classOfConcern} </Card.Title>
                     <Card.Text>
-                      <p>Concern: {eachConcern.remark}</p>
+                      <p>District: {eachConcern.districtDetails.districtName}</p>
+                      <p>Center: {eachConcern.schoolDetails.schoolName}</p>
                        <hr></hr>
                        <p style={{fontWeight:'bold'}}>Description:</p>
                        <p>{eachConcern.comment}</p>
@@ -199,7 +271,7 @@ if (eachConcern.concernStatusBySubmitter === "Resolved") {
                         </div>
 
                         <div className={`checkpoint ${progressPercent >= 100 ? "active" : ""}`} style={{ left: "100%" }}>
-                          <span>3</span>
+                          <span>4</span>
                           <div className="checkpoint-label">Closed</div>
                         </div>
                       </div>
@@ -222,6 +294,7 @@ if (eachConcern.concernStatusBySubmitter === "Resolved") {
                         ) || null
                       }
                       placeholder="-- Select Status --"
+                      isDisabled={isEditable}
                     />
 
                     <br />
