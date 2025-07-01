@@ -1356,6 +1356,12 @@ p {
 }
 
 
+.button-pressed {
+  transform: scale(0.96);
+  background-color: #7FFFD4 !important;
+  transition: transform 0.1s ease, background-color 0.1s ease;
+}
+
 
 
 

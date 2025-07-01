@@ -24,8 +24,31 @@ export const getUserByContact1 = async (contact1) => {
 
 
 export const patchUserById = async (userId, formData) => {
+
+
+    try {
+        
     const response = await axios.patch(`${API_BASE_URL}/api/user/${userId}`, formData);
+
+    console.log("User Updated In Db")
+    
     return response.data;
+
+
+    } catch (error) {
+        
+        if( error.response?.data?.message === "Coordinates not updated"){
+            //  alert(error.response?.data?.message)
+        } else {
+            alert("User Not updated")
+        }
+       
+        
+        
+    }
+
+
+
 };
 
 

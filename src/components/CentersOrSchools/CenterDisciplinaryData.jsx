@@ -60,12 +60,12 @@ const sortCenterDisciplinaryData = centerDisciplinaryData.sort((a, b) => {
     return (
 
         <Container fluid>
-            <Table striped bordered hover>
+            <Table striped bordered hover responsive>
       <thead>
         <tr>
           <th>#</th>
           <th>District</th>
-          <th>Block</th>
+          {/* <th>Block</th> */}
           <th>School</th>
           <th>Class</th>
           <th>Disciplinary/Interaction</th>
@@ -77,7 +77,7 @@ const sortCenterDisciplinaryData = centerDisciplinaryData.sort((a, b) => {
             return (
                 <tr id={index}>
                     <td>{eachData.districtName}</td>
-                    <td>{eachData.blockName}</td>
+                    {/* <td>{eachData.blockName}</td> */}
                     <td>{eachData.schoolName}</td>
                     <td>{eachData.schoolName}</td>
                     <td>{eachData.classOfStudent}</td>

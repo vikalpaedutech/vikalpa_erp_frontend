@@ -140,7 +140,8 @@ const MainLayoutAciLevel = () => {
       main: [
         {
           id: "1",
-          label: "Center Disciplinary/Interaction",
+          label: "Center Monitoring",
+            logo: "/monitoring.png",
           path: "center-disciplinary-or-interaction",
         },
       ],
