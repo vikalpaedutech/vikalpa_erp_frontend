@@ -40,7 +40,7 @@ let conditionalRole;
 if (userData?.[0]?.role === 'ACI') {
   conditionalRole = ['Community Manager', 'Director']
 } else if (userData?.[0]?.role === 'CC'){
-  conditionalRole = ['Community Manager', 'ACI', 'Community Incharge']
+  conditionalRole = ['Community Manager', 'ACI', 'Community Incharge', 'Project Coordinator']
 }
 
 //----------------------------------------

@@ -78,7 +78,7 @@ let conditionalRole;
 if (userData?.[0]?.role === 'ACI') {
   conditionalRole = ['Community Manager', 'Director'] //Jin logo ko notification dikhana hai.
 } else if (userData?.[0]?.role === 'CC'){ 
-  conditionalRole = [ 'ACI', 'Community Incharge'] //Jin logo ko notification dikhana hai.
+  conditionalRole = [ 'ACI', 'Community Incharge', 'Project Coordinator'] //Jin logo ko notification dikhana hai.
 }
 
 //----------------------------------------

@@ -48,7 +48,7 @@ export const TechConcernsResolution = () => {
     conditionalRole = ["CC"]
     conditionalDepartment = ["Community"]
   
-} else if (userData?.[0]?.role === "Community Incharge"){
+} else if (userData?.[0]?.role === "Community Incharge" || userData?.[0]?.role === "Project Coordinator"){
       conditionalRole = ["ACI", "CC"]
     conditionalDepartment = ["Community"]
 

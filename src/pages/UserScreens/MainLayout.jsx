@@ -369,7 +369,7 @@ const MainLayout = () => {
                           <p>{getClassValue("10", "notConnectedCount")}</p>
                         </td>
                       </tr>
-                      <tr>
+                      {/* <tr>
                         <td>
                           <p>Not Called</p>
                         </td>
@@ -379,7 +379,8 @@ const MainLayout = () => {
                         <td>
                           <p>{getClassValue("10", "notCalledCount")}</p>
                         </td>
-                      </tr>
+                      </tr> */}
+                      
                     </tbody>
                   </table>
                 </div>

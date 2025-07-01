@@ -64,9 +64,9 @@ const remarkOptionsMap = {
 let conditionalRole;
 
 if (userData?.[0]?.role === 'ACI') {
-  conditionalRole = [ 'Director', 'Community Incharge']
+  conditionalRole = [ 'Director', 'Community Incharge', 'Project Coordinator']
 } else if (userData?.[0]?.role === 'CC'){
-  conditionalRole = ['Director', 'Community Incharge']
+  conditionalRole = ['Director', 'Community Incharge', 'Project Coordinator']
 }
 
 //----------------------------------------
