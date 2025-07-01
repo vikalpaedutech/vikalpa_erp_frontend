@@ -100,7 +100,7 @@ if (userData?.[0]?.role === 'ACI') {
 
     const schoolSelected = schoolContext[0];
     const currentDate = new Date().toISOString().split("T")[0];
-    const concernId = `${concern.value}-${remark.value.replace(" ", "")}-${schoolSelected.value}-${currentDate}`;
+    const concernId = `${concern.value}-${remark.value.replace(" ", "")}-${schoolSelected.value}-${currentDate}-${classOfConcern.value}`;
 
     const formData = new FormData();
     formData.append("concernId", concernId);
