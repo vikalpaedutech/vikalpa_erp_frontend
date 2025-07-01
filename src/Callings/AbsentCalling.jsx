@@ -252,6 +252,10 @@ const statusOptions = [
 const subOptions = {
 
 "Connected":[
+  { value: "Student Wants SLC", label: "Student Wants SLC" },
+  { value: "Not Interested", label: "Not Interested" },
+  { value: "Same School Student", label: "Same School Student" },
+  { value: "Not in MB", label: "Not in MB" },
   {value:'Sick', label:'Sick'},
   { value: "health_issues", label: "Health Issues" },
   { value: "family_emergency", label: "Family Emergency" },
@@ -260,8 +264,9 @@ const subOptions = {
   { value: "transport_issue", label: "Transport Issue" },
   { value: "weather_problem", label: "Bad Weather" },
   { value: "not_interested", label: "Not Interested" },
-  
-  { value: "family_function", label: "Family Function" },
+   { value: "family_function", label: "Family Function" },
+ 
+
   
 
 
