@@ -61,6 +61,20 @@ const SchoolConcernsForm = () => {
     { value: "10", label: "10" },
   ];
 
+
+//Handling conditional Role
+
+let conditionalRole;
+
+if (userData?.[0]?.role === 'ACI') {
+  conditionalRole = ['Community Manager', 'Director']
+} else if (userData?.[0]?.role === 'CC'){
+  conditionalRole = [ 'ACI', 'Community Incharge']
+}
+
+//----------------------------------------
+
+
   const handleSubmit = async () => {
     console.log(schoolContext);
     if (!concern || !remark || !schoolContext?.[0] || !classOfConcern) {
@@ -101,6 +115,11 @@ const SchoolConcernsForm = () => {
     formData.append("concernStatusBySubmitter", "Raised"); // default
     formData.append("dateOfSubmission", currentDate);
     formData.append("concernStatusByResolver", "Pending"); // default
+    formData.append("uri1", "NA"); // default
+    formData.append("uri2", "SchoolConcernResolution"); // default
+    formData.append("uri3", "NA"); // default
+    formData.append("conditionalRole", conditionalRole)
+    formData.append("role", userData?.[0]?.role)
     if (comment) {
       formData.append("comment", comment);
     }

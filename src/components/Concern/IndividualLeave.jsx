@@ -32,6 +32,21 @@ export const IndividualLeave = () => {
     { value: "Half Day", label: "Half Day" },
   ];
 
+
+//Handling conditional Role
+
+let conditionalRole;
+
+if (userData?.[0]?.role === 'ACI') {
+  conditionalRole = ['Community Manager', 'Director']
+} else if (userData?.[0]?.role === 'CC'){
+  conditionalRole = ['Community Manager', 'ACI', 'Community Incharge']
+}
+
+//----------------------------------------
+
+
+
   const handleSubmit = async () => {
     if (!leaveType || !leaveFrom || !leaveTo || !totalDays || !leaveBody) {
       alert("Please fill in all required fields.");
@@ -55,6 +70,12 @@ export const IndividualLeave = () => {
     formData.append("concernStatusBySubmitter", "informative");
     formData.append("concernStatusByResolver", "Under Review");
     formData.append("dateOfSubmission", currentDate);
+     formData.append("uri1", "NA"); // default
+    formData.append("uri2", "TechConcernResolution"); // default
+    formData.append("uri3", "NA"); // default
+    formData.append("conditionalRole", conditionalRole)
+     formData.append("role", userData?.[0]?.role)
+    
 
     if (file) {
       formData.append("file", file);

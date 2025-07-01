@@ -57,6 +57,21 @@ const remarkOptionsMap = {
 };
 
 
+
+
+//Handling conditional Role
+
+let conditionalRole;
+
+if (userData?.[0]?.role === 'ACI') {
+  conditionalRole = [ 'Director', 'Community Incharge']
+} else if (userData?.[0]?.role === 'CC'){
+  conditionalRole = ['Director', 'Community Incharge']
+}
+
+//----------------------------------------
+
+
   const handleSubmit = async () => {
     if (!concern || !remark || comment.trim() === "") {
       alert("Please select all required fields and provide a comment.");
@@ -79,6 +94,12 @@ const remarkOptionsMap = {
     formData.append("concernStatusByResolver", "informative");
     formData.append("dateOfSubmission", currentDate);
     formData.append("comment", comment);
+
+     formData.append("uri1", "NA"); // default
+    formData.append("uri2", "TechConcernResolution"); // default
+    formData.append("uri3", "NA"); // default
+    formData.append("conditionalRole", conditionalRole)
+    formData.append("role", userData?.[0]?.role)
     if (file) {
       formData.append("file", file);
     }

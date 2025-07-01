@@ -77,8 +77,7 @@ export const TechConcernsResolution = () => {
 
     }
 
-
-
+  
 
 
 
@@ -179,15 +178,15 @@ export const TechConcernsResolution = () => {
       <div>
         {concernData.length > 0 ? concernData.map((eachConcern, index) => {
 
-             let progressPercent = 0;
+            let progressPercent = 0;
 
-if (eachConcern.concernStatusBySubmitter === "Resolved") {
-  progressPercent = 100;
-} else if (eachConcern.concernStatusByResolver === "Visited") {
-  progressPercent = 50;
-} else if (eachConcern.concernStatusBySubmitter === "Not Resolved") {
-  progressPercent = 0;
-}
+            if (eachConcern.concernStatusBySubmitter === "Resolved") {
+              progressPercent = 100;
+            } else if (eachConcern.concernStatusByResolver === "Visited") {
+              progressPercent = 50;
+            } else if (eachConcern.concernStatusBySubmitter === "Not Resolved") {
+              progressPercent = 0;
+            }
 
 
  //Dynamically disabling the card features for different users.

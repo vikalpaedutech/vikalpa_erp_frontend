@@ -96,6 +96,9 @@ import SchoolConcernsRequest from "./components/Concern/SchoolConcernsRequest.js
 import { ForgotPassword } from "./components/user/ForgotPassword.jsx";
 import MainLayoutManagerLevel from "./pages/UserScreens/MainLayoutManager.jsx";
 import OfficeCommunityTeam from "./pages/UserScreens/OfficeCommunityTeam.jsx";
+import { StudentAttendanceDashBoard } from "./components/DashBoard/AttendanceDashBoard.jsx";
+import { StudentCallingDashBoard } from "./components/DashBoard/CallingDashboards.component.jsx";
+import { AttendancePdfCount } from "./components/DashBoard/AttendancePdfCount.component.jsx";
 function App() {
   
   return (
@@ -213,7 +216,10 @@ function App() {
                   <Route path="/user-attendance-updated" element = {<UserAttendanceUpdated/>}/>
                    <Route path="/user-attendance-aci" element = {<UserAttendanceACI/>}/>
                     
-                      
+                      {/* Dashboard */}
+                      <Route path="/student-attendance-dashboard" element = {<StudentAttendanceDashBoard/>}/>
+                      <Route path="/student-calling-dashboard" element = {<StudentCallingDashBoard/>}/>
+                       <Route path="/attendance-pdf-count-dashboard" element = {<AttendancePdfCount/>}/>
                       
                       </Route>
                     </Routes>

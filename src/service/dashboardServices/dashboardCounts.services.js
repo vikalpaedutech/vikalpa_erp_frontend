@@ -24,3 +24,26 @@ export const studentAndAttendanceAndAbsenteeCallingCount= async (payload) => {
     }
 
 }
+
+
+//Attendance pdf count api
+
+
+
+export const attendancePdfUploadStatusCountByClass= async (payload) => {
+
+    console.log(payload)
+
+    try {
+        
+        const response = await axios.post(`${API_BASE_URL}/api/attendance-pdf-count`, payload);
+       
+        console.log(response.status)
+        return response.data
+    } catch (error) {
+        
+        console.log('error occured while fetching studentAndAttendanceAndAbsenteeCallingCount')
+        console.log(error)
+    }
+
+}

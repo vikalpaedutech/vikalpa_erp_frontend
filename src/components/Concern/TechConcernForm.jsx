@@ -70,6 +70,20 @@ const TechConcernForm = () => {
     { value: "10", label: "Class 10" },
   ];
 
+
+//Handling conditional Role
+
+let conditionalRole;
+
+if (userData?.[0]?.role === 'ACI') {
+  conditionalRole = ['Community Manager', 'Director'] //Jin logo ko notification dikhana hai.
+} else if (userData?.[0]?.role === 'CC'){ 
+  conditionalRole = [ 'ACI', 'Community Incharge'] //Jin logo ko notification dikhana hai.
+}
+
+//----------------------------------------
+
+
   const handleSubmit = async () => {
     if (!concern || !remark || !schoolContext?.[0] || !selectedClass) {
       alert("Please fill in all fields.");
@@ -93,6 +107,11 @@ const TechConcernForm = () => {
     formData.append("concernStatusBySubmitter", "Raised");
     formData.append("dateOfSubmission", currentDate);
     formData.append("concernStatusByResolver", "Pending");
+    formData.append("uri1", "NA"); // default
+    formData.append("uri2", "TechConcernResolution"); // default
+    formData.append("uri3", "NA"); // default
+    formData.append("conditionalRole", conditionalRole)
+    formData.append("role", userData?.[0]?.role)
     if (file) {
       formData.append("file", file);
     }
