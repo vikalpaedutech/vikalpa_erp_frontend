@@ -53,6 +53,7 @@ export const GetAttendanceByUserId = (queryParams) => {
 
 
 export const PatchUserAttendanceByUserId = async (queryParams, formData) => {
+  
   const queryString = new URLSearchParams(queryParams).toString();
 
   try {
@@ -61,8 +62,13 @@ export const PatchUserAttendanceByUserId = async (queryParams, formData) => {
       formData,
  
     );
+
+   
+    
     return response;
+    
   } catch (error) {
+    alert('Error❌! Attendance Not Updated. Please Retry!')
     console.error("❌ Error occurred while patching attendance:", error);
     throw error; // Optional: rethrow for caller to handle
   }
