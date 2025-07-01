@@ -313,104 +313,122 @@ const handleClose = () => {
 //Updates User Attendance When coordinates are not there.
 
 const updateUserAttendance = async () => {
-  const userId = userData?.[0]?.userId;
-  setIsSubmitting(true); // Start spinner
 
-  const attendanceStatus =
-    userAttendanceData?.[0]?.attendances?.attendance === "Present"
-      ? null
-      : "Present";
+const userId = userData?.[0]?.userId
 
-  const queryParams = {
-    userId,
-    date: new Date().toISOString().split("T")[0],
-  };
+    setIsSubmitting(true); // ✅ Start spinner
 
-  const formData = new FormData();
-  const now = Date.now();
+    const attendanceStatus =
+      userAttendanceData?.[0]?.attendances?.attendance === "Present"
+        ? null
+        : "Present";
 
-  if (attendanceStatus) {
-    formData.append("attendance", attendanceStatus);
-    formData.append("loginTime", now);
-    console.log("🟢 Logging attendance: Present");
-  } else {
-    formData.append("logoutTime", now);
-    formData.append("logoutLongitude", currentLng || 0);
-    formData.append("logoutLatitude", currentLat || 0);
-    formData.append("logoutCoordinateDifference", 0);
-    console.log("🔴 Logging logout attendance");
-  }
-
-  formData.append("longitude", currentLng || 0);
-  formData.append("latitude", currentLat || 0);
-  formData.append("coordinateDifference", 0);
-
-  try {
-    const image = await openCameraAndCaptureImage();
-
-    // Handle if image is not selected (double safety)
-    if (!image) {
-      alert("❌ No image selected.");
-      return;
-    }
-
-    formData.append("file", image);
-    console.log("📎 Attached Image:", image?.name);
-
-    const response = await PatchUserAttendanceByUserId(queryParams, formData);
-
-    if (response.status === 200) {
-      alert("✅ Attendance marked successfully.");
-      setShowAttendanceButton(false);
-      await fetchUserAttendanceData();
-    } else {
-      throw new Error("Attendance not saved");
-    }
-  } catch (err) {
-    console.error("❌ Error:", err.message);
-    alert("❌ Attendance image not selected or request failed.");
-  } finally {
-    setIsSubmitting(false); // Always stop spinner
-  }
-};
-
-
-
-
-
-
-
-
-
-
-
-  //Opens Camera
-
-  const openCameraAndCaptureImage = () => {
-  return new Promise((resolve, reject) => {
-    const input = document.createElement("input");
-    input.type = "file";
-    input.accept = "image/*";
-    input.capture = "environment";
-
-    input.onchange = () => {
-      if (input.files && input.files.length > 0) {
-        resolve(input.files[0]);
-      } else {
-        reject(new Error("No image selected"));
-      }
+    const queryParams = {
+      userId,
+      date: new Date().toISOString().split("T")[0],
     };
 
-    // In case onchange never fires (browser bug/workaround)
-    setTimeout(() => {
-      if (!input.files || input.files.length === 0) {
-        reject(new Error("No image selected (timeout fallback)"));
-      }
-    }, 3000); // 3 seconds fallback
+    const formData = new FormData();
+    const now = Date.now();
 
-    input.click();
-  });
-};
+    if (attendanceStatus) {
+      formData.append("attendance", attendanceStatus);
+      formData.append("loginTime", now);
+      console.log("🟢 Logging attendance: Present");
+    } else {
+      formData.append("logoutTime", now);
+      formData.append("logoutLongitude", currentLng || 0);
+      formData.append("logoutLatitude", currentLat || 0);
+      formData.append("logoutCoordinateDifference", 0);
+      console.log("🔴 Logging logout attendance");
+    }
+
+    formData.append("longitude", currentLng || 0);
+    formData.append("latitude", currentLat || 0);
+    formData.append("coordinateDifference", 0);
+
+    console.log("📤 Payload Coordinates:");
+    console.log("   ➤ Longitude:", currentLng || 0);
+    console.log("   ➤ Latitude:", currentLat || 0);
+    console.log("   ➤ Coordinate Difference:", 0);
+
+    try {
+
+
+
+        try {
+  const image = await openCameraAndCaptureImage();
+  formData.append("file", image);
+  console.log("📎 Attached Image:", image?.name);
+} catch (error) {
+  alert("❌ Attendance image capture cancelled.");
+  setIsSubmitting(false);
+  return;
+}
+
+
+
+      // const image = await openCameraAndCaptureImage();
+      // formData.append("file", image);
+
+      
+      const response = await PatchUserAttendanceByUserId(queryParams, formData); // ✅ MODIFIED
+
+      
+
+      if (response.status === 200) {
+      
+        
+        
+        // alert(response?.status === 200)
+
+
+
+        alert("✅ Attendance marked successfully.");
+      
+        setShowAttendanceButton(false);
+        await fetchUserAttendanceData(); // ✅ Refresh data after success
+      } else {
+        throw new Error("Attendance not saved");
+      }
+    } catch (err) {
+      console.log("❌ Error marking attendance:", err.message);
+      alert("❌ इंटरनेट की समस्या है, कृपया पुनः प्रयास करें या अपने वरिष्ठ से संपर्क करें।\n\n⚠️ Your internet is slow, try again or contact your senior.");
+    } finally {
+      setIsSubmitting(false); // ✅ Stop spinner
+    }
+  };
+
+
+
+
+
+
+
+
+
+
+
+  Opens Camera
+
+  const openCameraAndCaptureImage = () => {
+    return new Promise((resolve, reject) => {
+      const input = document.createElement("input");
+      input.type = "file";
+      input.accept = "image/*";
+      input.capture = "environment";
+      input.onchange = () => {
+        if (input.files && input.files.length > 0) {
+          console.log("📸 Image selected:", input.files[0]?.name);
+          resolve(input.files[0]);
+        } else {
+          reject(new Error("No image selected"));
+        }
+      };
+      input.click();
+    });
+  };
+  
 
 
 
