@@ -409,7 +409,7 @@ const userId = userData?.[0]?.userId
 
 
 
-  Opens Camera
+  //Opens Camera
 
   const openCameraAndCaptureImage = () => {
     return new Promise((resolve, reject) => {
