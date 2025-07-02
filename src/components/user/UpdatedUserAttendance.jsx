@@ -503,14 +503,14 @@ return(
                  )}
                </Button>
              ) : (
-               <p style={{ color: "red", fontWeight: "bold" }}>
-                 You are not within 100 meters of your center.
-               </p>
+               null
              )}
            </Card>
 
-
-
+{/* 
+<p style={{ color: "red", fontWeight: "bold" }}>
+                 You are not within 100 meters of your center.
+               </p> */}
 
 
 
