@@ -105,6 +105,7 @@ const handleRemarkChange = (e, concernId) => {
 //Submitting concern status
 
 
+
 const handleSubmitStatus = async (concernId) => {
     const selectedStatus = statusSelections[concernId];
     if (!selectedStatus) return;
@@ -155,19 +156,40 @@ const formatDate = (isoString) => {
     return `${day}-${month}-${year}`;
 }
 
+
+//creating regex filter option fo filtering leaves.
+
+const [searchItem, setSearchItem] = useState("")
+
+const regex = new RegExp(searchItem, 'i')
+
+const filteredLeaves = concernData.filter(item => 
+  regex.test(item.userDetails.name) || regex.test(item.subjectOfLeave)
+);
+
+
+console.log(filteredLeaves)
+
 //
     return (
        <Container>
-    <div>
+    {/* <div>
         <DistrictBlockSchoolById assignedDistricts={assignedDistricts}/>
-    </div>
+    </div> */}
     {/* <div>
         <ClassOfStudent/>
     </div> */}
+    <h1>Center Coordinators Leaves.</h1>
     <hr/>
+  <Form.Control
+  type="text"
+  placeholder="Search by Name or Subject"
+  onChange={(e) => setSearchItem(e.target.value)}
+  className="mb-3"
+/>
 
     <div>
-        {concernData.length > 0 ? concernData
+        {filteredLeaves.length > 0 ? filteredLeaves
           // ✅ Sort: show approved/rejected cards last
           .sort((a, b) => {
               const aStatus = a?.l1ApprovalOnLeave?.status;
@@ -180,14 +202,29 @@ const formatDate = (isoString) => {
             const isResolved = eachConcern?.l1ApprovalOnLeave?.status === "Approved" || eachConcern?.l1ApprovalOnLeave?.status === "Rejected";
             const resolvedStatus = eachConcern?.l1ApprovalOnLeave?.status || '';
             const resolvedComment = eachConcern?.l1ApprovalOnLeave?.comment || '';
+
+
+            //Changing colors of cards on Approval or Rejectiono.
+            let cardBackgroundColor;
+            if(resolvedStatus === "Approved"){
+                cardBackgroundColor = '#7FFFD4'
+            } else if (resolvedStatus === "Rejected"){
+              cardBackgroundColor = '#FF6347'
+            } else {
+              cardBackgroundColor = 'white'
+            }
+
+
             return (
               <div key={index}>
                 <br />
-                <Card style={{ width: "18rem" }}>
+                <Card style={{ width: "18rem" , backgroundColor:cardBackgroundColor}}>
                   {/* <Card.Img variant="top" src="holder.js/100px180" /> */}
                   <Card.Body>
-                    <Card.Title>Name: {eachConcern.userDetails.name}</Card.Title>
+                    
                     <Card.Title>Subject: {eachConcern.subjectOfLeave}</Card.Title>
+                    <Card.Title>Name: {eachConcern.userDetails.name}</Card.Title>
+                    <Card.Title>Role: {eachConcern.userDetails.role}</Card.Title>
                     <Card.Text>
                       <p>Leave from {formatDate(eachConcern.leavePeriodFrom)} to {formatDate(eachConcern.leavePeriodTo)} </p>
                       <p>Leave applied for: {eachConcern.totalDaysOfLeaveAppliedFor} days</p>

@@ -53,6 +53,9 @@ export const StudentAttendanceDashBoard = () => {
         return { ...school, classes: sortedClasses };
       });
 
+      // Sort schools by districtName
+      sortedData.sort((a, b) => a.districtName.localeCompare(b.districtName));
+
       setStudentCount(sortedData);
     } catch (error) {
       console.log("Error fetching student count");
@@ -80,11 +83,6 @@ export const StudentAttendanceDashBoard = () => {
     });
   });
 
-
-
-
-
-
   return (
     <Container className="mt-4">
       {/* Summary Card */}
@@ -110,6 +108,7 @@ export const StudentAttendanceDashBoard = () => {
             <thead className="table-dark text-center">
               <tr>
                 <th>S. No.</th>
+                <th>District</th>
                 <th>School</th>
                 <th>Class</th>
                 <th>Total</th>
@@ -132,9 +131,14 @@ export const StudentAttendanceDashBoard = () => {
                     >
                       <td>{serialNo}</td>
                       {classIndex === 0 && (
-                        <td rowSpan={school.classes.length} className="align-middle">
-                          {school.schoolName}
-                        </td>
+                        <>
+                          <td rowSpan={school.classes.length} className="align-middle">
+                            {school.districtName}
+                          </td>
+                          <td rowSpan={school.classes.length} className="align-middle">
+                            {school.schoolName}
+                          </td>
+                        </>
                       )}
                       <td>{cls.classofStudent}</td>
                       <td>{cls.totalStudents}</td>

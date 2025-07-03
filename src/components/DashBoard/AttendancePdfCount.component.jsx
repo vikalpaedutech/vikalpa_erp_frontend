@@ -45,6 +45,9 @@ export const AttendancePdfCount = () => {
         return { ...school, classes: sortedClasses };
       });
 
+      // Sort table data by district name
+      sortedData.sort((a, b) => (a.districtName || '').localeCompare(b.districtName || ''));
+
       setPdfData(sortedData);
     } catch (error) {
       console.log("Error fetching attendance PDF status:", error);
@@ -96,6 +99,7 @@ export const AttendancePdfCount = () => {
             <thead className="table-dark text-center">
               <tr>
                 <th>S. No.</th>
+                <th>District</th>
                 <th>School</th>
                 <th>Class</th>
                 <th>PDF Uploaded (1/0)</th>
@@ -116,9 +120,19 @@ export const AttendancePdfCount = () => {
                     >
                       <td>{serialNo}</td>
                       {classIndex === 0 && (
+                        <>
+                        <td rowSpan={school.classes.length} className="align-middle">
+                          {school.districtName}
+                        </td>
+
+                        
                         <td rowSpan={school.classes.length} className="align-middle">
                           {school.schoolName}
                         </td>
+
+                        
+                        </>
+                        
                       )}
                       <td>{cls.classofStudent}</td>
                       <td

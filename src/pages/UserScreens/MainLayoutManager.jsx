@@ -63,6 +63,43 @@ const MainLayoutManagerLevel = () => {
   }, []);
 
   const sideBarMenusByRole = [
+
+    
+    {
+      indexKey: "1",
+      label: "Dashboards",
+      logo: "/ccattendance.png",
+      module: "TRUE",
+      main: [
+        {
+          id: "1",
+          label: "CC-Attendance",
+          logo: "/ccattendance.png",
+          path: "user-attendance-dashboard",
+        },
+           
+        {
+          id: "2",
+          label: "Student-Attendance",
+          logo: "/studentattendancesummary.png",
+          path: "student-attendance-dashboard",
+        },
+           {
+          id: "3",
+          label: "Absentee-Calling",
+          logo: "/callingsummary.png",
+          path: "student-calling-dashboard",
+        },
+
+         {
+          id: "4",
+          label: "Attendance PDF",
+          logo: "/studentattendancepdfsummary.png",
+          path: "attendance-pdf-count-dashboard",
+        },
+      ],
+    },
+
     {
       indexKey: "1",
       label: "Academics",

@@ -1460,6 +1460,235 @@
 
 // Refactored ACI Attendance component to match the structure & flow of UpdatedUserAttendance.jsx
 
+// import React, { useState, useEffect, useContext } from "react";
+// import { useNavigate } from "react-router-dom";
+// import { Modal, Button, Card, Spinner, Form } from "react-bootstrap";
+// import Select from "react-select";
+
+// import { UserContext } from "../contextAPIs/User.context";
+// import {
+//   GetAttendanceByUserId,
+//   PatchUserAttendanceByUserId,
+// } from "../../service/userAttendance.services";
+// import { patchUserById } from "../../service/User.service";
+// import SchoolDropDowns from "../DependentDropDowns/SchoolDropDowns";
+// import { SchoolContext } from "../contextAPIs/DependentDropdowns.contextAPI";
+
+// export const UserAttendanceACI = () => {
+//   const navigate = useNavigate();
+//   const { userData } = useContext(UserContext);
+//   const { schoolContext } = useContext(SchoolContext);
+
+//   const [currentLat, setCurrentLat] = useState(null);
+//   const [currentLng, setCurrentLng] = useState(null);
+//   const [showGeoModal, setShowGeoModal] = useState(false);
+//   const [showAttendanceModal, setShowAttendanceModal] = useState(false);
+//   const [userAttendanceData, setUserAttendanceData] = useState([]);
+//   const [isAttendanceMarked, setIsAttendanceMarked] = useState(false);
+//   const [showAttendanceButton, setShowAttendanceButton] = useState(false);
+//   const [isSubmitting, setIsSubmitting] = useState(false);
+//   const [attendanceType, setAttendanceType] = useState("");
+//   const [visitingLocation, setVisitingLocation] = useState("");
+
+//   const fetchUserAttendanceData = async () => {
+//     try {
+//       const userId = userData?.[0]?.userId;
+//       const date = new Date().toISOString().split("T")[0];
+//       const res = await GetAttendanceByUserId({ userId, date });
+//       const attendance = res?.data?.data?.[0]?.attendances;
+//       setUserAttendanceData(attendance);
+//       setIsAttendanceMarked(attendance?.attendance === "Present");
+//       setShowAttendanceButton(attendance?.attendance !== "Present");
+//     } catch (err) {
+//       console.log("Error fetching attendance", err);
+//     }
+//   };
+
+//   const checkUserCoordinates = () => {
+//     const { latitude, longitude } = userData?.[0] || {};
+//     if (!latitude || !longitude) setShowGeoModal(true);
+//     else setShowAttendanceModal(true);
+//   };
+
+//   useEffect(() => {
+//     navigator.geolocation.getCurrentPosition(
+//       (position) => {
+//         setCurrentLat(position.coords.latitude);
+//         setCurrentLng(position.coords.longitude);
+//       },
+//       (err) => {
+//         console.log("Location error", err);
+//       },
+//       { enableHighAccuracy: true }
+//     );
+//   }, []);
+
+//   useEffect(() => {
+//     fetchUserAttendanceData();
+//     checkUserCoordinates();
+//   }, []);
+
+//   const updateGeolocation = async () => {
+//     try {
+//       const userId = userData?.[0]?.userId;
+//       await patchUserById(userId, { latitude: currentLat, longitude: currentLng });
+//       setShowGeoModal(false);
+//       setShowAttendanceModal(true);
+//     } catch (err) {
+//       setShowGeoModal(false);
+//       setShowAttendanceModal(true);
+//     }
+//   };
+
+//   const openCameraAndCaptureImage = () => {
+//     return new Promise((resolve, reject) => {
+//       const input = document.createElement("input");
+//       input.type = "file";
+//       input.accept = "image/*";
+//       input.capture = "environment";
+//       input.onchange = () => {
+//         if (input.files.length > 0) resolve(input.files[0]);
+//         else reject("No image selected");
+//       };
+//       input.click();
+//     });
+//   };
+
+//   const markAttendance = async () => {
+//     setIsSubmitting(true);
+//     try {
+//       const userId = userData?.[0]?.userId;
+//       const date = new Date().toISOString().split("T")[0];
+//       const queryParams = { userId, date };
+//       const formData = new FormData();
+//       const now = Date.now();
+
+//       const attendanceStatus = isAttendanceMarked ? null : "Present";
+//       if (attendanceStatus) formData.append("attendance", attendanceStatus);
+
+//       formData.append("loginTime", now);
+//       formData.append("longitude", currentLng || 0);
+//       formData.append("latitude", currentLat || 0);
+//       formData.append("coordinateDifference", 0);
+//       formData.append("attendanceType", attendanceType);
+//       formData.append("visitingLocation", attendanceType === "Center Visit" ? schoolContext?.[0]?.label : visitingLocation);
+
+//       const image = await openCameraAndCaptureImage();
+//       formData.append("file", image);
+
+//       const res = await PatchUserAttendanceByUserId(queryParams, formData);
+//       if (res?.status === 200) {
+//         alert("✅ Attendance marked successfully.");
+//         setIsAttendanceMarked(true);
+//         setShowAttendanceButton(false);
+//         fetchUserAttendanceData();
+//       }
+//     } catch (err) {
+//       console.log("Error marking attendance", err);
+//       alert("❌ Failed to mark attendance.");
+//     } finally {
+//       setIsSubmitting(false);
+//     }
+//   };
+
+//   const closeModal = () => {
+//     setShowGeoModal(false);
+//     setShowAttendanceModal(false);
+//     const role = userData?.[0]?.role;
+//     if (role === "CC") navigate("/user-dash");
+//     else if (role === "ACI") navigate("/l2-user-dash");
+//     else navigate("/");
+//   };
+
+//   return (
+//     <>
+//       <Modal show={showGeoModal} onHide={closeModal}>
+//         <Modal.Header closeButton>
+//           <Modal.Title>Geolocation Required</Modal.Title>
+//         </Modal.Header>
+//         <Modal.Body>
+//           Please update your center coordinates first.
+//         </Modal.Body>
+//         <Modal.Footer>
+//           <Button variant="primary" onClick={updateGeolocation}>Update Coordinates</Button>
+//         </Modal.Footer>
+//       </Modal>
+
+//       <Modal show={showAttendanceModal} onHide={closeModal}>
+//         <Modal.Header closeButton>
+//           <Modal.Title>Mark Your Attendance</Modal.Title>
+//         </Modal.Header>
+//         <Modal.Body>
+//           <Card className="p-3 text-center">
+//             {isAttendanceMarked ? (
+//               <p className="text-success fw-bold">
+//                 ✅ Attendance marked for {new Date().toISOString().split("T")[0]}
+//               </p>
+//             ) : (
+//               <>
+//                 <Form.Group className="mb-2">
+//                   <Form.Label>Attendance Type</Form.Label>
+//                   <Select
+//                     options={[
+//                       { value: "", label: "Select Type" },
+//                       { value: "Center Visit", label: "Center Visit" },
+//                       { value: "WFH", label: "WFH" },
+//                       { value: "Govt. Official Visit", label: "Govt. Official Visit" },
+//                       { value: "Event", label: "Event" },
+//                     ]}
+//                     value={{ label: attendanceType || "Select Type", value: attendanceType }}
+//                     onChange={(opt) => {
+//                       setAttendanceType(opt.value);
+//                       setVisitingLocation("");
+//                     }}
+//                   />
+//                 </Form.Group>
+
+//                 {attendanceType === "Center Visit" && <SchoolDropDowns />}
+
+//                 {attendanceType !== "Center Visit" && attendanceType !== "WFH" && (
+//                   <Form.Group className="mb-2">
+//                     <Form.Label>Visiting Location</Form.Label>
+//                     <Form.Control
+//                       type="text"
+//                       value={visitingLocation}
+//                       onChange={(e) => setVisitingLocation(e.target.value)}
+//                     />
+//                   </Form.Group>
+//                 )}
+
+//                 {showAttendanceButton && (
+//                   <Button variant="success" onClick={markAttendance} disabled={isSubmitting}>
+//                     {isSubmitting ? <Spinner animation="border" size="sm" className="me-2" /> : "📸 Mark Your Attendance"}
+//                   </Button>
+//                 )}
+//               </>
+//             )}
+//           </Card>
+//         </Modal.Body>
+//         <Modal.Footer>
+//           <Button onClick={closeModal} className="w-100">Go To Home</Button>
+//         </Modal.Footer>
+//       </Modal>
+//     </>
+//   );
+// };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// Refactored ACI Attendance component to match the structure & flow of UpdatedUserAttendance.jsx
+
 import React, { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { Modal, Button, Card, Spinner, Form } from "react-bootstrap";
@@ -1635,6 +1864,7 @@ export const UserAttendanceACI = () => {
                       { value: "WFH", label: "WFH" },
                       { value: "Govt. Official Visit", label: "Govt. Official Visit" },
                       { value: "Event", label: "Event" },
+                      { value: "Kurukshetra Campus Visit", label: "Kurukshetra Campus Visit" },
                     ]}
                     value={{ label: attendanceType || "Select Type", value: attendanceType }}
                     onChange={(opt) => {
@@ -1646,7 +1876,9 @@ export const UserAttendanceACI = () => {
 
                 {attendanceType === "Center Visit" && <SchoolDropDowns />}
 
-                {attendanceType !== "Center Visit" && attendanceType !== "WFH" && (
+                {attendanceType !== "Center Visit" &&
+                  attendanceType !== "WFH" &&
+                  attendanceType !== "Kurukshetra Campus Visit" && (
                   <Form.Group className="mb-2">
                     <Form.Label>Visiting Location</Form.Label>
                     <Form.Control

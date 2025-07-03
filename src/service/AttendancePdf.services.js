@@ -55,11 +55,14 @@ export const PatchAttendancePdf = async (queyrParams, file) => {
           // Prepare query parameters to send in the URL
           const queryString = new URLSearchParams(queyrParams).toString();
           // console.log("i am query params")
-          console.log(queryString)
+        //   console.log(queryString)
           
 
 
             const response = await axios.patch(`${API_BASE_URL}/api/attendancepdf-upload?${queryString}`, file)
+
+            console.log(response.status)
+
             return response.data;
         } catch (error) {
             console.log("Some error occured while uploading attendance pdf into spaces", error.message)

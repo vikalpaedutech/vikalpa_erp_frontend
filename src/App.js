@@ -99,6 +99,7 @@ import OfficeCommunityTeam from "./pages/UserScreens/OfficeCommunityTeam.jsx";
 import { StudentAttendanceDashBoard } from "./components/DashBoard/AttendanceDashBoard.jsx";
 import { StudentCallingDashBoard } from "./components/DashBoard/CallingDashboards.component.jsx";
 import { AttendancePdfCount } from "./components/DashBoard/AttendancePdfCount.component.jsx";
+import { UserAttendanceDash } from "./components/user/UserAttendanceDashboard.jsx";
 function App() {
   
   return (
@@ -220,7 +221,10 @@ function App() {
                       <Route path="/student-attendance-dashboard" element = {<StudentAttendanceDashBoard/>}/>
                       <Route path="/student-calling-dashboard" element = {<StudentCallingDashBoard/>}/>
                        <Route path="/attendance-pdf-count-dashboard" element = {<AttendancePdfCount/>}/>
-                      
+                      <Route path="/user-attendance-dashboard" element = {<UserAttendanceDash/>}/>          
+
+
+
                       </Route>
                     </Routes>
                   </UserProvider>

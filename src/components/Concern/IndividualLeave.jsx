@@ -30,6 +30,7 @@ export const IndividualLeave = () => {
     { value: "Emergency Leave", label: "Emergency Leave" },
     { value: "Sick Leave", label: "Sick Leave" },
     { value: "Half Day", label: "Half Day" },
+    {value: "Monthly Leave", label: "Monthly Leave"}
   ];
 
 
@@ -104,6 +105,7 @@ if (userData?.[0]?.role === 'ACI') {
   return (
     <Container className="my-4">
       <h4>Leave Application Form</h4>
+      <hr/>
 
       <Row className="mb-3">
         <Col md={4}>

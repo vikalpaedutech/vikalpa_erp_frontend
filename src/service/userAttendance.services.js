@@ -92,3 +92,42 @@ export const cronJobUserAttendance = async () => {
 }
 
 //-----------------------------------------------
+
+
+
+//Get Attendance Data by SchoolIds, Roles, and Districts.
+
+
+export const getFilteredUserAttendanceSummary = async (payLoad) => {
+
+  
+
+    try {
+        const response = await axios.post(`${API_BASE_URL}/api/user-attendance-summary`, payLoad);
+        return response
+    } catch (error) {
+        console.log(error.status)
+      
+        console.log(error.message)
+    }
+}
+
+
+//Patch attendance status in db. without image.
+
+export const patchUserAttendanceWithoutImage = async (queyrParams, payLoad) => {
+
+
+      // Prepare query parameters to send in the URL
+          const queryString = new URLSearchParams(queyrParams).toString();
+          console.log(queyrParams)
+
+    try {
+        const response = await axios.patch(`${API_BASE_URL}/api/patch-user-attendance-without-image?${queryString}`, payLoad);
+        return response
+    } catch (error) {
+        console.log(error.status)
+      
+        console.log(error.message)
+    }
+}

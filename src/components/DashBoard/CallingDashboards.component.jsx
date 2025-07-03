@@ -52,6 +52,9 @@ export const StudentCallingDashBoard = () => {
         return { ...school, classes: sortedClasses };
       });
 
+      // Sort by districtName
+      sortedData.sort((a, b) => a.districtName.localeCompare(b.districtName));
+
       setStudentCount(sortedData);
     } catch (error) {
       console.log("Error fetching student count");
@@ -64,8 +67,8 @@ export const StudentCallingDashBoard = () => {
 
   // Summary by class
   const classSummary = {
-    '9': { totalStudents: 0, present: 0, absent: 0 },
-    '10': { totalStudents: 0, present: 0, absent: 0 }
+    '9': { totalStudents: 0, present: 0, absent: 0, connectedCount: 0, notConnectedCount: 0 },
+    '10': { totalStudents: 0, present: 0, absent: 0, connectedCount: 0, notConnectedCount: 0 }
   };
 
   studentCount.forEach((school) => {
@@ -75,6 +78,8 @@ export const StudentCallingDashBoard = () => {
         classSummary[key].totalStudents += cls.totalStudents;
         classSummary[key].present += cls.present;
         classSummary[key].absent += cls.absent;
+        classSummary[key].connectedCount += cls.connectedCount || 0;
+        classSummary[key].notConnectedCount += cls.notConnectedCount || 0;
       }
     });
   });
@@ -104,12 +109,13 @@ export const StudentCallingDashBoard = () => {
             <thead className="table-dark text-center">
               <tr>
                 <th>S. No.</th>
+                  <th>District</th>
                 <th>School</th>
                 <th>Class</th>
                 {/* <th>Total</th> */}
                 <th>Connected</th>
                 <th>NotConnected</th>
-                <th>Absentee Calls</th>
+                <th>Not Called</th>
               </tr>
             </thead>
             <tbody className="text-center">
@@ -124,11 +130,24 @@ export const StudentCallingDashBoard = () => {
                         backgroundColor: allAbsent ? '#ffcccc' : 'transparent',
                       }}
                     >
+                      
                       <td>{serialNo}</td>
+                       
                       {classIndex === 0 && (
-                        <td rowSpan={school.classes.length} className="align-middle">
+
+                        <>
+                        
+                          <td rowSpan={school.classes.length} className="align-middle">
+                            {school.districtName}
+                          </td>
+
+                          <td rowSpan={school.classes.length} className="align-middle">
                           {school.schoolName}
                         </td>
+                        
+                        </>
+                        
+                        
                       )}
                       <td>{cls.classofStudent}</td>
                       {/* <td>{cls.totalStudents}</td> */}
