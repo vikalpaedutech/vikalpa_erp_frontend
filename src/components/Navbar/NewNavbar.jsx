@@ -318,7 +318,7 @@ if (userData?.[0]?.role === "ACI"){
           />
         </div>
 
-        {/* <p>{userData[0].role}</p> */}
+        <p>{userData[0].name}</p>
         {/* Center: Empty (optional - or could place logo) */}
         <Nav className="me-auto" />
 

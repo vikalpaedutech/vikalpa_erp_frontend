@@ -1,3 +1,312 @@
+// // /FRONTEND/src/components/Concenr/TechConcernsResolution.jsx
+
+// import React from "react";
+// import { useState, useEffect, useContext } from "react";
+// import { Card, Row, Col, Form, Table, Container, Button } from "react-bootstrap";
+// import Select from "react-select";
+// import { UserContext } from "../contextAPIs/User.context";
+// import { SchoolContext, BlockContext, DistrictBlockSchoolContext, ClassContext } from "../contextAPIs/DependentDropdowns.contextAPI";
+// import { getConcernsByQueryParameters, getConcernsPipeLineMethod, PatchConcernsByQueryParams } from "../../service/ConcernsServices/Concern.services";
+// import { District, DistrictBlockSchoolById, ClassOfStudent } from "../DependentDropDowns/DistrictBlockSchool.component";
+
+// import DistrictBlockSchool from "../CentersOrSchools/DistrictBlockSchool.json";
+
+// export const TechConcernsResolution = () => {
+//   // Context apis
+//   const { userData, setUserData } = useContext(UserContext);
+//   const { districtContext, setDistrictContext } = useContext(DistrictBlockSchoolContext);
+//   const { blockContext, setBlockContext } = useContext(BlockContext);
+//   const { schoolContext, setSchoolContext } = useContext(SchoolContext);
+//   const { classContext, setClassContext } = useContext(ClassContext);
+
+//   // Usestate hooks
+//   const [concernData, setConcernData] = useState([]);
+//   const [statusSelections, setStatusSelections] = useState({});
+//   const [techVisitorRemark, setTechVisitorRemark] = useState({});
+//   const [actionRecommended, setActionRecommended] = useState({});
+//   const [activitySelections, setActivitySelections] = useState({});
+//   const [commentInputs, setCommentInputs] = useState({});
+
+//   const fetchTechConcerns = async () => {
+//     let conditionalRole;
+//     let conditionalDepartment;
+
+//     if (userData?.[0]?.role === "ACI") {
+//       conditionalRole = ["CC"];
+//       conditionalDepartment = ["Community"];
+//     } else if (userData?.[0]?.role === "Community Incharge" || userData?.[0]?.role === "Project Coordinator") {
+//       conditionalRole = ["ACI", "CC"];
+//       conditionalDepartment = ["Community"];
+//     } else if (userData?.[0]?.role === "Community Manager") {
+//       conditionalRole = ["ACI", "CC", "Community Incharge"];
+//       conditionalDepartment = ["Community"];
+//     }
+
+//     const queryParams = {
+//       userId: userData?.[0]?.userId,
+//       concernType: 'Tech Concern',
+//       role: userData?.[0]?.role,
+//       conditionalRole: conditionalRole,
+//       conditionalDepartment: conditionalDepartment
+//     }
+
+//     try {
+//       const response = await getConcernsPipeLineMethod(queryParams);
+//       setConcernData(response.data.data);
+//     } catch (error) {
+//       console.log('Error fetching concerns', error);
+//     }
+//   }
+
+//   useEffect(() => {
+//     fetchTechConcerns()
+//   }, [classContext, districtContext, schoolContext])
+
+//   const assignedDistricts = userData?.[0]?.assignedDistricts;
+
+//   const handleStatusChange = (selectedOption, concernId) => {
+//     setStatusSelections({ ...statusSelections, [concernId]: selectedOption?.value });
+//     if (selectedOption?.value !== "Visited") {
+//       setTechVisitorRemark(prev => ({ ...prev, [concernId]: null }));
+//     }
+//   };
+
+//   const handleVisitorRemarkChange = (selectedOption, concernId) => {
+//     setTechVisitorRemark({ ...techVisitorRemark, [concernId]: selectedOption?.value });
+//   };
+
+//   const handleActivityChange = (selectedOption, concernId) => {
+//     setActivitySelections({ ...activitySelections, [concernId]: selectedOption?.value });
+//   };
+
+//   const handleActionRecommendedChange = (selectedOption, concernId) => {
+//     setActionRecommended({ ...actionRecommended, [concernId]: selectedOption?.value });
+//   };
+
+//   const handleCommentChange = (e, concernId) => {
+//     setCommentInputs({ ...commentInputs, [concernId]: e.target.value });
+//   };
+
+//    const handleSubmitStatus = async (concernId) => {
+//     const selectedStatus = statusSelections[concernId];
+//     const visitorRemark = techVisitorRemark[concernId];
+//     const activity = activitySelections[concernId];
+//     const action = actionRecommended[concernId];
+//     const comment = commentInputs[concernId]; // user typed comment
+
+//     if (!selectedStatus) return;
+
+//     try {
+//       const query = { concernId: concernId };
+
+//       const payload = {
+//         concernStatusByResolver: selectedStatus,
+//         ...(visitorRemark && { techVisitorRemark: visitorRemark }),
+//         ...(activity && { activityOfPersonWhoResolvesTechConcerns: activity }),
+//         ...(action && { actionRecommended: action }),
+//         ...(comment && { commentByResolver: comment }), // 🔁 Updated here
+//       };
+
+//       await PatchConcernsByQueryParams(query, payload);
+//       fetchTechConcerns();
+//     } catch (error) {
+//       console.log("Error updating concern status", error);
+//     }
+//   };
+
+//   const options = [
+//     { value: "Resolved", label: "Resolved" },
+//     { value: "Pending", label: "Pending" },
+//     { value: "Working on it", label: "Working on it" },
+//   ];
+
+//   const activityOptions = [
+//     { value: "Center Visited", label: "Center Visited" },
+//     { value: "Called", label: "Called" },
+//   ];
+
+//   const actionOptions = [
+//     { value: "New Purchasing Required", label: "New Purchasing Required" },
+//     { value: "Repairing Required", label: "Repairing Required" },
+//   ];
+
+//   return (
+//     <Container>
+//       <div><DistrictBlockSchoolById assignedDistricts={assignedDistricts} /></div>
+//       <div><ClassOfStudent /></div>
+//       <hr />
+
+//       <div>
+//         {concernData.length > 0 ? concernData.map((eachConcern, index) => {
+//           let progressPercent = 0;
+
+//           if (eachConcern.concernStatusBySubmitter === "Resolved") {
+//             progressPercent = 100;
+//           } else if (eachConcern.concernStatusByResolver === "Visited") {
+//             progressPercent = 50;
+//           } else if (eachConcern.concernStatusBySubmitter === "Not Resolved") {
+//             progressPercent = 0;
+//           }
+
+//           return (
+//             <div key={index}>
+//               <br />
+//               <Card style={{ width: "18rem" }}>
+//                 <Card.Body>
+//                   <Card.Title>Tech Concern: {eachConcern.concern}</Card.Title>
+//                   <Card.Title>Issue: {eachConcern.remark}</Card.Title>
+//                   <Card.Title>Class: {eachConcern.classOfConcern}</Card.Title>
+//                   <Card.Text>
+//                     <p>District: {eachConcern.districtDetails.districtName}</p>
+//                     <p>Center: {eachConcern.schoolDetails.schoolName}</p>
+//                     <br />
+//                   </Card.Text>
+
+//                   <div className="custom-progress-container">
+//   {(() => {
+//     let progressPercent = 0;
+//     if (eachConcern.concernStatusBySubmitter === "Resolved") {
+//       progressPercent = 100;
+//     } else if (eachConcern.concernStatusByResolver === "Resolved") {
+//       progressPercent = 66;
+//     } else if (eachConcern.activityOfPersonWhoResolvesTechConcerns) {
+//       progressPercent = 33;
+//     }
+
+//     return (
+//       <>
+//         <div className="custom-progress-bar" style={{ width: `${progressPercent}%` }}></div>
+//         <div className="checkpoints">
+
+//           {/* Step 1: Requested */}
+//           <div className={`checkpoint ${progressPercent >= 0 ? "active" : ""}`} style={{ left: "0%" }}>
+//             <span>1</span>
+//             <div className="checkpoint-label">
+//               <span>Requested<br />technician</span>
+//             </div>
+//           </div>
+
+//           {/* Step 2: Activity Done */}
+//           <div className={`checkpoint ${progressPercent >= 33 ? "active" : ""}`} style={{ left: "33%" }}>
+//             <span>2</span>
+//             <div className="checkpoint-label">
+//               {eachConcern.activityOfPersonWhoResolvesTechConcerns || "Activity"}
+//             </div>
+//           </div>
+
+//           {/* Step 3: Resolved */}
+//           <div className={`checkpoint ${progressPercent >= 66 ? "active" : ""}`} style={{ left: "66%" }}>
+//             <span>3</span>
+//             <div className="checkpoint-label">Resolved</div>
+//           </div>
+
+//           {/* Step 4: Submitter Confirmed */}
+//           <div className={`checkpoint ${progressPercent >= 100 ? "active" : ""}`} style={{ left: "100%" }}>
+//             <span>4</span>
+//             <div className="checkpoint-label">Closed</div>
+//           </div>
+
+//         </div>
+//       </>
+//     );
+//   })()}
+// </div>
+
+//                   <br />
+//                   <hr />
+//                   <span style={{ fontWeight: 'bold' }}>
+//                     Technician-Remark: {eachConcern.techVisitorRemark || null}
+//                   </span>
+//                   <br />
+//                   <hr />
+
+//                   {userData[0].role === "ACI" && (
+//                     <>
+                   
+
+//                       <br />
+
+//                       <label><strong>Technician Activity:</strong></label>
+//                       <Select
+//                         options={activityOptions}
+//                         onChange={(selected) => handleActivityChange(selected, eachConcern.concernId)}
+//                         value={activityOptions.find((opt) => opt.value === activitySelections[eachConcern.concernId]) || null}
+//                         placeholder="-- Select Activity --"
+//                       />
+
+//                       <br />
+
+//                       <label><strong>Action Recommended:</strong></label>
+//                       <Select
+//                         options={actionOptions}
+//                         onChange={(selected) => handleActionRecommendedChange(selected, eachConcern.concernId)}
+//                         value={actionOptions.find((opt) => opt.value === actionRecommended[eachConcern.concernId]) || null}
+//                         placeholder="-- Action Required --"
+//                       />
+
+//                          <br />
+
+//                        <label><strong>Status</strong></label>
+//                       <Select
+//                         options={options}
+//                         onChange={(selected) => handleStatusChange(selected, eachConcern.concernId)}
+//                         value={options.find((opt) => opt.value === statusSelections[eachConcern.concernId]) || null}
+//                         placeholder="-- Select Status --"
+//                       />
+
+//                       <br />
+
+//                       <Form.Group>
+//                         <Form.Label>Optional Comment</Form.Label>
+//                         <Form.Control
+//                           as="textarea"
+//                           rows={2}
+//                           placeholder="Any additional note..."
+//                           value={commentInputs[eachConcern.concernId] || ''}
+//                           onChange={(e) => handleCommentChange(e, eachConcern.concernId)}
+//                         />
+//                       </Form.Group>
+//                     </>
+//                   )}
+
+//                   <br />
+//                   <Button id={eachConcern.concernId} variant="primary" onClick={() => handleSubmitStatus(eachConcern.concernId)}>
+//                     Submit
+//                   </Button>
+//                 </Card.Body>
+//               </Card>
+//             </div>
+//           );
+//         }) : (<div>No concerns yet</div>)}
+//       </div>
+//     </Container>
+//   )
+// }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // /FRONTEND/src/components/Concenr/TechConcernsResolution.jsx
 
 import React from "react";
@@ -11,95 +320,48 @@ import { District, DistrictBlockSchoolById, ClassOfStudent } from "../DependentD
 
 import DistrictBlockSchool from "../CentersOrSchools/DistrictBlockSchool.json";
 
-
-
 export const TechConcernsResolution = () => {
-
-
-
-
-
-
-
-  //Context apis
   const { userData, setUserData } = useContext(UserContext);
-
-  const { districtContext, setDistrictContext } = useContext(DistrictBlockSchoolContext); // Use context
-
-  const { blockContext, setBlockContext } = useContext(BlockContext); // Use context
-
-  const { schoolContext, setSchoolContext } = useContext(SchoolContext); // Use context
-
+  const { districtContext, setDistrictContext } = useContext(DistrictBlockSchoolContext);
+  const { blockContext, setBlockContext } = useContext(BlockContext);
+  const { schoolContext, setSchoolContext } = useContext(SchoolContext);
   const { classContext, setClassContext } = useContext(ClassContext);
 
-  //Usestate hooks.
   const [concernData, setConcernData] = useState([]);
   const [statusSelections, setStatusSelections] = useState({});
-  const [techVisitorRemark, setTechVisitorRemark] = useState({}); // New state
+  const [techVisitorRemark, setTechVisitorRemark] = useState({});
+  const [actionRecommended, setActionRecommended] = useState({});
+  const [activitySelections, setActivitySelections] = useState({});
+  const [commentInputs, setCommentInputs] = useState({});
 
-  //API to fetch concerns data. Tech Concerns Only.
   const fetchTechConcerns = async () => {
-
-    
     let conditionalRole;
-  let conditionalDepartment;
+    let conditionalDepartment;
 
-  if (userData?.[0]?.role==="ACI"){
-    conditionalRole = ["CC"]
-    conditionalDepartment = ["Community"]
-  
-} else if (userData?.[0]?.role === "Community Incharge" || userData?.[0]?.role === "Project Coordinator"){
-      conditionalRole = ["ACI", "CC"]
-    conditionalDepartment = ["Community"]
-
-}else if (userData?.[0]?.role === "Community Manager"){
-    conditionalRole = ["ACI", "CC", "Community Incharge"]
-    conditionalDepartment = ["Community"]
-  } 
-
-
-
-
-    const queryParams = {
-         userId: userData?.[0]?.userId,
-         concernType: 'Tech Concern',
-         role: userData?.[0]?.role, 
-         conditionalRole: conditionalRole,
-         conditionalDepartment: conditionalDepartment
-
-
-        //  districtId: districtContext?.[0]?.value || userData?.[0]?.assignedDistricts,
-        //  blockId: userData?.[0]?.assignedBlocks, 
-        //  schoolId: schoolContext?.[0]?.value || userData?.[0]?.assignedSchools,
-
-        //  classOfConcern: classContext.value || ['9', '10'],
-        //  concernType: 'Individual'
-
+    if (userData?.[0]?.role === "ACI") {
+      conditionalRole = ["CC"];
+      conditionalDepartment = ["Community"];
+    } else if (userData?.[0]?.role === "Community Incharge" || userData?.[0]?.role === "Project Coordinator") {
+      conditionalRole = ["ACI", "CC"];
+      conditionalDepartment = ["Community"];
+    } else if (userData?.[0]?.role === "Community Manager") {
+      conditionalRole = ["ACI", "CC", "Community Incharge"];
+      conditionalDepartment = ["Community"];
     }
 
-  
+    const queryParams = {
+      userId: userData?.[0]?.userId,
+      concernType: 'Tech Concern',
+      role: userData?.[0]?.role,
+      conditionalRole: conditionalRole,
+      conditionalDepartment: conditionalDepartment
+    }
 
-
-
-
-
-
-
-    // const queryParams = {
-    //   //  userId: userData?.[0]?.userId,
-    //   districtId: districtContext?.[0]?.value || userData?.[0]?.assignedDistricts,
-    //   //  blockId: userData?.[0]?.assignedBlocks, 
-    //   schoolId: schoolContext?.[0]?.value || userData?.[0]?.assignedSchools,
-    //   classOfConcern: classContext.value || ['9', '10'],
-    //   concernType: ['Tech Concern']
-    // }
-    console.log(queryParams)
     try {
       const response = await getConcernsPipeLineMethod(queryParams);
-      console.log(response.data.data)
-      setConcernData(response.data.data)
+      setConcernData(response.data.data);
     } catch (error) {
-      console.log('Error fetching concerns', error)
+      console.log('Error fetching concerns', error);
     }
   }
 
@@ -107,181 +369,208 @@ export const TechConcernsResolution = () => {
     fetchTechConcerns()
   }, [classContext, districtContext, schoolContext])
 
-  //dependencie of DistrictBlockSchoolById
-  const assignedDistricts = userData?.[0]?.assignedDistricts
+  const assignedDistricts = userData?.[0]?.assignedDistricts;
 
-  //React selected status change
   const handleStatusChange = (selectedOption, concernId) => {
-    setStatusSelections({
-      ...statusSelections,
-      [concernId]: selectedOption?.value,
-    });
-    // Clear visitor remark when status is changed
+    setStatusSelections({ ...statusSelections, [concernId]: selectedOption?.value });
     if (selectedOption?.value !== "Visited") {
       setTechVisitorRemark(prev => ({ ...prev, [concernId]: null }));
     }
   };
 
   const handleVisitorRemarkChange = (selectedOption, concernId) => {
-    setTechVisitorRemark({
-      ...techVisitorRemark,
-      [concernId]: selectedOption?.value,
-    });
+    setTechVisitorRemark({ ...techVisitorRemark, [concernId]: selectedOption?.value });
   };
 
-  //Submitting concern status
+  const handleActivityChange = (selectedOption, concernId) => {
+    setActivitySelections({ ...activitySelections, [concernId]: selectedOption?.value });
+  };
+
+  const handleActionRecommendedChange = (selectedOption, concernId) => {
+    setActionRecommended({ ...actionRecommended, [concernId]: selectedOption?.value });
+  };
+
+  const handleCommentChange = (e, concernId) => {
+    setCommentInputs({ ...commentInputs, [concernId]: e.target.value });
+  };
+
   const handleSubmitStatus = async (concernId) => {
     const selectedStatus = statusSelections[concernId];
     const visitorRemark = techVisitorRemark[concernId];
+    const activity = activitySelections[concernId];
+    const action = actionRecommended[concernId];
+    const comment = commentInputs[concernId];
+
     if (!selectedStatus) return;
 
     try {
-      const query = {
-        // userId: userData?.[0]?.userId,
-        concernId: concernId
-      };
+      const query = { concernId: concernId };
 
       const payload = {
         concernStatusByResolver: selectedStatus,
-        ...(visitorRemark && { techVisitorRemark: visitorRemark }), // send only if exists
+        ...(visitorRemark && { techVisitorRemark: visitorRemark }),
+        ...(activity && { activityOfPersonWhoResolvesTechConcerns: activity }),
+        ...(action && { actionRecommended: action }),
+        ...(comment && { commentByResolver: comment }),
       };
 
       await PatchConcernsByQueryParams(query, payload);
-      fetchTechConcerns(); // refresh after update
+      fetchTechConcerns();
     } catch (error) {
       console.log("Error updating concern status", error);
     }
   };
 
-  const progressPercent = 0;
-
   const options = [
-    { value: "Visited", label: "Visited" },
+    { value: "Resolved", label: "Resolved" },
+    { value: "Pending", label: "Pending" },
+    { value: "Working on it", label: "Working on it" },
   ];
 
-  const options2 = [
+  const activityOptions = [
+    { value: "Center Visited", label: "Center Visited" },
+    { value: "Called", label: "Called" },
+  ];
+
+  const actionOptions = [
+    { value: "New Purchasing Required", label: "New Purchasing Required" },
     { value: "Repairing Required", label: "Repairing Required" },
-    { value: "Purchasing Required", label: "Purchasing Required" },
   ];
 
-  //
   return (
     <Container>
-      <div>
-        <DistrictBlockSchoolById assignedDistricts={assignedDistricts} />
-      </div>
-      <div>
-        <ClassOfStudent />
-      </div>
+      <div><DistrictBlockSchoolById assignedDistricts={assignedDistricts} /></div>
+      <div><ClassOfStudent /></div>
       <hr />
 
       <div>
         {concernData.length > 0 ? concernData.map((eachConcern, index) => {
+          let progressPercent = 0;
 
-            let progressPercent = 0;
-
-            if (eachConcern.concernStatusBySubmitter === "Resolved") {
-              progressPercent = 100;
-            } else if (eachConcern.concernStatusByResolver === "Visited") {
-              progressPercent = 50;
-            } else if (eachConcern.concernStatusBySubmitter === "Not Resolved") {
-              progressPercent = 0;
-            }
-
-
- //Dynamically disabling the card features for different users.
-            //If aci escalates the issue to gurgaon office, then from his end, concern gets disabled.
-
-            let isEditable;
-            // let msgOfCard;
-            // if(userData[0].role === "ACI"){
-            //   isEditable = userData?.[0]?.role === "ACI" && progressPercent >= 50;
-              
-            // } else if (userData[0].role === "Community Incharge"  ){
-            //   isEditable = userData?.[0]?.role === "Community Incharge"  && progressPercent <= 0 || progressPercent >= 100 ;
-            // }
-
-              // console.log(DistrictBlockSchool)
-
-              
-
-
-
+          if (eachConcern.concernStatusBySubmitter === "Resolved") {
+            progressPercent = 100;
+          } else if (eachConcern.concernStatusByResolver === "Resolved") {
+            progressPercent = 66;
+          } else if (eachConcern.activityOfPersonWhoResolvesTechConcerns) {
+            progressPercent = 33;
+          }
 
           return (
             <div key={index}>
               <br />
               <Card style={{ width: "18rem" }}>
                 <Card.Body>
-                  <Card.Title>Tech Concern:{eachConcern.concern}</Card.Title>
-                  <Card.Title>Issue :{eachConcern.remark}</Card.Title>
-                  <Card.Title>Class :{eachConcern.classOfConcern}</Card.Title>
+                  <Card.Title>Tech Concern: {eachConcern.concern}</Card.Title>
+                  <Card.Title>Issue: {eachConcern.remark}</Card.Title>
+                  <Card.Title>Class: {eachConcern.classOfConcern}</Card.Title>
                   <Card.Text>
                     <p>District: {eachConcern.districtDetails.districtName}</p>
                     <p>Center: {eachConcern.schoolDetails.schoolName}</p>
-                    <br/>
+                    <br />
                   </Card.Text>
 
+                  {/* Progress Bar */}
                   <div className="custom-progress-container">
-                    <div className="custom-progress-bar" style={{ width: `${progressPercent}%` }}></div>
-                    <div className="checkpoints">
-                      <div className={`checkpoint ${progressPercent >= 0 ? "active" : ""}`} style={{ left: "0%" }}>
-                        <span>1</span>
-                        <div className="checkpoint-label">
-                          <span >Requested <br/> technician</span>
-                        </div>
-                      </div>
-                      <div className={`checkpoint ${progressPercent >= 50 ? "active" : ""}`} style={{ left: "50%" }}>
-                        <span>2</span>
-                        <div className="checkpoint-label">Visited</div>
-                      </div>
-                      <div className={`checkpoint ${progressPercent >= 100 ? "active" : ""}`} style={{ left: "100%" }}>
-                        <span>3</span>
-                        <div className="checkpoint-label">Resolved</div>
-                      </div>
-                    </div>
+                    {(() => {
+                      return (
+                        <>
+                          <div className="custom-progress-bar" style={{ width: `${progressPercent}%` }}></div>
+                          <div className="checkpoints">
+                            <div className={`checkpoint ${progressPercent >= 0 ? "active" : ""}`} style={{ left: "0%" }}>
+                              <span>1</span>
+                              <div className="checkpoint-label">Requested<br />technician</div>
+                            </div>
+                            <div className={`checkpoint ${progressPercent >= 33 ? "active" : ""}`} style={{ left: "33%" }}>
+                              <span>2</span>
+                              <div className="checkpoint-label">{eachConcern.activityOfPersonWhoResolvesTechConcerns || "Activity"}</div>
+                            </div>
+                            <div className={`checkpoint ${progressPercent >= 66 ? "active" : ""}`} style={{ left: "66%" }}>
+                              <span>3</span>
+                              <div className="checkpoint-label">Resolved</div>
+                            </div>
+                            <div className={`checkpoint ${progressPercent >= 100 ? "active" : ""}`} style={{ left: "100%" }}>
+                              <span>4</span>
+                              <div className="checkpoint-label">Closed</div>
+                            </div>
+                          </div>
+                        </>
+                      );
+                    })()}
                   </div>
 
                   <br />
+                  <hr />
+                  <span style={{ fontWeight: 'bold' }}>
+                    Technician-Remark: {eachConcern.techVisitorRemark || null}
+                  </span>
+                  <br />
+                  <hr />
 
-                  
-                    <hr/>
-                    <span style={{fontWeight:'bold'}}>
-                      Technician-Remark: {eachConcern.techVisitorRemark ? (eachConcern.techVisitorRemark):(null)}
-
-                    </span>
-                    <br/>
-                     <hr/>
-            
-
-                  {userData[0].role === "ACI" ? (  <Select
-                    options={options}
-                    onChange={(selected) => handleStatusChange(selected, eachConcern.concernId)}
-                    value={options.find((opt) => opt.value === statusSelections[eachConcern.concernId]) || null}
-                    placeholder="-- Select Status --"
-
-                    isDisabled={isEditable}
-                  />): (null)}
-
-                
-
-                  {/* Conditional visitor remark dropdown */}
-                  {statusSelections[eachConcern.concernId] === "Visited" && (
+                  {/* Additional Fields for ACI */}
+                  {userData[0].role === "ACI" && (
                     <>
-                      <br />
+                      <label><strong>Technician Activity:</strong></label>
                       <Select
-                        options={options2}
-                        onChange={(selected) => handleVisitorRemarkChange(selected, eachConcern.concernId)}
-                        value={options2.find((opt) => opt.value === techVisitorRemark[eachConcern.concernId]) || null}
-                        placeholder="-- Visitor Remark --"
+                        options={activityOptions}
+                        onChange={(selected) => handleActivityChange(selected, eachConcern.concernId)}
+                        value={activityOptions.find((opt) => opt.value === activitySelections[eachConcern.concernId]) || null}
+                        placeholder="-- Select Activity --"
                       />
+
+                      {/* Only show the rest if activity is selected */}
+                      {activitySelections[eachConcern.concernId] && (
+                        <>
+                          <br />
+                          <label><strong>Action Recommended:</strong></label>
+                          <Select
+                            options={actionOptions}
+                            onChange={(selected) => handleActionRecommendedChange(selected, eachConcern.concernId)}
+                            value={actionOptions.find((opt) => opt.value === actionRecommended[eachConcern.concernId]) || null}
+                            placeholder="-- Action Required --"
+                          />
+
+                          <br />
+                          <label><strong>Status</strong></label>
+                          <Select
+                            options={options}
+                            onChange={(selected) => handleStatusChange(selected, eachConcern.concernId)}
+                            value={options.find((opt) => opt.value === statusSelections[eachConcern.concernId]) || null}
+                            placeholder="-- Select Status --"
+                          />
+
+                          <br />
+                          <Form.Group>
+                            <Form.Label>Optional Comment</Form.Label>
+                            <Form.Control
+                              as="textarea"
+                              rows={2}
+                              placeholder="Any additional note..."
+                              value={commentInputs[eachConcern.concernId] || ''}
+                              onChange={(e) => handleCommentChange(e, eachConcern.concernId)}
+                            />
+                          </Form.Group>
+                        </>
+                      )}
                     </>
                   )}
 
                   <br />
-                  <Button id={eachConcern.concernId} variant="primary" onClick={(e) => handleSubmitStatus(eachConcern.concernId)}>
+
+                  <Button
+                    id={eachConcern.concernId}
+                    variant="primary"
+                    onClick={() => handleSubmitStatus(eachConcern.concernId)}
+                  >
                     Submit
                   </Button>
+
+                  {/* Show DB comment if exists */}
+                  {eachConcern.comment && (
+                    <>
+                      <hr />
+                      <span><strong>Submitter Comment:</strong> {eachConcern.comment}</span>
+                    </>
+                  )}
                 </Card.Body>
               </Card>
             </div>

@@ -106,7 +106,7 @@ if (userData?.[0]?.role === 'ACI') {
     formData.append("classOfConcern", selectedClass.value);
     formData.append("concernStatusBySubmitter", "Raised");
     formData.append("dateOfSubmission", currentDate);
-    formData.append("concernStatusByResolver", "Pending");
+    formData.append("concernStatusByResolver", "");
     formData.append("uri1", "NA"); // default
     formData.append("uri2", "TechConcernResolution"); // default
     formData.append("uri3", "NA"); // default
