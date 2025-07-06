@@ -1394,7 +1394,7 @@ export const AttendancePdf = () => {
                           <hr />
                           <input
                             type="file"
-                            accept=".pdf,.doc,.docx, image/*"
+                            accept=".pdf,.doc,.docx"
                             onChange={(e) => handleFileChange(e, row._id)}
                           />
                           <br />
@@ -1412,6 +1412,9 @@ export const AttendancePdf = () => {
                                   border: "2px dashed #999",
                                   cursor: "pointer",
                                   position: "relative",
+                                  margin:'5px'
+                                
+                                  
                                 }}
                               >
                                 <input
@@ -1429,6 +1432,7 @@ export const AttendancePdf = () => {
                                       width: "100%",
                                       height: "100%",
                                       objectFit: "cover",
+                                   
                                     }}
                                   />
                                 ) : (
@@ -1450,11 +1454,15 @@ export const AttendancePdf = () => {
                             <label
                               style={{
                                 display: "inline-block",
-                                width: 80,
-                                height: 80,
-                                border: "2px dashed #999",
-                                cursor: "pointer",
-                                position: "relative",
+    width: 80,
+    height: 80,
+    border: "2px dashed #999",
+    cursor: "pointer",
+    position: "relative",
+    display: "flex",           // Align children inside
+    alignItems: "center",      // Vertically center "+"
+    justifyContent: "center",  // Horizontally center "+"
+    margin: "5px", 
                               }}
                             >
                               <input

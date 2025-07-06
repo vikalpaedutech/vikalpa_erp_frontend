@@ -100,6 +100,7 @@ import { StudentAttendanceDashBoard } from "./components/DashBoard/AttendanceDas
 import { StudentCallingDashBoard } from "./components/DashBoard/CallingDashboards.component.jsx";
 import { AttendancePdfCount } from "./components/DashBoard/AttendancePdfCount.component.jsx";
 import { UserAttendanceDash } from "./components/user/UserAttendanceDashboard.jsx";
+import { UserProfile } from "./components/user/UserProfile.jsx";
 function App() {
   
   return (
@@ -125,6 +126,7 @@ function App() {
                       <Route path="/l3-user-dash" element = {<MainLayoutManagerLevel/>}/>  
                       <Route path="/l0-user-dash" element = {<OfficeCommunityTeam/>}/>                    
 
+                      <Route path="/user-profile" element = {<UserProfile/>}/>
 
                       {/* Acadmecis routes */}
                       <Route path="/mb-attendance" element={<AttendanceMB />} />

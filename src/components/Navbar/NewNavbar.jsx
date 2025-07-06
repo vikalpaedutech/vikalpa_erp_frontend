@@ -234,7 +234,9 @@ export const NewNavbar = () => {
   };
 
   const handleProfileClick = () => {
-    alert("Coming soon!");
+    // alert("Coming soon!");
+
+    navigate('/user-profile')
   };
 
   // Get notification api.
@@ -317,8 +319,8 @@ if (userData?.[0]?.role === "ACI"){
             style={{ height: "30px" }}
           />
         </div>
-
-        <p>{userData[0].name}</p>
+{/* 
+        <p>{userData[0].name}</p> */}
         {/* Center: Empty (optional - or could place logo) */}
         <Nav className="me-auto" />
 

@@ -131,3 +131,28 @@ export const patchUserAttendanceWithoutImage = async (queyrParams, payLoad) => {
         console.log(error.message)
     }
 }
+
+
+
+
+//Get user attendance data of a single month. And user can filter out a data...
+//...of any month within a year.
+
+export const GetAttendanceDataOfUsersByMonthAndYear = async (queyrParams, payLoad) => {
+
+
+      // Prepare query parameters to send in the URL
+          const queryString = new URLSearchParams(queyrParams).toString();
+          console.log(queyrParams)
+
+          console.log(payLoad)
+
+    try {
+        const response = await axios.post(`${API_BASE_URL}/api/individual-user-attendance-dash?${queryString}`, payLoad);
+        return response
+    } catch (error) {
+        console.log(error.status)
+      
+        console.log(error.message)
+    }
+}
