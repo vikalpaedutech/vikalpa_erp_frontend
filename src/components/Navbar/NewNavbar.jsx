@@ -226,6 +226,8 @@ export const NewNavbar = () => {
       navigate("/l2-user-dash");
     } else if (userData?.[0]?.role === "Community Manager"){
       navigate("/l3-user-dash");
+    } else if (userData?.[0]?.role === "admin"){
+      navigate("/admin-dash");
     }
   };
 
@@ -319,8 +321,8 @@ if (userData?.[0]?.role === "ACI"){
             style={{ height: "30px" }}
           />
         </div>
-{/* 
-        <p>{userData[0].name}</p> */}
+
+        {/* <p>{userData[0].name}</p> */}
         {/* Center: Empty (optional - or could place logo) */}
         <Nav className="me-auto" />
 

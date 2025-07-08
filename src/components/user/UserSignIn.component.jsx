@@ -37,7 +37,13 @@ export const UserSignIn = () => {
           navigate('/user-attendance-updated')
        } else if (response.data[0].role === 'Community Manager'){
           navigate('/user-attendance-updated')
-       } else {
+       } 
+       else if (response.data[0].role === 'admin'){
+          navigate('/admin-dash')
+       } 
+       
+       
+       else {
         navigate('/user-attendance-updated')
        }
        

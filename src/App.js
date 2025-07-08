@@ -101,6 +101,8 @@ import { StudentCallingDashBoard } from "./components/DashBoard/CallingDashboard
 import { AttendancePdfCount } from "./components/DashBoard/AttendancePdfCount.component.jsx";
 import { UserAttendanceDash } from "./components/user/UserAttendanceDashboard.jsx";
 import { UserProfile } from "./components/user/UserProfile.jsx";
+import AdminLayout from "./pages/UserScreens/AdminMainLayout.jsx";
+import TechConcernsLayout from "./pages/UserScreens/TechConcernsLayout.jsx";
 function App() {
   
   return (
@@ -117,16 +119,27 @@ function App() {
                  
                     <Routes>
                       <Route path="/" element={<UserSignIn />} />
+                      
                       <Route path="/forgot-password" element = {<ForgotPassword/>}/>
+                      
                       <Route path="/user-signup" element = {<UserSignup/>}/>
 
-                       <Route element = {<LayoutWithNewNavbar/>}> 
+                      <Route element = {<LayoutWithNewNavbar/>}> 
+                      
                       <Route path="/user-dash" element={<MainLayout />} />
+                      
                       <Route path="/l2-user-dash" element = {<MainLayoutAciLevel/>}/>  
+                      
                       <Route path="/l3-user-dash" element = {<MainLayoutManagerLevel/>}/>  
+                      
                       <Route path="/l0-user-dash" element = {<OfficeCommunityTeam/>}/>                    
 
+
+                      <Route path="/tech-dash" element = {<TechConcernsLayout/>}/>
+
                       <Route path="/user-profile" element = {<UserProfile/>}/>
+
+
 
                       {/* Acadmecis routes */}
                       <Route path="/mb-attendance" element={<AttendanceMB />} />
@@ -161,6 +174,7 @@ function App() {
                       />
                       {/* Admin module */}
                       {/* Below will be accessible to admin only */}
+                      <Route path="/admin-dash" element = {<AdminLayout/>}/>
                       <Route
                         path="/test-controller"
                         element={<TestController />}
@@ -224,6 +238,9 @@ function App() {
                       <Route path="/student-calling-dashboard" element = {<StudentCallingDashBoard/>}/>
                        <Route path="/attendance-pdf-count-dashboard" element = {<AttendancePdfCount/>}/>
                       <Route path="/user-attendance-dashboard" element = {<UserAttendanceDash/>}/>          
+
+
+
 
 
 

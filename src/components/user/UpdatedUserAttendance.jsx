@@ -1281,6 +1281,11 @@ export const UserAttendanceUpdated = () => {
     } else if (userData?.[0]?.role === "Community Manager") {
       navigate("/l3-user-dash");
     }
+     else if (userData?.[0]?.role === "admin") {
+      navigate("/admin-dash");
+    }  else if (userData?.[0]?.role === "Technician") {
+      navigate("/tech-dash");
+    }
   };
 
   const handleImageCapture = (event) => {

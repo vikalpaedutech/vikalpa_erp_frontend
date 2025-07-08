@@ -57,6 +57,9 @@ export const SchoolConcernsResolution = () => {
 }else if (userData?.[0]?.role === "Community Manager"){
     conditionalRole = ["ACI", "CC", "Community Incharge"]
     conditionalDepartment = ["Community"]
+  } else if (userData?.[0]?.role === "Technician"){
+    conditionalRole = ["ACI", "CC"]
+    conditionalDepartment = ["Community"]
   } 
 
 

@@ -3,6 +3,7 @@ import { Button, Form, Card, Spinner } from "react-bootstrap";
 import axios from "axios";
 import { patchUserByContact, patchUserById } from "../../service/User.service";
 import { useLocation, useNavigate } from "react-router-dom";
+import { sendOtp } from "../../service/SendOtp.services";
 
 export const ForgotPassword = () => {
 
@@ -25,27 +26,57 @@ export const ForgotPassword = () => {
     return Math.floor(100000 + Math.random() * 900000).toString(); // 6-digit
   };
 
-  const sendOTP = async () => {
+  // const sendOTP = async () => {
  
-    setIsOtpSending(true);
+  //   setIsOtpSending(true);
+  //   const otpCode = generateOTP();
+  //   setGeneratedOtp(otpCode);
+  //   setOtpSent(true);
+
+  //    const message = `Dear user, your OTP for Vikalpa Account Sign-up is: ${otpCode}. Please do not share it with anyone. Vikalpa.`;
+
+  //   const url = `http://sms.gooadvert.com/api/mt/SendSMS?APIKey=e3744d6493af43768cc71287368c1293&senderid=VIKLPA&channel=Trans&DCS=0&flashsms=0&number=91${contact1}&text=${encodeURIComponent(message)}&route=5&PEId=1401539030000072375`;
+
+  //   try {
+  //     await axios.get(url);
+  //     alert(`OTP sent to ${contact1}`);
+  //   } catch (err) {
+  //     console.error("OTP send error", err);
+  //     alert("Here's your test OTP: " + otpCode);
+  //   } finally {
+  //     setIsOtpSending(false);
+  //   }
+  // };
+  
+
+  const sendOTP = async()=>{
+
+        setIsOtpSending(true);
     const otpCode = generateOTP();
     setGeneratedOtp(otpCode);
     setOtpSent(true);
 
-     const message = `Dear user, your OTP for Vikalpa Account Sign-up is: ${otpCode}. Please do not share it with anyone. Vikalpa.`;
+    const modifiedContact = `91${contact1}`
 
-    const url = `http://sms.gooadvert.com/api/mt/SendSMS?APIKey=e3744d6493af43768cc71287368c1293&senderid=VIKLPA&channel=Trans&DCS=0&flashsms=0&number=91${contact1}&text=${encodeURIComponent(message)}&route=5&PEId=1401539030000072375`;
+    const payload = {
+      phone: modifiedContact,
+      otp:otpCode
+    }
 
     try {
-      await axios.get(url);
-      alert(`OTP sent to ${contact1}`);
-    } catch (err) {
-      console.error("OTP send error", err);
-      alert("Here's your test OTP: " + otpCode);
-    } finally {
-      setIsOtpSending(false);
+      const response = await sendOtp(payload)
+      console.log(response.status)
+      if(response.status === 200){
+        alert('OTP Sent successfully ')
+        
+      
+      }
+    } catch (error) {
+      console.log('Error sending otp!')
+      alert('Error sending otp!')
+
     }
-  };
+  }
 
   const verifyOTP = () => {
     setIsOtpVerifying(true);

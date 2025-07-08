@@ -352,7 +352,7 @@ const MainLayoutManagerLevel = () => {
           </Carousel.Item>
 
           <Carousel.Item>
-            <Link to={"/absent-calling"} onClick={(e) => e.stopPropagation()} style={{ textDecoration: "none" }}>
+            <Link to={"/student-calling-dashboard"} onClick={(e) => e.stopPropagation()} style={{ textDecoration: "none" }}>
             
             <Card className="mainlayout-cards">
               <Card.Body>

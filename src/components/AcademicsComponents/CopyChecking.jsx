@@ -34,18 +34,76 @@ export const CopyChecking = () => {
     firstName: firstName
   };
 
-  useEffect(() => {
-    const fetchStudentData = async () => {
-      try {
-        const response = await getStudentsByQueryParams(queryParams);
-        setStudentData(response.data);
-      } catch (error) {
-        console.error("Error fetching student data", error.message);
-      }
-    };
+  // useEffect(() => {
+  //   const fetchStudentData = async () => {
+  //     try {
+  //       const response = await getStudentsByQueryParams(queryParams);
+  //       setStudentData(response.data);
+  //     } catch (error) {
+  //       console.error("Error fetching student data", error.message);
+  //     }
+  //   };
 
-    fetchStudentData();
-  }, [schoolContext, classContext, firstName]);
+  //   fetchStudentData();
+  // }, [schoolContext, classContext, firstName]);
+
+
+
+useEffect(() => {
+  const fetchStudentData = async () => {
+    try {
+      const response = await getStudentsByQueryParams(queryParams);
+      const enrichedData = response.data;
+
+      const initStatuses = {};
+      const initTypes = {};
+
+      enrichedData.forEach((student) => {
+        const srn = student.studentSrn;
+        const copyRecords = student.todayCopyChecking || [];
+
+        const subjectMap = {};
+        let checkingType = null;
+
+        copyRecords.forEach((rec) => {
+          if (rec.classWorkChecking !== "NA") {
+            subjectMap[rec.subject] = rec.classWorkChecking;
+            checkingType = { value: "Class Work", label: "Class Work" };
+          } else if (rec.homeWorkChecking !== "NA") {
+            subjectMap[rec.subject] = rec.homeWorkChecking;
+            checkingType = { value: "Home Work", label: "Home Work" };
+          }
+        });
+
+        if (Object.keys(subjectMap).length > 0) {
+          initStatuses[srn] = subjectMap;
+        }
+
+        if (checkingType) {
+          initTypes[srn] = checkingType;
+        }
+      });
+
+      setSelectedStatusesPerStudent(initStatuses);
+      setCheckingTypePerStudent(initTypes);
+      setStudentData(enrichedData);
+    } catch (error) {
+      console.error("Error fetching student data", error.message);
+    }
+  };
+
+  fetchStudentData();
+}, [schoolContext, classContext, firstName]);
+
+
+
+
+
+
+
+
+
+
 
   useEffect(() => {
     setBlockContext("");

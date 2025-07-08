@@ -259,22 +259,55 @@ const MainLayoutAciLevel = () => {
 
 
 
-  //Below function is for caraousel cards
+ 
+ //Below function is for caraousel cards
 const getClassValue = (classNum, key) => {
-  const schoolData = studentCount[0]; // Assuming one school object
-  if (!schoolData) return "--";
+  if (!studentCount || studentCount.length === 0) return "--";
 
-  const total = studentCount
-    .flatMap((school) => school.classes)
-    .filter((cls) => cls.classofStudent === classNum)
-    .reduce((sum, cls) => sum + (cls[key] || 0), 0);
+  let total = 0;
 
-  //----------------------------------
-  return total.toString();
+  studentCount.forEach((school) => {
+    const classData = school.classes.find(
+      (cls) => cls.classofStudent === classNum
+    );
+    if (classData && classData[key] !== undefined) {
+      total += classData[key];
+    }
+  });
+
+  return total;
 };
 
-//-------------------------------
 
+
+//Calling summary
+
+const getCallingSummary = (classNum, key) => {
+  if (!studentCount || studentCount.length === 0) return 0;
+
+  let total = 0;
+
+  studentCount.forEach((school) => {
+    const classData = school.classes.find(
+      (cls) => cls.classofStudent === classNum
+    );
+    if (classData) {
+      if (key === "totalCallings") {
+        total += (classData.connectedCount || 0) + (classData.notConnectedCount || 0);
+      } else if (key === "notCalled") {
+        const attempted =
+          (classData.connectedCount || 0) + (classData.notConnectedCount || 0);
+        total += (classData.absent || 0) - attempted;
+      } else {
+        total += classData[key] || 0;
+      }
+    }
+  });
+
+  return total;
+};
+
+//--------------------------------------
   const handleClick = () => {
     alert("hi");
     navigate("/admin-dash/mb-attendance");
@@ -295,7 +328,7 @@ const getClassValue = (classNum, key) => {
 
 
   
-//Attendance pdf count
+//Attendance pdf count--------------------------------------------------
 
 const fetchPdfStatusData = async () => {
     const payload = {
@@ -357,7 +390,11 @@ const getPdfSummary = (classNum, type) => {
   return "0";
 };
 
-//-------------------------------
+//---------------------------------------------------------------------------------------
+
+
+
+
 
 
   return (
@@ -475,10 +512,10 @@ const getPdfSummary = (classNum, type) => {
                           <p>Total Callings</p>
                         </td>
                         <td>
-                          <p>{getClassValue("9", "totalAbsenteeCallings")}</p>
+                          <p>{getCallingSummary("9", "totalAbsenteeCallings")}</p>
                         </td>
                         <td>
-                          <p>{getClassValue("10", "totalAbsenteeCallings")}</p>
+                          <p>{getCallingSummary("10", "totalAbsenteeCallings")}</p>
                         </td>
                       </tr>
                       <tr>
@@ -486,10 +523,10 @@ const getPdfSummary = (classNum, type) => {
                           <p>Connected</p>
                         </td>
                         <td>
-                          <p>{getClassValue("9", "connectedCount")}</p>
+                          <p>{getCallingSummary("9", "connectedCount")}</p>
                         </td>
                         <td>
-                          <p>{getClassValue("10", "connectedCount")}</p>
+                          <p>{getCallingSummary("10", "connectedCount")}</p>
                         </td>
                       </tr>
                       <tr>
@@ -497,10 +534,10 @@ const getPdfSummary = (classNum, type) => {
                           <p>Not Connected</p>
                         </td>
                         <td>
-                          <p>{getClassValue("9", "notConnectedCount")}</p>
+                          <p>{getCallingSummary("9", "notConnectedCount")}</p>
                         </td>
                         <td>
-                          <p>{getClassValue("10", "notConnectedCount")}</p>
+                          <p>{getCallingSummary("10", "notConnectedCount")}</p>
                         </td>
                       </tr>
                       {/* <tr>

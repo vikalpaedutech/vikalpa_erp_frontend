@@ -335,6 +335,7 @@ export const TechConcernsResolution = () => {
   const [commentInputs, setCommentInputs] = useState({});
 
   const fetchTechConcerns = async () => {
+    // alert(classContext?.[0]?.value)
     let conditionalRole;
     let conditionalDepartment;
 
@@ -344,8 +345,8 @@ export const TechConcernsResolution = () => {
     } else if (userData?.[0]?.role === "Community Incharge" || userData?.[0]?.role === "Project Coordinator") {
       conditionalRole = ["ACI", "CC"];
       conditionalDepartment = ["Community"];
-    } else if (userData?.[0]?.role === "Community Manager") {
-      conditionalRole = ["ACI", "CC", "Community Incharge"];
+    } else if (userData?.[0]?.role === "Technician") {
+      conditionalRole = ["ACI", "CC"];
       conditionalDepartment = ["Community"];
     }
 
@@ -354,12 +355,22 @@ export const TechConcernsResolution = () => {
       concernType: 'Tech Concern',
       role: userData?.[0]?.role,
       conditionalRole: conditionalRole,
-      conditionalDepartment: conditionalDepartment
+      conditionalDepartment: conditionalDepartment,
+      districtId: districtContext?.[0]?.value || "",
+      blockId: blockContext?.[0]?.value || "",
+      schoolId: schoolContext?.[0]?.value || "",
+      classOfConcern: classContext?.value || ""
     }
+
+
+ 
+
 
     try {
       const response = await getConcernsPipeLineMethod(queryParams);
       setConcernData(response.data.data);
+
+      console.log(response.data.data)
     } catch (error) {
       console.log('Error fetching concerns', error);
     }
@@ -367,7 +378,7 @@ export const TechConcernsResolution = () => {
 
   useEffect(() => {
     fetchTechConcerns()
-  }, [classContext, districtContext, schoolContext])
+  }, [classContext, districtContext, blockContext, schoolContext])
 
   const assignedDistricts = userData?.[0]?.assignedDistricts;
 
@@ -507,7 +518,7 @@ export const TechConcernsResolution = () => {
                   <hr />
 
                   {/* Additional Fields for ACI */}
-                  {userData[0].role === "ACI" && (
+                  {userData[0].role === "Technician" && (
                     <>
                       <label><strong>Technician Activity:</strong></label>
                       <Select

@@ -1,3 +1,6 @@
+// src/components/UserScreens
+
+
 import React, { useState, useContext, useEffect } from "react";
 import {
   ListGroup,
@@ -13,20 +16,25 @@ import { href, Outlet, useNavigate } from "react-router-dom";
 import { UserContext } from "../../components/contextAPIs/User.context";
 import { MdMenuOpen } from "react-icons/md";
 import { UserAttendance } from "../../components/user/UserAttendance";
-import { studentAndAttendanceAndAbsenteeCallingCount } from "../../service/dashboardServices/dashboardCounts.services";
+import { studentAndAttendanceAndAbsenteeCallingCount, attendancePdfUploadStatusCountByClass } from "../../service/dashboardServices/dashboardCounts.services";
 //import logoutLogo from '../../assets/logout.png'; // Replace with correct path
 import { Link } from "react-router-dom";
 import { NewNavbar } from "../../components/Navbar/NewNavbar";
 
-const MainLayout = () => {
+const AdminLayout = () => {
+
   const navigate = useNavigate();
 
   const [show, setShow] = useState(false);
+
   const handleClose = () => setShow(false);
+
   const handleShow = () => setShow(true);
+
   const { userData, setUserData } = useContext(UserContext);
 
   //All hooks
+  const [pdfData, setPdfData] = useState([]);
 
   const [studentCount, setStudentCount] = useState([]);
 
@@ -63,6 +71,43 @@ const MainLayout = () => {
   }, []);
 
   const sideBarMenusByRole = [
+
+    
+    {
+      indexKey: "1",
+      label: "Dashboards",
+      logo: "/ccattendance.png",
+      module: "TRUE",
+      main: [
+        {
+          id: "1",
+          label: "CC-Attendance",
+          logo: "/ccattendance.png",
+          path: "user-attendance-dashboard",
+        },
+           
+        {
+          id: "2",
+          label: "Student-Attendance",
+          logo: "/studentattendancesummary.png",
+          path: "student-attendance-dashboard",
+        },
+           {
+          id: "3",
+          label: "Absentee-Calling",
+          logo: "/callingsummary.png",
+          path: "student-calling-dashboard",
+        },
+
+         {
+          id: "4",
+          label: "Attendance PDF",
+          logo: "/studentattendancepdfsummary.png",
+          path: "attendance-pdf-count-dashboard",
+        },
+      ],
+    },
+
     {
       indexKey: "1",
       label: "Academics",
@@ -117,9 +162,13 @@ const MainLayout = () => {
       module: "Bills",
       main: [
         { id: "1", label: "Upload Bills", logo: "/bills.png", path: "upload-bills" },
-        // { id: "2", label: "Bills Verification", logo: "/bill-verification.png", path: "verify-bills" },
-        { id: "2", label: "School Issues", logo: "/school.png", path: "school-concerns" },
-        { id: "3", label: "Tech Issues", logo: "/tech.png", path: "tech-concerns" },
+        { id: "2", label: "Bills Verification", logo: "/bill-verification.png", path: "verify-bills" },
+        // { id: "3", label: "School Issues", logo: "/school.png", path: "school-concerns" },
+        { id: "7", label: "School Concerns Request", logo: "/school.png", path: "school-concerns-request" },
+        // { id: "4", label: "Tech Issues", logo: "/tech.png", path: "tech-concerns" },
+        { id: "5", label: "Tech Solution", logo: "/techSolution.png", path: "tech-concerns-resolution" },
+        { id: "6", label: "Leave Requests", logo: "/leave.png", path: "individual-concerns-resolution" },
+        // { id: "6", label: "School Concerns Request", logo: "/leave.png", path: "individual-concerns-resolution" },
       
       
       ],
@@ -198,7 +247,7 @@ const MainLayout = () => {
 
   const testArray = ["1", "2", "3", "4", "5", "6"];
 
- //Below function is for caraousel cards
+  //Below function is for caraousel cards
 const getClassValue = (classNum, key) => {
   if (!studentCount || studentCount.length === 0) return "--";
 
@@ -246,6 +295,11 @@ const getCallingSummary = (classNum, key) => {
 };
 
 //--------------------------------------
+
+
+
+
+
   const handleClick = () => {
     alert("hi");
     navigate("/admin-dash/mb-attendance");
@@ -260,6 +314,91 @@ const getCallingSummary = (classNum, key) => {
    navigate(`/${e.target.id}`);
   };
   //------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+  //Attendance pdf count
+  
+  const fetchPdfStatusData = async () => {
+      const payload = {
+        schoolIds: userData[0].schoolIds,
+        date: new Date().toISOString().split("T")[0] + "T00:00:00.000+00:00"
+      };
+  
+      try {
+        const response = await attendancePdfUploadStatusCountByClass(payload);
+        console.log("PDF Upload Data", response.data);
+  
+        const sortedData = response.data.map((school) => {
+          const sortedClasses = [...school.classes].sort((a, b) => {
+            if (a.pdfUploadedCount === 0 && b.pdfUploadedCount !== 0) return -1;
+            if (a.pdfUploadedCount !== 0 && b.pdfUploadedCount === 0) return 1;
+            return 0;
+          });
+          return { ...school, classes: sortedClasses };
+        });
+  
+        setPdfData(sortedData);
+      } catch (error) {
+        console.log("Error fetching attendance PDF status:", error);
+      }
+    };
+  
+    useEffect(() => {
+      fetchPdfStatusData();
+    }, []);
+  
+    // Summary Counts
+    const summary = {
+      '9': { total: 0, uploaded: 0 },
+      '10': { total: 0, uploaded: 0 }
+    };
+  
+    pdfData.forEach((school) => {
+      school.classes.forEach((cls) => {
+        if (cls.classofStudent === '9' || cls.classofStudent === '10') {
+          summary[cls.classofStudent].total += 1;
+          if (cls.pdfUploadedCount > 0) {
+            summary[cls.classofStudent].uploaded += 1;
+          }
+        }
+      });
+    });
+  
+  
+    //---------------------------------------------------------------------
+  
+  
+    // Summary Counts for Carousel PDF card
+  const getPdfSummary = (classNum, type) => {
+    const classSummary = summary[classNum];
+    if (!classSummary) return "0";
+    if (type === "uploaded") return classSummary.uploaded;
+    if (type === "notUploaded") return classSummary.total - classSummary.uploaded;
+    if (type === "total") return classSummary.total;
+    return "0";
+  };
+  
+  //-------------------------------
+  
+
+
+
+
+
+
+
+
 
   return (
     <div>
@@ -346,7 +485,7 @@ const getCallingSummary = (classNum, key) => {
           </Carousel.Item>
 
           <Carousel.Item>
-            <Link to={"/absent-calling"} onClick={(e) => e.stopPropagation()} style={{ textDecoration: "none" }}>
+            <Link to={"/student-calling-dashboard"} onClick={(e) => e.stopPropagation()} style={{ textDecoration: "none" }}>
             
             <Card className="mainlayout-cards">
               <Card.Body>
@@ -404,24 +543,69 @@ const getCallingSummary = (classNum, key) => {
                           <p>{getCallingSummary("10", "notConnectedCount")}</p>
                         </td>
                       </tr>
-                      {/* <tr>
+                      <tr>
                         <td>
                           <p>Not Called</p>
                         </td>
                         <td>
-                          <p>{getClassValue("9", "notCalledCount")}</p>
+                          <p>{getCallingSummary("9", "notCalledCount")}</p>
                         </td>
                         <td>
-                          <p>{getClassValue("10", "notCalledCount")}</p>
+                          <p>{getCallingSummary("10", "notCalledCount")}</p>
                         </td>
-                      </tr> */}
-                      
+                      </tr>
                     </tbody>
                   </table>
                 </div>
               </Card.Body>
             
             </Card>
+            </Link>
+          </Carousel.Item>
+
+
+
+
+
+
+
+          <Carousel.Item>
+            <Link to={"/attendance-pdf-count-dashboard"} onClick={(e) => e.stopPropagation()} style={{ textDecoration: "none" }}>
+              <Card className="mainlayout-cards">
+                <Card.Body>
+                  <p className="mainlayout-cards-title">Attendance Pdf</p>
+                  <Card.Subtitle className="mb-3 text-muted">Summary:</Card.Subtitle>
+          
+                  <div className="table-responsive">
+                    <table className="table table-bordered text-center">
+                      <thead className="thead-light">
+                        <tr>
+                          <th><p>Status</p></th>
+                          <th><p>9th Class</p></th>
+                          <th><p>10th Class</p></th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td><p>Total School</p></td>
+                          <td><p>{getPdfSummary("9", "total")}</p></td>
+                          <td><p>{getPdfSummary("10", "total")}</p></td>
+                        </tr>
+                        <tr>
+                          <td><p>Uploaded</p></td>
+                          <td><p>{getPdfSummary("9", "uploaded")}</p></td>
+                          <td><p>{getPdfSummary("10", "uploaded")}</p></td>
+                        </tr>
+                        <tr>
+                          <td><p>Not Uploaded</p></td>
+                          <td><p>{getPdfSummary("9", "notUploaded")}</p></td>
+                          <td><p>{getPdfSummary("10", "notUploaded")}</p></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </Card.Body>
+              </Card>
             </Link>
           </Carousel.Item>
         </Carousel>
@@ -463,4 +647,4 @@ const getCallingSummary = (classNum, key) => {
   );
 };
 
-export default MainLayout;
+export default AdminLayout;

@@ -42,6 +42,7 @@ export const StudentDisciplinaryOrInteraction = () => {
       try {
         const response = await getStudentsByQueryParams(queryParams);
         setStudentData(response.data);
+        console.log(response.data)
       } catch (error) {
         console.error("Error fetching student data", error.message);
       }
@@ -205,9 +206,12 @@ export const StudentDisciplinaryOrInteraction = () => {
             <br></br>
             <Card className="h-100 shadow-sm">
               <Card.Body>
+                 <Card.Subtitle className="mb-3 text-muted" style={{backgroundColor:'#F0F8FF', fontSize:'30px'}}>Total Raises in past: {student.disciplinaryCount}</Card.Subtitle>
+                <hr></hr>
                 <Card.Title className="mb-2">
                   {index + 1}. {student.firstName}
                 </Card.Title>
+               
                 <Card.Subtitle className="mb-3 text-muted">SRN: {srn}</Card.Subtitle>
 
                 <div className="mb-3">

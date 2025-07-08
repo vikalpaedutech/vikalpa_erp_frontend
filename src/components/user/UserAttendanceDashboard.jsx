@@ -347,11 +347,11 @@ export const UserAttendanceDash = () => {
     //...CC, ACI attendance...If logged in user is ACI then show only ccs attendance.
 
     let conditionalRoleToSearch;
-    if (userData?.[0]?.role === "Community Incharge" || userData?.[0]?.role === "Community Manager" || userData?.[0]?.role === "Project Coordinator"){
+    if (userData?.[0]?.role === "admin" || userData?.[0]?.role === "Community Incharge" || userData?.[0]?.role === "Community Manager" || userData?.[0]?.role === "Project Coordinator"){
         conditionalRoleToSearch = ['ACI', 'CC']
     } else if (userData?.[0]?.role === "ACI"){
         conditionalRoleToSearch = ['CC']
-    }
+    } 
 
 
     const rolesToSearch = conditionalRoleToSearch; // You can make this dynamic or based on selection
@@ -379,7 +379,8 @@ export const UserAttendanceDash = () => {
       if (
         userData?.[0]?.role === "Community Incharge" ||
         userData?.[0]?.role === "Community Manager" ||
-        userData?.[0]?.role === "Project Coordinator"
+        userData?.[0]?.role === "Project Coordinator" ||
+         userData?.[0]?.role === "admin"
       ) {
         if (selectedRoleFilter !== "All") {
           result = result.filter((item) => item.role === selectedRoleFilter);
@@ -468,7 +469,8 @@ export const UserAttendanceDash = () => {
 
       {userData?.[0]?.role === "Community Incharge" ||
        userData?.[0]?.role === "Community Manager" ||
-       userData?.[0]?.role === "Project Coordinator" ? (
+       userData?.[0]?.role === "Project Coordinator" ||
+       userData?.[0]?.role === "admin" ? (
         <Row className="mb-3">
           <Col md={4}>
             <Form.Group>
