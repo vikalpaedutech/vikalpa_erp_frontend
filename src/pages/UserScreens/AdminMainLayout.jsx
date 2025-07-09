@@ -199,7 +199,7 @@ const AdminLayout = () => {
     {
       indexKey: "7",
       label: "Attendance Controller",
-      module: "Attendance Controller",
+      module: "TRUE", //TRUE MODULES INSTANTLY GIVE ACCESS TO ANY USERS TO THAT PARTICULAR MODULES
       main: [
         {
           id: "1",

@@ -248,11 +248,11 @@ const statusOptions = {
   Disciplinary: [
     { value: "Indiscipline", label: "Indiscipline" },
     { value: "Not Attentive", label: "Not Attentive" },
-    { value: "Lack Of Focus", label: "Lack Of Focus" },
+    // { value: "Lack Of Focus", label: "Lack Of Focus" },
   ],
   Interaction: [
-    { value: "Student-Teacher", label: "Student-Teacher" },
     { value: "Teacher-Student", label: "Teacher-Student" },
+    { value: "Student-Doubt", label: "Student-Doubt" },
 
   ],
 };
@@ -342,6 +342,7 @@ const MbCentersDisciplinary = () => {
 
   return (
     <div className="container py-4">
+      
       <h4>Center/School Disciplinary Records</h4>
     
 <ListGroup className="mb-centers-disciplinary-list" horizontal>

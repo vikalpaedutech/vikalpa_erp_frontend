@@ -8,10 +8,10 @@ const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
 //Student Cron Attendance API Call.
 
-export const createAttendanceRecords = async ()=> {
+export const createAttendanceRecords = async (reqBody)=> {
 
     try {
-        const response = await axios.post(`${API_BASE_URL}/api/initiate-student-attendance`)
+        const response = await axios.post(`${API_BASE_URL}/api/initiate-student-attendance`, reqBody)
 
         if(response.status === 200){
             alert('Attendance instance created successfully!')

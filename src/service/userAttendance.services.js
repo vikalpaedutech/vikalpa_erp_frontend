@@ -79,10 +79,10 @@ export const PatchUserAttendanceByUserId = async (queryParams, formData) => {
 
 //Post cron attendance
 
-export const cronJobUserAttendance = async () => {
+export const cronJobUserAttendance = async (reqBody) => {
 
     try {
-        const response = await axios.post(`${API_BASE_URL}/api/initiate-user-attendance`);
+        const response = await axios.post(`${API_BASE_URL}/api/initiate-user-attendance`, reqBody);
         return response
     } catch (error) {
         console.log(error.status)
