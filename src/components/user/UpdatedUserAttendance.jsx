@@ -1272,13 +1272,18 @@ export const UserAttendanceUpdated = () => {
     if (userData?.[0]?.role === "CC") {
       navigate("/user-dash");
     } else if (
-      userData?.[0]?.role === "ACI" ||
-      userData?.[0]?.role === "Community Incharge" ||
-      userData?.[0]?.role === "Project Coordinator" ||
-      userData?.[0]?.role === "Academic-Coordinator"
+      userData?.[0]?.role === "ACI" 
+     
     ) {
       navigate("/l2-user-dash");
-    } else if (userData?.[0]?.role === "Community Manager") {
+    } else if( userData?.[0]?.role === "Community Incharge" ||
+      userData?.[0]?.role === "Project Coordinator" ||
+      userData?.[0]?.role === "Academic-Coordinator"){
+      navigate('/l0-user-dash')
+    } 
+    
+    
+    else if (userData?.[0]?.role === "Community Manager") {
       navigate("/l3-user-dash");
     }
      else if (userData?.[0]?.role === "admin") {

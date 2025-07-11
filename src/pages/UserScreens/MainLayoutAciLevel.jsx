@@ -30,7 +30,7 @@ const MainLayoutAciLevel = () => {
 
   const [studentCount, setStudentCount] = useState([]);
 
-   const [pdfData, setPdfData] = useState([]);
+  const [pdfData, setPdfData] = useState([]);
 
   //------------------------------
   const handleLogout = () => {
@@ -412,7 +412,7 @@ const getPdfSummary = (classNum, type) => {
           className="mainlayout-bulletin"
         >
           <Carousel.Item>
-            <Link to={"/student-attendance-dashboard"} onClick={(e) => e.stopPropagation()} style={{ textDecoration: "none" }}>
+            <Link to={"/mb-attendance"} onClick={(e) => e.stopPropagation()} style={{ textDecoration: "none" }}>
             
             <Card className="mainlayout-cards">
               <Card.Body>

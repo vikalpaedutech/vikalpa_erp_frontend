@@ -1,6 +1,3 @@
-// src/components/UserScreens
-
-
 import React, { useState, useContext, useEffect } from "react";
 import {
   ListGroup,
@@ -21,22 +18,19 @@ import { studentAndAttendanceAndAbsenteeCallingCount, attendancePdfUploadStatusC
 import { Link } from "react-router-dom";
 import { NewNavbar } from "../../components/Navbar/NewNavbar";
 
-const AdminLayout = () => {
-
+const MainLayoutOfficeLevel = () => {
   const navigate = useNavigate();
 
   const [show, setShow] = useState(false);
-
   const handleClose = () => setShow(false);
-
   const handleShow = () => setShow(true);
-
   const { userData, setUserData } = useContext(UserContext);
 
   //All hooks
-  const [pdfData, setPdfData] = useState([]);
 
   const [studentCount, setStudentCount] = useState([]);
+
+  const [pdfData, setPdfData] = useState([]);
 
   //------------------------------
   const handleLogout = () => {
@@ -51,9 +45,11 @@ const AdminLayout = () => {
   const fetchStudentRelatedCounts = async () => {
     const payload = {
       schoolIds: userData[0].schoolIds,
-      classFilters: userData[0].classId,
+      classFilters: userData[0].classId || ['9', '10'],
       date: new Date().toISOString().split("T")[0] + "T00:00:00.000+00:00", // same format
     };
+
+    
 
     try {
       const response = await studentAndAttendanceAndAbsenteeCallingCount(
@@ -72,7 +68,6 @@ const AdminLayout = () => {
 
   const sideBarMenusByRole = [
 
-    
     {
       indexKey: "1",
       label: "Dashboards",
@@ -118,6 +113,7 @@ const AdminLayout = () => {
 
       ],
     },
+
 
     {
       indexKey: "1",
@@ -188,11 +184,12 @@ const AdminLayout = () => {
       indexKey: "4",
       label: "Monitoring",
       logo: "/monitoring.png",
-      module: "Monitoring",
+      module: "TRUE",
       main: [
         {
           id: "1",
-          label: "Center Disciplinary/Interaction",
+          label: "Center Monitoring",
+            logo: "/monitoring.png",
           path: "center-disciplinary-or-interaction",
         },
       ],
@@ -210,7 +207,7 @@ const AdminLayout = () => {
     {
       indexKey: "7",
       label: "Attendance Controller",
-      module: "TRUE", //TRUE MODULES INSTANTLY GIVE ACCESS TO ANY USERS TO THAT PARTICULAR MODULES
+      module: "Attendance Controller",
       main: [
         {
           id: "1",
@@ -259,6 +256,22 @@ const AdminLayout = () => {
   const testArray = ["1", "2", "3", "4", "5", "6"];
 
   //Below function is for caraousel cards
+  // const getClassValue = (classNum, key) => {
+  //   const schoolData = studentCount[0]; // Assuming one school object
+  //   if (!schoolData) return "--";
+
+  //   const classData = schoolData.classes.find(
+  //     (cls) => cls.classofStudent === classNum
+  //   );
+
+  //   //----------------------------------
+  //   return classData ? classData[key] : "0";
+  // };
+
+
+
+ 
+ //Below function is for caraousel cards
 const getClassValue = (classNum, key) => {
   if (!studentCount || studentCount.length === 0) return "--";
 
@@ -306,11 +319,6 @@ const getCallingSummary = (classNum, key) => {
 };
 
 //--------------------------------------
-
-
-
-
-
   const handleClick = () => {
     alert("hi");
     navigate("/admin-dash/mb-attendance");
@@ -330,81 +338,70 @@ const getCallingSummary = (classNum, key) => {
 
 
 
-
-
-
-
-
-
-
-
-  //Attendance pdf count
   
-  const fetchPdfStatusData = async () => {
-      const payload = {
-        schoolIds: userData[0].schoolIds,
-        date: new Date().toISOString().split("T")[0] + "T00:00:00.000+00:00"
-      };
-  
-      try {
-        const response = await attendancePdfUploadStatusCountByClass(payload);
-        console.log("PDF Upload Data", response.data);
-  
-        const sortedData = response.data.map((school) => {
-          const sortedClasses = [...school.classes].sort((a, b) => {
-            if (a.pdfUploadedCount === 0 && b.pdfUploadedCount !== 0) return -1;
-            if (a.pdfUploadedCount !== 0 && b.pdfUploadedCount === 0) return 1;
-            return 0;
-          });
-          return { ...school, classes: sortedClasses };
+//Attendance pdf count--------------------------------------------------
+
+const fetchPdfStatusData = async () => {
+    const payload = {
+      schoolIds: userData[0].schoolIds,
+      date: new Date().toISOString().split("T")[0] + "T00:00:00.000+00:00"
+    };
+
+    try {
+      const response = await attendancePdfUploadStatusCountByClass(payload);
+      console.log("PDF Upload Data", response.data);
+
+      const sortedData = response.data.map((school) => {
+        const sortedClasses = [...school.classes].sort((a, b) => {
+          if (a.pdfUploadedCount === 0 && b.pdfUploadedCount !== 0) return -1;
+          if (a.pdfUploadedCount !== 0 && b.pdfUploadedCount === 0) return 1;
+          return 0;
         });
-  
-        setPdfData(sortedData);
-      } catch (error) {
-        console.log("Error fetching attendance PDF status:", error);
-      }
-    };
-  
-    useEffect(() => {
-      fetchPdfStatusData();
-    }, []);
-  
-    // Summary Counts
-    const summary = {
-      '9': { total: 0, uploaded: 0 },
-      '10': { total: 0, uploaded: 0 }
-    };
-  
-    pdfData.forEach((school) => {
-      school.classes.forEach((cls) => {
-        if (cls.classofStudent === '9' || cls.classofStudent === '10') {
-          summary[cls.classofStudent].total += 1;
-          if (cls.pdfUploadedCount > 0) {
-            summary[cls.classofStudent].uploaded += 1;
-          }
-        }
+        return { ...school, classes: sortedClasses };
       });
-    });
-  
-  
-    //---------------------------------------------------------------------
-  
-  
-    // Summary Counts for Carousel PDF card
-  const getPdfSummary = (classNum, type) => {
-    const classSummary = summary[classNum];
-    if (!classSummary) return "0";
-    if (type === "uploaded") return classSummary.uploaded;
-    if (type === "notUploaded") return classSummary.total - classSummary.uploaded;
-    if (type === "total") return classSummary.total;
-    return "0";
+
+      setPdfData(sortedData);
+    } catch (error) {
+      console.log("Error fetching attendance PDF status:", error);
+    }
   };
-  
-  //-------------------------------
-  
+
+  useEffect(() => {
+    fetchPdfStatusData();
+  }, []);
+
+  // Summary Counts
+  const summary = {
+    '9': { total: 0, uploaded: 0 },
+    '10': { total: 0, uploaded: 0 }
+  };
+
+  pdfData.forEach((school) => {
+    school.classes.forEach((cls) => {
+      if (cls.classofStudent === '9' || cls.classofStudent === '10') {
+        summary[cls.classofStudent].total += 1;
+        if (cls.pdfUploadedCount > 0) {
+          summary[cls.classofStudent].uploaded += 1;
+        }
+      }
+    });
+  });
 
 
+  //---------------------------------------------------------------------
 
+
+  // Summary Counts for Carousel PDF card
+const getPdfSummary = (classNum, type) => {
+  const classSummary = summary[classNum];
+  if (!classSummary) return "0";
+  if (type === "uploaded") return classSummary.uploaded;
+  if (type === "notUploaded") return classSummary.total - classSummary.uploaded;
+  if (type === "total") return classSummary.total;
+  return "0";
+};
+
+//---------------------------------------------------------------------------------------
 
 
 
@@ -554,17 +551,17 @@ const getCallingSummary = (classNum, key) => {
                           <p>{getCallingSummary("10", "notConnectedCount")}</p>
                         </td>
                       </tr>
-                      <tr>
+                      {/* <tr>
                         <td>
                           <p>Not Called</p>
                         </td>
                         <td>
-                          <p>{getCallingSummary("9", "notCalledCount")}</p>
+                          <p>{getClassValue("9", "notCalledCount")}</p>
                         </td>
                         <td>
-                          <p>{getCallingSummary("10", "notCalledCount")}</p>
+                          <p>{getClassValue("10", "notCalledCount")}</p>
                         </td>
-                      </tr>
+                      </tr> */}
                     </tbody>
                   </table>
                 </div>
@@ -576,49 +573,45 @@ const getCallingSummary = (classNum, key) => {
 
 
 
-
-
-
-
           <Carousel.Item>
-            <Link to={"/attendance-pdf-count-dashboard"} onClick={(e) => e.stopPropagation()} style={{ textDecoration: "none" }}>
-              <Card className="mainlayout-cards">
-                <Card.Body>
-                  <p className="mainlayout-cards-title">Attendance Pdf</p>
-                  <Card.Subtitle className="mb-3 text-muted">Summary:</Card.Subtitle>
-          
-                  <div className="table-responsive">
-                    <table className="table table-bordered text-center">
-                      <thead className="thead-light">
-                        <tr>
-                          <th><p>Status</p></th>
-                          <th><p>9th Class</p></th>
-                          <th><p>10th Class</p></th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <td><p>Total School</p></td>
-                          <td><p>{getPdfSummary("9", "total")}</p></td>
-                          <td><p>{getPdfSummary("10", "total")}</p></td>
-                        </tr>
-                        <tr>
-                          <td><p>Uploaded</p></td>
-                          <td><p>{getPdfSummary("9", "uploaded")}</p></td>
-                          <td><p>{getPdfSummary("10", "uploaded")}</p></td>
-                        </tr>
-                        <tr>
-                          <td><p>Not Uploaded</p></td>
-                          <td><p>{getPdfSummary("9", "notUploaded")}</p></td>
-                          <td><p>{getPdfSummary("10", "notUploaded")}</p></td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                </Card.Body>
-              </Card>
-            </Link>
-          </Carousel.Item>
+  <Link to={"/attendance-pdf-count-dashboard"} onClick={(e) => e.stopPropagation()} style={{ textDecoration: "none" }}>
+    <Card className="mainlayout-cards">
+      <Card.Body>
+        <p className="mainlayout-cards-title">Attendance Pdf</p>
+        <Card.Subtitle className="mb-3 text-muted">Summary:</Card.Subtitle>
+
+        <div className="table-responsive">
+          <table className="table table-bordered text-center">
+            <thead className="thead-light">
+              <tr>
+                <th><p>Status</p></th>
+                <th><p>9th Class</p></th>
+                <th><p>10th Class</p></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><p>Total School</p></td>
+                <td><p>{getPdfSummary("9", "total")}</p></td>
+                <td><p>{getPdfSummary("10", "total")}</p></td>
+              </tr>
+              <tr>
+                <td><p>Uploaded</p></td>
+                <td><p>{getPdfSummary("9", "uploaded")}</p></td>
+                <td><p>{getPdfSummary("10", "uploaded")}</p></td>
+              </tr>
+              <tr>
+                <td><p>Not Uploaded</p></td>
+                <td><p>{getPdfSummary("9", "notUploaded")}</p></td>
+                <td><p>{getPdfSummary("10", "notUploaded")}</p></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </Card.Body>
+    </Card>
+  </Link>
+</Carousel.Item>
         </Carousel>
 
 
@@ -658,4 +651,4 @@ const getCallingSummary = (classNum, key) => {
   );
 };
 
-export default AdminLayout;
+export default MainLayoutOfficeLevel;

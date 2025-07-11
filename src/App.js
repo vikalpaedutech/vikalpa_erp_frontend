@@ -103,6 +103,8 @@ import { UserAttendanceDash } from "./components/user/UserAttendanceDashboard.js
 import { UserProfile } from "./components/user/UserProfile.jsx";
 import AdminLayout from "./pages/UserScreens/AdminMainLayout.jsx";
 import TechConcernsLayout from "./pages/UserScreens/TechConcernsLayout.jsx";
+import { StudentDisciplinaryDashboard } from "./components/DashBoard/StudentDisciplinaryDashboard.jsx";
+import MainLayoutOfficeLevel from "./pages/UserScreens/MainLayoutOffice.jsx";
 function App() {
   
   return (
@@ -132,8 +134,9 @@ function App() {
                       
                       <Route path="/l3-user-dash" element = {<MainLayoutManagerLevel/>}/>  
                       
-                      <Route path="/l0-user-dash" element = {<OfficeCommunityTeam/>}/>                    
+                      {/* <Route path="/l0-user-dash" element = {<OfficeCommunityTeam/>}/>                     */}
 
+                      <Route path="/l0-user-dash" element={<MainLayoutOfficeLevel/>}/>
 
                       <Route path="/tech-dash" element = {<TechConcernsLayout/>}/>
 
@@ -238,7 +241,8 @@ function App() {
                       <Route path="/student-calling-dashboard" element = {<StudentCallingDashBoard/>}/>
                        <Route path="/attendance-pdf-count-dashboard" element = {<AttendancePdfCount/>}/>
                       <Route path="/user-attendance-dashboard" element = {<UserAttendanceDash/>}/>          
-
+                      
+                      <Route path="/student-disciplinary-dashboard" element = {<StudentDisciplinaryDashboard/>}/>
 
 
 

@@ -54,11 +54,8 @@ export const SchoolConcernsResolution = () => {
       conditionalRole = ["ACI", "CC"]
     conditionalDepartment = ["Community"]
 
-}else if (userData?.[0]?.role === "Community Manager"){
+}else if (userData?.[0]?.role === "admin" || userData?.[0]?.role === "Community Manager"){
     conditionalRole = ["ACI", "CC", "Community Incharge"]
-    conditionalDepartment = ["Community"]
-  } else if (userData?.[0]?.role === "Technician"){
-    conditionalRole = ["ACI", "CC"]
     conditionalDepartment = ["Community"]
   } 
 
@@ -70,7 +67,12 @@ export const SchoolConcernsResolution = () => {
          concernType: 'School-Individual-Student',
          role: userData?.[0]?.role, 
          conditionalRole: conditionalRole,
-         conditionalDepartment: conditionalDepartment
+         conditionalDepartment: conditionalDepartment,
+
+          districtId: districtContext?.[0]?.value || "",
+      blockId: blockContext?.[0]?.value || "",
+      schoolId: schoolContext?.[0]?.value || "",
+      classOfConcern: classContext?.value || ""
 
 
         //  districtId: districtContext?.[0]?.value || userData?.[0]?.assignedDistricts,

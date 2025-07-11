@@ -900,7 +900,11 @@ const AttendanceMB = ({assignedDistricts, assignedBlocks, assignedSchools}) => {
     }
 
     const handleDownloadPdf = () => {
+
+
     const doc = new jsPDF();
+
+
 
     const title = `Attendance_Class_${classContext.value || 'All'}_${date}`;
     doc.setFontSize(14);
@@ -909,7 +913,9 @@ const AttendanceMB = ({assignedDistricts, assignedBlocks, assignedSchools}) => {
     doc.rect(10, 10, 190, 10, 'F');
     doc.text(title, 105, 17, { align: 'center' });
 
-    // Sort attendanceData by School Name, then District Name
+
+    // Sort attendanceData by School Name, then District Name.
+
     const sortedData = [...attendanceData].sort((a, b) => {
     const schoolA = DistrictBlockSchool.find(s => s.schoolId === a.studentDetails.schoolId)?.schoolName || a.studentDetails.schoolId;
     const schoolB = DistrictBlockSchool.find(s => s.schoolId === b.studentDetails.schoolId)?.schoolName || b.studentDetails.schoolId;

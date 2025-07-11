@@ -345,7 +345,7 @@ export const TechConcernsResolution = () => {
     } else if (userData?.[0]?.role === "Community Incharge" || userData?.[0]?.role === "Project Coordinator") {
       conditionalRole = ["ACI", "CC"];
       conditionalDepartment = ["Community"];
-    } else if (userData?.[0]?.role === "Technician") {
+    } else if (userData?.[0]?.role === "admin" || userData?.[0]?.role === "Technician") {
       conditionalRole = ["ACI", "CC"];
       conditionalDepartment = ["Community"];
     }

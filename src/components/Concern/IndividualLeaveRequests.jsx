@@ -38,7 +38,7 @@ const fetchTechConcerns = async () =>{
   if (userData?.[0]?.role==="ACI"){
     conditionalRole = ["CC"]
     conditionalDepartment = ["Community"]
-  } else if (userData?.[0]?.role === "Community Manager"){
+  } else if (userData?.[0]?.role === "admin" || userData?.[0]?.role === "Community Manager"){
     conditionalRole = ["ACI", "CC", "Community Incharge"]
     conditionalDepartment = ["Community"]
   } 
