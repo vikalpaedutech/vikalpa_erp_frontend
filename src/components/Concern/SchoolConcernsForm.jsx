@@ -44,7 +44,9 @@ const SchoolConcernsForm = () => {
       { value: "Other FundS", label: "Other Funds" },
     ],
     "Student": [
-      { value: "Admission", label: "Admission" },
+      { value: "App", label: "App" },
+      { value: "New Admission", label: "New Admission" },
+      { value: "Remove", label: "Remove" },
       { value: "SLC", label: "SLC" },
       { value: "Optional Subject", label: "Optional Subject" },
       { value: "Document", label: "Document" },
@@ -52,6 +54,7 @@ const SchoolConcernsForm = () => {
       { value: "School Timing Issue", label: "School Timing Issue" },
       { value: "Bank Details", label: "Bank Details" },
       { value: "Emergency", label: "Emergency" },
+      
     ],
   };
 
@@ -189,19 +192,42 @@ if (userData?.[0]?.role === 'ACI') {
 
         {/* Student SRN Field (only for Student) */}
         {concern?.value === "Student" && (
+          // <Row className="mb-3">
+          //   <Col md={4}>
+          //     <Form.Group>
+          //       <Form.Label>Student SRN (10 digits)</Form.Label>
+          //       <Form.Control
+          //         type="text"
+          //         value={studentSrn}
+          //         onChange={(e) => setStudentSrn(e.target.value)}
+          //         placeholder="Enter 10-digit SRN"
+          //       />
+          //     </Form.Group>
+          //   </Col>
+          // </Row>
+
+
+
+
           <Row className="mb-3">
-            <Col md={4}>
-              <Form.Group>
-                <Form.Label>Student SRN (10 digits)</Form.Label>
-                <Form.Control
-                  type="text"
-                  value={studentSrn}
-                  onChange={(e) => setStudentSrn(e.target.value)}
-                  placeholder="Enter 10-digit SRN"
-                />
-              </Form.Group>
-            </Col>
-          </Row>
+  <Col md={4}>
+    <Form.Group>
+      <Form.Label>Student SRN (10 digits)</Form.Label>
+      <Form.Control
+        type="text"
+        inputMode="numeric"
+        pattern="\d{10}"
+        maxLength={10}
+        value={studentSrn}
+        onChange={(e) => {
+          const onlyNums = e.target.value.replace(/\D/g, ""); // remove non-digits
+          setStudentSrn(onlyNums);
+        }}
+        placeholder="Enter 10-digit SRN"
+      />
+    </Form.Group>
+  </Col>
+</Row>
         )}
 
         <Col md={3}>
