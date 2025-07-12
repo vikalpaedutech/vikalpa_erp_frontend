@@ -224,7 +224,10 @@ export const NewNavbar = () => {
       navigate("/user-dash");
     } else if (userData?.[0]?.role === "ACI") {
       navigate("/l2-user-dash");
-    } else if (userData?.[0]?.role === "admin" || userData?.[0]?.role === "Community Incharge" || userData?.[0]?.role === "Project Coordinator") {
+    } else if (userData?.[0]?.role === "admin" || userData?.[0]?.role === "Community Incharge" || userData?.[0]?.role === "Project Coordinator"
+      
+
+    ) {
 
         navigate("/l0-user-dash");
 
@@ -233,6 +236,8 @@ export const NewNavbar = () => {
       navigate("/l3-user-dash");
     } else if (userData?.[0]?.role === "admin"){
       navigate("/admin-dash");
+    } else {
+       navigate("/l0-user-dash");
     }
   };
 

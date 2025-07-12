@@ -66,7 +66,189 @@ const MainLayoutOfficeLevel = () => {
     fetchStudentRelatedCounts();
   }, []);
 
-  const sideBarMenusByRole = [
+
+let sideBarMenusByRole;
+
+if (userData?.[0].role === 'Teacher' || userData?.[0].role === 'Academic-Coordinator' || userData?.[0].role === 'DTP'){
+
+    sideBarMenusByRole = [
+
+    // {
+    //   indexKey: "1",
+    //   label: "Dashboards",
+    //   logo: "/ccattendance.png",
+    //   module: "TRUE",
+    //   main: [
+    //     {
+    //       id: "1",
+    //       label: "CC-Attendance",
+    //       logo: "/ccattendance.png",
+    //       path: "user-attendance-dashboard",
+    //     },
+           
+    //     {
+    //       id: "2",
+    //       label: "Student-Attendance",
+    //       logo: "/studentattendancesummary.png",
+    //       path: "student-attendance-dashboard",
+    //     },
+    //        {
+    //       id: "3",
+    //       label: "Absentee-Calling",
+    //       logo: "/callingsummary.png",
+    //       path: "student-calling-dashboard",
+    //     },
+
+    //      {
+    //       id: "4",
+    //       label: "Attendance PDF",
+    //       logo: "/studentattendancepdfsummary.png",
+    //       path: "attendance-pdf-count-dashboard",
+    //     },
+
+    //      {
+    //       id: "5",
+    //       label: "Copy-Checking/Student Disciplinary",
+    //       logo: "/copychecking.png",
+    //       path: "student-disciplinary-dashboard",
+    //     },
+
+
+
+
+    //   ],
+    // },
+
+
+    // {
+    //   indexKey: "1",
+    //   label: "Academics",
+    //   logo: "/attendance.png",
+    //   module: "Academics",
+    //   main: [
+    //     {
+    //       id: "1",
+    //       label: "Attendance",
+    //       logo: "/attendance.png",
+    //       path: "mb-attendance",
+    //     },
+    //     { id: "2", label: "Upload Marks", logo: "/exam.png", path: "upload-marks" },
+    //     {
+    //       id: "3",
+    //       label: "Disciplinary",
+    //       logo: "/disciplinary.png",
+    //       path: "student-disciplinary-or-interaction",
+    //     },
+    //       {
+    //       id: "4",
+    //       label: "Copy-checking",
+    //       logo: "/copy-checking.png",
+    //       path: "copy-checking",
+    //     },
+    //     {
+    //       id: "5",
+    //       label: "Manual Attendance",
+    //       logo: "/upload.png",
+    //       path: "manual-attendance", // path: "upload-attendance-pdf",
+    //     },
+    //   ],
+    // },
+    // {
+    //   indexKey: "2",
+    //   label: "Downloads",
+    //   logo: "/download.png",
+    //   module: "Downloads",
+    //   main: [
+    //     {
+    //       id: "1",
+    //       label: "Manual Attendance Format",
+    //       logo: "/download.png",
+    //       path: "attendance-pdf-format",
+    //     },
+    //   ],
+    // },
+    {
+      indexKey: "3",
+      label: "Bills & Issues",
+      logo: "/bills.png",
+      module: "Bills",
+      main: [
+        { id: "1", label: "Upload Bills", logo: "/bills.png", path: "upload-bills" },
+        // { id: "2", label: "Bills Verification", logo: "/bill-verification.png", path: "verify-bills" },
+        // // { id: "3", label: "School Issues", logo: "/school.png", path: "school-concerns" },
+        // { id: "7", label: "School Concerns Request", logo: "/school.png", path: "school-concerns-request" },
+        // // { id: "4", label: "Tech Issues", logo: "/tech.png", path: "tech-concerns" },
+        // { id: "5", label: "Tech Solution", logo: "/techSolution.png", path: "tech-concerns-resolution" },
+        // { id: "6", label: "Leave Requests", logo: "/leave.png", path: "individual-concerns-resolution" },
+        // { id: "6", label: "School Concerns Request", logo: "/leave.png", path: "individual-concerns-resolution" },
+      
+      
+      ],
+    },
+    {
+      indexKey: "4",
+      label: "Monitoring",
+      logo: "/monitoring.png",
+      module: "TRUE",
+      main: [
+        {
+          id: "1",
+          label: "Center Monitoring",
+            logo: "/monitoring.png",
+          path: "center-disciplinary-or-interaction",
+        },
+      ],
+    },
+
+    // {
+    //   indexKey: "6",
+    //   label: "Callings",
+    //   logo: "/client.png",
+    //   module: "Callings",
+    //   main: [{ id: "1", label: "Absentee Callings", logo: "/call.png", path: "absent-calling" }],
+    // },
+
+    // //Only for Admin
+    // {
+    //   indexKey: "7",
+    //   label: "Attendance Controller",
+    //   module: "Attendance Controller",
+    //   main: [
+    //     {
+    //       id: "1",
+    //       label: "Initiate Student Attendance",
+    //       path: "initiate-student-attendance",
+    //     },
+    //     {
+    //       id: "2",
+    //       label: "Initiate User Attendance",
+    //       path: "initiate-user-attendance",
+    //     },
+    //     {
+    //       id: "3",
+    //       label: "Initiate Upload-attendance-pdf",
+    //       path: "initiate-upload-attendance-pdf",
+    //     },
+    //   ],
+    // },
+
+    {
+      indexKey: "8",
+      label: "Test Controller",
+      module: "Test Controller",
+      main: [
+        { id: "1", label: "Create Test", path: "test-controller" },
+        { id: "2", label: "Initiate Test", path: "initiate-test" },
+      ],
+    },
+
+    //-----------------
+  ];
+
+} else if (userData?.[0].role === 'Community Incharge' || userData?.[0].role === 'Project Coordinator') {
+
+
+    sideBarMenusByRole = [
 
     {
       indexKey: "1",
@@ -239,6 +421,71 @@ const MainLayoutOfficeLevel = () => {
 
     //-----------------
   ];
+
+
+} else if (userData?.[0].role === 'Media Manager' || userData?.[0].role === 'Photographer') {
+
+
+    sideBarMenusByRole = [
+
+    
+    // {
+    //   indexKey: "2",
+    //   label: "Downloads",
+    //   logo: "/download.png",
+    //   module: "Downloads",
+    //   main: [
+    //     {
+    //       id: "1",
+    //       label: "Manual Attendance Format",
+    //       logo: "/download.png",
+    //       path: "attendance-pdf-format",
+    //     },
+    //   ],
+    // },
+    {
+      indexKey: "3",
+      label: "Bills & Issues",
+      logo: "/bills.png",
+      module: "Bills",
+      main: [
+        { id: "1", label: "Upload Bills", logo: "/bills.png", path: "upload-bills" },
+        // { id: "2", label: "Bills Verification", logo: "/bill-verification.png", path: "verify-bills" },
+        // // { id: "3", label: "School Issues", logo: "/school.png", path: "school-concerns" },
+        // { id: "7", label: "School Concerns Request", logo: "/school.png", path: "school-concerns-request" },
+        // // { id: "4", label: "Tech Issues", logo: "/tech.png", path: "tech-concerns" },
+        // { id: "5", label: "Tech Solution", logo: "/techSolution.png", path: "tech-concerns-resolution" },
+        // { id: "6", label: "Leave Requests", logo: "/leave.png", path: "individual-concerns-resolution" },
+        // { id: "6", label: "School Concerns Request", logo: "/leave.png", path: "individual-concerns-resolution" },
+      
+      
+      ],
+    },
+    {
+      indexKey: "4",
+      label: "Monitoring",
+      logo: "/monitoring.png",
+      module: "TRUE",
+      main: [
+        {
+          id: "1",
+          label: "Center Monitoring",
+            logo: "/monitoring.png",
+          path: "center-disciplinary-or-interaction",
+        },
+      ],
+    },
+
+   
+
+    //-----------------
+  ];
+
+
+}
+
+
+   
 
   const allSidebarRoutes = sideBarMenusByRole.flatMap((section) =>
     section.main.map((item) => ({
