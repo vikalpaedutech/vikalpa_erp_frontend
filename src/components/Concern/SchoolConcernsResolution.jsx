@@ -121,6 +121,7 @@ export const SchoolConcernsResolution = () => {
   //dependencie of DistrictBlockSchoolById
 
   const assignedDistricts = userData?.[0]?.assignedDistricts;
+  
 
   //React selected status change
 
@@ -157,15 +158,22 @@ export const SchoolConcernsResolution = () => {
 
   const progressPercent = 0;
 
+
+  // console.log(userData)
+  // alert(assignedDistricts)
+
   //
   return (
     <Container>
       <div>
         <DistrictBlockSchoolById assignedDistricts={assignedDistricts} />
       </div>
+
       <div>
         <ClassOfStudent />
       </div>
+
+
       <hr />
 
       <div>

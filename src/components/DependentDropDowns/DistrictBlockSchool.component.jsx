@@ -582,7 +582,7 @@ export const DistrictBlockSchoolById = ({
     // console.log(" i am userrrrrrrrrrr from userrr", userData);
 
     try {
-      const response = await getDistrictById(userData?.[0]?.districtIds); //assignedDistricts
+      const response = await getDistrictById(userData?.[0]?.assignedDistricts); //assignedDistricts
       setDistrictData(response.data);
     } catch (error) {
       console.error("Error fetching district data", error.message);
