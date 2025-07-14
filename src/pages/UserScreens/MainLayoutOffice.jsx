@@ -32,6 +32,16 @@ const MainLayoutOfficeLevel = () => {
 
   const [pdfData, setPdfData] = useState([]);
 
+
+
+
+   const [startDate, setStartDate] = useState(() => {
+        return new Date().toISOString().split("T")[0];
+      });
+      const [endDate, setEndDate] = useState(() => {
+        return new Date().toISOString().split("T")[0];
+      });
+
   //------------------------------
   const handleLogout = () => {
     navigate("/");
@@ -46,7 +56,12 @@ const MainLayoutOfficeLevel = () => {
     const payload = {
       schoolIds: userData[0].schoolIds,
       classFilters: userData[0].classId || ['9', '10'],
-      date: new Date().toISOString().split("T")[0] + "T00:00:00.000+00:00", // same format
+      
+      // date: new Date().toISOString().split("T")[0] + "T00:00:00.000+00:00", // same format
+
+
+          startDate: startDate,
+      endDate: endDate
     };
 
     
@@ -591,7 +606,13 @@ const getCallingSummary = (classNum, key) => {
 const fetchPdfStatusData = async () => {
     const payload = {
       schoolIds: userData[0].schoolIds,
-      date: new Date().toISOString().split("T")[0] + "T00:00:00.000+00:00"
+      
+      // date: new Date().toISOString().split("T")[0] + "T00:00:00.000+00:00"
+    
+        startDate: startDate,
+      endDate: endDate
+    
+    
     };
 
     try {

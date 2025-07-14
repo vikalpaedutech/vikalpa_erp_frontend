@@ -810,8 +810,7 @@ import { Link } from "react-router-dom";
 import { NewNavbar } from "../../components/Navbar/NewNavbar";
 import {Row, Col} from 'react-bootstrap'
 
-// Utility for CSV export
-const exportToCsv = (rows, selectedDate, classFilter) => {
+const exportToCsv = (rows, classFilter) => {
   const csvContent = [
     ['S. No.', 'District', 'School', 'Class', 'Total', 'Present', 'Absent', 'Date'],
     ...rows.map(r => [
@@ -822,13 +821,13 @@ const exportToCsv = (rows, selectedDate, classFilter) => {
       r.total,
       r.present,
       r.absent,
-      selectedDate
+      r.date
     ])
   ]
   .map(e => e.map(val => `"${String(val).replace(/"/g, '""')}"`).join(","))
   .join("\n");
 
-  const filename = `attendance_${selectedDate}_${classFilter}.csv`;
+  const filename = `attendance_${new Date().toISOString().split("T")[0]}_${classFilter}.csv`;
   const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
   const url = URL.createObjectURL(blob);
   const link = document.createElement("a");
@@ -838,6 +837,7 @@ const exportToCsv = (rows, selectedDate, classFilter) => {
   link.click();
   document.body.removeChild(link);
 };
+
 
 export const StudentAttendanceDashBoard = () => {
 
@@ -850,11 +850,23 @@ export const StudentAttendanceDashBoard = () => {
   const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split("T")[0]);
   const [showOnlyAbsent, setShowOnlyAbsent] = useState(false);
 
+
+
+  const [startDate, setStartDate] = useState(() => {
+      return new Date().toISOString().split("T")[0];
+    });
+    const [endDate, setEndDate] = useState(() => {
+      return new Date().toISOString().split("T")[0];
+    });
+
   const fetchStudentRelatedCounts = async () => {
     const payload = {
       schoolIds: userData[0].schoolIds,
       classFilters: userData[0].classId || ['9', '10'],
-      date: selectedDate + "T00:00:00.000+00:00", // same format
+     // date: selectedDate + "T00:00:00.000+00:00", // same format
+       startDate: startDate,
+      endDate: endDate
+      
     };
 
     try {
@@ -882,7 +894,7 @@ export const StudentAttendanceDashBoard = () => {
 
   useEffect(() => {
     fetchStudentRelatedCounts();
-  }, [selectedDate]);
+  }, [selectedDate, startDate, endDate]);
 
   // Summary by class
   const classSummary = {
@@ -908,14 +920,15 @@ export const StudentAttendanceDashBoard = () => {
       if (!showOnlyAbsent || cls.present === 0) {
         const serial = school.classes.length > 1 ? `${schoolIndex + 1}.${classIndex + 1}` : `${schoolIndex + 1}`;
         flattenedRows.push({
-          serial,
-          district: school.districtName,
-          school: school.schoolName,
-          class: cls.classofStudent,
-          total: cls.totalStudents,
-          present: cls.present,
-          absent: cls.absent
-        });
+  serial,
+  district: school.districtName,
+  school: school.schoolName,
+  class: cls.classofStudent,
+  total: cls.totalStudents,
+  present: cls.present,
+  absent: cls.absent,
+  date: school.date?.split("T")[0] || ""
+});
       }
     })
   );
@@ -926,14 +939,26 @@ export const StudentAttendanceDashBoard = () => {
     <Card className="mb-3 shadow-sm p-3">
       <Form>
         <Form.Group as={Row} className="align-items-center">
-          <Form.Label column sm={2}><strong>Select Date</strong></Form.Label>
-          <Col sm={4}>
-            <Form.Control
-              type="date"
-              value={selectedDate}
-              onChange={(e) => setSelectedDate(e.target.value)}
-            />
-          </Col>
+          <Col md={4}>
+                    <Form.Group>
+                      <Form.Label>📅 Start Date</Form.Label>
+                      <Form.Control
+                        type="date"
+                        value={startDate}
+                        onChange={(e) => setStartDate(e.target.value)}
+                      />
+                    </Form.Group>
+                  </Col>
+                  <Col md={4}>
+                    <Form.Group>
+                      <Form.Label>📅 End Date</Form.Label>
+                      <Form.Control
+                        type="date"
+                        value={endDate}
+                        onChange={(e) => setEndDate(e.target.value)}
+                      />
+                    </Form.Group>
+                  </Col>
           <Col sm={2}>
             <Form.Check
               type="checkbox"
@@ -1007,6 +1032,7 @@ export const StudentAttendanceDashBoard = () => {
                 <th>Total</th>
                 <th>Present</th>
                 <th>Absent</th>
+                <th>Date</th>
               </tr>
             </thead>
             <tbody className="text-center">
@@ -1037,6 +1063,7 @@ export const StudentAttendanceDashBoard = () => {
                         <td>{cls.totalStudents}</td>
                         <td style={{ backgroundColor: cls.present === 0 ? '#ff9999' : 'inherit', fontWeight: cls.present === 0 ? 'bold' : 'normal' }}>{cls.present}</td>
                         <td>{cls.absent}</td>
+                        <td>{school.date?.split("T")[0]}</td>
                       </tr>
                     );
                   })
@@ -1062,6 +1089,7 @@ export const StudentAttendanceDashBoard = () => {
                 <th>Total</th>
                 <th>Present</th>
                 <th>Absent</th>
+                <th>Date</th>
               </tr>
             </thead>
             <tbody className="text-center">
@@ -1092,6 +1120,7 @@ export const StudentAttendanceDashBoard = () => {
                         <td>{cls.totalStudents}</td>
                         <td style={{ backgroundColor: cls.present === 0 ? '#ff9999' : 'inherit', fontWeight: cls.present === 0 ? 'bold' : 'normal' }}>{cls.present}</td>
                         <td>{cls.absent}</td>
+                        <td>{school.date?.split("T")[0]}</td>
                       </tr>
                     );
                   })
