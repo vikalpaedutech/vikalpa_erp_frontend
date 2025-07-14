@@ -233,10 +233,11 @@ if (eachConcern.concernStatusBySubmitter === "Resolved") {
 
               <div key={index}>
                 <br />
+                
                 <Card style={{ width: "18rem" }}>
                   {/* <Card.Img variant="top" src="holder.js/100px180" /> */}
                   <Card.Body>
-                    <p>{progressPercent}</p>
+                    {/* <p>{progressPercent}</p> */}
                     <Card.Title>Concern Type: {eachConcern.concern}</Card.Title>
                     <Card.Title>Concern: {eachConcern.remark}</Card.Title>
                     <Card.Title>Class: {eachConcern.classOfConcern} </Card.Title>

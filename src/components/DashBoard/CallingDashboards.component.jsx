@@ -234,11 +234,27 @@ export const StudentCallingDashBoard = () => {
   //All hooks
   const [studentCount, setStudentCount] = useState([]);
 
+   const [startDate, setStartDate] = useState(() => {
+        return new Date().toISOString().split("T")[0];
+      });
+      const [endDate, setEndDate] = useState(() => {
+        return new Date().toISOString().split("T")[0];
+      });
+
+
+
+
+
+
   const fetchStudentRelatedCounts = async () => {
     const payload = {
       schoolIds: userData[0].schoolIds,
       classFilters: userData[0].classId || ['9', '10'],
-      date: new Date().toISOString().split("T")[0] + "T00:00:00.000+00:00", // same format
+      
+      // date: new Date().toISOString().split("T")[0] + "T00:00:00.000+00:00", // same format
+
+         startDate: startDate,
+      endDate: endDate
     };
 
     try {
@@ -295,10 +311,10 @@ export const StudentCallingDashBoard = () => {
           <Card.Title>Overall Summary</Card.Title>
           <div >
             <div>
-              <strong>Class 9 -</strong> Total: {classSummary['9'].totalStudents}, Connected: {classSummary['9'].connectedCount}, NotConnected: {classSummary['9'].notConnectedCount}
+              <strong>Class 9 -</strong> Total: {classSummary['9'].absent}, Connected: {classSummary['9'].connectedCount}, NotConnected: {classSummary['9'].notConnectedCount}
             </div>
             <div>
-              <strong>Class 10 -</strong> Total: {classSummary['10'].totalStudents}, Connected: {classSummary['10'].connectedCount}, Absent: {classSummary['10'].notConnectedCount}
+              <strong>Class 10 -</strong> Total: {classSummary['10'].absent}, Connected: {classSummary['10'].connectedCount}, Absent: {classSummary['10'].notConnectedCount}
             </div>
           </div>
         </Card.Body>
