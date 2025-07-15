@@ -191,7 +191,7 @@ const AdminLayout = () => {
         // { id: "4", label: "Tech Issues", logo: "/tech.png", path: "tech-concerns" },
         { id: "5", label: "Tech Solution", logo: "/techSolution.png", path: "tech-concerns-resolution" },
         { id: "6", label: "Leave Requests", logo: "/leave.png", path: "individual-concerns-resolution" },
-        // { id: "6", label: "School Concerns Request", logo: "/leave.png", path: "individual-concerns-resolution" },
+        { id: "8", label: "Individual Concerns", logo: "/individualconcern.png", path: "self-cocnerns-resolution" },
       
       
       ],

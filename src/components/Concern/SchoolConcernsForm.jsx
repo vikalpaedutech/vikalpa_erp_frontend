@@ -47,6 +47,7 @@ const SchoolConcernsForm = () => {
       { value: "App", label: "App" },
       { value: "New Admission", label: "New Admission" },
       { value: "Remove", label: "Remove" },
+       { value: "Center Change", label: "Center Change" },
       { value: "SLC", label: "SLC" },
       { value: "Optional Subject", label: "Optional Subject" },
       { value: "Document", label: "Document" },

@@ -105,6 +105,7 @@ import AdminLayout from "./pages/UserScreens/AdminMainLayout.jsx";
 import TechConcernsLayout from "./pages/UserScreens/TechConcernsLayout.jsx";
 import { StudentDisciplinaryDashboard } from "./components/DashBoard/StudentDisciplinaryDashboard.jsx";
 import MainLayoutOfficeLevel from "./pages/UserScreens/MainLayoutOffice.jsx";
+import { IndividualConcernsRequest } from "./components/Concern/IndividualConcernsRequest.jsx";
 function App() {
   
   return (
@@ -220,21 +221,36 @@ function App() {
                       {/* Concerns module */}
 
                       {/* <Route path="/school-concerns" element = {<SchoolConcernsForm/>}/> */}
-                      <Route path="/school-concerns" element = {<SchoolConcerns/>}/>
+                    <Route path="/school-concerns" element = {<SchoolConcerns/>}/>
                       
-                      <Route path="/tech-concerns" element = {<TechConcerns/>}/>
-                      <Route path="/tech-concerns-resolution" element = {<TechConcernsResolution/>}/>
-                      <Route path="/tech-concerns-status" element = {<TechConcernsStatus/>}/>
-                      <Route path="/tech-concerns-status" element = {<TechConcernsStatus/>}/>
-                      <Route path ="/individual-concerns-form" element = {<IndividualConcerns/>}/>
-                      <Route path="/individual-leave-requests" element = {<IndividualLeaveRequests/>}/>
-                      <Route path="/individual-concerns-resolution" element = {<IndividualConcenrsResolution/>}/> 
-                      <Route path="/school-concerns-request" element = {<SchoolConcernsRequest/>}/> 
+                    <Route path="/tech-concerns" element = {<TechConcerns/>}/>
+                     
+                    <Route path="/tech-concerns-resolution" element = {<TechConcernsResolution/>}/>
+                      
+                    <Route path="/tech-concerns-status" element = {<TechConcernsStatus/>}/>
+                     
+                    <Route path="/tech-concerns-status" element = {<TechConcernsStatus/>}/>
+                     
+                    <Route path ="/individual-concerns-form" element = {<IndividualConcerns/>}/>
+                      
+                    <Route path="/individual-leave-requests" element = {<IndividualLeaveRequests/>}/>
+                      
+                    <Route path="/individual-concerns-resolution" element = {<IndividualConcenrsResolution/>}/> 
+                      
+                    <Route path="/self-cocnerns-resolution" element = {<IndividualConcernsRequest/>}/>
+
+
+
+
+                      
+                  <Route path="/school-concerns-request" element = {<SchoolConcernsRequest/>}/> 
 
 
                   <Route path="/attendance-user" element = {<UserAttendance/>}/>
+                  
                   <Route path="/user-attendance-updated" element = {<UserAttendanceUpdated/>}/>
-                   <Route path="/user-attendance-aci" element = {<UserAttendanceACI/>}/>
+                  
+                  <Route path="/user-attendance-aci" element = {<UserAttendanceACI/>}/>
                     
                       {/* Dashboard */}
                       <Route path="/student-attendance-dashboard" element = {<StudentAttendanceDashBoard/>}/>
