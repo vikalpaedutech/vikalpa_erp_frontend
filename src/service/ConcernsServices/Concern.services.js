@@ -15,16 +15,19 @@ export const createConcern = async (formData) => {
         const response = await axios.post(`${API_BASE_URL}/api/create-concern`, formData)
         
      
-
-     
         
+     
+        alert("Concern submitted successfully!");
         return response;
     } catch (error) {
 
         
 
         if(error.response.status === 409){
-            alert('Concern was already created! You can only create concern once the previous concern was either closed!')
+           
+            // alert('Concern was already created! You can only create concern once the previous concern was either closed!')
+        
+        
         }
 
         console.log("Error :", error.message)

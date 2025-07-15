@@ -103,7 +103,15 @@ if (userData?.[0]?.role === 'ACI') {
 
     const schoolSelected = schoolContext[0];
     const currentDate = new Date().toISOString().split("T")[0];
-    const concernId = `${concern.value}-${remark.value.replace(" ", "")}-${schoolSelected.value}-${currentDate}-${classOfConcern.value}`;
+
+
+    let concernId;
+    if (concern.value === "Student") {
+       concernId = `${concern.value}-${remark.value.replace(" ", "")}-${schoolSelected.value}-${currentDate}-${classOfConcern.value}-${studentSrn}`;
+    } else {
+      concernId = `${concern.value}-${remark.value.replace(" ", "")}-${schoolSelected.value}-${currentDate}-${classOfConcern.value}`;
+    }
+    
 
     const formData = new FormData();
     formData.append("concernId", concernId);
@@ -135,8 +143,12 @@ if (userData?.[0]?.role === 'ACI') {
 
     try {
       setIsSubmitting(true); // NEW
-      await createConcern(formData);
-      alert("Concern submitted successfully!");
+      const response = await createConcern(formData);
+
+    if(response.status===200){
+      alert('Concern created successfully!')
+      
+    } 
       setConcern(null);
       setRemark(null);
       setClassOfConcern(null); // reset class too
@@ -147,7 +159,7 @@ if (userData?.[0]?.role === 'ACI') {
       setKey(Date.now()); // force re-render of SchoolDropDowns
     } catch (error) {
       console.error("Error submitting concern:", error.message);
-      alert("Submission failed.");
+      alert(`Submission Failed! A school concern cannot be duplicated. You cannot create the same type of concern on the same date before closing the previous one..`)
     } finally {
       setIsSubmitting(false); // NEW
     }

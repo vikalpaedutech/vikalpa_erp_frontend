@@ -35,7 +35,7 @@ const remarkOptionsMap = {
     { value: "Workspace hygiene", label: "Workspace hygiene (कार्यस्थल स्वच्छता)" },
     { value: "Safety concern", label: "Safety concern (सुरक्षा संबंधी चिंता)" },
   ],
-  "Leave & Attendance": [
+  "Attendance": [
     { value: "Attendance Correction", label: "Attendance Correction (उपस्थिति सुधार)" },
     { value: "Leave balance query", label: "Leave balance query (छुट्टी शेष पूछताछ)" },
   ],
