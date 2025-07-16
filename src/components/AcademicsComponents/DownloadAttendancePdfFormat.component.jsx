@@ -494,7 +494,7 @@ export const DownloadAttendancePdfFormat = () => {
     ]);
   
     pdf.autoTable({
-      head: [['S.No', 'Roll Number', 'SRN', 'First Name', 'Father Name', 'Signature']],
+      head: [['S.No',  'SRN', 'Roll Number', 'First Name', 'Father Name', 'Signature']],
       body: tableData,
       startY: pdf.lastAutoTable.finalY + 15,
       theme: 'grid',
