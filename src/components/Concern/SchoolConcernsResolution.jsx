@@ -246,6 +246,7 @@ if (eachConcern.concernStatusBySubmitter === "Resolved") {
                   {/* <Card.Img variant="top" src="holder.js/100px180" /> */}
                   <Card.Body>
                     {/* <p>{progressPercent}</p> */}
+                    <Card.Title>Student SRN: {eachConcern.studentSrn}</Card.Title>
                     <Card.Title>Concern Type: {eachConcern.concern}</Card.Title>
                     <Card.Title>Concern: {eachConcern.remark}</Card.Title>
                     <Card.Title>Class: {eachConcern.classOfConcern} </Card.Title>

@@ -618,7 +618,7 @@ const handleSubmitStatus = async (concernId) => {
   }
 };
   useEffect(() => {
-    fetchTechConcerns();
+    fetchTechConcerns();  
   }, []);
 
   const options = [

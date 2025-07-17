@@ -742,12 +742,31 @@ const AttendanceMB = ({assignedDistricts, assignedBlocks, assignedSchools}) => {
     // Track attendance state individually for each student using an object.
     const [attendanceState, setAttendanceState] = useState({});
 
+    
+//   const [startDate, setStartDate] = useState(() => {
+//       return new Date().toISOString().split("T")[0];
+//     });
+//     const [endDate, setEndDate] = useState(() => {
+//       return new Date().toISOString().split("T")[0];
+//     });
+
+
     //Student Related Counts
+
+          
     const fetchStudentRelatedCounts = async () => {
-        const payload = {
-            schoolIds: userData[0].schoolIds,
-            classFilters: userData[0].classId,
-            date: new Date().toISOString().split("T")[0] + "T00:00:00.000+00:00", // same format
+        
+
+    // let date = new Date().toISOString().split("T")[0] + "T00:00:00.000+00:00"
+       
+
+    const payload = {
+        schoolIds: userData[0].schoolIds,
+        classFilters: userData[0].classId,
+           
+        startDate: date || new Date().toISOString().split("T")[0] + "T00:00:00.000+00:00",
+        endDate: date || new Date().toISOString().split("T")[0] + "T00:00:00.000+00:00"
+            
         };
 
         try {
@@ -763,7 +782,7 @@ const AttendanceMB = ({assignedDistricts, assignedBlocks, assignedSchools}) => {
 
     useEffect(() => {
         fetchStudentRelatedCounts();
-    }, []);
+    }, [date]);
 
     //Below useEffect handles date thing
     useEffect(()=>{
