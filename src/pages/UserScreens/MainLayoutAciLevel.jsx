@@ -115,6 +115,13 @@ const MainLayoutAciLevel = () => {
           logo: "/studentattendancepdfsummary.png",
           path: "attendance-pdf-count-dashboard",
         },
+
+           {
+          id: "5",
+          label: "Copy-Checking/Student Disciplinary",
+          logo: "/copychecking.png",
+          path: "student-disciplinary-dashboard",
+        },
       ],
     },
 
