@@ -213,12 +213,12 @@ console.log(filteredLeaves)
             } else {
               cardBackgroundColor = 'white'
             }
-
+//width: "18rem"
 
             return (
               <div key={index}>
                 <br />
-                <Card style={{ width: "18rem" , backgroundColor:cardBackgroundColor}}>
+                <Card style={{  backgroundColor:cardBackgroundColor}}>
                   {/* <Card.Img variant="top" src="holder.js/100px180" /> */}
                   <Card.Body>
                     

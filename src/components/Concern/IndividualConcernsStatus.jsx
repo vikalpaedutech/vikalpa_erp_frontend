@@ -633,6 +633,7 @@ const handleSubmitStatus = async (concernId) => {
     return 0;
   };
 
+  // width: "18rem",
   return (
     <Container>
       <div>
@@ -640,8 +641,10 @@ const handleSubmitStatus = async (concernId) => {
           concernData.map((eachConcern, index) => {
             const progressPercent = getProgressPercent(eachConcern.concernStatusByResolver, eachConcern.concernStatusBySubmitter);
             const isUserResolved = eachConcern.concernStatusBySubmitter === "Resolved";
-            const cardStyle = {
-              width: "18rem",
+            
+            
+          const cardStyle = {
+      
               backgroundColor: isUserResolved ? "#7FFFD4" : "white"
             };
 

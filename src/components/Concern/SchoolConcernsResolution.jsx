@@ -235,14 +235,14 @@ if (eachConcern.concernStatusBySubmitter === "Resolved") {
           // userData?.[0]?.role === "ACI" && progressPercent >= 50; // Only ACI can edit before step 3
         
 
-
+                //style={{ width: "18rem" }}
             return (
 
 
               <div key={index}>
                 <br />
                 
-                <Card style={{ width: "18rem" }}>
+                <Card className="school-concerns-resolution-card" >
                   {/* <Card.Img variant="top" src="holder.js/100px180" /> */}
                   <Card.Body>
                     {/* <p>{progressPercent}</p> */}

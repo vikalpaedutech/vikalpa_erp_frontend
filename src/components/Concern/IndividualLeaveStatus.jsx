@@ -75,7 +75,7 @@ export const IndividualLeaveStatus = () => {
   const options = [
     { value: "Closed", label: "Closed" },
   ];
-
+//style={{ width: "18rem" }}
   return (
     <Container>
       <div>
@@ -84,7 +84,7 @@ export const IndividualLeaveStatus = () => {
             return (
               <div key={index}>
                 <br />
-                <Card style={{ width: "18rem" }}>
+                <Card >
                   <Card.Body>
                     <Card.Title>Subject: {eachConcern.remark}</Card.Title>
                     <Card.Text>

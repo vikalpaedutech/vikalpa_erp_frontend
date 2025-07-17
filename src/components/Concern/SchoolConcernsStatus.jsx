@@ -120,10 +120,13 @@ if (eachConcern.concernStatusBySubmitter === "Resolved") {
 } else if (eachConcern.concernStatusByResolver === "Pending") {
   progressPercent = 0;
 }
+
+
+//style={{ width: "18rem" }}
             return (
               <div key={index}>
                 <br />
-                <Card style={{ width: "18rem" }}>
+                <Card >
                   <Card.Body>
                     <Card.Title>Concern Type: {eachConcern.concern}</Card.Title>
                     <Card.Title>District: {}</Card.Title>

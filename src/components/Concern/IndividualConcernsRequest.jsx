@@ -398,11 +398,11 @@ const formatDate = (isoString) => {
 // ✅ New: Card color based on status
 const getCardStyle = (status) => {
     if (status === "Talked over call" || status === "Working on it") {
-        return { backgroundColor: "#FF8C00", width: "18rem" };
+        return { backgroundColor: "#FF8C00",  }; //width: "18rem"
     } else if (status === "Resolved") {
-        return { backgroundColor: "#7FFFD4", width: "18rem" };
+        return { backgroundColor: "#7FFFD4", }; //width: "18rem" 
     } else {
-        return { backgroundColor: "white", width: "18rem" };
+        return { backgroundColor: "white",  }; //width: "18rem"
     }
 }
 

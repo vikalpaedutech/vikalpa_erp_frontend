@@ -473,10 +473,12 @@ export const TechConcernsStatus = () => {
               progressPercent = 50;
             }
 
+
+            //style={{ width: "18rem" }}
             return (
               <div key={index}>
                 <br />
-                <Card style={{ width: "18rem" }}>
+                <Card >
                   <Card.Body>
                     <Card.Title>Concern: {eachConcern.concern}</Card.Title>
                     <Card.Title>Class: {eachConcern.classOfConcern}</Card.Title>

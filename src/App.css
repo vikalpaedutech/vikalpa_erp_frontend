@@ -980,173 +980,44 @@ align-items: center;
 }
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /* new css for new layout */
 
 
-p {
-  font-family: 'Poppins', sans-serif;
-  font-size: 45px;
-}
 
-.mainlayout-cards-title{
-  font-family: 'Poppins', sans-serif;
-  font-size: 50px;
-}
-
-
-
-.main-layout{
-  
-  width: 100vw;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  margin-top: 0vh;
-  gap: 15px;
- 
-}
-
-.logout{
-  width: 5vh;
-}
-
-.mainlayout-cards{
-
-  /* width: 80%; */
-    min-height: 320px; /* adjust as needed */
-
- 
-
-}
-
-
-.mainlayout-bulletin{
-  width: 80%;
-  height: 80%;
-}
-
-
-
-.mainlayout-other-functionalities {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
-  gap: 0.2rem;
-  padding: 1rem;
-  box-sizing: border-box;
-  max-width: 100vw;
-  overflow-x: hidden;
-  text-align: left;
-  
-  width: 100%;
-}
-
-
-/* .label-box{
-  background-color: red;
-
-} */
-
-.each-div {
-  background-color: rgb(168, 252, 255);
-  display: flex;
-  flex-direction: row;
-  height: 12vh;
-  width: 12vh;
-  border: solid gray;
-  opacity: 100;
-  box-sizing: border-box;
-  border-radius: 10px;
-  
-}
-
-.sub-app-div{
-  display: flex;
-  flex-wrap: wrap;
-  width: 100%;
- 
-  gap: .5rem;
-}
-
-
-.each-app-wrapper {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 15vh;
-}
-
-.app-label {
-  margin-top: 0.3rem;
-  font-size: 0.9rem;
-  text-align: center;
-  color: black; /* or black based on background */
-}
-
-
-
-
-
-.custom-progress-container {
-  position: relative;
-  width: 100%;
-  height: 8px;
-  background-color: #e0e0e0;
-  border-radius: 4px;
-  margin: 20px 0 40px 0;
-}
-
-.custom-progress-bar {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 8px;
-  background-color: #4caf50;
-  border-radius: 4px;
-  transition: width 0.3s ease-in-out;
-  z-index: 1;
-}
-
-.checkpoints {
-  position: absolute;
-  top: 50%;
-  left: 0;
-  width: 100%;
-  height: 0;
-  z-index: 2;
-}
-
-.checkpoint {
-  position: absolute;
-  top: 50%;
-  width: 26px;
-  height: 26px;
-  background-color: #fff;
-  border: 2px solid #4caf50;
-  border-radius: 50%;
-  text-align: center;
-  line-height: 22px;
-  font-size: 11px;
-  color: #4caf50;
-  transform: translate(-50%, -50%);
-}
-
-.checkpoint-label {
-  position: absolute;
-  top: 30px;
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 11px;
-  color: #333;
-  white-space: nowrap;
-}
-
-.checkpoint.active {
-  background-color: #4caf50;
-  color: #fff;
-}
 
 
 
@@ -1355,7 +1226,7 @@ p {
 
 }
 
-
+/* Monitoring button press color */
 .button-pressed {
   transform: scale(0.96);
   background-color: #7FFFD4 !important;
@@ -1367,6 +1238,213 @@ p {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* No media query css */
+
+
+p {
+  font-family: 'Poppins', sans-serif;
+  font-size: 12px;
+}
+
+.mainlayout-cards-title{
+  font-family: 'Poppins', sans-serif;
+  font-size: 25px;
+}
+
+
+  .main-layout{
+  
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 2vh;
+  gap: 15px;
+
+ 
+}
+
+.logout{
+  width: 5vh;
+}
+
+.home-button{
+  width: 5vh;
+}
+
+.mainlayout-cards{
+
+  width: 80vw;
+  height: 20vh;
+  min-height: 320px;
+
+   display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* .mainlayout-bulletin{
+
+} */
+
+
+.mainlayout-other-functionalities {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 0.2rem;
+  padding: 1rem;
+  box-sizing: border-box;
+  max-width: 100vw;
+  overflow-x: hidden;
+  text-align: left;
+  
+  width: 100%;
+}
+
+
+/* .label-box{
+  background-color: red;
+
+} */
+
+.each-div {
+  background-color: rgb(168, 252, 255);
+  display: flex;
+  flex-direction: row;
+  height: 12vh;
+  width: 12vh;
+  border: solid gray;
+  opacity: 100;
+  box-sizing: border-box;
+  border-radius: 10px;
+  
+}
+
+.sub-app-div{
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+ 
+  gap: .5rem;
+}
+
+
+.each-app-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 15vh;
+}
+
+.app-label {
+  margin-top: 0.3rem;
+  font-size: 0.9rem;
+  text-align: center;
+  color: black; /* or black based on background */
+}
+
+
+
+
+/* absentee calling cards color */
+
+.Not-called {
+  background-color: #FCE4D6 !important;
+  margin-top: 5vh;
+}
+
+.Connected {
+  background-color: #E2EFDA !important;
+}
+
+
+
+
+
+
+
+.custom-progress-container {
+  position: relative;
+  width: 100%;
+  height: 8px;
+  background-color: #e0e0e0;
+  border-radius: 4px;
+  margin: 20px 0 40px 0;
+}
+
+.custom-progress-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 8px;
+  background-color: #4caf50;
+  border-radius: 4px;
+  transition: width 0.3s ease-in-out;
+  z-index: 1;
+}
+
+.checkpoints {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  height: 0;
+  z-index: 2;
+}
+
+.checkpoint {
+  position: absolute;
+  top: 50%;
+  width: 26px;
+  height: 26px;
+  background-color: #fff;
+  border: 2px solid #4caf50;
+  border-radius: 50%;
+  text-align: center;
+  line-height: 22px;
+  font-size: 11px;
+  color: #4caf50;
+  transform: translate(-50%, -50%);
+}
+
+.checkpoint-label {
+  position: absolute;
+  top: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 11px;
+  color: #333;
+  white-space: nowrap;
+}
+
+.checkpoint.active {
+  background-color: #4caf50;
+  color: #fff;
+}
 
 
 

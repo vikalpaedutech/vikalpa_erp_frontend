@@ -466,10 +466,12 @@ export const TechConcernsResolution = () => {
             progressPercent = 33;
           }
 
+
+          //style={{ width: "18rem" }}
           return (
             <div key={index}>
               <br />
-              <Card style={{ width: "18rem" }}>
+              <Card >
                 <Card.Body>
                   <Card.Title>Tech Concern: {eachConcern.concern}</Card.Title>
                   <Card.Title>Issue: {eachConcern.remark}</Card.Title>
