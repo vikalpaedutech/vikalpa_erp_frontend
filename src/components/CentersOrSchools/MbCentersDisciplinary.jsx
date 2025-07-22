@@ -235,7 +235,10 @@ const subjects = [
   { value: "Physics", label: "Physics" },
   { value: "Chemistry", label: "Chemistry" },
   { value: "Bio", label: "Bio" },
-  { value: "S.St", label: "S.St" },
+  { value: "History", label: "History" },
+  { value: "Geography", label: "Geogrpahy" },
+  { value: "Political Science", label: "Political Science" },
+  { value: "Economics", label: "Economics" },
   { value: "Optional", label: "Optional" },
 ];
 

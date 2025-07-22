@@ -33,14 +33,21 @@ const BillsVerificationPage = () => {
 
   }
  
+  let breadCrumbValue;
+
+  if (userData?.[0]?.role === "ACI"){
+    breadCrumbValue = "CC Bills"
+  } else {
+    breadCrumbValue = "CC Bills/ACI Bills"
+  }
   
   return (
     <Container className="my-4">
       <Breadcrumb>
-      <Breadcrumb.Item  onClick={()=>handleSubmit('form')} >CC Bills</Breadcrumb.Item>
-      <Breadcrumb.Item  onClick={()=>handleSubmit('status')}>
+      <Breadcrumb.Item  onClick={()=>handleSubmit('form')} >{breadCrumbValue}</Breadcrumb.Item>
+      {/* <Breadcrumb.Item  onClick={()=>handleSubmit('status')}>
         Verified Bills
-      </Breadcrumb.Item>
+      </Breadcrumb.Item> */}
     
     </Breadcrumb>
 

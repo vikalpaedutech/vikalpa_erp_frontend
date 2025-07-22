@@ -209,7 +209,7 @@ const updateVerificationStatus = async () => {
             ))
           ) : (
             <tr>
-              <td colSpan="13" className="text-center">No pending bills found.</td>
+              <td colSpan="13" className="text-center">No pendzvxvcizcxvcng bills found.</td>
             </tr>
           )}
         </tbody>
