@@ -109,6 +109,7 @@ const postData = async () => {
                         options={[
                             { value: "HBSE", label: "HBSE" },
                             { value: "CBSE", label: "CBSE" },
+                            { value: "CBSE_HBSE", label: "CBSE_HBSE" },
                         ]}
                         value={board}
                         onChange={setBoard}

@@ -245,7 +245,7 @@ const AdminLayout = () => {
     {
       indexKey: "8",
       label: "Test Controller",
-      module: "Test Controller",
+      module: "TRUE",
       main: [
         { id: "1", label: "Create Test", path: "test-controller" },
         { id: "2", label: "Initiate Test", path: "initiate-test" },
@@ -427,6 +427,7 @@ const getCallingSummary = (classNum, key) => {
 
 
   return (
+  
     <div>
       {/* <div>
         <img src="/logout.png" className="logout" onClick={handleLogout} />
@@ -674,3 +675,4 @@ const getCallingSummary = (classNum, key) => {
 };
 
 export default AdminLayout;
+
