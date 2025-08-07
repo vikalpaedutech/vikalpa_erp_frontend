@@ -331,7 +331,7 @@ const getCallingSummary = (classNum, key) => {
   //Handling app squares clicks. So that people can navigate to the sub apps.
 
   const handleAppClicks = (e) => {
-    e.preventDefault();
+    e.preventDefault(); 
 
     //alert(e.target.id)
    navigate(`/${e.target.id}`);

@@ -71,6 +71,9 @@ const postData = async () => {
 }
 
 
+
+
+
     return (
         <Container fluid>
             <h1>Create Test</h1>
@@ -131,6 +134,7 @@ const postData = async () => {
                             { value: "History", label: "History" },
                             { value: "Geography", label: "Geography" },
                             { value: "Optional", label: "Optional" },
+                            { value: "Social Science", label: "Social Science" },
                         ]}
                         value={subject}
                         onChange={setSubject}
@@ -206,3 +210,5 @@ const postData = async () => {
         </Container>
     )
 }
+
+
