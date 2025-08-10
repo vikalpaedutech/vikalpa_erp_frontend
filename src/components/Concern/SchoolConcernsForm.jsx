@@ -44,9 +44,10 @@ const SchoolConcernsForm = () => {
       { value: "Other FundS", label: "Other Funds" },
     ],
     "Student": [
-      { value: "App", label: "App" },
+      { value: "MB App not working", label: "MB App not working" },
+      { value: "Add Student on ERP", label: "Add student on ERP" },
       { value: "New Admission", label: "New Admission" },
-      { value: "Remove", label: "Remove" },
+      { value: "SLC Released, Remove", label: "SLC Released, Remove" },
        { value: "Center Change", label: "Center Change" },
       { value: "SLC", label: "SLC" },
       { value: "Optional Subject", label: "Optional Subject" },

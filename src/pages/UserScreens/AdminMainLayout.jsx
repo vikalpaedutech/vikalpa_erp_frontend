@@ -135,7 +135,7 @@ const AdminLayout = () => {
       indexKey: "1",
       label: "Academics",
       logo: "/attendance.png",
-      module: "Academics",
+      module: "TRUE",
       main: [
         {
           id: "1",

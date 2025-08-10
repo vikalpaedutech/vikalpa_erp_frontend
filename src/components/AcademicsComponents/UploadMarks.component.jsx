@@ -119,8 +119,11 @@ useEffect(() => {
   }, [districtContext, ])
 
   const handleMarksChange = async (e, student) => {
+    console.log(student)
     const inputValue = e.target.value;
     const cleanedInput = inputValue.trim();
+    const schoolId = student.schoolId;
+    const classofStudent = student.classofStudent;
 
     // Allow only valid inputs
     const isAbsent = /^absent$/i.test(cleanedInput);
@@ -147,6 +150,10 @@ useEffect(() => {
       const query = {
         studentSrn: student.studentSrn,
         examId: student.examId,
+        schoolId:schoolId,
+        userId: userData?.[0]?.userId,
+        classofStudent:classofStudent
+
       };
 
       await updateMarksBySrnAndExamId(query, payload);

@@ -848,10 +848,14 @@ const AttendanceMB = ({assignedDistricts, assignedBlocks, assignedSchools}) => {
     }, [blockContext])
 
     // Function to handle attendance update (marking attendance)
-    const handleAttendanceUpdate = async (studentSrn, isMarked) => {
+    const handleAttendanceUpdate = async (studentSrn, isMarked, schoolId, classofStudent) => {
         const queryParamsForAttendance = {
             studentSrn: studentSrn,
             date: date, 
+            userId: userData?.[0]?.userId,
+            schoolId: schoolId,
+            classofStudent:classofStudent,
+            studentAttendanceGamificationDate: new Date().toISOString()
         };
 
         console.log(isMarked)
@@ -1067,7 +1071,9 @@ const AttendanceMB = ({assignedDistricts, assignedBlocks, assignedSchools}) => {
                                                 onClick={() =>
                                                     handleAttendanceUpdate(
                                                         attendance.studentSrn,
-                                                        attendanceState[attendance.studentSrn]
+                                                        attendanceState[attendance.studentSrn],
+                                                        attendance.studentDetails.schoolId,
+                                                        attendance.studentDetails.classofStudent
                                                     )
                                                 }
                                             >

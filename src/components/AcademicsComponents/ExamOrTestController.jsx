@@ -134,7 +134,7 @@ const postData = async () => {
                             { value: "History", label: "History" },
                             { value: "Geography", label: "Geography" },
                             { value: "Optional", label: "Optional" },
-                            { value: "Social Science", label: "Social Science" },
+                            { value: "SST", label: "SST" },
                         ]}
                         value={subject}
                         onChange={setSubject}
