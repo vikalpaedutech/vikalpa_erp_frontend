@@ -1308,6 +1308,7 @@ export const AttendancePdf = () => {
       schoolId: row.schoolId,
       classofStudent: row.classofStudent,
       dateOfUpload: selectedDate,
+      // userId: userData?.[0]?.userId
     };
 
     const formData = new FormData();
