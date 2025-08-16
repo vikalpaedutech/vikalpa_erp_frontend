@@ -969,6 +969,8 @@ import {
 import { getPendingAndVerifiedBillsByAci, patchBillsDataVerification } from "../../service/Bills.services";
 import Select from "react-select";
 
+import { deleteBill } from "../../service/Bills.services.js";
+
 const BillsVerification = () => {
   const { userData, setUserData } = useContext(UserContext);
 
@@ -1053,6 +1055,11 @@ const BillsVerification = () => {
     }
   };
 
+
+
+  
+
+
   const getDropdownOptions = () => {
     const role = userData?.[0]?.role;
     if (role === "Community Manager") {
@@ -1115,6 +1122,35 @@ const BillsVerification = () => {
     setFilteredRole("");
     setStatusFilter("");
   };
+
+
+  //Handiling bill deletion
+
+
+  const handleBillDelete = async (id)=>{
+
+    alert(id)
+
+    
+    const formData = {
+      _id: id
+    }
+
+    try {
+      const response = await deleteBill(formData)
+      fetchPendingBills()
+    } catch (error) {
+      alert('Bill not deleted! An error occured')
+    }
+
+
+  }
+
+
+
+  //---------------------------
+
+  
 
   return (
     <Container fluid className="py-3">
@@ -1260,6 +1296,9 @@ const BillsVerification = () => {
                   >
                     updateVerificationStatus
                   </Button>
+                      <br></br>
+                      <br></br>
+                  <Button onClick={()=>handleBillDelete(bill._id)}>Delete</Button>
                 </Card.Body>
               </Card>
             </Col>

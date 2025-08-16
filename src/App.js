@@ -106,6 +106,7 @@ import TechConcernsLayout from "./pages/UserScreens/TechConcernsLayout.jsx";
 import { StudentDisciplinaryDashboard } from "./components/DashBoard/StudentDisciplinaryDashboard.jsx";
 import MainLayoutOfficeLevel from "./pages/UserScreens/MainLayoutOffice.jsx";
 import { IndividualConcernsRequest } from "./components/Concern/IndividualConcernsRequest.jsx";
+import { BillDashboard } from "./components/Bills/BillDashboard.jsx";
 function App() {
   
   return (
@@ -170,6 +171,8 @@ function App() {
                         path="/verify-bills"
                         element={<BillsVerificationPage />}
                       />
+
+                      <Route path="/bill-dashboard" element={<BillDashboard />} />
 
                       {/* Monitoring module */}
                       <Route

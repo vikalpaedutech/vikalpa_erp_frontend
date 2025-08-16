@@ -387,13 +387,13 @@
 
 
 
-  import React from "react";
+import React from "react";
 import { useState, useEffect, useContext } from "react";
 import { Container, Card, Col, Row, Table, Button, ProgressBar, Form } from "react-bootstrap";
 import Select from "react-select";
 import { UserContext } from "../contextAPIs/User.context";
 import { SchoolContext, BlockContext, DistrictBlockSchoolContext, ClassContext } from "../contextAPIs/DependentDropdowns.contextAPI";
-import { getBillsByQueryParams } from "../../service/Bills.services";
+import { getBillsByQueryParams, deleteBill } from "../../service/Bills.services";
 import { District, DistrictBlockSchoolById, ClassOfStudent } from "../DependentDropDowns/DistrictBlockSchool.component";
 
 export const BillsStatus = () => {
@@ -463,6 +463,36 @@ export const BillsStatus = () => {
     { value: "Closed", label: "Closed" },
   ];
 
+
+  //Handling deleteion of bill
+  const handleBillDelete = async (id)=>{
+    
+    console.log(id)
+
+    const formData = {
+      _id: id
+    }
+
+    try {
+
+      const response = await deleteBill(formData)
+
+      fetchTechConcerns()
+      
+    } catch (error) {
+
+      alert('Bill not deleted! An error occured')
+      
+    }
+
+    //---------------------------------------
+    
+  
+
+   
+    
+  }
+
   return (
     <Container>
       <div>
@@ -474,13 +504,28 @@ export const BillsStatus = () => {
           else if (eachBills.status === "Approved") progressPercent = 66;
           else if (eachBills.status === "Paid") progressPercent = 100;
 
+          //Handling bill date
+          const billDate = eachBills.expenseDate;
+          const dateObj = new Date(billDate);
+
+          const day = String(dateObj.getDate()).padStart(2, '0');  
+          const month = String(dateObj.getMonth() + 1).padStart(2, '0');  
+          const year = dateObj.getFullYear();
+
+          const formattedDate = `${day}-${month}-${year}`;
+
+            //--------------------------------------------
+
           return (
+
+            
             <div key={index}>
               <br />
               <Card style={{ width: "18rem" }}>
                 <Card.Body>
                   <Card.Title>{eachBills.expenseType}</Card.Title>
                   <Card.Text>
+                    <p>Bill Date: {formattedDate}</p>
                     <p>Purpose: {eachBills.purposeOfExpense}</p>
                     <p>Class: {eachBills.classOfConcern}</p>
 
@@ -557,7 +602,9 @@ export const BillsStatus = () => {
                   )}
 
                   <br />
+                  <Button onClick={()=>handleBillDelete(eachBills._id)}>Delete</Button>
                 </Card.Body>
+                
               </Card>
             </div>
           );

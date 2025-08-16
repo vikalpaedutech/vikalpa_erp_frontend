@@ -922,12 +922,14 @@ const AttendanceMB = ({assignedDistricts, assignedBlocks, assignedSchools}) => {
         writeFile(workbook, `Attendance_${date}.xlsx`);
     }
 
-    const handleDownloadPdf = () => {
 
+    const handleDownloadPdf = () => {
+    
+        
 
     const doc = new jsPDF();
 
-
+    
 
     const title = `Attendance_Class_${classContext.value || 'All'}_${date}`;
     doc.setFontSize(14);
@@ -1111,5 +1113,10 @@ const AttendanceMB = ({assignedDistricts, assignedBlocks, assignedSchools}) => {
         </Container>
     );
 };
+
+
+
+//
+
 
 export default AttendanceMB;

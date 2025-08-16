@@ -186,6 +186,7 @@ const AdminLayout = () => {
       main: [
         { id: "1", label: "Upload Bills", logo: "/bills.png", path: "upload-bills" },
         { id: "2", label: "Bills Verification", logo: "/bill-verification.png", path: "verify-bills" },
+        { id: "3", label: "Bill Dashboard", logo: "/bill-verification.png", path: "bill-dashboard" },
         // { id: "3", label: "School Issues", logo: "/school.png", path: "school-concerns" },
         { id: "7", label: "School Concerns Request", logo: "/school.png", path: "school-concerns-request" },
         // { id: "4", label: "Tech Issues", logo: "/tech.png", path: "tech-concerns" },

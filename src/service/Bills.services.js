@@ -147,3 +147,47 @@ export const patchBillsDataVerification = (queryParams, formData) =>{
 }
 
 //__________________________________________________________________________________________
+
+
+
+//Below api patches bills data. Ony approval part
+
+export const deleteBill = async (formData) => {
+  try {
+    const response = await axios.delete(`${API_BASE_URL}/api/delete-bill`, {
+      data: formData, // body data in delete request
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error deleting bill", error.message);
+    throw error;
+  }
+};
+
+//__________________________________________________________________________________________
+
+
+
+
+//Below api patches bills data. Ony approval part
+
+export const getAllBillsWithUserDetails = async () => {
+  
+  try {
+
+    const response = await axios.get(`${API_BASE_URL}/api/get-all-bills-with-user-details`);
+
+    return response.data;
+
+  } catch (error) {
+
+    console.error("Error getting bills", error.message);
+
+    throw error;
+
+  }
+
+};
+
+//__________________________________________________________________________________________
+
