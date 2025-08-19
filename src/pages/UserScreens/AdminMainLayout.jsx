@@ -162,6 +162,12 @@ const AdminLayout = () => {
           logo: "/upload.png",
           path: "manual-attendance", // path: "upload-attendance-pdf",
         },
+        {
+          id: "6",
+          label: "Gamification Disciplinary",
+          logo: "/gamification.png",
+          path: "gamification-disciplinary", // path: "upload-attendance-pdf",
+        },
       ],
     },
     // {

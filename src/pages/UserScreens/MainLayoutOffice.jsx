@@ -212,6 +212,13 @@ if (userData?.[0].role === 'Teacher' || userData?.[0].role === 'Academic-Coordin
             logo: "/monitoring.png",
           path: "center-disciplinary-or-interaction",
         },
+
+        {
+          id: "6",
+          label: "Gamification Disciplinary",
+          logo: "/gamification.png",
+          path: "gamification-disciplinary", // path: "upload-attendance-pdf",
+        },
       ],
     },
 
@@ -342,6 +349,12 @@ if (userData?.[0].role === 'Teacher' || userData?.[0].role === 'Academic-Coordin
           label: "Manual Attendance",
           logo: "/upload.png",
           path: "manual-attendance", // path: "upload-attendance-pdf",
+        },
+        {
+          id: "6",
+          label: "Gamification Disciplinary",
+          logo: "/gamification.png",
+          path: "gamification-disciplinary", // path: "upload-attendance-pdf",
         },
       ],
     },

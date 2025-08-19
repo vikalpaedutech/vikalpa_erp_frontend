@@ -107,6 +107,7 @@ import { StudentDisciplinaryDashboard } from "./components/DashBoard/StudentDisc
 import MainLayoutOfficeLevel from "./pages/UserScreens/MainLayoutOffice.jsx";
 import { IndividualConcernsRequest } from "./components/Concern/IndividualConcernsRequest.jsx";
 import { BillDashboard } from "./components/Bills/BillDashboard.jsx";
+import { GamificationDisciplinary } from "./components/AcademicsComponents/GamificationDisciplinary.compoent.jsx";
 function App() {
   
   return (
@@ -265,7 +266,8 @@ function App() {
 
 
 
-
+                      {/* Gamification */}
+                      <Route path="/gamification-disciplinary" element ={<GamificationDisciplinary/>}/>
 
                       </Route>
                     </Routes>

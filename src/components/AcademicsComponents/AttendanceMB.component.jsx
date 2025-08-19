@@ -802,6 +802,7 @@ const AttendanceMB = ({assignedDistricts, assignedBlocks, assignedSchools}) => {
         batch:"",
         status:['Absent', 'Present'],
     };
+    
     console.log(Object(districtContext[0]).value)
 
     const fetchAttendance = async () => {
