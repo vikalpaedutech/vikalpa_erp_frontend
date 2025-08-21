@@ -108,6 +108,7 @@ import MainLayoutOfficeLevel from "./pages/UserScreens/MainLayoutOffice.jsx";
 import { IndividualConcernsRequest } from "./components/Concern/IndividualConcernsRequest.jsx";
 import { BillDashboard } from "./components/Bills/BillDashboard.jsx";
 import { GamificationDisciplinary } from "./components/AcademicsComponents/GamificationDisciplinary.compoent.jsx";
+import { S100Attendances } from "./components/AcademicsComponents/S100Attendances.component.jsx";
 function App() {
   
   return (
@@ -268,6 +269,8 @@ function App() {
 
                       {/* Gamification */}
                       <Route path="/gamification-disciplinary" element ={<GamificationDisciplinary/>}/>
+
+                      <Route path="/s100-attendance" element ={<S100Attendances/>}/>
 
                       </Route>
                     </Routes>

@@ -693,20 +693,28 @@
 
 // importing packages.
 import React, { useState, useEffect, useContext } from "react";
+
 import { Container, Row, Col, Form, Table, Alert, Breadcrumb, Button } from 'react-bootstrap';
 
 import { getAllAttendance, updateAttendanceBySrnAndDate } from "../../service/AttendanceMB.services.js";
+
 import { DistrictBlockSchoolById, ClassOfStudent  } from "../DependentDropDowns/DistrictBlockSchool.component.jsx";
 
 //importing context api (District Block School Context API)
 import { DistrictBlockSchoolContext, BlockContext,  SchoolContext, ClassContext} from "../contextAPIs/DependentDropdowns.contextAPI";
+
 import { UserContext } from "../contextAPIs/User.context.js";
+
 import SchoolDropDowns from "../DependentDropDowns/SchoolDropDowns.jsx";
 
 import { studentAndAttendanceAndAbsenteeCallingCount } from "../../service/dashboardServices/dashboardCounts.services.js";
+
 import DistrictBlockSchool from "../CentersOrSchools/DistrictBlockSchool.json"
+
 import { utils, writeFile } from 'xlsx';
+
 import jsPDF from "jspdf";
+
 import "jspdf-autotable";
 
 const AttendanceMB = ({assignedDistricts, assignedBlocks, assignedSchools}) => {
@@ -802,7 +810,7 @@ const AttendanceMB = ({assignedDistricts, assignedBlocks, assignedSchools}) => {
         batch:"",
         status:['Absent', 'Present'],
     };
-    
+
     console.log(Object(districtContext[0]).value)
 
     const fetchAttendance = async () => {
