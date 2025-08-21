@@ -827,6 +827,7 @@ export const S100Attendances = () => {
               <option value="11">11</option>
               <option value="12">12</option>
               <option value="13">13</option>
+              <option value="12batch6">12batch6</option>
             </Form.Select>
           </Form.Group>
         </Col>
