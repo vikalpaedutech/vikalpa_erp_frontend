@@ -236,6 +236,10 @@ export const NewNavbar = () => {
       navigate("/l3-user-dash");
     } else if (userData?.[0]?.role === "admin"){
       navigate("/admin-dash");
+    } else if (userData?.[0]?.role === "Technician"){
+
+      navigate("/tech-dash")
+
     } else {
        navigate("/l0-user-dash");
     }
