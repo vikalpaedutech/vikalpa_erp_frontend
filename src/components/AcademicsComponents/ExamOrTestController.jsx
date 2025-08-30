@@ -100,6 +100,7 @@ const postData = async () => {
                             { value: "Half Yearly", label: "Half Yearly" },
                             { value: "A.M.E", label: "A.M.E" },
                             { value: "Board", label: "Board" },
+                            { value: "SAT", label: "SAT" },
                         ]}
                         value={examType}
                         onChange={setExamType}
