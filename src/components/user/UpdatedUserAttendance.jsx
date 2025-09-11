@@ -134,37 +134,7 @@ export const UserAttendanceUpdated = () => {
     }
   };
 
-//   const handleClose = () => {
-//     setShow(false);
-//     if (userData.role === "CC") {
-//       navigate("/user-dashboard");
-//     } else if (
-//       userData?.[0]?.role === "ACI" 
-     
-//     ) {
-//       navigate("/l2-user-dash");
-//     } else if( userData?.[0]?.role === "Community Incharge" ||
-//       userData?.[0]?.role === "Project Coordinator" ||
-//       userData?.[0]?.role === "Academic-Coordinator" || 
-//        userData?.[0]?.role === "Media Manager" || 
-//        userData?.[0]?.role === "Photographer" ||
-//       userData?.[0]?.role === "DTP" ||
-//     userData?.[0]?.role === "Teacher"  ||
-//   userData?.[0]?.role === "Designer" ||
-// userData?.[0]?.role === "Presenter" ){
-//       navigate('/l0-user-dash')
-//     } 
-    
-    
-//     else if (userData?.role === "Community Manager") {
-//       navigate("/admin-dash");
-//     }
-//      else if (userData?.[0]?.role === "admin" || userData?.[0]?.role === "MIS" || userData?.[0]?.role === "Tech Lead" ) {
-//       navigate("/admin-dash");
-//     }  else if (userData?.[0]?.role === "Technician") {
-//       navigate("/tech-dash");
-//     }
-//   };
+
 
 
 const handleClose = () =>{

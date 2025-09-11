@@ -47,3 +47,21 @@ const queryString = new URLSearchParams(queryParams).toString();
 
 
 
+
+//patch all students All students on queryParmas
+//Below calls the api from backend.
+export const patchStudentBySrn = async (studentSrn, reqBody) => {
+  try {
+    const response = await axios.patch(
+      `${API_BASE_URL}/api/student/${studentSrn}`,
+      reqBody
+    );
+
+    return response.data;
+  } catch (error) {
+    console.error("Error patching student data", error.message);
+    throw error;
+  }
+};
+
+
