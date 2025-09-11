@@ -22,6 +22,8 @@ import Select from "react-select"
 import { GetTests } from '../../service/ExamAndTestController';
 import SchoolDropDowns from "../DependentDropDowns/SchoolDropDowns.jsx";
 
+import { DistrictDropdown, SchoolDropdown, DistrictSchoolDropdown } from "../../components/DependentDropDowns/DistrictBlockSchoolVersion2.component.jsx";
+
 export const UploadMarks = () => {
   //using userContext
   const { userData, setUserData } = useContext(UserContext);
@@ -68,6 +70,22 @@ const [examId, setExamId] = useState("")
     }, [])
 
 //--------------------------------------
+const regions = userData?.userAccess?.region || [];
+const allSchoolIds = regions.flatMap(region =>
+  region.blockIds.flatMap(block =>
+    block.schoolIds.map(school => school.schoolId)
+  )
+);
+
+const allDistrictIds = regions.flatMap(region => 
+  region.districtId
+)
+
+console.log(allDistrictIds)
+
+//--------------------------------------------
+
+
 
 
   //Below query params filters the data and show it on frontend from backend
@@ -77,7 +95,7 @@ const [examId, setExamId] = useState("")
     fatherName: "",
     // districtId: Object(districtContext[0]).value || "",
     // blockId: Object(blockContext[0]).value || "",
-    schoolId: Object(schoolContext[0]).value || userData[0].assignedSchools,
+    schoolId: Object(schoolContext[0]).value || allSchoolIds,
     classofStudent: classContext.value || ['9', '10'],
     examId: examId.value || "",
     marksObtained: "",
@@ -172,7 +190,7 @@ useEffect(() => {
   };
 
   //Passing props to DistrictBlockSchoolById component for filtering for logged in users.
-  const assignedDistricts = userData[0].assignedDistricts;
+  const assignedDistricts = allDistrictIds;
   console.log("i am user distrit", assignedDistricts);
 
   //____________________________________________________________________________
@@ -188,7 +206,7 @@ marksData.sort((a, b)=>a.firstName.localeCompare(b.firstName))
           {/* <h1>Apply Filter</h1> */}
 
           {/* <DistrictBlockSchoolById assignedDistricts={assignedDistricts} /> */}
-          <SchoolDropDowns />
+          <SchoolDropdown />
 
           <Form>
             <Form.Group

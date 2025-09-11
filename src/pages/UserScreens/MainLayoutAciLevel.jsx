@@ -18,6 +18,9 @@ import { studentAndAttendanceAndAbsenteeCallingCount, attendancePdfUploadStatusC
 import { Link } from "react-router-dom";
 import { NewNavbar } from "../../components/Navbar/NewNavbar";
 
+import { DistrictDropdown, SchoolDropdown, DistrictSchoolDropdown } from "../../components/DependentDropDowns/DistrictBlockSchoolVersion2.component.jsx";
+
+
 const MainLayoutAciLevel = () => {
   const navigate = useNavigate();
 
@@ -51,11 +54,28 @@ const MainLayoutAciLevel = () => {
   };
 
 
+  //--------------------------------------------------------------------------
+
+const regions = userData?.userAccess?.region || [];
+const allSchoolIds = regions.flatMap(region =>
+  region.blockIds.flatMap(block =>
+    block.schoolIds.map(school => school.schoolId)
+  )
+);
+
+const allDistrictIds = regions.flatMap(region => 
+  region.districtId
+)
+
+console.log(allDistrictIds)
+
+//------------------------------------------------------------------------
+
 
   const fetchStudentRelatedCounts = async () => {
     const payload = {
-      schoolIds: userData[0].schoolIds,
-      classFilters: userData[0].classId || ['9', '10'],
+      schoolIds: allSchoolIds,
+      classFilters: userData.userAccess.classId || ['9', '10'],
       // date: new Date().toISOString().split("T")[0] + "T00:00:00.000+00:00", // same format
 
 
@@ -258,9 +278,14 @@ const MainLayoutAciLevel = () => {
     }))
   );
 
+  // const filteredSidbarMenusByRole = sideBarMenusByRole.filter((item) =>
+  //   userData?.[0]?.accessModules.includes(item.module)
+  // );
+
+
   const filteredSidbarMenusByRole = sideBarMenusByRole.filter((item) =>
-    userData?.[0]?.accessModules.includes(item.module)
-  );
+  userData?.userAccess?.modules?.some(module => module.name === item.module)
+);
 
   const logo = "./";
 
@@ -354,7 +379,7 @@ const getCallingSummary = (classNum, key) => {
 
 const fetchPdfStatusData = async () => {
     const payload = {
-      schoolIds: userData[0].schoolIds,
+      schoolIds: allSchoolIds,
       // date: new Date().toISOString().split("T")[0] + "T00:00:00.000+00:00"
 
 

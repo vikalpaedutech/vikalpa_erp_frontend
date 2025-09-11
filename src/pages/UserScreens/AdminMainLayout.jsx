@@ -57,10 +57,17 @@ const AdminLayout = () => {
 
 
 
+  const regions = userData?.userAccess?.region || [];
+const allSchoolIds = regions.flatMap(region =>
+  region.blockIds.flatMap(block =>
+    block.schoolIds.map(school => school.schoolId)
+  )
+);
+
   const fetchStudentRelatedCounts = async () => {
     const payload = {
-      schoolIds: userData[0].schoolIds,
-      classFilters: userData[0].classId,
+      schoolIds: allSchoolIds,
+      classFilters: userData.userAccess.classId,
       // date: new Date().toISOString().split("T")[0] + "T00:00:00.000+00:00", // same format
 
         startDate: startDate,
@@ -279,9 +286,15 @@ const AdminLayout = () => {
     }))
   );
 
-  const filteredSidbarMenusByRole = sideBarMenusByRole.filter((item) =>
-    userData?.[0]?.accessModules.includes(item.module)
-  );
+  // const filteredSidbarMenusByRole = sideBarMenusByRole.filter((item) =>
+  //   userData?.[0]?.accessModules.includes(item.module)
+  // );
+
+const filteredSidbarMenusByRole = sideBarMenusByRole.filter((item) =>
+  userData?.userAccess?.modules?.some(module => module.name === item.module)
+);
+
+
 
   const logo = "./";
 
@@ -367,11 +380,12 @@ const getCallingSummary = (classNum, key) => {
 
 
 
+
   //Attendance pdf count
   
   const fetchPdfStatusData = async () => {
       const payload = {
-        schoolIds: userData[0].schoolIds,
+        schoolIds: allSchoolIds,
         // date: new Date().toISOString().split("T")[0] + "T00:00:00.000+00:00"
 
          startDate: startDate,

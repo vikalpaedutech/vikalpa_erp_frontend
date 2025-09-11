@@ -35,10 +35,10 @@ const fetchTechConcerns = async () =>{
   let conditionalRole;
   let conditionalDepartment;
 
-  if (userData?.[0]?.role==="ACI"){
+  if (userData?.role==="ACI"){
     conditionalRole = ["CC"]
     conditionalDepartment = ["Community"]
-  } else if (userData?.[0]?.role === "admin" || userData?.[0]?.role === "Community Manager"){
+  } else if (userData?.role === "admin" || userData?.role === "Community Manager"){
     conditionalRole = ["ACI", "CC", "Community Incharge"]
     conditionalDepartment = ["Community"]
   } 
@@ -47,9 +47,9 @@ const fetchTechConcerns = async () =>{
 
 
     const queryParams = {
-         userId: userData?.[0]?.userId,
+         userId: userData?.userId,
          concernType: 'Leave',
-         role: userData?.[0]?.role, 
+         role: userData?.role, 
          conditionalRole: conditionalRole,
          conditionalDepartment: conditionalDepartment
 
@@ -124,7 +124,7 @@ const handleSubmitStatus = async (concernId) => {
       const payload = {
   l1ApprovalOnLeave: {
     status: statusSelections[concernId] || 'NA',
-    approvedBy: userData?.[0]?.userId,
+    approvedBy: userData?.userId,
 
     approvedOn: new Date(),
     comment: remarks[concernId] || 'NA' // 🆕 use remark if provided

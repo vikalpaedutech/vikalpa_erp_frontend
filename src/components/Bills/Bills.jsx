@@ -78,8 +78,9 @@ const Bills = () => {
 
     const payload = {
       ...formData,
-      userId: userData?.[0]?.userId ?? "Not-known",
-      role: userData?.[0]?.role ?? "Not-known",
+      unqUserObjectId:userData?._id,
+      userId: userData?.userId ?? "Not-known",
+      role: userData?.role ?? "Not-known",
       purposeOfExpense: selectedPurpose.value,
       expenseType: selectedExpense.value,
     };

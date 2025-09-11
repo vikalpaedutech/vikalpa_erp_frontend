@@ -10,7 +10,7 @@ import {
   Button,
   Card,
 } from "react-bootstrap";
-import { getUserByContact1 } from "../../service/User.service";
+import { getUserByContact1, userSignIn } from "../../service/User.service";
 import { UserContext } from "../contextAPIs/User.context";
 import { useNavigate } from "react-router-dom";
 
@@ -22,24 +22,57 @@ export const UserSignIn = () => {
   const [password, setPassword] = useState("");
 
   const fetchData = async () => {
+
+
+    const reqBody = {
+      contact1:contact1,
+      password: password
+    }
+
     try {
-      const response = await getUserByContact1(contact1);
-      console.log(response.data[0]._id);
-      console.log(response.data[0].role);
+      // const response = await getUserByContact1(contact1);
+       const response = await userSignIn(reqBody);
+       alert(response.status)
+      console.log(response.data);
+      // console.log(response.data[0].role);
       setUserData(response.data);
 
       //Checking if password is correct or not
-      if (response.data && response.data[0].password === password && response.data[0].isActive === true){
+      if (response.status==="Success"){
+       console.log('user loggedin')
+       console.log(response.data.role)
+       console.log(userData)
+      //  if(response.data[0].role === 'ACI'){
+      //    navigate('/user-attendance-aci')
+      //  } else if (response.data[0].role === 'CC') {
+      //     navigate('/user-attendance-updated')
+      //  } else if (response.data[0].role === 'Community Manager'){
+      //     navigate('/user-attendance-updated')
+      //  } 
+      //  else if (response.data[0].role === 'admin'){
+      //     navigate('/admin-dash')
+      //  } 
        
-       if(response.data[0].role === 'ACI'){
+       
+      //  else {
+      //   navigate('/user-attendance-updated')
+      //  }
+
+
+
+
+       if(response.data.role === 'ACI'){
          navigate('/user-attendance-aci')
-       } else if (response.data[0].role === 'CC') {
+          // navigate('/user-attendance-updated')
+
+       } else if (response.data.role === 'CC') {
           navigate('/user-attendance-updated')
-       } else if (response.data[0].role === 'Community Manager'){
+       } else if (response.data.role === 'Community Manager'){
           navigate('/user-attendance-updated')
        } 
-       else if (response.data[0].role === 'admin'){
-          navigate('/admin-dash')
+       else if (response.data.role === 'admin'){
+          //navigate('/admin-dash')
+          navigate('/user-dashboard')
        } 
        
        

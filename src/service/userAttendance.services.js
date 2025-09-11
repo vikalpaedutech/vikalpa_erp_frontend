@@ -156,3 +156,22 @@ export const GetAttendanceDataOfUsersByMonthAndYear = async (queyrParams, payLoa
         console.log(error.message)
     }
 }
+
+
+
+
+// V2 API....
+
+export const getUserAttendanceSummaryData = async (payLoad) => {
+
+  
+
+    try {
+        const response = await axios.post(`${API_BASE_URL}/api/user-attendance-summary-data`, payLoad);
+        return response
+    } catch (error) {
+        console.log(error.status)
+      
+        console.log(error.message)
+    }
+}

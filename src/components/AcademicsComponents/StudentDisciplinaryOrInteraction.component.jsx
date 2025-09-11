@@ -16,6 +16,11 @@ import { UserContext } from "../contextAPIs/User.context";
 import { DistrictBlockSchoolById, ClassOfStudent } from "../DependentDropDowns/DistrictBlockSchool.component";
 import SchoolDropDowns from "../DependentDropDowns/SchoolDropDowns";
 
+import { DistrictDropdown, SchoolDropdown, DistrictSchoolDropdown } from "../../components/DependentDropDowns/DistrictBlockSchoolVersion2.component.jsx";
+
+
+
+
 export const StudentDisciplinaryOrInteraction = () => {
   const { userData } = useContext(UserContext);
 
@@ -31,8 +36,27 @@ export const StudentDisciplinaryOrInteraction = () => {
   const [selectedStatus, setSelectedStatus] = useState({});
   const [remarks, setRemarks] = useState({});
 
+
+
+  //---------------------------------------------------------
+  
+const regions = userData?.userAccess?.region || [];
+const allSchoolIds = regions.flatMap(region =>
+  region.blockIds.flatMap(block =>
+    block.schoolIds.map(school => school.schoolId)
+  )
+);
+
+const allDistrictIds = regions.flatMap(region => 
+  region.districtId
+)
+
+console.log(allDistrictIds)
+
+//--------------------------------------------
+
   const queryParams = {
-    schoolId: schoolContext?.[0]?.value ?? userData[0].assignedSchools,
+    schoolId: schoolContext?.[0]?.value ?? allSchoolIds,
     classofStudent: classContext?.value ?? ['9', '10'],
     firstName: firstName
   };
@@ -140,7 +164,7 @@ export const StudentDisciplinaryOrInteraction = () => {
     }
   };
 
-  const assignedDistricts = userData[0].assignedDistricts;
+  const assignedDistricts = allDistrictIds;
 
   const statusList = statusOptions[globalType?.value] || [];
 
@@ -153,7 +177,7 @@ export const StudentDisciplinaryOrInteraction = () => {
           </Row> */}
 
           <Row>
-            <SchoolDropDowns/>
+            <SchoolDropdown/>
           </Row>
 
           <Row>

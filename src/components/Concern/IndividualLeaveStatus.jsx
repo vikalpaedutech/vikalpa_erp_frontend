@@ -24,7 +24,7 @@ export const IndividualLeaveStatus = () => {
   //API to fetch concerns data. Tech Concerns Only.
   const fetchTechConcerns = async () => {
     const queryParams = {
-      userId: userData?.[0]?.userId,
+      userId: userData?.userId,
       concernType:['Leave']
     };
 
@@ -52,7 +52,7 @@ export const IndividualLeaveStatus = () => {
 
     try {
       const query = {
-        userId: userData?.[0]?.userId,
+        userId: userData?.userId,
       };
 
       const payload = {
@@ -117,23 +117,6 @@ export const IndividualLeaveStatus = () => {
                     </Card.Text>
 
 
-                  {/* <div className="custom-progress-container">
-                      <div className="custom-progress-bar" style={{ width: `${progressPercent}%` }}></div>
-                      <div className="checkpoints">
-                        <div className={`checkpoint ${progressPercent >= 0 ? "active" : ""}`} style={{ left: "0%" }}>
-                          <span>1</span>
-                          <div className="checkpoint-label">Submitted</div>
-                        </div>
-                        <div className={`checkpoint ${progressPercent >= 50 ? "active" : ""}`} style={{ left: "50%" }}>
-                          <span>2</span>
-                          <div className="checkpoint-label">ACI Approval</div>
-                        </div>
-                        <div className={`checkpoint ${progressPercent >= 100 ? "active" : ""}`} style={{ left: "100%" }}>
-                          <span>3</span>
-                          <div className="checkpoint-label">Resolved</div>
-                        </div>
-                      </div>
-                    </div> */}
 
 
 
@@ -142,17 +125,7 @@ export const IndividualLeaveStatus = () => {
 
                     <br />
 
-                    {/* <Select
-                      options={options}
-                      onChange={(selected) => handleStatusChange(selected, eachConcern._id)}
-                      value={options.find((opt) => opt.value === statusSelections[eachConcern._id]) || null}
-                      placeholder="-- Select Status --"
-                    />
-
-                    <br /> */}
-                    {/* <Button variant="primary" onClick={() => handleSubmitStatus(eachConcern._id)}>
-                      Submit
-                    </Button> */}
+        
                   </Card.Body>
                 </Card>
               </div>

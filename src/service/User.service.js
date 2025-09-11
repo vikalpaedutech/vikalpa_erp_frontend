@@ -11,8 +11,8 @@ const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
 //Post api to send userSignup data in the backend to user.controller.js
 
-export const createUser = async (formData) => {
-    const response = await axios.post (`${API_BASE_URL}/api/user`, formData)
+export const createUser = async (reqBody) => {
+    const response = await axios.post (`${API_BASE_URL}/api/user`, reqBody)
     return response.data;
 }
 
@@ -60,3 +60,59 @@ export const patchUserByContact = async (contact1, formData) => {
     const response = await axios.patch(`${API_BASE_URL}/api/patch-user-by-contact/${contact1}`, formData);
     return response.data;
 };
+
+
+
+
+
+
+
+
+//Version 2 apis. 
+//Date: 01-09-2025
+//All apis are latest and optimised
+
+
+
+
+export const userSignIn = async (reqBody) => {
+    const response = await axios.post (`${API_BASE_URL}/api/user-signin`, reqBody);
+    return response.data;
+}
+
+
+
+
+
+
+//Version 2 apis
+
+export const setUserAccess = async (reqBody) => {
+    const response = await axios.post (`${API_BASE_URL}/api/set-user-access`, reqBody)
+    return response.data;
+}
+
+
+
+
+export const getAllUsersWithAccess = async (reqQuery) => {
+  // Convert object to query string
+  const queryString = new URLSearchParams(reqQuery).toString();
+
+  // Use GET since you’re passing query params (instead of POST)
+  const response = await axios.get(
+    `${API_BASE_URL}/api/get-all-users?${queryString}`
+  );
+
+  return response.data;
+};
+
+
+
+
+
+
+export const updateUserWithAccess = async (reqBody) => {
+    const response = await axios.patch (`${API_BASE_URL}/api/patch-user-and-useraccess`, reqBody)
+    return response.data;
+}

@@ -24,7 +24,7 @@ export const SchoolConcernsStatus = () => {
   //API to fetch concerns data. Tech Concerns Only.
   const fetchTechConcerns = async () => {
     const queryParams = {
-      userId: userData?.[0]?.userId,
+      userId: userData?.userId,
       concernType:['School-Individual-Student']
     };
 

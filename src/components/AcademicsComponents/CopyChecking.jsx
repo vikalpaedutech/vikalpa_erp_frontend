@@ -16,6 +16,8 @@ import { UserContext } from "../contextAPIs/User.context";
 import { DistrictBlockSchoolById, ClassOfStudent } from "../DependentDropDowns/DistrictBlockSchool.component";
 import SchoolDropDowns from "../DependentDropDowns/SchoolDropDowns";
 
+import { DistrictDropdown, SchoolDropdown, DistrictSchoolDropdown } from "../../components/DependentDropDowns/DistrictBlockSchoolVersion2.component.jsx";
+
 export const CopyChecking = () => {
   const { userData } = useContext(UserContext);
   const { districtContext, setDistrictContext } = useContext(DistrictBlockSchoolContext);
@@ -28,8 +30,25 @@ export const CopyChecking = () => {
   const [selectedStatusesPerStudent, setSelectedStatusesPerStudent] = useState({});
   const [checkingTypePerStudent, setCheckingTypePerStudent] = useState({});
 
+  //--------------------------------------------------------------------------
+
+const regions = userData?.userAccess?.region || [];
+const allSchoolIds = regions.flatMap(region =>
+  region.blockIds.flatMap(block =>
+    block.schoolIds.map(school => school.schoolId)
+  )
+);
+
+const allDistrictIds = regions.flatMap(region => 
+  region.districtId
+)
+
+console.log(allDistrictIds)
+
+//------------------------------------------------------------------------
+
   const queryParams = {
-    schoolId: schoolContext?.[0]?.value ?? userData[0].assignedSchools,
+    schoolId: schoolContext?.[0]?.value ?? allSchoolIds,
     classofStudent: classContext?.value ?? ['9', '10'],
     firstName: firstName
   };
@@ -192,7 +211,7 @@ useEffect(() => {
             <DistrictBlockSchoolById assignedDistricts={assignedDistricts} />
           </Row> */}
 
-          <SchoolDropDowns />
+          <SchoolDropdown />
 
           <Row>
             <Col>

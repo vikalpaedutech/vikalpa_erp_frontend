@@ -158,3 +158,24 @@ export const getSchoolsByBlockId = async (blockId) => {
 }
 
 //____________________________________________________________________
+
+
+
+
+
+
+
+//Version 2 APIS
+
+export const GetDistrictBlockSchoolByParams = async (reqBody) =>{
+
+
+try {
+    const response = await axios.post (`${API_BASE_URL}/api/get-district-block-schools`, reqBody)
+
+    return response.data
+} catch (error) {
+    console.log('Error occured while fetching district, block, and school data')
+}
+
+}

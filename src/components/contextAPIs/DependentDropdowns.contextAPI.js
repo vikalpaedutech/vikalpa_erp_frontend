@@ -24,6 +24,42 @@ export const DistrictBlockSchoolProvider = ({children}) => {
 
 };
 
+
+
+export const DistrictContext = createContext();
+
+export const DistrictProvider = ({children}) => {
+    const [districtContext, setDistrictContext] = useState ([]);
+    // const [blockContext, setBlockContext] = useState ([]);
+    // const [schoolContext, setSchoolContext] = useState ([]);
+
+ 
+
+    return (
+        <DistrictContext.Provider value={{ districtContext, setDistrictContext}}>
+
+            {children}
+
+        </DistrictContext.Provider>
+    )
+
+
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 export const BlockContext = createContext();
 
 export const BlockProvider = ({children}) => {

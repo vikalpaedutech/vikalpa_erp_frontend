@@ -171,11 +171,11 @@ export const deleteBill = async (formData) => {
 
 //Below api patches bills data. Ony approval part
 
-export const getAllBillsWithUserDetails = async () => {
+export const getAllBillsWithUserDetails = async (reqBody) => {
   
   try {
 
-    const response = await axios.get(`${API_BASE_URL}/api/get-all-bills-with-user-details`);
+    const response = await axios.post(`${API_BASE_URL}/api/get-all-bills-with-user-details`, reqBody);
 
     return response.data;
 
@@ -191,3 +191,50 @@ export const getAllBillsWithUserDetails = async () => {
 
 //__________________________________________________________________________________________
 
+
+
+
+
+//Version 2 apis
+
+
+//Below api patches bills data. Ony approval part
+
+export const getAllTypesOfBillsStatusForApprovalAndRejection = async (reqBody) => {
+  
+  try {
+
+    const response = await axios.post(`${API_BASE_URL}/api/get-all-types-of-bills`, reqBody);
+
+    return response.data;
+
+  } catch (error) {
+
+    console.error("Error getting bills", error.message);
+
+    throw error;
+
+  }
+
+};
+
+
+
+//Update bill verification status
+export const updateBillVerificationAndApprovalStatus = async (reqBody) => {
+  
+  try {
+
+    const response = await axios.post(`${API_BASE_URL}/api/update-verification-and-approval-status`, reqBody);
+
+    return response.data;
+
+  } catch (error) {
+
+    console.error("Error getting bills", error.message);
+
+    throw error;
+
+  }
+
+};

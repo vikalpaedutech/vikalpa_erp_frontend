@@ -47,3 +47,26 @@ export const attendancePdfUploadStatusCountByClass= async (payload) => {
     }
 
 }
+
+
+
+//V2 API
+
+
+export const PresentAbsentCallingDashboard= async (payload) => {
+
+    console.log(payload)
+
+    try {
+        
+        const response = await axios.post(`${API_BASE_URL}/api/totalstudent-present-absent-calling-count`, payload);
+       
+        console.log(response.status)
+        return response.data
+    } catch (error) {
+        
+        console.log('error occured while fetching studentAndAttendanceAndAbsenteeCallingCount')
+        console.log(error)
+    }
+
+}

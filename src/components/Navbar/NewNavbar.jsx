@@ -1,189 +1,3 @@
-// import React, { useContext, useEffect, useState } from "react";
-// import { Container, Nav, Navbar, NavDropdown } from "react-bootstrap";
-// import { useNavigate } from "react-router-dom";
-// import { UserContext } from "../../components/contextAPIs/User.context";
-
-// import { GetNotificationByUserIdOnQueryParams } from "../../service/ConcernsServices/Concern.services";
-// import { getNotificationsByUserId } from "../../service/notifications/notifications.service";
-
-// export const NewNavbar = () => {
-//   const { userData, setUserData } = useContext(UserContext);
-
-//   const [notificationData, setNotificationData] = useState([]); // ✅ initialized as array
-
-//   // const fetchNotification = async () => {
-//   //   const queryParams = {
-//   //     userId: userData?.[0]?.userId,
-//   //   };
-
-//   //   try {
-//   //     const response = await GetNotificationByUserIdOnQueryParams(queryParams);
-
-//   //     // console.log(response.data.data);
-//   //     setNotificationData(response.data.data);
-//   //   } catch (error) {
-//   //     console.log("Error fetching notification data", error);
-//   //   }
-//   // };
-
-//   // useEffect(() => {
-    
-//   //   fetchNotification();
-//   // }, []);
-
-//   const navigate = useNavigate();
-
-//   const handleHome = () => {
-//     if (userData?.[0]?.role === "CC") {
-//       navigate("/user-dash");
-//     } else if (userData?.[0]?.role === "ACI") {
-//       navigate("/l2-user-dash");
-//     }
-//   };
-
-//   const handleIndividualConcernClick = () => {
-//     navigate("/individual-concerns-form");
-//   };
-
-//   const handleProfileClick = () => {
-//     alert("Coming soon!");
-//   };
-
-
-
-// //Get notification api.
-
-//  const fetchNotifications = async () => {
-//     const queryParams = {
-//       userId: userData?.[0]?.userId,
-//     };
-
-//     try {
-//       const response = await getNotificationsByUserId(queryParams);
-
-//       console.log('I am above data')
-//       console.log(response.data);
-//       setNotificationData(response.data);
-//     } catch (error) {
-//       console.log("Error fetching notification data", error);
-//     }
-//   };
-
-//   useEffect(() => {
-    
-//     fetchNotifications();
-//   }, []);
-
-
-// //-------------------------
-
-
-
-//   return (
-//     <Navbar bg="light" className="shadow-sm">
-//       <Container
-//         fluid
-//         className="d-flex justify-content-between align-items-center"
-//       >
-//         {/* Left: Home Icon */}
-//         <div style={{ cursor: "pointer" }} onClick={handleHome}>
-//           <img
-//             src="/home-button.png"
-//             className="home-button"
-//             alt="Home"
-//             style={{ height: "30px" }}
-//           />
-//         </div>
-//         {/* <p>{userData[0].role}</p> */}
-//         {/* Center: Empty (optional - or could place logo) */}
-//         <Nav className="me-auto" />
-
-//         {/* Right: Gear Dropdown */}
-
-        
-
-
-//         <Nav>
-//           <NavDropdown
-//             align="end"
-//             title={
-//               <img
-//                 src="/notification.png"
-//                 className="notification"
-//                 alt="notification"
-//                 style={{ height: "30px", cursor: "pointer" }}
-//               />
-//             }
-//             id="settings-dropdown"
-//           >
-//             {/* ✅ Notification items when isSomeoneReverted is true */}
-//             {notificationData.length > 0 &&
-//               notificationData
-//                 .filter((item) => item.isSomeoneReverted)
-//                 .map((item) => (
-//                   <NavDropdown.Item key={item._id}>
-//                     {item.concernId} - {item.concernType}
-//                   </NavDropdown.Item>
-//                 ))}
-
-            
-//           </NavDropdown>
-
-//           <NavDropdown
-//             align="end"
-//             title={
-//               <img
-//                 src="/settings.png"
-//                 className="logout"
-//                 alt="Settings"
-//                 style={{ height: "30px", cursor: "pointer" }}
-//               />
-//             }
-//             id="settings-dropdown"
-//           >
-//             <NavDropdown.Item onClick={handleProfileClick}>
-//               Profile
-//             </NavDropdown.Item>
-//             <NavDropdown.Item onClick={handleIndividualConcernClick}>
-//               Individual Concerns
-//             </NavDropdown.Item>
-//             {/* <NavDropdown.Item>Other</NavDropdown.Item> */}
-//             <NavDropdown.Divider />
-//             <NavDropdown.Item
-//               onClick={() => {
-//                 setUserData([]);
-//                 navigate("/");
-//               }}
-//             >
-//               Logout
-//             </NavDropdown.Item>
-//           </NavDropdown>
-//         </Nav>
-//       </Container>
-//     </Navbar>
-//   );
-// };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 import React, { useContext, useEffect, useState } from "react";
 import { Container, Nav, Navbar, NavDropdown } from "react-bootstrap";
@@ -220,29 +34,31 @@ export const NewNavbar = () => {
   const navigate = useNavigate();
 
   const handleHome = () => {
-    if (userData?.[0]?.role === "CC") {
-      navigate("/user-dash");
-    } else if (userData?.[0]?.role === "ACI") {
-      navigate("/l2-user-dash");
-    } else if ( userData?.[0]?.role === "Community Incharge" || userData?.[0]?.role === "Project Coordinator"
+    // if (userData?.[0]?.role === "CC") {
+    //   navigate("/user-dash");
+    // } else if (userData?.[0]?.role === "ACI") {
+    //   navigate("/l2-user-dash");
+    // } else if ( userData?.[0]?.role === "Community Incharge" || userData?.[0]?.role === "Project Coordinator"
       
 
-    ) {
+    // ) {
 
-        navigate("/l0-user-dash");
+    //     navigate("/l0-user-dash");
 
-    }
-    else if (userData?.[0]?.role === "Community Manager"){
-      navigate("/l3-user-dash");
-    } else if (userData?.[0]?.role === "admin"){
-      navigate("/admin-dash");
-    } else if (userData?.[0]?.role === "Technician"){
+    // }
+    // else if (userData?.[0]?.role === "Community Manager"){
+    //   navigate("/l3-user-dash");
+    // } else if (userData?.[0]?.role === "admin"){
+    //   navigate("/admin-dash");
+    // } else if (userData?.[0]?.role === "Technician"){
 
-      navigate("/tech-dash")
+    //   navigate("/tech-dash")
 
-    } else {
-       navigate("/l0-user-dash");
-    }
+    // } else {
+    //    navigate("/l0-user-dash");
+    // }
+
+    navigate("/user-dashboard")
   };
 
   const handleIndividualConcernClick = () => {
@@ -258,7 +74,7 @@ export const NewNavbar = () => {
   // Get notification api.
   const fetchNotifications = async () => {
     const queryParams = {
-      userId: userData?.[0]?.userId,
+      userId: userData?.userId,
     };
 
     try {
@@ -283,9 +99,9 @@ export const NewNavbar = () => {
 //role handling. This is dynamically changes updates only those notification data...
 //... where userId, role, and concernType matches.
 let role;
-if (userData?.[0]?.role === "ACI"){
+if (userData?.role === "ACI"){
   role = "CC"
-} else if (userData?.[0]?.role === "Community Manager"){
+} else if (userData?.role === "Community Manager"){
   role = "ACI"
 }
 
@@ -300,7 +116,7 @@ if (userData?.[0]?.role === "ACI"){
   const payload = {
     concernType: concernType,
     role: role,
-    userId: userData?.[0]?.userId
+    userId: userData?.userId
   }
 
     console.log(payload);
@@ -335,8 +151,9 @@ if (userData?.[0]?.role === "ACI"){
             style={{ height: "30px" }}
           />
         </div>
+      
 
-        {/* <p>{userData[0].name}</p> */}
+        {/* <h1>{userData.name}</h1> */}
         {/* Center: Empty (optional - or could place logo) */}
         <Nav className="me-auto" />
 
@@ -413,6 +230,7 @@ if (userData?.[0]?.role === "ACI"){
                   <span style={{ float: "right", color: "gray" }}>
                     {item.totalCount}
                   </span>
+                  
                 </NavDropdown.Item>
               ))}
           </NavDropdown>

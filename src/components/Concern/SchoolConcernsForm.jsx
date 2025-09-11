@@ -9,6 +9,8 @@ import {
 } from "../contextAPIs/DependentDropdowns.contextAPI";
 import { createConcern } from "../../service/ConcernsServices/Concern.services";
 import SchoolDropDowns from "../DependentDropDowns/SchoolDropDowns";
+import { DistrictDropdown, SchoolDropdown, DistrictSchoolDropdown } from "../../components/DependentDropDowns/DistrictBlockSchoolVersion2.component.jsx";
+
 
 const SchoolConcernsForm = () => {
   const { userData } = useContext(UserContext);
@@ -71,18 +73,44 @@ const SchoolConcernsForm = () => {
 
 let conditionalRole;
 
-if (userData?.[0]?.role === 'ACI') {
+if (userData?.role === 'ACI') {
   conditionalRole = ['Community Manager', 'Director']
-} else if (userData?.[0]?.role === 'CC'){
+} else if (userData?.role === 'CC'){
   conditionalRole = [ 'ACI', 'Community Incharge', 'Project Coordinator']
 }
 
 //----------------------------------------
 
+//--------------------------------------------------------------------------
+
+const regions = userData?.userAccess?.region || [];
+const allSchoolIds = regions.flatMap(region =>
+  region.blockIds.flatMap(block =>
+    block.schoolIds.map(school => school.schoolId)
+  )
+);
+
+const allDistrictIds = regions.flatMap(region => 
+  region.districtId
+)
+
+console.log(allDistrictIds)
+
+//------------------------------------------------------------------------
+
+
+
+
+
+
 
   const handleSubmit = async () => {
     console.log(schoolContext);
-    if (!concern || !remark || !schoolContext?.[0] || !classOfConcern) {
+    console.log(concern)
+    console.log(remark)
+    console.log(schoolContext)
+    console.log(classOfConcern)
+    if (!concern || !remark || !schoolContext || !classOfConcern) {
       alert("Please select all fields before submitting.");
       return;
     }
@@ -103,7 +131,7 @@ if (userData?.[0]?.role === 'ACI') {
       }
     }
 
-    const schoolSelected = schoolContext[0];
+    const schoolSelected = schoolContext;
     const currentDate = new Date().toISOString().split("T")[0];
 
 
@@ -117,7 +145,8 @@ if (userData?.[0]?.role === 'ACI') {
 
     const formData = new FormData();
     formData.append("concernId", concernId);
-    formData.append("userId", userData?.[0]?.userId ?? "NA");
+        formData.append("unqUserObjectId", userData?._id);
+    formData.append("userId", userData?.userId ?? "NA");
     formData.append("districtId", schoolSelected.districtId);
     formData.append("blockId", schoolSelected.blockId);
     formData.append("schoolId", schoolSelected.value);
@@ -132,7 +161,7 @@ if (userData?.[0]?.role === 'ACI') {
     formData.append("uri2", "SchoolConcernResolution"); // default
     formData.append("uri3", "NA"); // default
     formData.append("conditionalRole", conditionalRole)
-    formData.append("role", userData?.[0]?.role)
+    formData.append("role", userData?.role)
     if (comment) {
       formData.append("comment", comment);
     }
@@ -157,7 +186,7 @@ if (userData?.[0]?.role === 'ACI') {
       setFile(null);
       setComment(""); // reset comment
       setStudentSrn(""); // reset srn
-      setSchoolContext("");
+     setSchoolContext([]); // setSchoolContext("");
       setKey(Date.now()); // force re-render of SchoolDropDowns
     } catch (error) {
       console.error("Error submitting concern:", error.message);
@@ -167,7 +196,7 @@ if (userData?.[0]?.role === 'ACI') {
     }
   };
 
-  const assignedDistricts = userData?.[0]?.assignedDistricts || [];
+  const assignedDistricts = allDistrictIds || [];
 
   return (
     <Container className="my-4">
@@ -176,8 +205,11 @@ if (userData?.[0]?.role === 'ACI') {
 
       {/* Dependent Dropdowns */}
       <Row>
-        <SchoolDropDowns key={key} />
+        <SchoolDropdown key={key} />
+        
       </Row>
+
+      <br></br>
 
       {/* Concern, Remark & Class */}
       <Row className="mb-3">

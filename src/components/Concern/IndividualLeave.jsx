@@ -55,11 +55,12 @@ if (userData?.[0]?.role === 'ACI') {
     }
 
     const formData = new FormData();
-    const concernId = `Leave-${userData?.[0]?.userId}-${leaveType.value}-${leaveFrom}-to-${leaveFrom}`;
+    const concernId = `Leave-${userData?.userId}-${leaveType.value}-${leaveFrom}-to-${leaveFrom}`;
     const currentDate = new Date().toISOString().split("T")[0];
 
     formData.append("concernId", concernId);
-    formData.append("userId", userData?.[0]?.userId || "NA");
+     formData.append("unqUserObjectId", userData?._id);
+    formData.append("userId", userData?.userId || "NA");
     formData.append("concernType", "Leave");
     formData.append("concern", "Leave");
     formData.append("remark", leaveType.value);
@@ -75,7 +76,7 @@ if (userData?.[0]?.role === 'ACI') {
     formData.append("uri2", "TechConcernResolution"); // default
     formData.append("uri3", "NA"); // default
     formData.append("conditionalRole", conditionalRole)
-     formData.append("role", userData?.[0]?.role)
+     formData.append("role", userData?.role)
     
 
     if (file) {

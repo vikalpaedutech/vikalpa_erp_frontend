@@ -417,7 +417,7 @@ const getCallingSummary = (classNum, key) => {
                     
                     <Card className="mainlayout-cards">
                       <Card.Body>
-                        <p className="mainlayout-cards-title">AttenDLFKGJDFLGHLKHdance</p>
+                        <p className="mainlayout-cards-title">Attendance</p>
                         <Card.Subtitle className="mb-3 text-muted">
                           Summary:
                         </Card.Subtitle>

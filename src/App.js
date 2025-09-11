@@ -15,6 +15,7 @@ import {
   BlockProvider,
   SchoolProvider,
   ClassOfStudentProvider,
+  DistrictProvider,
 } from "./components/contextAPIs/DependentDropdowns.contextAPI.js";
 
 //UI Components
@@ -109,6 +110,12 @@ import { IndividualConcernsRequest } from "./components/Concern/IndividualConcer
 import { BillDashboard } from "./components/Bills/BillDashboard.jsx";
 import { GamificationDisciplinary } from "./components/AcademicsComponents/GamificationDisciplinary.compoent.jsx";
 import { S100Attendances } from "./components/AcademicsComponents/S100Attendances.component.jsx";
+import { Practice } from "./practice/pactice.jsx";
+import { CreateUser } from "./Admin/CreateUser.component.jsx";
+import { UpdateUser } from "./Admin/UpdateUser.component.jsx";
+import { MainBillPage } from "./components/Bills/MainBillPage.jsx";
+import VerifiedAndRejectedBills from "./components/Bills/VerifiedAndRejectedBills.jsx";
+import { UserMainLayout } from "./pages/UserScreens/UsersMainLayout.jsx";
 function App() {
   
   return (
@@ -118,6 +125,7 @@ function App() {
         
         <SliderProvidedr>
           <DistrictBlockSchoolProvider>
+            <DistrictProvider>
             <BlockProvider>
               <SchoolProvider>
                 <ClassOfStudentProvider>
@@ -176,6 +184,9 @@ function App() {
 
                       <Route path="/bill-dashboard" element={<BillDashboard />} />
 
+                      <Route path="/bills-pending-verification" element={<MainBillPage/>}/>
+                      <Route path="/verified-rejected-bills" element = {<VerifiedAndRejectedBills/>}/>
+
                       {/* Monitoring module */}
                       <Route
                         path="/center-disciplinary-or-interaction"
@@ -202,6 +213,21 @@ function App() {
                         path="/initiate-student-attendance"
                         element={<CreateStudentAttendanceData />}
                       />
+
+                      
+                      <Route
+                        path="/create-user"
+                        element={<CreateUser/>}
+                      />
+
+
+                      <Route path="/update-user"
+                      element = {<UpdateUser/>}/>
+
+
+
+                      <Route path="/user-dashboard" element = {<UserMainLayout/>}/>
+
 
                       {/* calling module */}
                       <Route
@@ -272,12 +298,19 @@ function App() {
 
                       <Route path="/s100-attendance" element ={<S100Attendances/>}/>
 
+
+
+
+                      <Route path="/practice" element = {<Practice/>}/>
+
+
                       </Route>
                     </Routes>
                   </UserProvider>
                 </ClassOfStudentProvider>
               </SchoolProvider>
             </BlockProvider>
+            </DistrictProvider>
           </DistrictBlockSchoolProvider>
         </SliderProvidedr>
       </Router>

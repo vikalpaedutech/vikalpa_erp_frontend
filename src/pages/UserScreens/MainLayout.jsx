@@ -48,10 +48,28 @@ const MainLayout = () => {
 
 
 
+  //--------------------------------------------------------------------------
+
+const regions = userData?.userAccess?.region || [];
+const allSchoolIds = regions.flatMap(region =>
+  region.blockIds.flatMap(block =>
+    block.schoolIds.map(school => school.schoolId)
+  )
+);
+
+const allDistrictIds = regions.flatMap(region => 
+  region.districtId
+)
+
+console.log(allDistrictIds)
+
+//------------------------------------------------------------------------
+
+
   const fetchStudentRelatedCounts = async () => {
     const payload = {
-      schoolIds: userData[0].schoolIds,
-      classFilters: userData[0].classId,
+      schoolIds: allSchoolIds,
+      classFilters: userData.userAccess.classId,
       // date: new Date().toISOString().split("T")[0] + "T00:00:00.000+00:00", // same format
 
       startDate: startDate,
@@ -201,9 +219,16 @@ const MainLayout = () => {
     }))
   );
 
+  // const filteredSidbarMenusByRole = sideBarMenusByRole.filter((item) =>
+  //   userData?.[0]?.accessModules.includes(item.module)
+  // );
+
+
+
   const filteredSidbarMenusByRole = sideBarMenusByRole.filter((item) =>
-    userData?.[0]?.accessModules.includes(item.module)
-  );
+  userData?.userAccess?.modules?.some(module => module.name === item.module)
+);
+
 
   const logo = "./";
 

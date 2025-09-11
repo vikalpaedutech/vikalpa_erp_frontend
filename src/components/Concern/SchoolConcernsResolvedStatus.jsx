@@ -157,36 +157,7 @@ export const SchoolConcernsResolvedStatus = () => {
                       <p style={{ fontWeight: "bold" }}>Description:</p>
                       <p>{eachConcern.comment}</p>
                     </Card.Text>
-{/* 
-                    <div className="custom-progress-container">
-                      <div
-                        className="custom-progress-bar"
-                        style={{ width: `${progressPercent}%` }}
-                      ></div>
-                      <div className="checkpoints">
-                        <div
-                          className={`checkpoint ${progressPercent >= 0 ? "active" : ""}`}
-                          style={{ left: "0%" }}
-                        >
-                          <span>1</span>
-                          <div className="checkpoint-label">Pending</div>
-                        </div>
-                        <div
-                          className={`checkpoint ${progressPercent >= 50 ? "active" : ""}`}
-                          style={{ left: "50%" }}
-                        >
-                          <span>2</span>
-                          <div className="checkpoint-label">Visited</div>
-                        </div>
-                        <div
-                          className={`checkpoint ${progressPercent >= 100 ? "active" : ""}`}
-                          style={{ left: "100%" }}
-                        >
-                          <span>3</span>
-                          <div className="checkpoint-label">Resolved</div>
-                        </div>
-                      </div>
-                    </div> */}
+
 
                     <br />
 
