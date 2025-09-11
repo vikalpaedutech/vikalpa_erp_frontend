@@ -110,7 +110,7 @@ import { IndividualConcernsRequest } from "./components/Concern/IndividualConcer
 import { BillDashboard } from "./components/Bills/BillDashboard.jsx";
 import { GamificationDisciplinary } from "./components/AcademicsComponents/GamificationDisciplinary.compoent.jsx";
 import { S100Attendances } from "./components/AcademicsComponents/S100Attendances.component.jsx";
-import { Practice } from "./practice/pactice.jsx";
+
 import { CreateUser } from "./Admin/CreateUser.component.jsx";
 import { UpdateUser } from "./Admin/UpdateUser.component.jsx";
 import { MainBillPage } from "./components/Bills/MainBillPage.jsx";
@@ -301,7 +301,7 @@ function App() {
 
 
 
-                      <Route path="/practice" element = {<Practice/>}/>
+                  
 
 
                       </Route>
