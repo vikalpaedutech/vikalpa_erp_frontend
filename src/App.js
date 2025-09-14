@@ -116,6 +116,7 @@ import { UpdateUser } from "./Admin/UpdateUser.component.jsx";
 import { MainBillPage } from "./components/Bills/MainBillPage.jsx";
 import VerifiedAndRejectedBills from "./components/Bills/VerifiedAndRejectedBills.jsx";
 import { UserMainLayout } from "./pages/UserScreens/UsersMainLayout.jsx";
+import { Gamification } from "./components/Gamification/Gamification.jsx";
 function App() {
   
   return (
@@ -298,6 +299,8 @@ function App() {
 
                       <Route path="/s100-attendance" element ={<S100Attendances/>}/>
 
+
+                      <Route path="/award-points" element = {<Gamification/>}/>
 
 
 

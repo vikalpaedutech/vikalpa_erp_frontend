@@ -10,6 +10,7 @@ import {
 import { patchUserById } from "../../service/User.service";
 import { Modal, Button, Card, Spinner } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import { selfAttendanceGamification } from "../../service/Gamification.services";
 
 export const UserAttendanceUpdated = () => {
   const navigate = useNavigate();
@@ -192,6 +193,17 @@ const handleClose = () =>{
         alert("✅ Attendance marked successfully.");
         setShowAttendanceButton(false);
         await fetchUserAttendanceData();
+
+
+        const gamificationReqBOdy = {
+          unqUserObjectId: userData._id,
+          date: new Date()
+        }
+
+        const gamificationResponse = await selfAttendanceGamification(gamificationReqBOdy)
+        
+        console.log(gamificationReqBOdy.data)
+
       } else {
         throw new Error("Attendance not saved");
       }

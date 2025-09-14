@@ -23,7 +23,7 @@ import { GetTests } from '../../service/ExamAndTestController';
 import SchoolDropDowns from "../DependentDropDowns/SchoolDropDowns.jsx";
 
 import { DistrictDropdown, SchoolDropdown, DistrictSchoolDropdown } from "../../components/DependentDropDowns/DistrictBlockSchoolVersion2.component.jsx";
-
+import { studentMarksGamification } from "../../service/Gamification.services.js";
 export const UploadMarks = () => {
   //using userContext
   const { userData, setUserData } = useContext(UserContext);
@@ -169,12 +169,24 @@ useEffect(() => {
         studentSrn: student.studentSrn,
         examId: student.examId,
         schoolId:schoolId,
-        userId: userData?.[0]?.userId,
+        userId: userData?.userId,
         classofStudent:classofStudent
 
       };
 
       await updateMarksBySrnAndExamId(query, payload);
+
+      //Gamification marks
+
+      const gamificationReqBody = {
+        unqUserObjectId:userData?._id,
+        schoolId:schoolId,
+        classOfCenter:classofStudent,
+        userId: userData?.userId,
+        examId: student.examId,
+      }
+
+      const marksGamificationResponse = await studentMarksGamification(gamificationReqBody)
 
       // Update local state for immediate UI feedback
       setMarksData((prevData) =>

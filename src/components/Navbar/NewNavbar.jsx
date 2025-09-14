@@ -65,6 +65,10 @@ export const NewNavbar = () => {
     navigate("/individual-concerns-form");
   };
 
+  const handleAwardPoints = () =>{
+    navigate("/award-points");
+  }
+
   const handleProfileClick = () => {
     // alert("Coming soon!");
 
@@ -256,6 +260,10 @@ if (userData?.role === "ACI"){
             </NavDropdown.Item>
             <NavDropdown.Item onClick={handleIndividualConcernClick}>
               Individual Concerns
+            </NavDropdown.Item>
+
+            <NavDropdown.Item onClick={handleAwardPoints}>
+              Award Points
             </NavDropdown.Item>
             {/* <NavDropdown.Item>Other</NavDropdown.Item> */}
             <NavDropdown.Divider />

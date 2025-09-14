@@ -13,6 +13,8 @@ import jsPDF from "jspdf";
 
 import { DistrictDropdown, SchoolDropdown, DistrictSchoolDropdown } from "../../components/DependentDropDowns/DistrictBlockSchoolVersion2.component.jsx";
 
+import { attendancePdfGamification } from "../../service/Gamification.services.js";
+
 export const AttendancePdf = () => {
   const { userData } = useContext(UserContext);
 
@@ -176,11 +178,24 @@ const allDistrictIds = regions.flatMap(region =>
     const formData = new FormData();
     formData.append("file", fileToUpload);
     formData.append("userId", userData.userId || "Admin");
+    formData.append("unqUserObjectId", userData?._id)
 
     try {
       await PatchAttendancePdf(queryParams, formData);
       alert("File uploaded successfully!");
       fetchAttendancePdfData();
+
+      //updating gamification points.
+
+      const gamificationReqBody = {
+        unqUserObjectId: userData?._id,
+        schoolId: row.schoolId,
+        classofStudent: row.classofStudent,
+        userId: userData?.userId
+      }
+
+      const attendancePdfGamificationResponst = await attendancePdfGamification(gamificationReqBody)
+
     } catch (error) {
       alert("Failed to upload file.");
     } finally {

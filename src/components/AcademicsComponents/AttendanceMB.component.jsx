@@ -960,7 +960,7 @@ import { DistrictDropdown, SchoolDropdown, DistrictSchoolDropdown } from "../../
 import { utils, writeFile } from 'xlsx';
 import { patchStudentBySrn } from "../../service/Student.service.js";
 
-
+import { studentAttendanceGamification, studentAbsenteeCallingGamification } from "../../service/Gamification.services.js";
 
 import jsPDF from "jspdf";
 
@@ -1128,6 +1128,14 @@ console.log(allSchoolIds);
 
     // Function to handle attendance update (marking attendance)
     const handleAttendanceUpdate = async (studentSrn, isMarked, schoolId, classofStudent) => {
+       
+
+        if (!schoolContext.value || !classContext.value) {
+  alert("Please filter your school and class first");
+  return;
+}
+
+
         const queryParamsForAttendance = {
             studentSrn: studentSrn,
             date: date, 
@@ -1136,10 +1144,10 @@ console.log(allSchoolIds);
             classofStudent:classofStudent,
             studentAttendanceGamificationDate: new Date().toISOString()
         };
-
+        
         console.log(isMarked)
         console.log(`Student SRN: ${studentSrn}, Currently Marked: ${isMarked ? 'Present' : 'Absent'}`);
-
+        
         if(isMarked === true) {
             console.log('marked absent')
 
@@ -1150,9 +1158,26 @@ console.log(allSchoolIds);
                     ...prevState,
                     [studentSrn]: !isMarked,
                 }));
-
+               
                 const response = await updateAttendanceBySrnAndDate(queryParamsForAttendance, isAttendanceMarked);
                 fetchStudentRelatedCounts(); // ✅ refresh counts after update
+
+          
+                //Updating gamification points
+                
+                const gamificationReqBody = {
+                   unqUserObjectId: userData?._id,
+                    schoolId: schoolContext.value,
+                    classOfCenter: classContext.value,
+                    userId: userData?.userId
+                }
+                const responseStudentAttendanceGamification = await studentAttendanceGamification(gamificationReqBody)
+
+
+
+                //Updating student absentee calling gamification.
+
+                // const studentAbsenteeCallingGamificationrResponse = await studentAbsenteeCallingGamification(gamificationReqBody)
 
             } catch (error) {
                 console.error("Error updating attendance", error.message);
@@ -1160,9 +1185,9 @@ console.log(allSchoolIds);
 
         } else {
             console.log('marked present')
-
+            
             const isAttendanceMarked = {isAttendanceMarked: true}
-
+            
             try {
                 setAttendanceState((prevState) => ({
                     ...prevState,
@@ -1171,6 +1196,22 @@ console.log(allSchoolIds);
 
                 const response = await updateAttendanceBySrnAndDate(queryParamsForAttendance, isAttendanceMarked);
                 fetchStudentRelatedCounts(); // ✅ refresh counts after update
+                
+
+                
+                const gamificationReqBody = {
+                   unqUserObjectId: userData?._id,
+                    schoolId: schoolContext.value,
+                    classOfCenter: classContext.value,
+                    userId: userData?.userId
+                }
+                const responseStudentAttendanceGamification = await studentAttendanceGamification(gamificationReqBody)
+
+                //Updating student absentee calling gamification.
+
+                // const studentAbsenteeCallingGamificationrResponse = await studentAbsenteeCallingGamification(gamificationReqBody)
+
+                
 
             } catch (error) {
                 console.error("Error updating attendance", error.message);
