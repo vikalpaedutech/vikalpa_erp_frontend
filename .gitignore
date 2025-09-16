@@ -26,3 +26,8 @@ yarn-error.log*
 
 #below are for practicing not meant for production
 /src/practice/pactice.jsx
+
+./src/components/Navbar/NewNavbar.jsx
+
+./src/components/Navbar/NewNavbar.jsx
+

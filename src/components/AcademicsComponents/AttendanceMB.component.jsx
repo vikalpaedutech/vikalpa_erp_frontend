@@ -1315,7 +1315,7 @@ console.log(allSchoolIds);
 }
 
 
-    const showButtons = ["admin", "Project Coordinator", "Community Incharge", "Community Manager"].includes(userData[0]?.role);
+    const showButtons = ["admin", "Project Coordinator", "Community Incharge", "Community Manager"].includes(userData?.role);
 
     return (
         <Container fluid className="prevent-overflow">
