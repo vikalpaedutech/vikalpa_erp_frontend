@@ -905,11 +905,699 @@
 
 
 
+// import React, { useState, useContext, useEffect, useId } from "react";
+// import { UserContext } from "../contextAPIs/User.context";
+// import { Table, Button, Container, Form } from "react-bootstrap";
+// import { GetDistrictBlockSchoolByParams } from "../../service/DistrictBlockSchool.service";
+// import { disciplinaryGamification, getDisciplinaryGamificationData , getUserMarkedGamificationData} from "../../service/Gamification.services";
+
+// const statusOptions = [
+//   { value: "Poor", label: "Poor" },
+//   { value: "Average", label: "Average" },
+//   { value: "Good", label: "Good" },
+//   { value: "Excellent", label: "Excellent" },
+// ];
+
+// export const GamificationDisciplinary = () => {
+//   const { userData } = useContext(UserContext); // ✅ get logged-in user info
+//   const [regionData, setRegionData] = useState([]);
+//   const [classOfCenter, setClassOfCenter] = useState(null);
+//   const [searchTerm, setSearchTerm] = useState("");
+
+//   const [userMarkedGamificationData, setuserMarkedGamificationData] = useState([]);
+
+//   const [gamificationDisciplinaryData, setGamificationDisciplinaryData] = useState([])
+
+//   const fetchGamificationDisciplinaryData = async () => {
+//     try {
+//       const response = await getDisciplinaryGamificationData();
+//       console.log(response.data)
+//       setGamificationDisciplinaryData(response.data)
+//     } catch (error) {
+//       console.log("Error::::>", error)
+//     }
+//   }
+
+//   useEffect(() => {
+//     fetchGamificationDisciplinaryData()
+//     const interval = setInterval(() => {
+//       fetchGamificationDisciplinaryData()
+//     }, 3000); // ✅ 3 sec polling
+
+//     return () => clearInterval(interval);
+//   }, [])
+
+// //Fetch user marked gamification
+
+//   const fetchUserMarkedGamificationData = async () =>{
+
+//     const reqBody = {
+//       unqUserObjectId:userData?._id
+//     }
+
+//     try {
+//       const response = await getUserMarkedGamificationData(reqBody)
+//       setuserMarkedGamificationData(response.data)
+//       console.log(response.data)
+//     } catch (error) {
+//       console.log("Error::::>", error)
+//     }
+//   }
+
+//   useEffect(()=>{
+// fetchUserMarkedGamificationData()
+//   }, [])
+
+
+//   const fetchDistrictBlockSchools = async () => {
+//     try {
+//       const response = await GetDistrictBlockSchoolByParams();
+//       console.log("Fetched region data:", response.data);
+//       setRegionData(response.data);
+//     } catch (error) {
+//       console.log("Error fetching district_block_schools", error);
+//     }
+//   };
+
+//   useEffect(() => {
+//     fetchDistrictBlockSchools();
+//   }, []);
+
+//   //Setting classOfCenter
+//   const selectClass = (value) => {
+//     setClassOfCenter(value);
+//   };
+
+//   // ✅ function to handle button click
+//   const handleRankClick = async (centerId, rankValue) => {
+//     const reqBody = {
+//       unqUserObjectId: userData?._id,
+//       schoolId: centerId,
+//       classOfCenter: classOfCenter, // ✅ now dynamic instead of fixed '9'
+//       userId: userData?.userId,
+//       rank: rankValue,
+//     };
+
+//     console.log("ReqBody created:", reqBody);
+
+//     const response = await disciplinaryGamification(reqBody)
+//     console.log(response.message)
+//     fetchGamificationDisciplinaryData(); // ✅ refresh after click
+//   };
+
+//   // ✅ filter data by district/school and search term + sort by district
+//   const filteredData = regionData
+//     .filter((eachRegion) => {
+//       const regex = new RegExp(searchTerm, "i");
+//       return (
+//         regex.test(eachRegion.districtName) || regex.test(eachRegion.centerName)
+//       );
+//     })
+//     .sort((a, b) => a.districtName.localeCompare(b.districtName));
+
+//   // ✅ helper to find gamification data for a center+class
+//   const getGamificationForCenter = (centerId) => {
+//     return gamificationDisciplinaryData.find(
+//       (item) => item.centerId === centerId && item.classOfCenter === classOfCenter
+//     );
+//   };
+
+//   // ✅ helper to build rank labels list
+//   const buildRankLabels = (gData) => {
+//     const labels = [];
+//     if (gData?.poorRankCount > 0) labels.push("Poor");
+//     if (gData?.averageRankCount > 0) labels.push("Average");
+//     if (gData?.goodRankCount > 0) labels.push("Good");
+//     if (gData?.excellentRankCount > 0) labels.push("Excellent");
+//     return labels.join(", ");
+//   };
+
+//   return (
+//     <Container fluid>
+//       <br></br>
+//       {/* ✅ Class filter buttons */}
+//       <div className="mb-3">
+//         <Button
+//           variant={classOfCenter === "9" ? "success" : "secondary"}
+//           className="me-2"
+//           onClick={() => selectClass("9")}
+//         >
+//           Class 9
+//         </Button>
+//         <Button
+//           variant={classOfCenter === "10" ? "success" : "secondary"}
+//           onClick={() => selectClass("10")}
+//         >
+//           Class 10
+//         </Button>
+//       </div>
+
+//       {/* ✅ Only show title + table if class is selected */}
+//       {classOfCenter && (
+//         <>
+//           <h1>
+//             Class {classOfCenter} disciplinary gamification
+//           </h1>
+
+//           {/* ✅ Search filter */}
+//           <Form.Control
+//             type="text"
+//             placeholder="Filter by District or School"
+//             className="my-3"
+//             value={searchTerm}
+//             onChange={(e) => setSearchTerm(e.target.value)}
+//           />
+
+//           <Table striped bordered hover>
+//             <thead>
+//               <tr>
+//                 <th>#</th>
+//                 <th>District</th>
+//                 <th>School</th>
+//                 <th>Rank</th>
+//                 <th>Rank Status</th> {/* ✅ new column */}
+//               </tr>
+//             </thead>
+//             <tbody>
+//               {filteredData.map((eachRegion, index) => {
+//                 const gData = getGamificationForCenter(eachRegion.centerId);
+//                 const sum =
+//                   (gData?.poorRankCount || 0) +
+//                   (gData?.averageRankCount || 0) +
+//                   (gData?.goodRankCount || 0) +
+//                   (gData?.excellentRankCount || 0);
+
+//                 return (
+//                   <tr key={eachRegion._id}>
+//                     <td>{index + 1}</td>
+//                     <td>{eachRegion.districtName}</td>
+//                     <td>{eachRegion.centerName}</td>
+//                     <td>
+//                       {statusOptions.map((status) => {
+//                         const isDisabled = sum >= 2;
+//                         return (
+//                           <Button
+//                             key={status.value}
+//                             variant={isDisabled ? "danger" : "outline-primary"} // 🔴 red when disabled
+//                             size="sm"
+//                             className="me-2"
+//                             disabled={isDisabled} // ✅ disable if limit reached
+//                             onClick={() =>
+//                               handleRankClick(eachRegion.centerId, status.value)
+//                             }
+//                           >
+//                             {status.label}
+//                           </Button>
+//                         );
+//                       })}
+//                     </td>
+//                     <td>
+//                       {gData ? (
+//                         <>
+//                           {gData.finalPoint}{" "}
+//                           ({buildRankLabels(gData)})
+//                         </>
+//                       ) : (
+//                         "—"
+//                       )}
+//                     </td>
+//                   </tr>
+//                 );
+//               })}
+//             </tbody>
+//           </Table>
+//         </>
+//       )}
+//     </Container>
+//   );
+// };
+
+
+
+
+
+// import React, { useState, useContext, useEffect } from "react";
+// import { UserContext } from "../contextAPIs/User.context";
+// import { Table, Button, Container, Form } from "react-bootstrap";
+// import { GetDistrictBlockSchoolByParams } from "../../service/DistrictBlockSchool.service";
+// import {
+//   disciplinaryGamification,
+//   getDisciplinaryGamificationData,
+//   getUserMarkedGamificationData,
+// } from "../../service/Gamification.services";
+
+// const statusOptions = [
+//   { value: "Poor", label: "Poor" },
+//   { value: "Average", label: "Average" },
+//   { value: "Good", label: "Good" },
+//   { value: "Excellent", label: "Excellent" },
+// ];
+
+// export const GamificationDisciplinary = () => {
+//   const { userData } = useContext(UserContext); // ✅ get logged-in user info
+//   const [regionData, setRegionData] = useState([]);
+//   const [classOfCenter, setClassOfCenter] = useState(null);
+//   const [searchTerm, setSearchTerm] = useState("");
+
+//   const [userMarkedGamificationData, setuserMarkedGamificationData] = useState(
+//     []
+//   );
+
+//   const [gamificationDisciplinaryData, setGamificationDisciplinaryData] =
+//     useState([]);
+
+//   const fetchGamificationDisciplinaryData = async () => {
+//     try {
+//       const response = await getDisciplinaryGamificationData();
+//       console.log(response.data);
+//       setGamificationDisciplinaryData(response.data);
+//     } catch (error) {
+//       console.log("Error::::>", error);
+//     }
+//   };
+
+//   useEffect(() => {
+//     fetchGamificationDisciplinaryData();
+//     const interval = setInterval(() => {
+//       fetchGamificationDisciplinaryData();
+//     }, 3000); // ✅ 3 sec polling
+
+//     return () => clearInterval(interval);
+//   }, []);
+
+//   //Fetch user marked gamification
+//   const fetchUserMarkedGamificationData = async () => {
+//     const reqBody = {
+//       unqUserObjectId: userData?._id,
+//     };
+
+//     try {
+//       const response = await getUserMarkedGamificationData(reqBody);
+//       setuserMarkedGamificationData(response.data);
+//       console.log("User Marked Gamification Data:", response.data);
+//     } catch (error) {
+//       console.log("Error::::>", error);
+//     }
+//   };
+
+//   useEffect(() => {
+//     fetchUserMarkedGamificationData();
+//   }, []);
+
+//   const fetchDistrictBlockSchools = async () => {
+//     try {
+//       const response = await GetDistrictBlockSchoolByParams();
+//       console.log("Fetched region data:", response.data);
+//       setRegionData(response.data);
+//     } catch (error) {
+//       console.log("Error fetching district_block_schools", error);
+//     }
+//   };
+
+//   useEffect(() => {
+//     fetchDistrictBlockSchools();
+//   }, []);
+
+//   //Setting classOfCenter
+//   const selectClass = (value) => {
+//     setClassOfCenter(value);
+//   };
+
+//   // ✅ function to handle button click
+//   const handleRankClick = async (centerId, rankValue) => {
+//     const reqBody = {
+//       unqUserObjectId: userData?._id,
+//       schoolId: centerId,
+//       classOfCenter: classOfCenter,
+//       userId: userData?.userId,
+//       rank: rankValue,
+//     };
+
+//     console.log("ReqBody created:", reqBody);
+
+//     const response = await disciplinaryGamification(reqBody);
+//     console.log(response.message);
+//     fetchGamificationDisciplinaryData(); // ✅ refresh after click
+//     fetchUserMarkedGamificationData(); // ✅ refresh user marked data also
+//   };
+
+//   // ✅ filter data by district/school and search term + sort by district
+//   const filteredData = regionData
+//     .filter((eachRegion) => {
+//       const regex = new RegExp(searchTerm, "i");
+//       return (
+//         regex.test(eachRegion.districtName) || regex.test(eachRegion.centerName)
+//       );
+//     })
+//     .sort((a, b) => a.districtName.localeCompare(b.districtName));
+
+//   // ✅ helper to get total count for a center
+//   const getTotalCountForCenter = (centerId) => {
+//     const gData = userMarkedGamificationData.filter(
+//       (item) =>
+//         item.centerId === centerId && item.classOfCenter === classOfCenter
+//     );
+
+//     if (!gData || gData.length === 0) return 0;
+
+//     return gData.reduce(
+//       (acc, item) =>
+//         acc +
+//         (item.poorRankCount || 0) +
+//         (item.averageRankCount || 0) +
+//         (item.goodRankCount || 0) +
+//         (item.excellentRankCount || 0),
+//       0
+//     );
+//   };
+
+//   return (
+//     <Container fluid>
+//       <br></br>
+//       {/* ✅ Class filter buttons */}
+//       <div className="mb-3">
+//         <Button
+//           variant={classOfCenter === "9" ? "success" : "secondary"}
+//           className="me-2"
+//           onClick={() => selectClass("9")}
+//         >
+//           Class 9
+//         </Button>
+//         <Button
+//           variant={classOfCenter === "10" ? "success" : "secondary"}
+//           onClick={() => selectClass("10")}
+//         >
+//           Class 10
+//         </Button>
+//       </div>
+
+//       {/* ✅ Only show title + table if class is selected */}
+//       {classOfCenter && (
+//         <>
+//           <h1>Class {classOfCenter} disciplinary gamification</h1>
+
+//           {/* ✅ Search filter */}
+//           <Form.Control
+//             type="text"
+//             placeholder="Filter by District or School"
+//             className="my-3"
+//             value={searchTerm}
+//             onChange={(e) => setSearchTerm(e.target.value)}
+//           />
+
+//           <Table striped bordered hover>
+//             <thead>
+//               <tr>
+//                 <th>#</th>
+//                 <th>District</th>
+//                 <th>School</th>
+//                 <th>Rank</th>
+//                 <th>Rank Status (Count)</th>
+//               </tr>
+//             </thead>
+//             <tbody>
+//               {filteredData.map((eachRegion, index) => {
+//                 const totalCount = getTotalCountForCenter(
+//                   eachRegion.centerId
+//                 );
+
+//                 return (
+//                   <tr
+//                     key={eachRegion._id}
+//                     style={{
+//                       backgroundColor:
+//                         totalCount === 0 ? "#f8d7da" : "transparent", // 🔴 red if no ranks yet
+//                     }}
+//                   >
+//                     <td>{index + 1}</td>
+//                     <td>{eachRegion.districtName}</td>
+//                     <td>{eachRegion.centerName}</td>
+//                     <td>
+//                       {statusOptions.map((status) => (
+//                         <Button
+//                           key={status.value}
+//                           variant="outline-primary"
+//                           size="sm"
+//                           className="me-2"
+//                           onClick={() =>
+//                             handleRankClick(eachRegion.centerId, status.value)
+//                           }
+//                         >
+//                           {status.label}
+//                         </Button>
+//                       ))}
+//                     </td>
+//                     <td>{totalCount}</td>
+//                   </tr>
+//                 );
+//               })}
+//             </tbody>
+//           </Table>
+//         </>
+//       )}
+//     </Container>
+//   );
+// };
+
+
+
+
+
+
+
+
+
+
+
+
+
+// import React, { useState, useContext, useEffect } from "react";
+// import { UserContext } from "../contextAPIs/User.context";
+// import { Table, Button, Container, Form } from "react-bootstrap";
+// import { GetDistrictBlockSchoolByParams } from "../../service/DistrictBlockSchool.service";
+// import {
+//   disciplinaryGamification,
+//   getUserMarkedGamificationData,
+// } from "../../service/Gamification.services";
+
+// const statusOptions = [
+//   { value: "Poor", label: "Poor" },
+//   { value: "Average", label: "Average" },
+//   { value: "Good", label: "Good" },
+//   { value: "Excellent", label: "Excellent" },
+// ];
+
+// export const GamificationDisciplinary = () => {
+//   const { userData } = useContext(UserContext); // ✅ get logged-in user info
+//   const [regionData, setRegionData] = useState([]);
+//   const [classOfCenter, setClassOfCenter] = useState(null);
+//   const [searchTerm, setSearchTerm] = useState("");
+
+//   const [userMarkedGamificationData, setuserMarkedGamificationData] = useState(
+//     []
+//   );
+
+//   // ✅ fetch only logged-in user's marked gamification data
+//   const fetchUserMarkedGamificationData = async () => {
+//     const reqBody = {
+//       unqUserObjectId: userData?._id,
+//     };
+
+//     try {
+//       const response = await getUserMarkedGamificationData(reqBody);
+//       setuserMarkedGamificationData(response.data);
+//       console.log("User Marked Gamification Data:", response.data);
+//     } catch (error) {
+//       console.log("Error::::>", error);
+//     }
+//   };
+
+//   useEffect(() => {
+//     if (userData?._id) {
+//       fetchUserMarkedGamificationData();
+//     }
+//   }, [userData?._id]);
+
+//   const fetchDistrictBlockSchools = async () => {
+//     try {
+//       const response = await GetDistrictBlockSchoolByParams();
+//       console.log("Fetched region data:", response.data);
+//       setRegionData(response.data);
+//     } catch (error) {
+//       console.log("Error fetching district_block_schools", error);
+//     }
+//   };
+
+//   useEffect(() => {
+//     fetchDistrictBlockSchools();
+//   }, []);
+
+//   //Setting classOfCenter
+//   const selectClass = (value) => {
+//     setClassOfCenter(value);
+//   };
+
+//   // ✅ function to handle button click
+//   const handleRankClick = async (centerId, rankValue) => {
+//     const reqBody = {
+//       unqUserObjectId: userData?._id,
+//       schoolId: centerId,
+//       classOfCenter: classOfCenter,
+//       userId: userData?.userId,
+//       rank: rankValue,
+//     };
+
+//     console.log("ReqBody created:", reqBody);
+
+//     const response = await disciplinaryGamification(reqBody);
+//     console.log(response.message);
+
+//     // ✅ update user data immediately after rank is given
+//     fetchUserMarkedGamificationData();
+//   };
+
+//   // ✅ filter data by district/school and search term + sort by district
+//   const filteredData = regionData
+//     .filter((eachRegion) => {
+//       const regex = new RegExp(searchTerm, "i");
+//       return (
+//         regex.test(eachRegion.districtName) || regex.test(eachRegion.centerName)
+//       );
+//     })
+//     .sort((a, b) => a.districtName.localeCompare(b.districtName));
+
+//   // ✅ helper to get total count for a center for this user
+//   const getTotalCountForCenter = (centerId) => {
+//     const gData = userMarkedGamificationData.filter(
+//       (item) =>
+//         item.centerId === centerId && item.classOfCenter === classOfCenter
+//     );
+
+//     if (!gData || gData.length === 0) return 0;
+
+//     return gData.reduce(
+//       (acc, item) =>
+//         acc +
+//         (item.poorRankCount || 0) +
+//         (item.averageRankCount || 0) +
+//         (item.goodRankCount || 0) +
+//         (item.excellentRankCount || 0),
+//       0
+//     );
+//   };
+
+//   return (
+//     <Container fluid>
+//       <br></br>
+//       {/* ✅ Class filter buttons */}
+//       <div className="mb-3">
+//         <Button
+//           variant={classOfCenter === "9" ? "success" : "secondary"}
+//           className="me-2"
+//           onClick={() => selectClass("9")}
+//         >
+//           Class 9
+//         </Button>
+//         <Button
+//           variant={classOfCenter === "10" ? "success" : "secondary"}
+//           onClick={() => selectClass("10")}
+//         >
+//           Class 10
+//         </Button>
+//       </div>
+
+//       {/* ✅ Only show title + table if class is selected */}
+//       {classOfCenter && (
+//         <>
+//           <h1>Class {classOfCenter} disciplinary gamification</h1>
+
+//           {/* ✅ Search filter */}
+//           <Form.Control
+//             type="text"
+//             placeholder="Filter by District or School"
+//             className="my-3"
+//             value={searchTerm}
+//             onChange={(e) => setSearchTerm(e.target.value)}
+//           />
+
+//           <Table striped bordered hover>
+//             <thead>
+//               <tr>
+//                 <th>#</th>
+//                 <th>District</th>
+//                 <th>School</th>
+//                 <th>Rank</th>
+//                 <th>Rank Status (Count)</th>
+//               </tr>
+//             </thead>
+//             <tbody>
+//               {filteredData.map((eachRegion, index) => {
+//                 const totalCount = getTotalCountForCenter(
+//                   eachRegion.centerId
+//                 );
+
+//                 return (
+//                   <tr
+//                     key={eachRegion._id}
+//                     style={{
+//                       backgroundColor:
+//                         totalCount === 0 ? "#f8d7da" : "transparent", // 🔴 red if no ranks yet
+//                     }}
+//                   >
+//                     <td>{index + 1}</td>
+//                     <td>{eachRegion.districtName}</td>
+//                     <td>{eachRegion.centerName}</td>
+//                     <td>
+//                       {statusOptions.map((status) => (
+//                         <Button
+//                           key={status.value}
+//                           variant="outline-primary"
+//                           size="sm"
+//                           className="me-2"
+//                           onClick={() =>
+//                             handleRankClick(eachRegion.centerId, status.value)
+//                           }
+//                         >
+//                           {status.label}
+//                         </Button>
+//                       ))}
+//                     </td>
+//                     <td>{totalCount}</td>
+//                   </tr>
+//                 );
+//               })}
+//             </tbody>
+//           </Table>
+//         </>
+//       )}
+//     </Container>
+//   );
+// };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 import React, { useState, useContext, useEffect } from "react";
 import { UserContext } from "../contextAPIs/User.context";
 import { Table, Button, Container, Form } from "react-bootstrap";
 import { GetDistrictBlockSchoolByParams } from "../../service/DistrictBlockSchool.service";
-import { disciplinaryGamification, getDisciplinaryGamificationData } from "../../service/Gamification.services";
+import {
+  disciplinaryGamification,
+  getUserMarkedGamificationData,
+} from "../../service/Gamification.services";
 
 const statusOptions = [
   { value: "Poor", label: "Poor" },
@@ -924,26 +1612,30 @@ export const GamificationDisciplinary = () => {
   const [classOfCenter, setClassOfCenter] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
 
-  const [gamificationDisciplinaryData, setGamificationDisciplinaryData] = useState([])
+  const [userMarkedGamificationData, setuserMarkedGamificationData] = useState(
+    []
+  );
 
-  const fetchGamificationDisciplinaryData = async () => {
+  // ✅ fetch only logged-in user's marked gamification data
+  const fetchUserMarkedGamificationData = async () => {
+    const reqBody = {
+      unqUserObjectId: userData?._id,
+    };
+
     try {
-      const response = await getDisciplinaryGamificationData();
-      console.log(response.data)
-      setGamificationDisciplinaryData(response.data)
+      const response = await getUserMarkedGamificationData(reqBody);
+      setuserMarkedGamificationData(response.data);
+      console.log("User Marked Gamification Data:", response.data);
     } catch (error) {
-      console.log("Error::::>", error)
+      console.log("Error::::>", error);
     }
-  }
+  };
 
   useEffect(() => {
-    fetchGamificationDisciplinaryData()
-    const interval = setInterval(() => {
-      fetchGamificationDisciplinaryData()
-    }, 3000); // ✅ 3 sec polling
-
-    return () => clearInterval(interval);
-  }, [])
+    if (userData?._id) {
+      fetchUserMarkedGamificationData();
+    }
+  }, [userData?._id]);
 
   const fetchDistrictBlockSchools = async () => {
     try {
@@ -969,16 +1661,18 @@ export const GamificationDisciplinary = () => {
     const reqBody = {
       unqUserObjectId: userData?._id,
       schoolId: centerId,
-      classOfCenter: classOfCenter, // ✅ now dynamic instead of fixed '9'
+      classOfCenter: classOfCenter,
       userId: userData?.userId,
       rank: rankValue,
     };
 
     console.log("ReqBody created:", reqBody);
 
-    const response = await disciplinaryGamification(reqBody)
-    console.log(response.message)
-    fetchGamificationDisciplinaryData(); // ✅ refresh after click
+    const response = await disciplinaryGamification(reqBody);
+    console.log(response.message);
+
+    // ✅ update user data immediately after rank is given
+    fetchUserMarkedGamificationData();
   };
 
   // ✅ filter data by district/school and search term + sort by district
@@ -991,21 +1685,24 @@ export const GamificationDisciplinary = () => {
     })
     .sort((a, b) => a.districtName.localeCompare(b.districtName));
 
-  // ✅ helper to find gamification data for a center+class
-  const getGamificationForCenter = (centerId) => {
-    return gamificationDisciplinaryData.find(
-      (item) => item.centerId === centerId && item.classOfCenter === classOfCenter
+  // ✅ helper to get total count for a center for this user
+  const getTotalCountForCenter = (centerId) => {
+    const gData = userMarkedGamificationData.filter(
+      (item) =>
+        item.centerId === centerId && item.classOfCenter === classOfCenter
     );
-  };
 
-  // ✅ helper to build rank labels list
-  const buildRankLabels = (gData) => {
-    const labels = [];
-    if (gData?.poorRankCount > 0) labels.push("Poor");
-    if (gData?.averageRankCount > 0) labels.push("Average");
-    if (gData?.goodRankCount > 0) labels.push("Good");
-    if (gData?.excellentRankCount > 0) labels.push("Excellent");
-    return labels.join(", ");
+    if (!gData || gData.length === 0) return 0;
+
+    return gData.reduce(
+      (acc, item) =>
+        acc +
+        (item.poorRankCount || 0) +
+        (item.averageRankCount || 0) +
+        (item.goodRankCount || 0) +
+        (item.excellentRankCount || 0),
+      0
+    );
   };
 
   return (
@@ -1031,9 +1728,7 @@ export const GamificationDisciplinary = () => {
       {/* ✅ Only show title + table if class is selected */}
       {classOfCenter && (
         <>
-          <h1>
-            Class {classOfCenter} disciplinary gamification
-          </h1>
+          <h1>Class {classOfCenter} disciplinary gamification</h1>
 
           {/* ✅ Search filter */}
           <Form.Control
@@ -1051,17 +1746,14 @@ export const GamificationDisciplinary = () => {
                 <th>District</th>
                 <th>School</th>
                 <th>Rank</th>
-                <th>Rank Status</th> {/* ✅ new column */}
+                <th>Rank Status (Count)</th>
               </tr>
             </thead>
             <tbody>
               {filteredData.map((eachRegion, index) => {
-                const gData = getGamificationForCenter(eachRegion.centerId);
-                const sum =
-                  (gData?.poorRankCount || 0) +
-                  (gData?.averageRankCount || 0) +
-                  (gData?.goodRankCount || 0) +
-                  (gData?.excellentRankCount || 0);
+                const totalCount = getTotalCountForCenter(
+                  eachRegion.centerId
+                );
 
                 return (
                   <tr key={eachRegion._id}>
@@ -1069,33 +1761,29 @@ export const GamificationDisciplinary = () => {
                     <td>{eachRegion.districtName}</td>
                     <td>{eachRegion.centerName}</td>
                     <td>
-                      {statusOptions.map((status) => {
-                        const isDisabled = sum >= 2;
-                        return (
-                          <Button
-                            key={status.value}
-                            variant={isDisabled ? "danger" : "outline-primary"} // 🔴 red when disabled
-                            size="sm"
-                            className="me-2"
-                            disabled={isDisabled} // ✅ disable if limit reached
-                            onClick={() =>
-                              handleRankClick(eachRegion.centerId, status.value)
-                            }
-                          >
-                            {status.label}
-                          </Button>
-                        );
-                      })}
+                      {statusOptions.map((status) => (
+                        <Button
+                          key={status.value}
+                          variant="outline-primary"
+                          size="sm"
+                          className="me-2"
+                          onClick={() =>
+                            handleRankClick(eachRegion.centerId, status.value)
+                          }
+                        >
+                          {status.label}
+                        </Button>
+                      ))}
                     </td>
-                    <td>
-                      {gData ? (
-                        <>
-                          {gData.finalPoint}{" "}
-                          ({buildRankLabels(gData)})
-                        </>
-                      ) : (
-                        "—"
-                      )}
+                    <td
+                      style={{
+                        backgroundColor: totalCount === 0 ? "OrangeRed" : "transparent",
+                        color: totalCount === 0 ? "white" : "inherit",
+                        fontWeight: totalCount === 0 ? "bold" : "normal",
+                        textAlign: "center",
+                      }}
+                    >
+                      {totalCount}
                     </td>
                   </tr>
                 );

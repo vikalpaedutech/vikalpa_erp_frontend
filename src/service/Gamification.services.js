@@ -193,3 +193,19 @@ export const pointClaimedUpdation = async (reqBody) => {
     }
 }
 
+
+
+export const getUserMarkedGamificationData = async (reqBody) => {
+    try {
+        // console.log('i am inside service')
+        // console.log(API_BASE_URL)   
+        const response = await axios.post (`${API_BASE_URL}/api/get-user-marked-gamification-data`, reqBody)
+        
+        return response.data;
+
+
+    } catch (error) {
+        console.error("Error updating gamification point", error.message);
+        throw error;
+    }
+}

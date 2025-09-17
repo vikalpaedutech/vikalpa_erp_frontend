@@ -472,6 +472,7 @@ import { Container, Card, Button, Row, Col, Form } from "react-bootstrap";
 import {
   getAllGamificationData,
   pointClaimedUpdation,
+  getUserMarkedGamificationData
 } from "../../service/Gamification.services";
 import { UserContext } from "../contextAPIs/User.context.js";
 
@@ -497,6 +498,8 @@ export const Gamification = () => {
       console.log("Error::::>", error);
     }
   };
+
+  //Fetch user marked gamification
 
   useEffect(() => {
     if (isAuthorized) {
