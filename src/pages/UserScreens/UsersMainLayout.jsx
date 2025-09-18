@@ -999,7 +999,7 @@ const allSchoolIds = regions.flatMap(region =>
           label: "Bill Dashboard",
           logo: "/billdashboard.png",
           path: "bill-dashboard",
-          accessedBy: ['MIS','Admin','Tech','Community Manager']
+          accessedBy: ['MIS','Admin','Tech','Community Manager', "Accountant"]
         },
         {
           id: "7",

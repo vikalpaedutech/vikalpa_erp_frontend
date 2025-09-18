@@ -2031,6 +2031,7 @@ export const CreateUser = () => {
     HR: ["HR Executive", "HR Manager"],
     Media: ["Media Manager", "Photographer"],
     Tech: ["MIS", "Data Analyst", "Tech Lead"],
+    Accounts: ["Accountant"],
   };
 
   const handleChange = (e) => {
