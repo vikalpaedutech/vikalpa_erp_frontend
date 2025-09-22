@@ -116,3 +116,13 @@ export const updateUserWithAccess = async (reqBody) => {
     const response = await axios.patch (`${API_BASE_URL}/api/patch-user-and-useraccess`, reqBody)
     return response.data;
 }
+
+
+
+
+
+
+export const getUsersByObjectId = async (reqBody) => {
+    const response = await axios.post (`${API_BASE_URL}/api/get-user-data-by-object-id`, reqBody);
+    return response.data;
+}

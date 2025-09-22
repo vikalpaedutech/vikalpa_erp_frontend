@@ -1108,6 +1108,10 @@ const allSchoolIds = regions.flatMap(region =>
         { id: "1", label: "Create User", path: "create-user",
             accessedBy: ['MIS','Admin', 'Tech']
          },
+
+          { id: "2", label: "Update User", path: "update-user",
+            accessedBy: ['MIS','Admin', 'Tech']
+         },
        
       ],
     },

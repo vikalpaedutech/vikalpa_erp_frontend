@@ -499,7 +499,7 @@ export const Gamification = () => {
     }
   };
 
-  //Fetch user marked gamification
+  
 
   useEffect(() => {
     if (isAuthorized) {
