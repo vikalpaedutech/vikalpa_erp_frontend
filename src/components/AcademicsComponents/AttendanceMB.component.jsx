@@ -2464,98 +2464,174 @@ console.log(allSchoolIds);
 
     doc.save(`${title}.pdf`);
 }
-// New function for downloading Dress PDF
-const handleDownloadDressPdf = () => {
-    if(schoolContext.value === undefined ){
-        alert('Please select school')
-        return
-    }
+// // New function for downloading Dress PDF
+// const handleDownloadDressPdf = () => {
+//     if(schoolContext.value === undefined ){
+//         alert('Please select school')
+//         return
+//     }
 
-    const doc = new jsPDF();
+//     const doc = new jsPDF();
     
-    // Get school name from DistrictBlockSchool data
-    const schoolMeta = DistrictBlockSchool.find(s => s.schoolId === schoolContext.value);
-    const schoolName = schoolMeta?.schoolName || schoolContext.value;
+//     // Get school name from DistrictBlockSchool data
+//     const schoolMeta = DistrictBlockSchool.find(s => s.schoolId === schoolContext.value);
+//     const schoolName = schoolMeta?.schoolName || schoolContext.value;
     
-    const title = `Dress_Size_Form_Class_${classContext.value || 'All'}_${date}`;
+//     const title = `Dress_Size_Form_Class_${classContext.value || 'All'}_${date}`;
     
-    // Title styling
-    doc.setFontSize(12);
-    doc.setTextColor(40, 40, 40);
-    doc.setFillColor(240, 240, 240);
-    doc.rect(10, 10, 190, 12, 'F');
-    doc.text(`DRESS SIZE MEASUREMENT IN INCHES (${schoolName})`, 105, 18, { align: 'center' });
+//     // Title styling
+//     doc.setFontSize(12);
+//     doc.setTextColor(40, 40, 40);
+//     doc.setFillColor(240, 240, 240);
+//     doc.rect(10, 10, 190, 12, 'F');
+//     doc.text(`DRESS SIZE MEASUREMENT IN INCHES (${schoolName})`, 105, 18, { align: 'center' });
     
-    // Subtitle
-    doc.setFontSize(10);
-    doc.setTextColor(100, 100, 100);
-    doc.text(`Class: ${classContext.value || 'All'} | Date: ${date}`, 105, 25, { align: 'center' });
+//     // Subtitle
+//     doc.setFontSize(10);
+//     doc.setTextColor(100, 100, 100);
+//     doc.text(`Class: ${classContext.value || 'All'} | Date: ${date}`, 105, 25, { align: 'center' });
     
-    // Prepare data for the table
-    const dataToExport = attendanceData.map((record, index) => {
-        const dressInfo = dressSizes[record.studentSrn] || {};
-        return [
-            index + 1,
-            record.studentSrn,
-            record.studentDetails.firstName,
-            record.studentDetails.fatherName,
-            dressInfo.shirtSizeInInches || "",
-            dressInfo.waistSizeInInches || "",
-            dressInfo.waistToBottomLengthInInches || "",
-            "", // Empty box for shirt
-            "", // Empty box for waist  
-            "", // Empty box for bottom
-            ""  // Empty box for signature
-        ];
-    });
+//     // Prepare data for the table
+//     const dataToExport = attendanceData.map((record, index) => {
+//         const dressInfo = dressSizes[record.studentSrn] || {};
+//         return [
+//             index + 1,
+//             record.studentSrn,
+//             record.studentDetails.firstName,
+//             record.studentDetails.fatherName,
+//             dressInfo.shirtSizeInInches || "",
+//             dressInfo.waistSizeInInches || "",
+//             dressInfo.waistToBottomLengthInInches || "",
+//             "", // Empty box for shirt
+//             "", // Empty box for waist  
+//             "", // Empty box for bottom
+//             ""  // Empty box for signature
+//         ];
+//     });
 
-    // Create the table
-    doc.autoTable({
-        head: [["#", "SRN", "Student", "Father", 'Shirt (Chest size Inc")', 'Waist (size Inc")', 'Lower length (Inc")', 'Changed Shirt size (Inc")', 'Changed Waist size (Inc")', 'Changed lower length (Inc")', "Signature"]],
-        body: dataToExport,
-        startY: 30,
-        styles: { 
-            fontSize: 7,
-            cellPadding: 1.5,
-            lineColor: [0, 0, 0],
-            lineWidth: 0.1
-        },
-        headStyles: { 
-            fillColor: [200, 200, 200],
-            textColor: [0, 0, 0],
-            fontStyle: 'bold'
-        },
-        columnStyles: {
-            0: { cellWidth: 8 },  // #
-            1: { cellWidth: 18 }, // SRN
-            2: { cellWidth: 20 }, // Student
-            3: { cellWidth: 20 }, // Father
-            4: { cellWidth: 15 }, // Shirt Size
-            5: { cellWidth: 15 }, // Waist Size
-            6: { cellWidth: 15 }, // Waist to Bottom
-            7: { cellWidth: 15 }, // Shirt (empty box)
-            8: { cellWidth: 15 }, // Waist (empty box)
-            9: { cellWidth: 15 }, // Bottom (empty box)
-            10: { cellWidth: 25 } // Signature (empty box)
-        },
-        didDrawCell: function(data) {
-            // Draw borders around the empty boxes (columns 7, 8, 9, 10)
-            if (data.column.index >= 7 && data.column.index <= 10 && data.cell.section === 'body') {
-                doc.setDrawColor(0, 0, 0);
-                doc.setLineWidth(0.0);
-                doc.rect(data.cell.x, data.cell.y, data.cell.width, data.cell.height);
-            }
+//     // Create the table
+//     doc.autoTable({
+//         head: [["#", "SRN", "Student", "Father", 'Shirt (Chest size Inc")', 'Waist (size Inc")', 'Lower length (Inc")', 'Changed Shirt size (Inc")', 'Changed Waist size (Inc")', 'Changed lower length (Inc")', "Signature"]],
+//         body: dataToExport,
+//         startY: 30,
+//         styles: { 
+//             fontSize: 7,
+//             cellPadding: 1.5,
+//             lineColor: [0, 0, 0],
+//             lineWidth: 0.1
+//         },
+//         headStyles: { 
+//             fillColor: [200, 200, 200],
+//             textColor: [0, 0, 0],
+//             fontStyle: 'bold'
+//         },
+//         columnStyles: {
+//             0: { cellWidth: 8 },  // #
+//             1: { cellWidth: 18 }, // SRN
+//             2: { cellWidth: 20 }, // Student
+//             3: { cellWidth: 20 }, // Father
+//             4: { cellWidth: 15 }, // Shirt Size
+//             5: { cellWidth: 15 }, // Waist Size
+//             6: { cellWidth: 15 }, // Waist to Bottom
+//             7: { cellWidth: 15 }, // Shirt (empty box)
+//             8: { cellWidth: 15 }, // Waist (empty box)
+//             9: { cellWidth: 15 }, // Bottom (empty box)
+//             10: { cellWidth: 25 } // Signature (empty box)
+//         },
+//         didDrawCell: function(data) {
+//             // Draw borders around the empty boxes (columns 7, 8, 9, 10)
+//             if (data.column.index >= 7 && data.column.index <= 10 && data.cell.section === 'body') {
+//                 doc.setDrawColor(0, 0, 0);
+//                 doc.setLineWidth(0.0);
+//                 doc.rect(data.cell.x, data.cell.y, data.cell.width, data.cell.height);
+//             }
+//         }
+//     });
+
+//     // Add instructions at the bottom
+//     const finalY = doc.lastAutoTable.finalY + 10;
+//     doc.setFontSize(8);
+//     doc.setTextColor(100, 100, 100);
+//     doc.text("Instructions: Fill the blank boxes with correct measurements if previous sizes were incorrect. Students should sign in the signature column.", 14, finalY, { maxWidth: 180 });
+
+//     doc.save(`${title}.pdf`);
+// };
+
+
+
+
+
+
+ // New function for downloading Dress PDF
+    const handleDownloadDressPdf = () => {
+        if(schoolContext.value === undefined ){
+            alert('Please select school')
+            return
         }
-    });
 
-    // Add instructions at the bottom
-    const finalY = doc.lastAutoTable.finalY + 10;
-    doc.setFontSize(8);
-    doc.setTextColor(100, 100, 100);
-    doc.text("Instructions: Fill the blank boxes with correct measurements if previous sizes were incorrect. Students should sign in the signature column.", 14, finalY, { maxWidth: 180 });
+        const doc = new jsPDF();
+        
+        const schoolMeta = DistrictBlockSchool.find(s => s.schoolId === schoolContext.value);
+        const schoolName = schoolMeta?.schoolName || schoolContext.value;
+        
+        const title = `Dress_Size_Form_Class_${classContext.value || 'All'}_${date}`;
+        
+        doc.setFontSize(12);
+        doc.setTextColor(40, 40, 40);
+        doc.setFillColor(240, 240, 240);
+        doc.rect(10, 10, 190, 12, 'F');
+        doc.text(`DRESS SIZE MEASUREMENT IN INCHES (${schoolName})`, 105, 18, { align: 'center' });
+        
+        doc.setFontSize(10);
+        doc.setTextColor(100, 100, 100);
+        doc.text(`Class: ${classContext.value || 'All'} | Date: ${date}`, 105, 25, { align: 'center' });
+        
+        const dataToExport = attendanceData.map((record, index) => {
+            const dressInfo = dressSizes[record.studentSrn] || {};
+            return [
+                index + 1,
+                record.studentSrn,
+                record.studentDetails.firstName,
+                record.studentDetails.fatherName,
+                dressInfo.shirtSizeInInches || "",
+                dressInfo.waistSizeInInches || "",
+                dressInfo.waistToBottomLengthInInches || "",
+                "",
+                "",
+                "",
+                ""
+            ];
+        });
 
-    doc.save(`${title}.pdf`);
-};
+        doc.autoTable({
+            head: [["#", "SRN", "Student", "Father", 'Shirt (Chest size Inc")', 'Waist (size Inc")', 'Lower length (Inc")', 'Changed Shirt size (Inc")', 'Changed Waist size (Inc")', 'Changed lower length (Inc")', "Signature"]],
+            body: dataToExport,
+            startY: 30,
+            styles: { fontSize: 7, cellPadding: 1.5, lineColor: [0, 0, 0], lineWidth: 0.1 },
+            headStyles: { fillColor: [200, 200, 200], textColor: [0, 0, 0], fontStyle: 'bold' },
+            columnStyles: { 0:{cellWidth:8},1:{cellWidth:18},2:{cellWidth:20},3:{cellWidth:20},4:{cellWidth:15},5:{cellWidth:15},6:{cellWidth:15},7:{cellWidth:15},8:{cellWidth:15},9:{cellWidth:15},10:{cellWidth:25} },
+            didDrawCell: function(data) {
+                if (data.column.index >= 7 && data.column.index <= 10 && data.cell.section === 'body') {
+                    doc.setDrawColor(0, 0, 0);
+                    doc.setLineWidth(0.0);
+                    doc.rect(data.cell.x, data.cell.y, data.cell.width, data.cell.height);
+                }
+            }
+        });
+
+        // Add instructions
+        const finalY = doc.lastAutoTable.finalY + 10;
+        doc.setFontSize(8);
+        doc.setTextColor(100, 100, 100);
+        doc.text("Instructions: Fill the blank boxes with correct measurements if previous sizes were incorrect. Students should sign in the signature column.", 14, finalY, { maxWidth: 180 });
+
+        // Verified by Buniyaad Coordinator field at bottom right
+        const signatureY = doc.internal.pageSize.getHeight() - 20;
+        doc.setFontSize(10);
+        doc.text("Verified by Buniyaad Coordinator: ____________________", 115, signatureY);
+
+        doc.save(`${title}.pdf`);
+    };
 
     const showButtons = ["admin", "Project Coordinator", "Community Incharge", "Community Manager"].includes(userData?.role);
 
@@ -2742,10 +2818,6 @@ const handleDownloadDressPdf = () => {
 };
 
 export default AttendanceMB;
-
-
-
-
 
 
 
