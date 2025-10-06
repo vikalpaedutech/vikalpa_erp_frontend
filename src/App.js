@@ -117,6 +117,8 @@ import { MainBillPage } from "./components/Bills/MainBillPage.jsx";
 import VerifiedAndRejectedBills from "./components/Bills/VerifiedAndRejectedBills.jsx";
 import { UserMainLayout } from "./pages/UserScreens/UsersMainLayout.jsx";
 import { Gamification } from "./components/Gamification/Gamification.jsx";
+import { ERPtest } from "./components/ErpTest/ErpTest.jsx";
+
 function App() {
   
   return (
@@ -303,6 +305,10 @@ function App() {
                       <Route path="/award-points" element = {<Gamification/>}/>
 
 
+
+                        {/* ERP Test */}
+
+                       < Route path="/erp-test" element = {<ERPtest/>}/>
 
                   
 

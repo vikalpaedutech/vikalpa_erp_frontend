@@ -491,6 +491,8 @@
 // import { patchStudentBySrn } from "../../service/Student.service.js";
 
 
+// import { studentAttendance } from "../../service/ErpTest.services.js";
+
 
 // import jsPDF from "jspdf";
 
@@ -678,6 +680,10 @@
 //                 const response = await updateAttendanceBySrnAndDate(queryParamsForAttendance, isAttendanceMarked);
 //                 fetchStudentRelatedCounts(); // ✅ refresh counts after update
 
+//                 //erp test
+
+                
+                
 //             } catch (error) {
 //                 console.error("Error updating attendance", error.message);
 //             }
@@ -695,6 +701,9 @@
 
 //                 const response = await updateAttendanceBySrnAndDate(queryParamsForAttendance, isAttendanceMarked);
 //                 fetchStudentRelatedCounts(); // ✅ refresh counts after update
+
+//                 //erp test
+            
 
 //             } catch (error) {
 //                 console.error("Error updating attendance", error.message);
@@ -2111,6 +2120,13 @@ import jsPDF from "jspdf";
 
 import "jspdf-autotable";
 
+
+import { studentAttendance } from "../../service/ErpTest.services.js";
+
+//ERP Test helper function.
+
+import { ErpTestPageRouteBack } from "../ErpTest/erpTestRoutingBackToTestPage.jsx";
+
 const AttendanceMB = ({assignedDistricts, assignedBlocks, assignedSchools}) => {
 
     //Accessing context DistrictBlockSchool Context api. These are being used to filter attendance data dynamically
@@ -2169,7 +2185,7 @@ console.log(allSchoolIds);
 
     const payload = {
         schoolIds: allSchoolIds,
-        classFilters: userData.userAccess.classId,
+        classFilters: userData.userAccess.classId || [],
            
         startDate: date || new Date().toISOString().split("T")[0] + "T00:00:00.000+00:00",
         endDate: date || new Date().toISOString().split("T")[0] + "T00:00:00.000+00:00"
@@ -2326,6 +2342,29 @@ console.log(allSchoolIds);
 
 
 
+                //ERP Test
+              
+                //if marked absent again
+
+                if (userData.role === "hkrn"){
+
+                    
+                    const erpTestReqBody = {
+                    unqUserObjectId: userData?._id,
+                    schoolId: schoolContext.value,
+                    classOfCenter: classContext.value,
+                    userId: userData?.userId
+                }
+
+                const erpTestResponse = await studentAttendance(erpTestReqBody)
+
+                
+
+                }
+                
+
+                //-----------------------
+
                 //Updating student absentee calling gamification.
 
                 // const studentAbsenteeCallingGamificationrResponse = await studentAbsenteeCallingGamification(gamificationReqBody)
@@ -2357,6 +2396,36 @@ console.log(allSchoolIds);
                     userId: userData?.userId
                 }
                 const responseStudentAttendanceGamification = await studentAttendanceGamification(gamificationReqBody)
+
+
+                //ERP Test
+                //if marked present again
+                if (userData.role === "hkrn"){
+
+                    const erpTestReqBody = {
+                    unqUserObjectId: userData?._id,
+                    schoolId: schoolContext.value,
+                    classOfCenter: classContext.value,
+                    userId: userData?.userId
+                }
+
+                const erpTestResponse = await studentAttendance(erpTestReqBody)
+
+
+
+                
+
+                //function for routing back to test page after succesfully completting the task
+
+                 ErpTestPageRouteBack(userData, {keyStatus: 'Attendance'})
+
+
+
+                }
+                
+
+                //-----------------------
+
 
                 //Updating student absentee calling gamification.
 

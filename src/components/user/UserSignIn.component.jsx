@@ -65,11 +65,14 @@ export const UserSignIn = () => {
          navigate('/user-attendance-aci')
           // navigate('/user-attendance-updated')
 
-       } else if (response.data.role === 'CC') {
+       } else if (response.data.role === 'CC' || response.data.role === 'HKRN') {
           navigate('/user-attendance-updated')
        } else if (response.data.role === 'Community Manager'){
           navigate('/user-attendance-updated')
-       } 
+       } else if (response.data.role === "hkrn"){
+        navigate('/user-attendance-updated')
+
+       }
        else if (response.data.role === 'admin'){
           //navigate('/admin-dash')
           navigate('/user-dashboard')

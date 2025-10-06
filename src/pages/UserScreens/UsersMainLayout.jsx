@@ -920,35 +920,35 @@ const allSchoolIds = regions.flatMap(region =>
           label: "Attendance",
           logo: "/attendance.png",
           path: "mb-attendance",
-          accessedBy: ['MIS','ACI', 'Community Manager', 'Community Incharge', 'Project Coordinator', 'Admin', 'Tech', 'CC']
+          accessedBy: ['hkrn', 'MIS','ACI', 'Community Manager', 'Community Incharge', 'Project Coordinator', 'Admin', 'Tech', 'CC']
         },
         {
           id: "2",
           label: "Upload Marks",
           logo: "/exam.png",
           path: "upload-marks",
-          accessedBy: ['MIS','ACI', 'Community Manager', 'Community Incharge', 'Project Coordinator', 'Admin', 'Tech', 'CC']
+          accessedBy: ['hkrn','MIS','ACI', 'Community Manager', 'Community Incharge', 'Project Coordinator', 'Admin', 'Tech', 'CC']
         },
         {
           id: "3",
           label: "Disciplinary",
           logo: "/disciplinary.png",
           path: "student-disciplinary-or-interaction",
-          accessedBy: ['MIS','ACI', 'Community Manager', 'Community Incharge', 'Project Coordinator', 'Admin', 'Tech', 'CC']
+          accessedBy: ['hkrn','MIS','ACI', 'Community Manager', 'Community Incharge', 'Project Coordinator', 'Admin', 'Tech', 'CC']
         },
         {
           id: "4",
           label: "Copy-checking",
           logo: "/copy-checking.png",
           path: "copy-checking",
-          accessedBy: ['MIS','ACI', 'Community Manager', 'Community Incharge', 'Project Coordinator', 'Admin', 'Tech', 'CC']
+          accessedBy: ['hkrn','MIS','ACI', 'Community Manager', 'Community Incharge', 'Project Coordinator', 'Admin', 'Tech', 'CC']
         },
         {
           id: "5",
           label: "Manual Attendance",
           logo: "/upload.png",
           path: "manual-attendance",
-          accessedBy: ['MIS','ACI', 'Community Manager', 'Community Incharge', 'Project Coordinator', 'Admin', 'Tech', 'CC']
+          accessedBy: ['hkrn', 'MIS','ACI', 'Community Manager', 'Community Incharge', 'Project Coordinator', 'Admin', 'Tech', 'CC']
         },
         {
           id: "6",
@@ -982,10 +982,10 @@ const allSchoolIds = regions.flatMap(region =>
         'DTP', 'Video Grapher', 'Media Manager', 'Editor', 'HR', 'Technician']
         },
         { id: "3", label: "School Issues", logo: "/school.png", path: "school-concerns",
-            accessedBy: ['MIS','CC']
+            accessedBy: ['hkrn','MIS','CC']
          },
          { id: "4", label: "Tech Issues", logo: "/tech.png", path: "tech-concerns",
-             accessedBy: ['MIS','CC']
+             accessedBy: ['hkrn','MIS','CC']
           },
         {
           id: "2",
@@ -1056,7 +1056,7 @@ const allSchoolIds = regions.flatMap(region =>
           label: "Absentee Callings",
           logo: "/call.png",
           path: "absent-calling",
-          accessedBy: ['MIS','ACI', 'Community Manager', 'Community Incharge', 'Project Coordinator', 'Admin', 'Tech', 'CC']
+          accessedBy: ['hkrn', 'MIS','ACI', 'Community Manager', 'Community Incharge', 'Project Coordinator', 'Admin', 'Tech', 'CC']
         },
       ],
     },
@@ -1237,7 +1237,7 @@ const allSchoolIds = regions.flatMap(region =>
 
 <div>
       <div className="main-layout">
-        {["ACI", "CC", "Project Coordinator", "MIS", "Community Incharge", "Admin", "Community Manager"].includes(userData?.role) && (
+        {['hkrn',"ACI", "CC", "Project Coordinator", "MIS", "Community Incharge", "Admin", "Community Manager"].includes(userData?.role) && (
   <Carousel
     fade
     controls={true}

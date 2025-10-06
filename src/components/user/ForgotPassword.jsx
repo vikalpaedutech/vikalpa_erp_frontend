@@ -4,6 +4,8 @@ import axios from "axios";
 import { patchUserByContact, patchUserById } from "../../service/User.service";
 import { useLocation, useNavigate } from "react-router-dom";
 import { sendOtp } from "../../service/SendOtp.services";
+import { ChangePassword } from "../../service/ErpTest.services";
+import { UserAttendanceDash } from "./UserAttendanceDashboard";
 
 export const ForgotPassword = () => {
 
@@ -108,6 +110,7 @@ export const ForgotPassword = () => {
       console.log("PATCH API CALLED => ", { contact1, pin });
       alert("PIN updated successfully!");
         
+    
       navigate('/')
 
       setContact1("");

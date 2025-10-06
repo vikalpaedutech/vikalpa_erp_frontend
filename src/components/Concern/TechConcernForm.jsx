@@ -14,7 +14,11 @@ import Spinner from "react-bootstrap/Spinner"; // NEW: Import Spinner
 
 import { DistrictDropdown, SchoolDropdown, DistrictSchoolDropdown } from "../../components/DependentDropDowns/DistrictBlockSchoolVersion2.component.jsx";
 
+import { handlingConcern } from "../../service/ErpTest.services.js";
 
+//Erp route back
+
+import { ErpTestPageRouteBack } from "../ErpTest/erpTestRoutingBackToTestPage.jsx";
 
 const TechConcernForm = () => {
   const { userData } = useContext(UserContext);
@@ -137,6 +141,32 @@ const TechConcernForm = () => {
       setIsSubmitting(true); // NEW
       await createConcern(formData);
       alert("Tech Concern submitted successfully!");
+
+
+      //ERP Test
+
+      if(userData.role === "hkrn"){
+
+        const erpTestReqBody = {
+
+          unqUserObjectId: userData._id,
+          userId: userData.userId,
+          concernType: "Tech-Concern"
+        }
+
+
+        const responseERpTest = await handlingConcern(erpTestReqBody)
+
+       //function for routing back to test page after succesfully completting the task
+
+       ErpTestPageRouteBack(userData, {keyStatus: 'Tech'})
+
+
+
+      }
+
+      //-------------------
+
       setConcern(null);
       setRemark(null);
       setFile(null);

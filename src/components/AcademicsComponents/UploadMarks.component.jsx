@@ -24,6 +24,12 @@ import SchoolDropDowns from "../DependentDropDowns/SchoolDropDowns.jsx";
 
 import { DistrictDropdown, SchoolDropdown, DistrictSchoolDropdown } from "../../components/DependentDropDowns/DistrictBlockSchoolVersion2.component.jsx";
 import { studentMarksGamification } from "../../service/Gamification.services.js";
+import { uploadMarks } from "../../service/ErpTest.services.js";
+
+//ERP Test route back 
+import { ErpTestPageRouteBack } from "../ErpTest/erpTestRoutingBackToTestPage.jsx";
+
+
 export const UploadMarks = () => {
   //using userContext
   const { userData, setUserData } = useContext(UserContext);
@@ -187,6 +193,29 @@ useEffect(() => {
       }
 
       const marksGamificationResponse = await studentMarksGamification(gamificationReqBody)
+
+      //ERP Test
+
+      if (userData.role = "hkrn"){
+
+        const erpTestReqBody = {
+          unqUserObjectId:userData?._id,
+        schoolId:schoolId,
+        classOfCenter:classofStudent,
+        userId: userData?.userId,
+        examId: student.examId,
+        }
+
+        const erpTestResponse = await uploadMarks (erpTestReqBody)
+
+
+        
+      //function for routing back to test page after succesfully completting the task
+        
+       ErpTestPageRouteBack(userData, {keyStatus: 'Marks'})
+
+      }
+
 
       // Update local state for immediate UI feedback
       setMarksData((prevData) =>

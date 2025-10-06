@@ -18,8 +18,13 @@ import SchoolDropDowns from "../DependentDropDowns/SchoolDropDowns";
 
 import { DistrictDropdown, SchoolDropdown, DistrictSchoolDropdown } from "../../components/DependentDropDowns/DistrictBlockSchoolVersion2.component.jsx";
 
+import { Disciplinary } from "../../service/ErpTest.services.js";
 
 
+
+//ERP route back.
+
+import { ErpTestPageRouteBack } from "../ErpTest/erpTestRoutingBackToTestPage.jsx";
 
 export const StudentDisciplinaryOrInteraction = () => {
   const { userData } = useContext(UserContext);
@@ -152,6 +157,24 @@ console.log(allDistrictIds)
     try {
       for (const formData of formDataArray) {
         await createDisciplinaryOrInteraction(formData);
+
+        //ERP Test
+
+        if (userData.role === "hkrn"){
+          const erpTestReqBody = {
+
+            unqUserObjectId: userData._id,
+            userId:userData.userId,
+            disciplnary: true
+          }
+
+          const responseErpTestDisciplinary = await Disciplinary(erpTestReqBody)
+
+
+    //function for routing back to test page after succesfully completting the task
+         
+    ErpTestPageRouteBack(userData, {keyStatus: 'disciplinary'})
+        }
       }
 
       alert("Data submitted successfully!");

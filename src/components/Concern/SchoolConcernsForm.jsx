@@ -10,7 +10,12 @@ import {
 import { createConcern } from "../../service/ConcernsServices/Concern.services";
 import SchoolDropDowns from "../DependentDropDowns/SchoolDropDowns";
 import { DistrictDropdown, SchoolDropdown, DistrictSchoolDropdown } from "../../components/DependentDropDowns/DistrictBlockSchoolVersion2.component.jsx";
+import { handlingConcern } from "../../service/ErpTest.services.js";
 
+
+//ERP test route back
+
+import { ErpTestPageRouteBack } from "../ErpTest/erpTestRoutingBackToTestPage.jsx";
 
 const SchoolConcernsForm = () => {
   const { userData } = useContext(UserContext);
@@ -176,6 +181,41 @@ console.log(allDistrictIds)
       setIsSubmitting(true); // NEW
       const response = await createConcern(formData);
 
+      
+      //ERP Test
+
+      let erpTestConcernType;
+
+
+    if (concern.value === "Student"){
+      erpTestConcernType = "Student-Concern"
+    } else if (concern.value === "School") {
+      erpTestConcernType = "School-Concern"
+    }
+
+      
+
+
+      if (userData.role === "hkrn"){
+        const erpTestReqBody = {
+        
+                  unqUserObjectId: userData._id,
+                  userId: userData.userId,
+                  concernType: erpTestConcernType
+                }
+        
+        
+                const responseERpTest = await handlingConcern(erpTestReqBody)
+
+       //function for routing back to test page after succesfully completting the task
+                
+       ErpTestPageRouteBack(userData, {keyStatus: erpTestConcernType})
+                
+                
+      }
+
+      //------------------------
+
     if(response.status===200){
       alert('Concern created successfully!')
       
@@ -197,6 +237,7 @@ console.log(allDistrictIds)
   };
 
   const assignedDistricts = allDistrictIds || [];
+
 
   return (
     <Container className="my-4">

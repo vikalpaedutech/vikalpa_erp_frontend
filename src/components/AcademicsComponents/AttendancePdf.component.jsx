@@ -14,6 +14,11 @@ import jsPDF from "jspdf";
 import { DistrictDropdown, SchoolDropdown, DistrictSchoolDropdown } from "../../components/DependentDropDowns/DistrictBlockSchoolVersion2.component.jsx";
 
 import { attendancePdfGamification } from "../../service/Gamification.services.js";
+import { uploadAttendancePdfFormat } from "../../service/ErpTest.services.js";
+
+
+//Erp test route back
+import { ErpTestPageRouteBack } from "../ErpTest/erpTestRoutingBackToTestPage.jsx";
 
 export const AttendancePdf = () => {
   const { userData } = useContext(UserContext);
@@ -195,6 +200,28 @@ const allDistrictIds = regions.flatMap(region =>
       }
 
       const attendancePdfGamificationResponst = await attendancePdfGamification(gamificationReqBody)
+
+
+      //ERP Test
+
+      if (userData.role === "hkrn"){
+        const erpTestReqBody = {
+
+      unqUserObjectId: userData?._id,
+        schoolId: row.schoolId,
+        classofStudent: row.classofStudent,
+        userId: userData?.userId
+      }
+
+      const erpTestResponse = await uploadAttendancePdfFormat(erpTestReqBody)
+
+  //function for routing back to test page after succesfully completting the task
+      
+      ErpTestPageRouteBack(userData, {keyStatus: 'Attendance'})
+      
+      
+
+      }
 
     } catch (error) {
       alert("Failed to upload file.");

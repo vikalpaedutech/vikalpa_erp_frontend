@@ -12,6 +12,8 @@ import { Modal, Button, Card, Spinner } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { selfAttendanceGamification } from "../../service/Gamification.services";
 
+import { selfAttendance } from "../../service/ErpTest.services";
+
 export const UserAttendanceUpdated = () => {
   const navigate = useNavigate();
   const { userData } = useContext(UserContext);
@@ -195,21 +197,60 @@ const handleClose = () =>{
         await fetchUserAttendanceData();
 
 
+      
+        if (userData.role === "CC"){
+
+
+          alert('gamification')
+
+          //Below gamifcation setup
         const gamificationReqBOdy = {
           unqUserObjectId: userData._id,
           date: new Date()
         }
+      
+        alert(userData.role)
 
         const gamificationResponse = await selfAttendanceGamification(gamificationReqBOdy)
         
         console.log(gamificationReqBOdy.data)
+
+        //--------------------------------------------------------
+
+        }
+
+        
+
+
+        //Below ERP TEST DATA
+
+         
+
+        if (userData.role === "hkrn"){
+
+          // alert('hi hkrn')
+       
+
+          const erpTestReqBody = {
+          unqUserObjectId: userData._id,
+          userId: userData.userId,
+          selfAttendance: true
+        }
+
+        const erpTestResponse = await selfAttendance (erpTestReqBody);
+
+        navigate('/erp-test')
+        }
+
+        
+
 
       } else {
         throw new Error("Attendance not saved");
       }
     } catch (err) {
       console.log("❌ Error marking attendance:", err.message);
-      alert("❌ इंटरनेट की समस्या है, कृपया पुनः प्रयास करें या अपने वरिष्ठ से संपर्क करें।");
+      // alert("❌ इंटरनेट की समस्या है, कृपया पुनः प्रयास करें या अपने वरिष्ठ से संपर्क करें।");
     } finally {
       setIsSubmitting(false);
     }

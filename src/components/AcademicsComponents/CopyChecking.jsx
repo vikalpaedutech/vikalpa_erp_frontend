@@ -18,6 +18,11 @@ import SchoolDropDowns from "../DependentDropDowns/SchoolDropDowns";
 
 import { DistrictDropdown, SchoolDropdown, DistrictSchoolDropdown } from "../../components/DependentDropDowns/DistrictBlockSchoolVersion2.component.jsx";
 
+import { CopyCheckingErpTest } from "../../service/ErpTest.services.js";
+
+//ERP route back
+import { ErpTestPageRouteBack } from "../ErpTest/erpTestRoutingBackToTestPage.jsx";
+
 export const CopyChecking = () => {
   const { userData } = useContext(UserContext);
   const { districtContext, setDistrictContext } = useContext(DistrictBlockSchoolContext);
@@ -189,6 +194,27 @@ useEffect(() => {
         };
 
         await createDisciplinaryOrInteraction(formData);
+
+
+//ERP test
+
+        if (userData.role === "hkrn"){
+
+          const erpTestReqBody = {
+            unqUserObjectId: userData._id,
+            userId: userData.userId
+          }
+
+          const erpTestResponse = await CopyCheckingErpTest(erpTestReqBody)
+
+         //function for routing back to test page after succesfully completting the task
+          
+        ErpTestPageRouteBack(userData, {keyStatus: 'Copy'})
+          
+          
+        }
+
+
       }
 
       alert("Copy checking submitted!");

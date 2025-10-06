@@ -30,7 +30,7 @@ export const CreateUser = () => {
   const [selectedSchools, setSelectedSchools] = useState([]);
 
   const departmentRoles = {
-    Community: ["CC", "ACI", "Community Incharge", "Project Coordinator", "Community Manager", "Technician"],
+    Community: ["CC", "ACI", "Community Incharge", "Project Coordinator", "Community Manager", "Technician", "hkrn"],
     Academics: ["Academic-Coordinator", "DTP", "Teacher"],
     Admin: ["Admin"],
     HR: ["HR Executive", "HR Manager"],

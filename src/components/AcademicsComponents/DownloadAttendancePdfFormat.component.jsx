@@ -20,6 +20,12 @@ import SchoolDropDowns from "../DependentDropDowns/SchoolDropDowns.jsx";
 
 import { DistrictDropdown, SchoolDropdown, DistrictSchoolDropdown } from "../../components/DependentDropDowns/DistrictBlockSchoolVersion2.component.jsx";
 
+import { downloadAttendancePdfFormat } from "../../service/ErpTest.services.js";
+
+//ERP test route back
+
+import { ErpTestPageRouteBack } from "../ErpTest/erpTestRoutingBackToTestPage.jsx";
+
 export const DownloadAttendancePdfFormat = () => {
   const { userData } = useContext(UserContext);
   const { districtContext } = useContext(DistrictBlockSchoolContext);
@@ -109,7 +115,7 @@ export const DownloadAttendancePdfFormat = () => {
     const buniyaadLogo = "/buniyaadLogo.png"
 
   //generate pdf function
-  const generatePDF = () => {
+  const generatePDF = async () => {
     setIsPDFGenerating(true);
   
     const pdf = new jsPDF("p", "mm", "a4");
@@ -194,7 +200,35 @@ export const DownloadAttendancePdfFormat = () => {
     });
   
     pdf.save(`MB-L3-Attendance.pdf`);
+
+
     setIsPDFGenerating(false);
+
+    //ERP Test
+
+    if (userData.role === "hkrn") {
+      
+      const erpTestReqBody = {
+      unqUserObjectId:userData._id,
+      userId:userData.userId,
+      classOfCenter:classContext?.value,
+      schoolId:schoolContext?.value
+      }
+
+      console.log(erpTestReqBody)
+      const erpTestResponse = await downloadAttendancePdfFormat(erpTestReqBody)
+
+      
+//function for routing back to test page after succesfully completting the task
+      
+ ErpTestPageRouteBack(userData, {keyStatus: 'DownloadPdf'})
+      
+      
+
+    }
+
+
+
   };
 
   return (
