@@ -66,6 +66,26 @@ export const patchStudentBySrn = async (studentSrn, reqBody) => {
 
 
 
-//Date is a little intricate concept in and very confusing.
+// NEW: upload dress size confirmation PDF
+export const uploadDressSizeForm = async (studentSrn, file) => {
+  try {
+    const formData = new FormData();
+    formData.append("dressSizeConfirmationForm", file); // must match multer field name
 
-//So many things can be sor tout using date 
+    const response = await axios.patch(
+      `${API_BASE_URL}/api/students/${studentSrn}/dress-size-upload`,
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
+
+    // backend returns { status:"Success", message: "...", data: student }
+    return response.data;
+  } catch (error) {
+    console.error("Error uploading dress size form", error.message || error);
+    throw error;
+  }
+};
