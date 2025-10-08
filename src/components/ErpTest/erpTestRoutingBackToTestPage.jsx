@@ -24,7 +24,7 @@ const reqBody = {
 
 if (keyStatus.keyStatus === "Attendance") {
 
-    if (response.data[0].studentAttendanceCount >=10){
+    if (response.data[0].studentAttendanceCount >=26){
       
 
         window.location.href = "/erp-test";

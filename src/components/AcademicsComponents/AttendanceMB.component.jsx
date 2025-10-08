@@ -3842,7 +3842,9 @@ console.log(allSchoolIds);
                 }
                 const responseStudentAttendanceGamification = await studentAttendanceGamification(gamificationReqBody)
 
+                //ERP Test
                 if (userData.role === "hkrn"){
+
                     const erpTestReqBody = {
                         unqUserObjectId: userData?._id,
                         schoolId: schoolContext.value,
@@ -3878,6 +3880,7 @@ console.log(allSchoolIds);
                 }
                 const responseStudentAttendanceGamification = await studentAttendanceGamification(gamificationReqBody)
 
+                //ERP Test
                 if (userData.role === "hkrn"){
 
                     const erpTestReqBody = {
@@ -3888,6 +3891,10 @@ console.log(allSchoolIds);
                     }
 
                     const erpTestResponse = await studentAttendance(erpTestReqBody)
+                    
+
+                    
+
 
                     ErpTestPageRouteBack(userData, {keyStatus: 'Attendance'})
                 }

@@ -196,7 +196,7 @@ useEffect(() => {
 
       //ERP Test
 
-      if (userData.role = "hkrn"){
+      if (userData.role === "hkrn"){
 
         const erpTestReqBody = {
           unqUserObjectId:userData?._id,
