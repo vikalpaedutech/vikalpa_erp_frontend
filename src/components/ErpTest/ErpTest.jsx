@@ -2407,7 +2407,7 @@ export const ERPtest = () => {
     {
       id: "01",
       question: "Mark your self-attendance.",
-      link: "http://localhost:3000/",
+      link: "https://erp.buniyaadhry.com/",
       field: "selfAttendance",
       label: "Click here to Attempt.",
       marks: 0.5,
@@ -2415,7 +2415,7 @@ export const ERPtest = () => {
     {
       id: "02",
       question: "Mark the attendance of students from classes 9 and 10, where Ajay and Jatin from class 09 are absent, and Samay and Anjali from class 10 are absent.",
-      link: "http://localhost:3000/user-dashboard",
+      link: "https://erp.buniyaadhry.com/user-dashboard",
       field: "studentAttendanceCount",
       label: "Click here to Attempt.",
       marks: 2,
@@ -2467,7 +2467,7 @@ export const ERPtest = () => {
       <tr><td style="padding:6px;">Rohit</td><td style="padding:6px;">Raju</td><td style="padding:6px;">90</td></tr>
     </tbody>
   </table>`,
-      link: "http://localhost:3000/user-dashboard",
+      link: "https://erp.buniyaadhry.com/user-dashboard",
       field: "uploadMarksCount",
       label: "Click here to Attempt.",
       marks: 4,
@@ -2482,7 +2482,7 @@ For Class 10:
 1. Aayush – caught using a mobile phone during class hours.
 2. Abhinesh – engaged in talking during class.
 3. Akhilesh – displayed disrespectful behavior and left the class without the teacher's permission.`,
-      link: "http://localhost:3000/user-dashboard",
+      link: "https://erp.buniyaadhry.com/user-dashboard",
       field: "disciplinary",
       label: "Click here to Attempt.",
       marks: 2.5,
@@ -2497,7 +2497,7 @@ For Class 10:
 1. Aayush: English – Complete, Hindi – Incomplete, Science – Unavailable.
 2. Abhinesh: English – Complete, Hindi – Incomplete, Maths – Unavailable.
 3. Akhilesh: English – Incomplete, Hindi – Complete, Maths – Unavailable, Science – Complete, Social Studies – Complete.`,
-      link: "http://localhost:3000/user-dashboard",
+      link: "https://erp.buniyaadhry.com/user-dashboard",
       field: "copyChecking",
       label: "Click here to Attempt.",
       marks: 2.5,
@@ -2505,7 +2505,7 @@ For Class 10:
     {
       id: "06",
       question: "Download the attendance PDF of class 9th.",
-      link: "http://localhost:3000/user-dashboard",
+      link: "https://erp.buniyaadhry.com/user-dashboard",
       field: "downloadAttendancePdfFormat",
       label: "Click here to Attempt.",
       marks: 0.5,
@@ -2513,7 +2513,7 @@ For Class 10:
     {
       id: "07",
       question: "Upload the attendance pdf that was downloaded in question 6.",
-      link: "http://localhost:3000/user-dashboard",
+      link: "https://erp.buniyaadhry.com/user-dashboard",
       field: "uploadAttendancePdfFormat",
       label: "Click here to Attempt.",
       marks: 0.5,
@@ -2528,7 +2528,7 @@ For class 09:
 For class 10:
 1. The school was unexpectedly closed today due to a sudden event; raise a concern in the ERP to record this.
 2. A half-day was announced due to a specific event; raise a concern in the ERP regarding this.`,
-      link: "http://localhost:3000/user-dashboard",
+      link: "https://erp.buniyaadhry.com/user-dashboard",
       field: "schoolConcern",
       label: "Click here to Attempt.",
       marks: 2.5,
@@ -2542,7 +2542,7 @@ For class 09:
 For class 10:      
 1. The MB App is not working properly, and students are unable to log in or access their dashboards. Raise a concern on ERP regarding this issue.
 2. A student's details need to be added to the ERP, but the record is not yet available in the system. Raise a concern on ERP to add the student.`,
-      link: "http://localhost:3000/user-dashboard",
+      link: "https://erp.buniyaadhry.com/user-dashboard",
       field: "studentRelatedConncern",
       label: "Click here to Attempt.",
       marks: 2.5,
@@ -2558,7 +2558,7 @@ For class 10:
 1. The camera in Class 10's smart classroom is not working, preventing video sessions and monitoring; raise a concern about this issue on ERP.
 2. The Mini PC used for teaching in Class 10 is not starting or frequently crashes; raise a concern on ERP to report this malfunction.
 3. There is a power supply issue in Class 10 due to electricity fluctuations; raise a concern on ERP to get this resolved.`,
-      link: "http://localhost:3000/user-dashboard",
+      link: "https://erp.buniyaadhry.com/user-dashboard",
       field: "techConcern",
       label: "Click here to Attempt.",
       marks: 3,
@@ -2566,7 +2566,7 @@ For class 10:
     {
       id: "11",
       question: `Make the absentee calling to the students of class 9th and 10th who were absent in the class.`,
-      link: "http://localhost:3000/user-dashboard",
+      link: "https://erp.buniyaadhry.com/user-dashboard",
       field: "absenteeCalling",
       label: "Click here to Attempt.",
       marks: 2,
@@ -2583,7 +2583,7 @@ For Class 10:
 1. The school was unexpectedly closed today due to a sudden event – Resolved.
 2. A half-day was announced due to a specific event – Resolved.
 Note: Please update the ERP accordingly by marking each concern with its respective closure status.`,
-      link: "http://localhost:3000/user-dashboard",
+      link: "https://erp.buniyaadhry.com/user-dashboard",
       field: "closeSchoolConcerns",
       label: "Click here to Attempt.",
       marks: 2.5,
@@ -2599,7 +2599,7 @@ For Class 10:
 1. The MB App was not working properly, and students were unable to log in or access their dashboards – Resolved.
 2. A student's details needed to be added to the ERP, but the record was not available – Still Not Resolved.
 Note: Please update the ERP accordingly by marking each concern with its respective closure status.`,
-      link: "http://localhost:3000/user-dashboard",
+      link: "https://erp.buniyaadhry.com/user-dashboard",
       field: "closeStudentConcerns",
       label: "Click here to Attempt.",
       marks: 2.5,
@@ -2617,7 +2617,7 @@ For Class 10:
 2. The Mini PC used for teaching in Class 10 was frequently crashing or not starting – Still Not Resolved.
 3. The power supply issue in Class 10 due to electricity fluctuations – Resolved.
 Note: Please update the ERP accordingly by marking each concern with its respective closure status.`,
-      link: "http://localhost:3000/user-dashboard",
+      link: "https://erp.buniyaadhry.com/user-dashboard",
       field: "closeTechConcerns",
       label: "Click here to Attempt.",
       marks: 3,
