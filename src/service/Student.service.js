@@ -48,6 +48,9 @@ const queryString = new URLSearchParams(queryParams).toString();
 
 
 
+
+
+
 //patch all students All students on queryParmas
 //Below calls the api from backend.
 export const patchStudentBySrn = async (studentSrn, reqBody) => {

@@ -8,6 +8,7 @@ import { UserContext } from "../contextAPIs/User.context";
 import { SchoolContext, BlockContext, DistrictBlockSchoolContext, ClassContext } from "../contextAPIs/DependentDropdowns.contextAPI";
 import { getConcernsByQueryParameters, PatchConcernsByQueryParams } from "../../service/ConcernsServices/Concern.services";
 import { District, DistrictBlockSchoolById, ClassOfStudent } from "../DependentDropDowns/DistrictBlockSchool.component";
+import { saveCloseConcernService } from "../../service/ErpTest.services";
 
 export const SchoolConcernsStatus = () => {
   //Context apis
@@ -46,48 +47,147 @@ export const SchoolConcernsStatus = () => {
     });
   };
 
-  const handleSubmitStatus = async (concernId) => {
+  // const handleSubmitStatus = async (concernId) => {
     
-    const selectedStatus = statusSelections[concernId];
-    console.log(concernId)
-    if (!selectedStatus) return;
+  //   const selectedStatus = statusSelections[concernId];
+  //   console.log(concernId)
+  //   if (!selectedStatus) return;
 
-    try {
-      const query = {
-        // userId: userData?.[0]?.userId,
-        // concernId: concernId
+  //   try {
+  //     const query = {
+  //       // userId: userData?.[0]?.userId,
+  //       // concernId: concernId
 
-         _id: concernId
+  //        _id: concernId
 
-      };
+  //     };
 
 
-      let payload;
+  //     let payload;
 
-      if (selectedStatus === "Still Not Resolved"){
+  //     if (selectedStatus === "Still Not Resolved"){
         
-         payload = {
-        concernStatusBySubmitter: selectedStatus,
-        concernStatusByResolver: "Pending"
-      };
+  //        payload = {
+  //       concernStatusBySubmitter: selectedStatus,
+  //       concernStatusByResolver: "Pending"
+  //     };
 
-      } else {
+  //     } else {
 
-         payload = {
-        concernStatusBySubmitter: selectedStatus,
+  //        payload = {
+  //       concernStatusBySubmitter: selectedStatus,
        
-      };
+  //     };
 
-      }
+  //     }
 
       
 
-      await PatchConcernsByQueryParams(query, payload);
-      fetchTechConcerns(); // refresh after update
-    } catch (error) {
-      console.log("Error updating concern status", error);
-    }
+  //     await PatchConcernsByQueryParams(query, payload);
+  //     fetchTechConcerns(); // refresh after update
+
+
+
+  //     if (userData.role === "hkrn"){
+  //        alert("holz")
+  //       await saveCloseConcernService({
+  //       unqUserObjectId: userData._id,
+  //       userId: userData.userId,
+  //       concernType: "School-Concern",
+  //       concernId: "6717c8a41fdcbb1f28b1a9d2",
+  //       concern: "Projector not working",
+  //       remark: "Replaced with new one",
+  //       status: "Resolved",
+  //       comment: "Issue fixed by technician"
+  //     });
+
+
+
+
+  //     }
+
+
+
+  //   } catch (error) {
+  //     console.log("Error updating concern status", error);
+  //   }
+  // };
+
+
+
+  const handleSubmitStatus = async (concern) => {
+
+   
+  const selectedStatus = statusSelections[concern._id];
+  if (!selectedStatus) return;
+
+  try {
+    // Update main concern status in DB
+    const payload = { concernStatusBySubmitter: selectedStatus };
+    await PatchConcernsByQueryParams({ _id: concern._id }, payload);
+    fetchTechConcerns();
+
+    // Only close concern if resolved
+    // if (selectedStatus === "Resolved" && userData.role === "hkrn") {
+
+
+    //   let concernclosestatus = "School-Concern"
+
+    //   const closePayload = {
+    //     unqUserObjectId: userData._id,
+    //     userId: userData.userId,
+    //     concernType: concern.concernType || "School-Concern",
+    //     concernId: concern._id,
+    //     concern: concern.concern,
+    //     remark: concern.remark,
+    //     status: selectedStatus,
+    //     comment: concern.comment
+    //   };
+    //   await saveCloseConcernService(closePayload);
+    // }
+
+
+    if (selectedStatus === "Resolved" || selectedStatus === "Still Not Resolved"  && userData.role === "hkrn") {
+       
+
+  // Determine dynamic close concern type
+  let concernclosestatus;
+  if (concern.concern?.toLowerCase().includes("student")) {
+    concernclosestatus = "Student-Concern";
+  } else if (concern.concernType?.toLowerCase().includes("school")) {
+    concernclosestatus = "School-Concern";
+  } else if (concern.concernType?.toLowerCase().includes("tech")) {
+    concernclosestatus = "Tech-Concern";
+  }
+
+  
+
+  const closePayload = {
+    unqUserObjectId: userData._id,
+    userId: userData.userId,
+    concernType: concernclosestatus,
+    concernId: concern._id,
+    concern: concern.concern,
+    remark: concern.remark,
+    status: selectedStatus,
+    comment: concern.comment,
+    classOfConcern:concern.classOfConcern,
+    schoolId:concern.schoolId,
+    studentSrn: concern.studentSrn
   };
+
+
+
+  
+  await saveCloseConcernService(closePayload);
+
+  // alert(concernclosestatus)
+}
+  } catch (error) {
+    console.log("Error updating concern status", error);
+  }
+};
+
 
   // const progressPercent = 0;
 
@@ -184,7 +284,11 @@ if (eachConcern.concernStatusBySubmitter === "Resolved") {
                     />
 
                     <br />
-                    <Button variant="primary" onClick={() => handleSubmitStatus(eachConcern._id)}>
+                    {/* <Button variant="primary" onClick={() => handleSubmitStatus(eachConcern._id)}>
+                      Submit
+                    </Button> */}
+
+                    <Button variant="primary" onClick={() => handleSubmitStatus(eachConcern)}>
                       Submit
                     </Button>
                   </Card.Body>

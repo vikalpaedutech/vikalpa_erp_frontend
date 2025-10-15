@@ -80,6 +80,7 @@ import SchoolConcernsForm from "./components/Concern/SchoolConcernsForm.jsx"
 import TechConcerns from "./components/Concern/TechConcerns.jsx";
 import { UserAttendanceUpdated } from "./components/user/UpdatedUserAttendance.jsx";
 import { NewNavbar } from "./components/Navbar/NewNavbar.jsx";
+import { Footer } from "./components/Navbar/ErpTestFooter.jsx";
 import { AbsentCalling } from "./Callings/AbsentCalling.jsx";
 import LayoutWithNewNavbar from "./components/Navbar/LayoutWithNewNavbar.jsx";
 import MainLayoutAciLevel from "./pages/UserScreens/MainLayoutAciLevel.jsx";

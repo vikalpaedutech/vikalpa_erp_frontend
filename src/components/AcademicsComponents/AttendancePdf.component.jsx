@@ -217,7 +217,7 @@ const allDistrictIds = regions.flatMap(region =>
 
   //function for routing back to test page after succesfully completting the task
       
-      ErpTestPageRouteBack(userData, {keyStatus: 'Attendance'})
+      // ErpTestPageRouteBack(userData, {keyStatus: 'Attendance'})
       
       
 

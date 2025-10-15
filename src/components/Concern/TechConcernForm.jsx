@@ -7,6 +7,7 @@ import {
   BlockContext,
   SchoolContext,
   SchoolProvider,
+  ClassContext,
 } from "../contextAPIs/DependentDropdowns.contextAPI";
 import { createConcern } from "../../service/ConcernsServices/Concern.services";
 import SchoolDropDowns from "../DependentDropDowns/SchoolDropDowns";
@@ -145,25 +146,52 @@ const TechConcernForm = () => {
 
       //ERP Test
 
-      if(userData.role === "hkrn"){
+      // if(userData.role === "hkrn"){
 
+      //   const erpTestReqBody = {
+
+      //     unqUserObjectId: userData._id,
+      //     userId: userData.userId,
+      //     concernType: "Tech-Concern"
+      //   }
+
+
+      //   const responseERpTest = await handlingConcern(erpTestReqBody)
+
+      //  //function for routing back to test page after succesfully completting the task
+
+      //  ErpTestPageRouteBack(userData, {keyStatus: 'Tech'})
+
+
+
+      // }
+
+      let erpTestConcernType = 'Tech-Concern'
+
+
+         if (userData.role === "hkrn"){
         const erpTestReqBody = {
-
           unqUserObjectId: userData._id,
           userId: userData.userId,
-          concernType: "Tech-Concern"
+          concernType: erpTestConcernType,              // "School-Concern" or "Student-Concern"
+          concern: concern.value,                        // "School" or "Student"
+          remark: remark.value,                          // remark selected in UI
+          classOfConcern: ClassContext.value,          // class selected
+          schoolId: schoolSelected.value,                // school id
+          dateOfSubmission: currentDate,
+          comment: comment || null,
+          // studentSrn: concern.value === "Student" ? studentSrn : null
         }
-
-
+      
         const responseERpTest = await handlingConcern(erpTestReqBody)
-
-       //function for routing back to test page after succesfully completting the task
-
-       ErpTestPageRouteBack(userData, {keyStatus: 'Tech'})
-
-
-
+      
+        //function for routing back to test page after succesfully completting the task
+        // ErpTestPageRouteBack(userData, {keyStatus: erpTestConcernType})
       }
+
+
+
+
 
       //-------------------
 

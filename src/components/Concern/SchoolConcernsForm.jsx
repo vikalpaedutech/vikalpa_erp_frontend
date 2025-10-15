@@ -196,23 +196,46 @@ console.log(allDistrictIds)
       
 
 
-      if (userData.role === "hkrn"){
-        const erpTestReqBody = {
+      // if (userData.role === "hkrn"){
+      //   const erpTestReqBody = {
         
-                  unqUserObjectId: userData._id,
-                  userId: userData.userId,
-                  concernType: erpTestConcernType
-                }
+      //             unqUserObjectId: userData._id,
+      //             userId: userData.userId,
+      //             concernType: erpTestConcernType
+      //           }
         
         
-                const responseERpTest = await handlingConcern(erpTestReqBody)
+      //           const responseERpTest = await handlingConcern(erpTestReqBody)
 
-       //function for routing back to test page after succesfully completting the task
+      //  //function for routing back to test page after succesfully completting the task
                 
-       ErpTestPageRouteBack(userData, {keyStatus: erpTestConcernType})
+      //  ErpTestPageRouteBack(userData, {keyStatus: erpTestConcernType})
                 
                 
-      }
+      // }
+
+
+
+
+      if (userData.role === "hkrn"){
+  const erpTestReqBody = {
+    unqUserObjectId: userData._id,
+    userId: userData.userId,
+    concernType: erpTestConcernType,              // "School-Concern" or "Student-Concern"
+    concern: concern.value,                        // "School" or "Student"
+    remark: remark.value,                          // remark selected in UI
+    classOfConcern: classOfConcern.value,          // class selected
+    schoolId: schoolSelected.value,                // school id
+    dateOfSubmission: currentDate,
+    comment: comment || null,
+    studentSrn: concern.value === "Student" ? studentSrn : null
+  }
+
+  const responseERpTest = await handlingConcern(erpTestReqBody)
+
+  //function for routing back to test page after succesfully completting the task
+  // ErpTestPageRouteBack(userData, {keyStatus: erpTestConcernType})
+}
 
       //------------------------
 

@@ -9,6 +9,8 @@ import { UserContext } from "../contextAPIs/User.context";
 import { SchoolContext, BlockContext, DistrictBlockSchoolContext, ClassContext } from "../contextAPIs/DependentDropdowns.contextAPI";
 import { getConcernsByQueryParameters, PatchConcernsByQueryParams } from "../../service/ConcernsServices/Concern.services";
 
+import { saveCloseConcernService } from "../../service/ErpTest.services";
+
 export const TechConcernsStatus = () => {
   const { userData } = useContext(UserContext);
   const { districtContext } = useContext(DistrictBlockSchoolContext);
@@ -77,7 +79,49 @@ export const TechConcernsStatus = () => {
     try {
       await PatchConcernsByQueryParams(query, payload);
       fetchTechConcerns();
+
+      
+          if (selectedStatus === "Resolved" || selectedStatus === "Not Resolved"  && userData.role === "hkrn") {
+             
+      
+        // Determine dynamic close concern type
+        let concernclosestatus;
+        if (concernObj.concern?.toLowerCase().includes("student")) {
+          concernclosestatus = "Student-Concern";
+        } else if (concernObj.concernType?.toLowerCase().includes("school")) {
+          concernclosestatus = "School-Concern";
+        } else if (concernObj.concernType?.toLowerCase().includes("tech")) {
+          concernclosestatus = "Tech-Concern";
+        }
+      
+        // alert(concernclosestatus)
+      
+        const closePayload = {
+          unqUserObjectId: userData._id,
+          userId: userData.userId,
+          concernType: concernclosestatus,
+          concernId: concernObj._id,
+          concern: concernObj.concern,
+          remark: concernObj.remark,
+          status: selectedStatus,
+          comment: concernObj.comment,
+          classOfConcern:concernObj.classOfConcern,
+          schoolId:concernObj.schoolId,
+          studentSrn: concernObj.studentSrn
+        };
+      
+      
+      
+        
+        await saveCloseConcernService(closePayload);}
+
+
       setCommentInputs(prev => ({ ...prev, [concernId]: '' }));
+
+      
+      
+
+
     } catch (error) {
       console.log("Error updating concern status", error);
     }

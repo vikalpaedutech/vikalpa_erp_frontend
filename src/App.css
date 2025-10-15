@@ -1569,3 +1569,26 @@ p {
     font-size: 1rem;
   }
 }
+
+
+
+
+
+
+
+
+/* In App.css or global styles */
+html, body, #root {
+  height: 185%;
+  margin: 0;
+}
+
+.app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.content {
+  flex: 1; /* Fills available space, pushes footer down */
+}

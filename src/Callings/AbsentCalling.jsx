@@ -424,6 +424,8 @@ import {
 import Select from "react-select";
 import SchoolDropDowns from "../components/DependentDropDowns/SchoolDropDowns.jsx";
 import { UserContext } from "../components/contextAPIs/User.context.js";
+import { saveAbsenteeCallingService } from "../service/ErpTest.services.js";
+
 
 export const AbsentCalling = ({
   assignedDistricts,
@@ -572,6 +574,40 @@ export const AbsentCalling = ({
       }
       
       const studentAbsenteeCallingGamificationrResponse = await studentAbsenteeCallingGamification(gamificationReqBody)
+
+
+
+
+    if (userData.role === "hkrn") {
+  try {
+    const srn = studentRecord?.studentDetails?.studentSrn || studentRecord?.studentSrn;
+    const name = studentRecord?.studentDetails?.firstName || studentRecord?.firstName;
+
+    const currentStatus = callingStatus[srn] || {};
+
+    const payload = {
+      unqUserObjectId: userData?._id,
+      userId: userData?.userId,
+      studentSrn: srn,
+      studentName: name,
+      status: currentStatus.status?.value || null,
+      remark1: callingStatus[studentSrn]?.subOptions?.value || "",
+      remark2:
+        currentStatus.subOptions?.value === "Wrong Number"
+          ? currentStatus.newNumber || null
+          : null,
+    };
+
+    console.log("Absentee payload before POST:", payload);
+
+    const res = await saveAbsenteeCallingService(payload);
+    console.log("Absentee calling saved to ERP:", res);
+  } catch (erpErr) {
+    console.error("Failed saving absentee calling to ERP:", erpErr);
+  }
+}
+
+
     } catch (error) {
       console.error("Error updating attendance", error.message);
     }

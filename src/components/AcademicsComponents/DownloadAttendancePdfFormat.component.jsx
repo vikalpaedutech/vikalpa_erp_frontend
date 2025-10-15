@@ -221,7 +221,7 @@ export const DownloadAttendancePdfFormat = () => {
       
 //function for routing back to test page after succesfully completting the task
       
- ErpTestPageRouteBack(userData, {keyStatus: 'DownloadPdf'})
+//  ErpTestPageRouteBack(userData, {keyStatus: 'DownloadPdf'})
       
       
 
