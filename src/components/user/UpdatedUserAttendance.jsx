@@ -239,7 +239,7 @@ const handleClose = () =>{
 
         const erpTestResponse = await selfAttendance (erpTestReqBody);
 
-        navigate('/erp-test')
+        // navigate('/erp-test')
         }
 
         
