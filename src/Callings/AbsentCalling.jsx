@@ -566,7 +566,9 @@ export const AbsentCalling = ({
       fetchAttendanceData();
 
       //Handling absentee calling gamificatino
-      const gamificationReqBody = {
+
+      if (userData.role === "CC" ||  userData.role === "Admin") {
+          const gamificationReqBody = {
         unqUserObjectId: userData?._id,
         schoolId: studentRecord?.studentDetails?.schoolId,
         classOfCenter: studentRecord?.studentDetails?.classofStudent,
@@ -575,6 +577,8 @@ export const AbsentCalling = ({
       
       const studentAbsenteeCallingGamificationrResponse = await studentAbsenteeCallingGamification(gamificationReqBody)
 
+      }
+    
 
 
 

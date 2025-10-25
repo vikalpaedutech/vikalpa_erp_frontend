@@ -192,7 +192,10 @@ const allDistrictIds = regions.flatMap(region =>
 
       //updating gamification points.
 
-      const gamificationReqBody = {
+
+      if(userData.role === "CC" || userData.role === "Admin"){
+
+        const gamificationReqBody = {
         unqUserObjectId: userData?._id,
         schoolId: row.schoolId,
         classofStudent: row.classofStudent,
@@ -201,6 +204,9 @@ const allDistrictIds = regions.flatMap(region =>
 
       const attendancePdfGamificationResponst = await attendancePdfGamification(gamificationReqBody)
 
+      }
+
+      
 
       //ERP Test
 

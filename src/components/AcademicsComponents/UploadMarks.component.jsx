@@ -184,7 +184,8 @@ useEffect(() => {
 
       //Gamification marks
 
-      const gamificationReqBody = {
+      if (userData.role === "CC" || userData.role === "Admin"){
+         const gamificationReqBody = {
         unqUserObjectId:userData?._id,
         schoolId:schoolId,
         classOfCenter:classofStudent,
@@ -194,6 +195,8 @@ useEffect(() => {
 
       const marksGamificationResponse = await studentMarksGamification(gamificationReqBody)
 
+      }
+     
       //ERP Test
 
       if (userData.role === "hkrn"){
