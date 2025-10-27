@@ -109,6 +109,20 @@ export const getAllUsersWithAccess = async (reqQuery) => {
 
 
 
+export const getAllUsersWithAccesswithoutPagination = async (reqQuery) => {
+  // Convert object to query string
+  const queryString = new URLSearchParams(reqQuery).toString();
+
+  // Use GET since you’re passing query params (instead of POST)
+  const response = await axios.get(
+    `${API_BASE_URL}/api/get-all-users-without-pagination?${queryString}`
+  );
+
+  return response.data;
+};
+
+
+
 
 
 

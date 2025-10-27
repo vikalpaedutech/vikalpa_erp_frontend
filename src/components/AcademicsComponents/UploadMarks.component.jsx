@@ -61,8 +61,22 @@ const [examId, setExamId] = useState("")
  
  const fetchTest = async () =>{
 
+  let reqBody;
+
+  if(  Array.isArray(userData?.userAccess?.classId) &&
+  userData.userAccess.classId.length === 2 &&
+  ["9", "10"].every(id => userData.userAccess.classId.includes(id))){
+    reqBody = {
+     classofStudent: classContext.value || ['9', '10']
+    }
+  } else {
+     reqBody = {
+     classofStudent: userData?.userAccess?.classId, //classContext.value || ['9', '10']
+    }
+  }
+console.log(reqBody)
         try {
-            const response = await GetTests();
+            const response = await GetTests(reqBody);
             console.log(response.data.data);
             setGetTest(response.data.data)
         } catch (error) {
@@ -73,7 +87,7 @@ const [examId, setExamId] = useState("")
     useEffect(()=> {
         fetchTest()
 
-    }, [])
+    }, [classContext.value])
 
 //--------------------------------------
 const regions = userData?.userAccess?.region || [];
@@ -102,7 +116,7 @@ console.log(allDistrictIds)
     // districtId: Object(districtContext[0]).value || "",
     // blockId: Object(blockContext[0]).value || "",
     schoolId: Object(schoolContext[0]).value || allSchoolIds,
-    classofStudent: classContext.value || ['9', '10'],
+    classofStudent: userData?.userAccess?.classId, //classContext.value || ['9', '10'],
     examId: examId.value || "",
     marksObtained: "",
     recordedBy: "",

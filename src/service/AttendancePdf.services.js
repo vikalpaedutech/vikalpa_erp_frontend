@@ -33,14 +33,27 @@ export const createAttendancePdfCronJob = async (reqBody) => {
 
 //Get API by schoolId
 
-export const GetDataBySchoolId = async (schoolId, selectedDate) => {
-console.log("I am inside Attendance pdf service and school id is", schoolId, selectedDate)
+// export const GetDataBySchoolId = async (schoolId, selectedDate) => {
+// console.log("I am inside Attendance pdf service and school id is", schoolId, selectedDate)
+//     try {
+//         const response = await axios.get(`${API_BASE_URL}/api/attendancepdf/${schoolId}/${selectedDate}`)
+//         return response.data;
+//     } catch (error) {
+//         console.log("Some error occured while getting attendance pdf data", error.message)
+//     }
+// }
+
+
+export const GetDataBySchoolId = async (reqBody) => {
+console.log("I am inside Attendance pdf service and school id is", reqBody)
+
     try {
-        const response = await axios.get(`${API_BASE_URL}/api/attendancepdf/${schoolId}/${selectedDate}`)
+        const response = await axios.post(`${API_BASE_URL}/api/attendancepdf`, reqBody)
         return response.data;
     } catch (error) {
         console.log("Some error occured while getting attendance pdf data", error.message)
     }
+
 }
 //____________________________________________sss_________________________________
 

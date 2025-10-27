@@ -49,11 +49,26 @@ export const DownloadAttendancePdfFormat = () => {
 
     console.log(schoolContext)
     // alert(schoolContext?.[0]?.value)
-   const queryParams = {
+
+  let queryParams;
+  if(Array.isArray(userData?.userAccess?.classId) &&
+  userData.userAccess.classId.length === 2 &&
+  ["9", "10"].every(id => userData.userAccess.classId.includes(id))){
+     queryParams = {
       isSlcTaken:false,
       classofStudent:classContext?.value,
       schoolId:schoolContext?.value
     }
+  } else {
+    queryParams = {
+      isSlcTaken:false,
+      classofStudent:userData?.userAccess?.classId, //classContext?.value,
+      schoolId:schoolContext?.value
+    }
+  }
+
+
+   
 
     console.log(queryParams)
     try {

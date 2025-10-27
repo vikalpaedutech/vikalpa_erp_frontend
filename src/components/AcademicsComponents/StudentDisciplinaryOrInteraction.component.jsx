@@ -374,11 +374,26 @@ console.log(allDistrictIds)
 
 //--------------------------------------------
 
-  const queryParams = {
+//dynamically query params render.If user has both class then...
+
+let queryParams;
+if(Array.isArray(userData?.userAccess?.classId) &&
+  userData.userAccess.classId.length === 2 &&
+  ["9", "10"].every(id => userData.userAccess.classId.includes(id))){
+   queryParams = {
     schoolId: schoolContext?.[0]?.value ?? allSchoolIds,
-    classofStudent: classContext?.value ?? ['9', '10'],
+    classofStudent:  classContext?.value ?? ['9', '10'],
     firstName: firstName
   };
+  } else {
+    queryParams = {
+    schoolId: schoolContext?.[0]?.value ?? allSchoolIds,
+    classofStudent: userData?.userAccess?.classId, // classContext?.value ?? ['9', '10'],
+    firstName: firstName
+  };
+  }
+
+ 
 
   useEffect(() => {
     const fetchStudentData = async () => {

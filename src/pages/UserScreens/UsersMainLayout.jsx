@@ -832,6 +832,7 @@ const navigate = useNavigate();
   };
 
 
+console.log(userData)
 
   const regions = userData?.userAccess?.region || [];
 const allSchoolIds = regions.flatMap(region =>
@@ -1236,6 +1237,29 @@ const allSchoolIds = regions.flatMap(region =>
             <hr></hr>
 
 <div>
+
+
+{/* Performance rank */}
+  {/* <Card
+  style={{
+    width: '250px',            // reduced width
+    margin: '20px auto',       // center horizontally
+    borderRadius: '15px',      // rounded edges
+    boxShadow: '0 4px 15px rgba(0,0,0,0.2)', // subtle shadow
+    background: 'linear-gradient(135deg, #f6d365 0%, #fda085 100%)', // nice gradient
+    textAlign: 'center',       // center text
+  }}
+>
+  <Card.Body style={{ 
+    fontSize: '1.5rem',        // larger font for rank
+    fontWeight: '600', 
+    color: '#fff', 
+  }}>
+     Performance Rank: {userData.rank}
+  </Card.Body>
+</Card> */}
+
+
       <div className="main-layout">
         {['hkrn',"ACI", "CC", "Project Coordinator", "MIS", "Community Incharge", "Admin", "Community Manager"].includes(userData?.role) && (
   <Carousel

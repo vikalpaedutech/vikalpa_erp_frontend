@@ -201,7 +201,7 @@ const handleClose = () =>{
         if (userData.role === "CC"){
 
 
-          alert('gamification')
+        // alert('gamification')
 
           //Below gamifcation setup
         const gamificationReqBOdy = {
@@ -209,7 +209,7 @@ const handleClose = () =>{
           date: new Date()
         }
       
-        alert(userData.role)
+        // alert(userData.role)
 
         const gamificationResponse = await selfAttendanceGamification(gamificationReqBOdy)
         

@@ -5361,8 +5361,16 @@ const allSchoolIds = regions.flatMap(region =>
 console.log(allSchoolIds);
 
 
-    // Define query parameters for loading data on frontend
-    const queryParams = {
+
+    //dynamically query params render.If user has both class then...
+
+    let queryParams;
+
+    if(  Array.isArray(userData?.userAccess?.classId) &&
+  userData.userAccess.classId.length === 2 &&
+  ["9", "10"].every(id => userData.userAccess.classId.includes(id))){
+          // Define query parameters for loading data on frontend
+     queryParams = {
         studentSrn:"",
         firstName:"", 
         fatherName:"",
@@ -5370,11 +5378,27 @@ console.log(allSchoolIds);
         startDate: date,
         endDate: endDate || "",
         schoolId:schoolContext.value || allSchoolIds,
-        classofStudent:classContext.value || ['9', '10'],
+        classofStudent: classContext.value || ['9', '10'],
+        batch:"",
+        status:['Absent', 'Present'],
+    };
+    } else {
+        queryParams = {
+        studentSrn:"",
+        firstName:"", 
+        fatherName:"",
+        date: date,
+        startDate: date,
+        endDate: endDate || "",
+        schoolId:schoolContext.value || allSchoolIds,
+        classofStudent: userData?.userAccess?.classId, //classContext.value || ['9', '10'],
         batch:"",
         status:['Absent', 'Present'],
     };
 
+    }
+
+    console.log(userData.userAccess.classId)
     const fetchAttendance = async () => {
         console.log(date)
         console.log(queryParams)

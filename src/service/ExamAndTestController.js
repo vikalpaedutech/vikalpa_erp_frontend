@@ -40,10 +40,10 @@ console.log(formData)
 }
 
 
-export const GetTests = async () => {
+export const GetTests = async (reqBody) => {
 
     try {
-        const response = await axios.get(`${API_BASE_URL}/api/get-tests`)
+        const response = await axios.post(`${API_BASE_URL}/api/get-tests`, reqBody)
         return response;
     } catch (error) {
         console.log("Error fetching test data", error.message)

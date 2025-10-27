@@ -30,7 +30,7 @@ import { queries } from "@testing-library/dom";
 //Belwo is the district drop down api
 export function District() {
   //Context api using
-
+ const {userData, setUserData} = useContext(UserContext)
   const { districtContext, setDistrictContext } = useContext(
     DistrictBlockSchoolContext
   ); // Use context
@@ -746,7 +746,7 @@ export const DistrictBlockSchoolById = ({
 //Class Drop Down
 export function ClassOfStudent() {
   //Context api using
-
+const {userData, setUserData} = useContext(UserContext)
   const { classContext, setClassContext } = useContext(ClassContext); // Use context
 
   //_______________________________________
@@ -764,61 +764,74 @@ export function ClassOfStudent() {
   return (
     
 
-    <Container fluid>
+//     <Container fluid>
+// {userData?.userAccess?.classId.includes(["9", "10"]) ? (
 
-      {/* <label>Select Class</label>
-      <Breadcrumb>
-        <Breadcrumb.Item
-          active={classContext?.value === "9"}
+//   <div>
+// <label>Select Class</label>
+// <ListGroup>
+//   <ListGroup.Item
+    
+//     variant={classContext?.value === "9" ? "success" : ""}
+//     onClick={() => {
+//       const selectedOption = { label: "9", value: "9" };
+//       setClassContext(selectedOption);
+//       console.log("Selected class:", selectedOption);
+//     }}
+//   >
+//     9
+//   </ListGroup.Item>
+//   <br></br>
+//   <ListGroup.Item
+    
+//     variant={classContext?.value === "10" ? "success" : ""}
+//     onClick={() => {
+//       const selectedOption = { label: "10", value: "10" };
+//       setClassContext(selectedOption);
+//       console.log("Selected class:", selectedOption);
+//     }}
+//   >
+//     10
+//   </ListGroup.Item>
+// </ListGroup>
+//   </div>
+// ):(null)}
+
+//     </Container>
+
+
+<Container fluid>
+  {["9", "10"].every(id => userData?.userAccess?.classId?.includes(id)) ? (
+    <div>
+      <label>Select Class</label>
+      <ListGroup>
+        <ListGroup.Item
+          variant={classContext?.value === "9" ? "success" : ""}
           onClick={() => {
             const selectedOption = { label: "9", value: "9" };
             setClassContext(selectedOption);
             console.log("Selected class:", selectedOption);
           }}
-          style={{ cursor: "pointer" }}
         >
           9
-        </Breadcrumb.Item>s
-        <Breadcrumb.Item
-          active={classContext?.value === "10"}
+        </ListGroup.Item>
+
+        <br />
+
+        <ListGroup.Item
+          variant={classContext?.value === "10" ? "success" : ""}
           onClick={() => {
             const selectedOption = { label: "10", value: "10" };
             setClassContext(selectedOption);
             console.log("Selected class:", selectedOption);
           }}
-          style={{ cursor: "pointer" }}
         >
           10
-        </Breadcrumb.Item>
-      </Breadcrumb> */}
-
-<label>Select Class</label>
-<ListGroup>
-  <ListGroup.Item
-    
-    variant={classContext?.value === "9" ? "success" : ""}
-    onClick={() => {
-      const selectedOption = { label: "9", value: "9" };
-      setClassContext(selectedOption);
-      console.log("Selected class:", selectedOption);
-    }}
-  >
-    9
-  </ListGroup.Item>
-  <br></br>
-  <ListGroup.Item
-    
-    variant={classContext?.value === "10" ? "success" : ""}
-    onClick={() => {
-      const selectedOption = { label: "10", value: "10" };
-      setClassContext(selectedOption);
-      console.log("Selected class:", selectedOption);
-    }}
-  >
-    10
-  </ListGroup.Item>
-</ListGroup>
-    </Container>
+        </ListGroup.Item>
+      </ListGroup>
+    </div>
+  ) : null}
+</Container>
   );
 }
 

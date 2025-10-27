@@ -59,8 +59,29 @@ const allDistrictIds = regions.flatMap(region =>
   );
 
   const fetchAttendancePdfData = async () => {
+
+    let reqBody;
+
+    if(Array.isArray(userData?.userAccess?.classId) &&
+  userData.userAccess.classId.length === 2 &&
+  ["9", "10"].every(id => userData.userAccess.classId.includes(id))){
+
+    reqBody = {
+      classofStudent: ['9', '10'],
+      schoolId:selectedSchool.value,
+      dateOfUpload: selectedDate
+    }
+  } else {
+    reqBody = {
+       classofStudent:userData?.userAccess?.classId,
+      schoolId: selectedSchool.value,
+      dateOfUpload: selectedDate
+    }
+  }
+
+
     try {
-      const response = await GetDataBySchoolId(selectedSchool.value, selectedDate);
+      const response = await GetDataBySchoolId(reqBody ); //selectedSchool.value, selectedDate
       setAttendancePdfData(response.data || []);
     } catch (error) {
       setAttendancePdfData([]);
