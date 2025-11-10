@@ -126,9 +126,11 @@ export const disciplinaryGamification = async (reqBody) => {
     try {
         // console.log('i am inside service')
         // console.log(API_BASE_URL)   
-        const response = await axios.post (`${API_BASE_URL}/api/center-disciplinary-gamification`, reqBody)
         
-        return response.data;
+        
+    const response = await axios.post (`${API_BASE_URL}/api/center-disciplinary-gamification`, reqBody)
+        
+    return response.data;
 
 
     } catch (error) {

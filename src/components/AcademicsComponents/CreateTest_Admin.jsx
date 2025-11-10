@@ -21,8 +21,13 @@ const [filteredExamId, setFilteredExamId] = useState(null);
 
     const fetchTest = async () =>{
 
+        const queryParams = {
+
+            classofStudent: ["9", "10"]
+        }
+
         try {
-            const response = await GetTests();
+            const response = await GetTests(queryParams);
             console.log(response.data.data);
             setGetTest(response.data.data)
 

@@ -1162,6 +1162,10 @@ console.log(allDistrictIds)
 
   const statusOptions = [
     { value: "Present", label: "Present" },
+    { value: "Absent", label: "Absent" },
+    { value: "National Holiday", label: "National Holiday" },
+    { value: "Festival Off", label: "Festival Off" },
+       
     { value: "WFH", label: "WFH" },
     { value: "Comp-off", label: "Comp-off" },
     { value: "Monthly Leave", label: "Monthly Leave" },
@@ -1215,6 +1219,9 @@ console.log(allDistrictIds)
               <option value="All">All</option>
               <option value="Present">Present</option>
               <option value="Absent">Absent</option>
+              <option value="National Holidat">National Holidat</option>
+              <option value="Festival Off">Festival Off</option>
+               <option value="Festival Off">Festival Off</option>
               <option value="WFH">WFH</option>
               <option value="Comp-off">Comp-off</option>
               <option value="Monthly Leave">Monthly Leave</option>

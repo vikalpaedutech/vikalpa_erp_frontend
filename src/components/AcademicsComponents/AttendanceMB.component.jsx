@@ -5366,7 +5366,7 @@ console.log(allSchoolIds);
 
     let queryParams;
 
-    if(  Array.isArray(userData?.userAccess?.classId) &&
+    if(Array.isArray(userData?.userAccess?.classId) &&
   userData.userAccess.classId.length === 2 &&
   ["9", "10"].every(id => userData.userAccess.classId.includes(id))){
           // Define query parameters for loading data on frontend
