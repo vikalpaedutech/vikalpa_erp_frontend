@@ -5458,7 +5458,7 @@ console.log(allSchoolIds);
     // Function to handle attendance update (marking attendance)
     const handleAttendanceUpdate = async (studentSrn, isMarked, schoolId, classofStudent) => {
        
-        if (!schoolContext.value || !classContext.value) {
+        if (!schoolContext.value) {
             alert("Please filter your school and class first");
             return;
         }
