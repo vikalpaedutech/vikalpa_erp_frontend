@@ -5678,26 +5678,56 @@ console.log(allSchoolIds);
 
     attendanceData.sort((a, b)=>a.studentDetails.firstName.localeCompare(b.studentDetails.firstName))
 
-    const handleDownloadCsv = () => {
-        const dataToExport = attendanceData.map((record, index) => {
-            const schoolMeta = DistrictBlockSchool.find(s => s.schoolId === record.studentDetails.schoolId);
-            return {
-                "S.NO": index + 1,
-                "SRN": record.studentSrn,
-                "Name": record.studentDetails.firstName,
-                "Father": record.studentDetails.fatherName,
-                "District": schoolMeta?.districtName || record.studentDetails.districtId,
-                "Block": schoolMeta?.blockName || record.studentDetails.blockId,
-                "Center": schoolMeta?.schoolName || record.studentDetails.schoolId,
-                "Attendance": record.status
-            }
-        });
+   const handleDownloadCsv = () => {
+    // 1. Map data with meta information
+    const dataWithMeta = attendanceData.map((record, index) => {
+        const schoolMeta = DistrictBlockSchool.find(s => s.schoolId === record.studentDetails.schoolId);
+        return {
+            "S.NO": index + 1, // Ye temporary hai, sort ke baad change hoga
+            "SRN": record.studentSrn,
+            "Name": record.studentDetails.firstName,
+            "Father": record.studentDetails.fatherName,
+            "District": schoolMeta?.districtName || record.studentDetails.districtId,
+            "Block": schoolMeta?.blockName || record.studentDetails.blockId,
+            "Center": schoolMeta?.schoolName || record.studentDetails.schoolId,
+            "Attendance": record.status,
+            // Internal sorting keys
+            _districtSort: schoolMeta?.districtName || record.studentDetails.districtId,
+            _blockSort: schoolMeta?.blockName || record.studentDetails.blockId
+        }
+    });
 
-        const worksheet = utils.json_to_sheet(dataToExport);
-        const workbook = utils.book_new();
-        utils.book_append_sheet(workbook, worksheet, "Attendance");
-        writeFile(workbook, `Attendance_${date}.xlsx`);
-    }
+    // 2. Sort data: District wise, then Block wise
+    const sortedData = dataWithMeta.sort((a, b) => {
+        // Pehle District compare karo
+        if (a._districtSort < b._districtSort) return -1;
+        if (a._districtSort > b._districtSort) return 1;
+        // Same District hai toh Block compare karo
+        if (a._blockSort < b._blockSort) return -1;
+        if (a._blockSort > b._blockSort) return 1;
+        // Dono same hai toh original order rahe
+        return 0;
+    });
+
+    // 3. ✅ IMPORTANT: Serial numbers reset karo sorted order ke hisaab se
+    const dataToExport = sortedData.map((item, index) => {
+        // Internal keys hatao aur S.NO reset karo
+        const { _districtSort, _blockSort, ...exportData } = item;
+        return {
+            ...exportData,
+            "S.NO": index + 1  // ✅ SORT KE BAAD NAYA SERIAL NUMBER
+        };
+    });
+
+    // 4. Create and download Excel file
+    const worksheet = utils.json_to_sheet(dataToExport);
+    const workbook = utils.book_new();
+    utils.book_append_sheet(workbook, worksheet, "Attendance");
+    
+    // Filename format: Attendance_Class_date
+    const className = "Class"; // Yahan apna class name daalo
+    writeFile(workbook, `Attendance_${classContext.value || "09_10"}_${date}.xlsx`);
+}
 
 
     const handleDownloadPdf = () => {
