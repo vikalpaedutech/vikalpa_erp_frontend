@@ -925,7 +925,7 @@ const allSchoolIds = regions.flatMap(region =>
         },
         {
           id: "2",
-          label: "Upload Marks",
+          label: "Upload Marks/Student Answer Sheet",
           logo: "/exam.png",
           path: "upload-marks",
           accessedBy: ['hkrn','MIS','ACI', 'Community Manager', 'Community Incharge', 'Project Coordinator', 'Admin', 'Tech', 'CC']
