@@ -120,6 +120,7 @@ import { UserMainLayout } from "./pages/UserScreens/UsersMainLayout.jsx";
 import { Gamification } from "./components/Gamification/Gamification.jsx";
 import { ERPtest } from "./components/ErpTest/ErpTest.jsx";
 import { GamificationDashboard } from "./components/Gamification/GamificationDashboard.jsx";
+import { StudentTestFileUpload } from "./components/AcademicsComponents/TestFileUploadByStudents.jsx";
 
 function App() {
   
@@ -317,6 +318,10 @@ function App() {
                        < Route path="/erp-test" element = {<ERPtest/>}/>
 
                   
+
+                  {/* testfile upload */}
+
+                  <Route path="/student-test-file-09" element = {<StudentTestFileUpload/>}/>
 
 
 

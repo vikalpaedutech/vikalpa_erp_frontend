@@ -37,25 +37,60 @@ export const getAllMarksUsinQueryParams = async (queryParams) => {
 
 
 
-//Put service to update the marks status. Calls to marks.controller.js
-export const updateMarksBySrnAndExamId = async (queryParams, marksObtained, recordedBy, marksUpdatedOn) => {
+// //Put service to update the marks status. Calls to marks.controller.js
+// export const updateMarksBySrnAndExamId = async (queryParams, marksObtained, recordedBy, marksUpdatedOn) => {
 
 
-    try {
+//     try {
         
-     // Prepare query parameters to send in the URL
-     const queryString = new URLSearchParams(queryParams).toString();
+//      // Prepare query parameters to send in the URL
+//      const queryString = new URLSearchParams(queryParams).toString();
 
-     const response = await axios.put (`${API_BASE_URL}/api/marks?${queryString}`, marksObtained, recordedBy, marksUpdatedOn)
-        console.log(marksObtained, recordedBy, marksUpdatedOn)
-     return response.data; 
+//      const response = await axios.put (`${API_BASE_URL}/api/marks?${queryString}`, marksObtained, recordedBy, marksUpdatedOn)
+//         console.log(marksObtained, recordedBy, marksUpdatedOn)
+//      return response.data; 
 
+//     } catch (error) {
+//         console.error("Error updating marks data", error.message);
+//         throw error; // Rethrow the error to be handled by the caller
+    
+//     }
+
+// }
+
+// //__________________________________________________________________________________________
+
+
+
+// Put service to update the marks status
+export const updateMarksBySrnAndExamId = async (queryParams, payload) => {
+    try {
+        const requestBody = {
+            ...queryParams,
+            ...payload
+        };
+        
+        console.log("Request body for marks update:", requestBody);
+        
+        const response = await axios.put(`${API_BASE_URL}/api/marks`, requestBody);
+        return response.data; 
     } catch (error) {
         console.error("Error updating marks data", error.message);
-        throw error; // Rethrow the error to be handled by the caller
-    
+        throw error;
     }
-
 }
 
-//__________________________________________________________________________________________
+// New service for uploading test files
+export const uploadTestFileService = async (formData) => {
+    try {
+        const response = await axios.post(`${API_BASE_URL}/api/upload-test-file`, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        });
+        return response.data;
+    } catch (error) {
+        console.error("Error uploading test file", error.message);
+        throw error;
+    }
+}
