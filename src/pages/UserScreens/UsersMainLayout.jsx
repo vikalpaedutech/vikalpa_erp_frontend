@@ -965,6 +965,15 @@ const allSchoolIds = regions.flatMap(region =>
           path: "s100-attendance",
           accessedBy: ['MIS','Tech','Admin']
         },
+
+
+        {
+          id: "8",
+          label: "Attendance Verification",
+          logo: "/taverification.png",
+          path: "ta-verification-data",
+          accessedBy: ['hkrn', 'MIS','ACI', 'Community Manager', 'Community Incharge', 'Project Coordinator', 'Admin', 'Tech', 'CC']
+        },
       ],
     },
     {

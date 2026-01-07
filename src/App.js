@@ -121,6 +121,7 @@ import { Gamification } from "./components/Gamification/Gamification.jsx";
 import { ERPtest } from "./components/ErpTest/ErpTest.jsx";
 import { GamificationDashboard } from "./components/Gamification/GamificationDashboard.jsx";
 import { StudentTestFileUpload } from "./components/AcademicsComponents/TestFileUploadByStudents.jsx";
+import { TaVerification } from "./components/TaVerification/TaVerification.jsx";
 
 function App() {
   
@@ -323,7 +324,7 @@ function App() {
 
                   <Route path="/student-test-file-09" element = {<StudentTestFileUpload/>}/>
 
-
+                  <Route path="/ta-verification-data" element = {<TaVerification/>}/>
 
 
 
