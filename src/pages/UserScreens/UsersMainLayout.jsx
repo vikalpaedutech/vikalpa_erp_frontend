@@ -989,7 +989,7 @@ const allSchoolIds = regions.flatMap(region =>
           path: "upload-bills",
           accessedBy: ['Teacher', 'Photographer', 'MIS','ACI', 'Community Manager', 'Community Incharge', 
             'Project Coordinator', 'Admin', 'Tech', 'CC',
-        'DTP', 'Video Grapher', 'Media Manager', 'Editor', 'HR', 'Technician']
+        'DTP', 'Video Grapher', 'Media Manager', 'Editor', 'HR', 'Technician', 'Academic Coordinator']
         },
         { id: "3", label: "School Issues", logo: "/school.png", path: "school-concerns",
             accessedBy: ['hkrn','MIS','CC']
