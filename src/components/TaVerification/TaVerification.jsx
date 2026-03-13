@@ -1252,7 +1252,7 @@ export const TaVerification = () => {
                                   <p><strong>Center:</strong> {student.center}</p>
                                   <p><strong>District:</strong> {student.district}</p>
                                   <p><strong>Both Side Distance:</strong> {student.bothSideDistance || 0} km</p>
-                                  <p><strong>Single Side Distance:</strong> {student.singleSideDistance || 0} km</p>
+                                  {/* <p><strong>Single Side Distance:</strong> {student.singleSideDistance || 0} km</p> */}
                                 </Col>
                               </Row>
                             </Card.Body>
