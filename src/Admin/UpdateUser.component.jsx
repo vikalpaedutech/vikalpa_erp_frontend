@@ -35,6 +35,8 @@ export const UpdateUser = () => {
   const [totalPages, setTotalPages] = useState(1);
 
   // -----------------------------
+
+
   // Department -> Role mapping
   const departmentRoles = {
     Community: [
@@ -111,45 +113,18 @@ export const UpdateUser = () => {
   const [userAllSchoolIds, setUserAllSchoolIds] = useState([]);
 
   const handleAccessModal = async (id) => {
+
+  
+    alert (id)
+
     const reqBody = {
       _id: id,
     };
 
     const response = await getUsersByObjectId(reqBody);
 
-    console.log(
-      response.data.accessDetails?.region.flatMap((region) =>
-        region.blockIds.flatMap((block) =>
-          block.schoolIds.map((school) => school.schoolId)
-        )
-      )
-    );
 
-    setFilteredUser(response.data[0]);
-
-    const allSchoolIds = response.data?.accessDetails?.region.flatMap(
-      (region) =>
-        region.blockIds.flatMap((block) =>
-          block.schoolIds.map((school) => school.schoolId)
-        )
-    );
-
-    const uniqueSchoolIds = [...new Set(allSchoolIds)];
-    setUserAllSchoolIds(
-      response.data[0].accessDetails?.region.flatMap((region) =>
-        region.blockIds.flatMap((block) =>
-          block.schoolIds.map((school) => school.schoolId)
-        )
-      )
-    );
-
-    setShowAccessModal(true);
-
-    console.log(userAllSchoolIds);
-
-    districtOptions();
-
-   
+    console.log(response)
   
     
   };
@@ -675,3 +650,8 @@ export const UpdateUser = () => {
     </Container>
   );
 };
+
+
+
+
+
