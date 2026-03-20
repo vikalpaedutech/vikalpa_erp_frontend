@@ -140,3 +140,32 @@ export const getUsersByObjectId = async (reqBody) => {
     const response = await axios.post (`${API_BASE_URL}/api/get-user-data-by-object-id`, reqBody);
     return response.data;
 }
+
+
+
+
+
+
+
+
+
+
+//Uder admin update service
+
+
+export const updateUser = async (reqBody) => {
+    const response = await axios.post (`${API_BASE_URL}/api/update-user`, reqBody);
+    return response.data;
+}
+
+
+
+
+
+
+
+
+export const updateUserAccesses = async (reqBody) => {
+    const response = await axios.post (`${API_BASE_URL}/api/update-user-access`, reqBody);
+    return response.data;
+}

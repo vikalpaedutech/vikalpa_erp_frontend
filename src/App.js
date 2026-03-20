@@ -123,7 +123,8 @@ import { GamificationDashboard } from "./components/Gamification/GamificationDas
 import { StudentTestFileUpload } from "./components/AcademicsComponents/TestFileUploadByStudents.jsx";
 import { TaVerification } from "./components/TaVerification/TaVerification.jsx";
 
-
+import { EditUserAccess } from "./Admin/EditUserAccess.component.jsx";
+import { EditUser } from "./Admin/EditUser.component.jsx";
 
 
 function App() {
@@ -329,7 +330,10 @@ function App() {
 
                   <Route path="/ta-verification-data" element = {<TaVerification/>}/>
 
+                    {/* Admin: Edit user access */}
 
+                    <Route path="/edit-user-access" element = {<EditUserAccess/>}/>
+                    <Route path="/edit-user" element = {<EditUser/>}/>
 
                       </Route>
                     </Routes>
