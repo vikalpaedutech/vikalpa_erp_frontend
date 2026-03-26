@@ -125,6 +125,10 @@ import { TaVerification } from "./components/TaVerification/TaVerification.jsx";
 
 import { EditUserAccess } from "./Admin/EditUserAccess.component.jsx";
 import { EditUser } from "./Admin/EditUser.component.jsx";
+import { Calling } from "./Callings/Calling.jsx";
+import { CreateObjectiveOfCalling } from "./Callings/ObjectiveOfCalling.jsx";
+import { CallingDashboardByUserId } from "./Callings/CallingDashobardByUserId.jsx";
+import { CallingMain } from "./Callings/CallingMain.jsx";
 
 
 function App() {
@@ -281,14 +285,10 @@ function App() {
                       
                     <Route path="/self-cocnerns-resolution" element = {<IndividualConcernsRequest/>}/>
 
+                    <Route path="/school-concerns-request" element = {<SchoolConcernsRequest/>}/> 
 
 
-
-                      
-                  <Route path="/school-concerns-request" element = {<SchoolConcernsRequest/>}/> 
-
-
-                  <Route path="/attendance-user" element = {<UserAttendance/>}/>
+                    <Route path="/attendance-user" element = {<UserAttendance/>}/>
                   
                   <Route path="/user-attendance-updated" element = {<UserAttendanceUpdated/>}/>
                   
@@ -316,13 +316,9 @@ function App() {
                         <Route path="/gamification-dashboard" element = {<GamificationDashboard/>}/>
 
                       
-
-
                         {/* ERP Test */}
 
-                       < Route path="/erp-test" element = {<ERPtest/>}/>
-
-                  
+                  < Route path="/erp-test" element = {<ERPtest/>}/>
 
                   {/* testfile upload */}
 
@@ -334,6 +330,17 @@ function App() {
 
                     <Route path="/edit-user-access" element = {<EditUserAccess/>}/>
                     <Route path="/edit-user" element = {<EditUser/>}/>
+
+
+
+
+                    <Route path="/calling" element = {<Calling/>}/>
+
+                    <Route path="/calling-main" element = {<CallingMain/>}/>
+
+                    <Route path="/create-objective-of-calling" element = {<CreateObjectiveOfCalling/>}/>
+
+                    <Route path="/calling-dashboard-objective-of-calling" element = {<CallingDashboardByUserId/>}/>
 
                       </Route>
                     </Routes>

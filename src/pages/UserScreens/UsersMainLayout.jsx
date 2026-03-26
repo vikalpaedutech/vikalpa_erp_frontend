@@ -1068,6 +1068,14 @@ const allSchoolIds = regions.flatMap(region =>
           path: "absent-calling",
           accessedBy: ['hkrn', 'MIS','ACI', 'Community Manager', 'Community Incharge', 'Project Coordinator', 'Admin', 'Tech', 'CC']
         },
+
+           {
+          id: "2",
+          label: "Calling",
+          logo: "/call.png",
+          path: "calling-dashboard-objective-of-calling",
+          accessedBy: ['hkrn', 'MIS','ACI', 'Community Manager', 'Community Incharge', 'Project Coordinator', 'Admin', 'Tech', 'CC']
+        },
       ],
     },
 
