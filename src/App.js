@@ -129,6 +129,8 @@ import { Calling } from "./Callings/Calling.jsx";
 import { CreateObjectiveOfCalling } from "./Callings/ObjectiveOfCalling.jsx";
 import { CallingDashboardByUserId } from "./Callings/CallingDashobardByUserId.jsx";
 import { CallingMain } from "./Callings/CallingMain.jsx";
+import { AMEScoreCard202527 } from "./components/AcademicsComponents/AMEScoreCard202527.jsx";
+import { AMEAttendanceSheet } from "./components/AcademicsComponents/AMEAttendanceSheet.jsx";
 
 
 function App() {
@@ -341,6 +343,10 @@ function App() {
                     <Route path="/create-objective-of-calling" element = {<CreateObjectiveOfCalling/>}/>
 
                     <Route path="/calling-dashboard-objective-of-calling" element = {<CallingDashboardByUserId/>}/>
+
+                      <Route path="/ame-score-card-202527" element = {<AMEScoreCard202527/>}/>
+
+                      <Route path="/ame-attendance-sheet" element = {<AMEAttendanceSheet/>}/>
 
                       </Route>
                     </Routes>
