@@ -62,7 +62,9 @@ export const AMEAttendanceSheet = () => {
       try {
         const response = await GetStudentsBySlc();
         const studentData = response.data.data || [];
-        
+
+
+
         // Filter and enhance student data
         const validStudents = studentData.filter(student => 
           student.firstName && student.rollNumber
@@ -72,7 +74,7 @@ export const AMEAttendanceSheet = () => {
           ...student,
           districtName: districtMap.get(student.districtId) || student.districtName || `District ${student.districtId}`,
           centerName: schoolMap.get(student.schoolId)?.name || student.schoolId || "-",
-          examinationVenue: student.examinationVenue || "The Multipurpose Hall (MPH) at Chaudhary Devi Lal University (CDLU), Sirsa"
+          examinationVenue: student.ameExaminationVenue || "___________________________________________________________________"
         }));
         
         // Sort by center name first, then by roll number
