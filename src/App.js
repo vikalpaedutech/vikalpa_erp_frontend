@@ -132,6 +132,7 @@ import { CallingMain } from "./Callings/CallingMain.jsx";
 import { AMEScoreCard202527 } from "./components/AcademicsComponents/AMEScoreCard202527.jsx";
 import { AMEAttendanceSheet } from "./components/AcademicsComponents/AMEAttendanceSheet.jsx";
 import { AMEAdmitCard } from "./components/AcademicsComponents/AMEAdmitCard.jsx";
+import { CallingDashboardOfAllUsers } from "./Callings/CallingDashboardOfAllUsers.jsx";
 
 
 function App() {
@@ -351,6 +352,7 @@ function App() {
 
                       <Route path="/ame-admit-card" element = {<AMEAdmitCard/>}/>
 
+                       <Route path="/calling-dasbhaord-of-all-users"  element = {<CallingDashboardOfAllUsers/>}/>
                       </Route>
                     </Routes>
                   </UserProvider>

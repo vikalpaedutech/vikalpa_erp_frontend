@@ -103,3 +103,20 @@ export const callingDashboardByUserId = async (reqBody) =>{
 }
 
 //-----------------------------------------------
+
+
+
+
+// //Calling dashboard for all district.
+
+
+export const callilngDashboardOfAllUsers = async (reqBody) =>{
+
+    try {
+
+        const response = await axios.post(`${API_BASE_URL}/api/calling-dashboard-of-all-users`, reqBody)
+        return response;
+    } catch (error) {
+        console.log("Error :", error.message)
+    }
+}
