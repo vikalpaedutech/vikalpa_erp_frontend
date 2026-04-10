@@ -52,25 +52,67 @@ export const GetAttendanceByUserId = (queryParams) => {
 
 
 
-export const PatchUserAttendanceByUserId = async (queryParams, formData) => {
+// export const PatchUserAttendanceByUserId = async (queryParams, formData) => {
   
+//   const queryString = new URLSearchParams(queryParams).toString();
+
+//   try {
+//     const response = await axios.patch(
+//       `${API_BASE_URL}/api/updatedattendanceby-userid?${queryString}`,
+//       formData,
+ 
+//     );
+
+   
+    
+//     return response;
+    
+//   } catch (error) {
+//     alert('Error❌! Attendance Not Updated. Please Retry!')
+//     console.error("❌ Error occurred while patching attendance:", error);
+//     throw error; // Optional: rethrow for caller to handle
+//   }
+// };
+
+
+
+
+export const PatchUserAttendanceByUserId = async (queryParams, formData, onProgress) => {
   const queryString = new URLSearchParams(queryParams).toString();
 
   try {
     const response = await axios.patch(
       `${API_BASE_URL}/api/updatedattendanceby-userid?${queryString}`,
       formData,
- 
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+        onUploadProgress: (progressEvent) => {
+          if (onProgress && progressEvent.total) {
+            const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+            onProgress(percentCompleted);
+          }
+        },
+        timeout: 60000, // 60 second timeout
+      }
     );
-
-   
     
     return response;
-    
   } catch (error) {
-    alert('Error❌! Attendance Not Updated. Please Retry!')
     console.error("❌ Error occurred while patching attendance:", error);
-    throw error; // Optional: rethrow for caller to handle
+    
+    if (error.code === 'ECONNABORTED') {
+      alert('❌ Upload timeout! Please check your internet connection and try again.');
+    } else if (error.response) {
+      alert(`❌ Server error: ${error.response.data?.message || "Please try again"}`);
+    } else if (error.request) {
+      alert('❌ Network error! Please check your internet connection.');
+    } else {
+      alert('❌ Error! Attendance Not Updated. Please Retry!');
+    }
+    
+    throw error;
   }
 };
 
