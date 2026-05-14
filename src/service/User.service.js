@@ -169,3 +169,30 @@ export const updateUserAccesses = async (reqBody) => {
     const response = await axios.post (`${API_BASE_URL}/api/update-user-access`, reqBody);
     return response.data;
 }
+
+
+
+
+
+
+export const UserAttendanceDashboard = async (reqBody) => {
+    const response = await axios.post (`${API_BASE_URL}/api/get-user-attendance-dashboard`, reqBody);
+    return response.data;
+}
+
+
+
+
+
+
+export const MarkUserAttendance = async (reqBody) => {
+    const response = await axios.post (`${API_BASE_URL}/api/mark-user-attendance`, reqBody);
+    return response.data;
+}
+
+
+
+
+
+
+

@@ -16,6 +16,7 @@ import {
   SchoolProvider,
   ClassOfStudentProvider,
   DistrictProvider,
+  DistrictBlockSschoolContextV2Provider,
 } from "./components/contextAPIs/DependentDropdowns.contextAPI.js";
 
 //UI Components
@@ -133,6 +134,13 @@ import { AMEScoreCard202527 } from "./components/AcademicsComponents/AMEScoreCar
 import { AMEAttendanceSheet } from "./components/AcademicsComponents/AMEAttendanceSheet.jsx";
 import { AMEAdmitCard } from "./components/AcademicsComponents/AMEAdmitCard.jsx";
 import { CallingDashboardOfAllUsers } from "./Callings/CallingDashboardOfAllUsers.jsx";
+import { MarkUserAttendance } from "./components/user/UserAttendance.v2.jsx";
+import { MBStudentsAttendanceV2 } from "./components/Students/MBStudentsAttendance.v2.jsx";
+import { DateNDateRangeContextProvider } from "./components/contextAPIs/DateNDateRangePicker.js";
+import { UserAttendanceDashboardV2 } from "./components/DashBoard/UserAttendanceDashboard.v2.jsx";
+import { AttendancePdfv2 } from "./components/Students/AttendancePdf.v2.jsx";
+import { AttendanceSheetFormat } from "./components/Utils/AttendanceSheetFormat.jsx";
+import { MBStudentsAttendanceDashboard } from "./components/Students/MBStudentsAttendanceDashboard.jsx";
 
 
 function App() {
@@ -143,6 +151,8 @@ function App() {
       <Router>
         
         <SliderProvidedr>
+          <DistrictBlockSschoolContextV2Provider>
+            <DateNDateRangeContextProvider>
           <DistrictBlockSchoolProvider>
             <DistrictProvider>
             <BlockProvider>
@@ -302,7 +312,7 @@ function App() {
                       <Route path="/student-attendance-dashboard" element = {<StudentAttendanceDashBoard/>}/>
                       <Route path="/student-calling-dashboard" element = {<StudentCallingDashBoard/>}/>
                        <Route path="/attendance-pdf-count-dashboard" element = {<AttendancePdfCount/>}/>
-                      <Route path="/user-attendance-dashboard" element = {<UserAttendanceDash/>}/>          
+                      {/* <Route path="/user-attendance-dashboard" element = {<UserAttendanceDash/>}/>           */}
                       
                       <Route path="/student-disciplinary-dashboard" element = {<StudentDisciplinaryDashboard/>}/>
 
@@ -353,6 +363,30 @@ function App() {
                       <Route path="/ame-admit-card" element = {<AMEAdmitCard/>}/>
 
                        <Route path="/calling-dasbhaord-of-all-users"  element = {<CallingDashboardOfAllUsers/>}/>
+
+
+                       {/* version 2 New route */}
+
+
+
+                       <Route path="/mark-user-attendance" element={<MarkUserAttendance/>}/>
+
+                       {/* student */}
+
+                       <Route path="/mb-student-attendance" element = {<MBStudentsAttendanceV2/>}/> 
+
+                        {/* dashboard routes */}
+
+                        <Route path="/user-attendance-dashboard" element = {<UserAttendanceDashboardV2/>}/>
+
+
+                          <Route path="/attendance-pdf" element = {<AttendancePdfv2/>}/>
+
+
+                        <Route path="/attendance-sheet-format" element = {<AttendanceSheetFormat/>}/>
+
+                        <Route path="/mb-student-attendance-dashboard" element= {<MBStudentsAttendanceDashboard/>}/>  
+
                       </Route>
                     </Routes>
                   </UserProvider>
@@ -361,6 +395,8 @@ function App() {
             </BlockProvider>
             </DistrictProvider>
           </DistrictBlockSchoolProvider>
+          </DateNDateRangeContextProvider>
+          </DistrictBlockSschoolContextV2Provider>
         </SliderProvidedr>
       </Router>
     </>

@@ -92,3 +92,41 @@ export const uploadDressSizeForm = async (studentSrn, file) => {
     throw error;
   }
 };
+
+
+
+
+
+//Version 2 apis 11-May-2026
+
+export const GetMBStudents = async (reqBody) => {
+    try {
+     
+        const response = await axios.post (`${API_BASE_URL}/api/get-mb-student-data`,reqBody)
+        
+        return response.data;
+
+
+    } catch (error) {
+        console.error("Error getting students data", error.message);
+        throw error;
+    }
+}
+
+
+
+//Marking student attendance
+
+export const MarkMBStudentAttendance = async (reqBody) => {
+    try {
+     
+        const response = await axios.post (`${API_BASE_URL}/api/mark-mb-student-data`,reqBody)
+        
+        return response.data;
+
+
+    } catch (error) {
+        console.error("Error getting students data", error.message);
+        throw error;
+    }
+}

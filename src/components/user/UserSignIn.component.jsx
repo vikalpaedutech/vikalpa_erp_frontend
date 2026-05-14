@@ -32,7 +32,7 @@ export const UserSignIn = () => {
     try {
       // const response = await getUserByContact1(contact1);
        const response = await userSignIn(reqBody);
-       alert(response.status)
+       
       console.log(response.data);
       // console.log(response.data[0].role);
       setUserData(response.data);
@@ -61,28 +61,7 @@ export const UserSignIn = () => {
 
 
 
-       if(response.data.role === 'ACI'){
-         navigate('/user-attendance-aci')
-          // navigate('/user-attendance-updated')
-
-       } else if (response.data.role === 'CC' || response.data.role === 'HKRN') {
-          navigate('/user-attendance-updated')
-       } else if (response.data.role === 'Community Manager'){
-          navigate('/user-attendance-updated')
-       } else if (response.data.role === "hkrn"){
-        navigate('/user-attendance-updated')
-
-       }
-       else if (response.data.role === 'admin'){
-          //navigate('/admin-dash')
-          navigate('/user-dashboard')
-       } 
-       
-       
-       else {
-        navigate('/user-attendance-updated')
-       }
-       
+       navigate('/mark-user-attendance')
         
       }
       else (

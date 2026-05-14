@@ -1,0 +1,1498 @@
+[{
+  "_id": {
+    "$oid": "6866ed5619149098c28f60f2"
+  },
+  "districtId": "21",
+  "districtName": "Nuh",
+  "blockId": "75",
+  "blockName": "Punhana",
+  "createdAt": "",
+  "updatedAt": "",
+  "isCenterClosed": false,
+  "schoolId": "885",
+  "schoolName": "GSSS PUNHANA"
+},
+{
+  "_id": {
+    "$oid": "6866ed5619149098c28f60ac"
+  },
+  "districtId": "7",
+  "districtName": "Panchkula",
+  "blockId": "81",
+  "blockName": "Barwala [Panchkula]",
+  "createdAt": "",
+  "updatedAt": "",
+  "isCenterClosed": true,
+  "schoolId": "3725",
+  "schoolName": "GHS JALAULI BARWALA"
+},
+{
+  "_id": {
+    "$oid": "6866ed5619149098c28f60e8"
+  },
+  "districtId": "19",
+  "districtName": "Jind",
+  "blockId": "44",
+  "blockName": "Jind",
+  "createdAt": "",
+  "updatedAt": "",
+  "isCenterClosed": false,
+  "schoolId": "1506",
+  "schoolName": "GSSS JIND"
+},
+{
+  "_id": {
+    "$oid": "6866ed5619149098c28f60f0"
+  },
+  "districtId": "21",
+  "districtName": "Nuh",
+  "blockId": "72",
+  "blockName": "Ferozepur Jhirka",
+  "createdAt": "",
+  "updatedAt": "",
+  "isCenterClosed": false,
+  "schoolId": "884",
+  "schoolName": "GSSS FIROZPUR JHIRKA"
+},
+{
+  "_id": {
+    "$oid": "6866ed5619149098c28f60a5"
+  },
+  "districtId": "5",
+  "districtName": "Fatehabad",
+  "blockId": "23",
+  "blockName": "Ratia",
+  "createdAt": "",
+  "updatedAt": "",
+  "isCenterClosed": false,
+  "schoolId": "3393",
+  "schoolName": "GMSSSS RATIA"
+},
+{
+  "_id": {
+    "$oid": "6866ed5619149098c28f60b3"
+  },
+  "districtId": "8",
+  "districtName": "Panipat",
+  "blockId": "87",
+  "blockName": "Madlauda",
+  "createdAt": "",
+  "updatedAt": "",
+  "isCenterClosed": false,
+  "schoolId": "2106",
+  "schoolName": "GMSSSS MADLAUDA"
+},
+{
+  "_id": {
+    "$oid": "6866ed5619149098c28f60ca"
+  },
+  "districtId": "13",
+  "districtName": "Hisar",
+  "blockId": "31",
+  "blockName": "Barwala Hisar",
+  "createdAt": "",
+  "updatedAt": "",
+  "isCenterClosed": false,
+  "schoolId": "4079",
+  "schoolName": "GMSSSS NAHAR KOTHI BARWALA"
+},
+{
+  "_id": {
+    "$oid": "6866ed5619149098c28f60e6"
+  },
+  "districtId": "18",
+  "districtName": "Yamunanagar",
+  "blockId": "119",
+  "blockName": "Radaur",
+  "createdAt": "",
+  "updatedAt": "",
+  "isCenterClosed": false,
+  "schoolId": "190",
+  "schoolName": "GMSSSS RADAUR"
+},
+{
+  "_id": {
+    "$oid": "6866ed5619149098c28f60f6"
+  },
+  "districtId": "22",
+  "districtName": "Palwal",
+  "blockId": "80",
+  "blockName": "Palwal",
+  "createdAt": "",
+  "updatedAt": "",
+  "isCenterClosed": false,
+  "schoolId": "1008",
+  "schoolName": "GSSS PALWAL"
+},
+{
+  "_id": {
+    "$oid": "6866ed5619149098c28f6095"
+  },
+  "districtId": "2",
+  "districtName": "Bhiwani",
+  "blockId": "11",
+  "blockName": "Bhiwani",
+  "createdAt": "",
+  "updatedAt": "",
+  "isCenterClosed": false,
+  "schoolId": "396",
+  "schoolName": "GMSSSS BHIWANI"
+},
+{
+  "_id": {
+    "$oid": "6866ed5619149098c28f609a"
+  },
+  "districtId": "3",
+  "districtName": "Charkhi Dadri",
+  "blockId": "7",
+  "blockName": "Badhra",
+  "createdAt": "",
+  "updatedAt": "",
+  "isCenterClosed": false,
+  "schoolId": "658",
+  "schoolName": "GMSSSS BADHRA"
+},
+{
+  "_id": {
+    "$oid": "6866ed5619149098c28f60b0"
+  },
+  "districtId": "7",
+  "districtName": "Panchkula",
+  "blockId": "84",
+  "blockName": "Raipur Rani",
+  "createdAt": "",
+  "updatedAt": "",
+  "isCenterClosed": false,
+  "schoolId": "3708",
+  "schoolName": "GMSSSS RAIPUR RANI"
+},
+{
+  "_id": {
+    "$oid": "6866ed5619149098c28f60c0"
+  },
+  "districtId": "11",
+  "districtName": "Sirsa",
+  "blockId": "101",
+  "blockName": "Dabwali",
+  "createdAt": "",
+  "updatedAt": "",
+  "isCenterClosed": false,
+  "schoolId": "2816",
+  "schoolName": "GMSSSS MANDI DABWALI"
+},
+{
+  "_id": {
+    "$oid": "6866ed5619149098c28f60d2"
+  },
+  "districtId": "14",
+  "districtName": "Jhajjar",
+  "blockId": "41",
+  "blockName": "Matan Hail",
+  "createdAt": "",
+  "updatedAt": "",
+  "isCenterClosed": false,
+  "schoolId": "3070",
+  "schoolName": "GSSS MATANHAIL"
+},
+{
+  "_id": {
+    "$oid": "6866ed5619149098c28f60ce"
+  },
+  "districtId": "13",
+  "districtName": "Hisar",
+  "blockId": "37",
+  "blockName": "Uklana",
+  "createdAt": "",
+  "updatedAt": "",
+  "isCenterClosed": false,
+  "schoolId": "1481",
+  "schoolName": "GMSSSS UKLANA"
+},
+{
+  "_id": {
+    "$oid": "6866ed5619149098c28f60b4"
+  },
+  "districtId": "8",
+  "districtName": "Panipat",
+  "blockId": "88",
+  "blockName": "Panipat",
+  "createdAt": "",
+  "updatedAt": "",
+  "isCenterClosed": false,
+  "schoolId": "2130",
+  "schoolName": "DIET PANIPAT/GMSSSS GT ROAD, PANIPAT"
+},
+{
+  "_id": {
+    "$oid": "6866ed5619149098c28f60cd"
+  },
+  "districtId": "13",
+  "districtName": "Hisar",
+  "blockId": "36",
+  "blockName": "Narnaund",
+  "createdAt": "",
+  "updatedAt": "",
+  "isCenterClosed": false,
+  "schoolId": "1478",
+  "schoolName": "GMSSSS NARNAUND"
+},
+{
+  "_id": {
+    "$oid": "6866ed5619149098c28f6090"
+  },
+  "districtId": "1",
+  "districtName": "Ambala",
+  "blockId": "1",
+  "blockName": "Ambala-I (City)",
+  "createdAt": "",
+  "updatedAt": "",
+  "isCenterClosed": false,
+  "schoolId": "143",
+  "schoolName": "GMSSSS POLICE LINE"
+},
+{
+  "_id": {
+    "$oid": "6866ed5619149098c28f6091"
+  },
+  "districtId": "1",
+  "districtName": "Ambala",
+  "blockId": "2",
+  "blockName": "Ambala-II (Cantt)",
+  "createdAt": "",
+  "updatedAt": "",
+  "isCenterClosed": false,
+  "schoolId": "5",
+  "schoolName": "GSSS BAKRA MARKET"
+},
+{
+  "_id": {
+    "$oid": "6866ed5619149098c28f60b1"
+  },
+  "districtId": "8",
+  "districtName": "Panipat",
+  "blockId": "85",
+  "blockName": "Bapauli",
+  "createdAt": "",
+  "updatedAt": "",
+  "isCenterClosed": false,
+  "schoolId": "2073",
+  "schoolName": "GSSS BAPOLI"
+},
+{
+  "_id": {
+    "$oid": "6866ed5619149098c28f60df"
+  },
+  "districtId": "17",
+  "districtName": "Kurukshetra",
+  "blockId": "65",
+  "blockName": "Shahabad",
+  "createdAt": "",
+  "updatedAt": "",
+  "isCenterClosed": false,
+  "schoolId": "2399",
+  "schoolName": "GMSSSS ISMAILABAD"
+},
+{
+  "_id": {
+    "$oid": "6866ed5619149098c28f6098"
+  },
+  "districtId": "2",
+  "districtName": "Bhiwani",
+  "blockId": "15",
+  "blockName": "Siwani",
+  "createdAt": "",
+  "updatedAt": "",
+  "isCenterClosed": false,
+  "schoolId": "359",
+  "schoolName": "GMSSSS SIWANI MANDI"
+},
+{
+  "_id": {
+    "$oid": "6866ed5619149098c28f60c6"
+  },
+  "districtId": "12",
+  "districtName": "Sonipat",
+  "blockId": "108",
+  "blockName": "Gohana",
+  "createdAt": "",
+  "updatedAt": "",
+  "isCenterClosed": false,
+  "schoolId": "3560",
+  "schoolName": "GSSS GOHANA"
+},
+{
+  "_id": {
+    "$oid": "6866ed5619149098c28f60bd"
+  },
+  "districtId": "10",
+  "districtName": "Rohtak",
+  "blockId": "97",
+  "blockName": "Meham",
+  "createdAt": "",
+  "updatedAt": "",
+  "isCenterClosed": false,
+  "schoolId": "2749",
+  "schoolName": "GSSS MEHAM"
+},
+{
+  "_id": {
+    "$oid": "6866ed5619149098c28f6094"
+  },
+  "districtId": "1",
+  "districtName": "Ambala",
+  "blockId": "6",
+  "blockName": "Shehzadpur",
+  "createdAt": "",
+  "updatedAt": "",
+  "isCenterClosed": false,
+  "schoolId": "40",
+  "schoolName": "GMSSSS SEHZADPUR"
+},
+{
+  "_id": {
+    "$oid": "6866ed5619149098c28f60a8"
+  },
+  "districtId": "6",
+  "districtName": "Gurugram",
+  "blockId": "26",
+  "blockName": "Gurgaon",
+  "createdAt": "",
+  "updatedAt": "",
+  "isCenterClosed": false,
+  "schoolId": "784",
+  "schoolName": "GSSS NAWADA FATEHPUR"
+},
+{
+  "_id": {
+    "$oid": "6866ed5619149098c28f609b"
+  },
+  "districtId": "3",
+  "districtName": "Charkhi Dadri",
+  "blockId": "8",
+  "blockName": "Baund Kalan",
+  "createdAt": "",
+  "updatedAt": "",
+  "isCenterClosed": false,
+  "schoolId": "389",
+  "schoolName": "GMSSSS BAUND KALAN"
+},
+{
+  "_id": {
+    "$oid": "6866ed5619149098c28f60c9"
+  },
+  "districtId": "13",
+  "districtName": "Hisar",
+  "blockId": "29",
+  "blockName": "Adampur",
+  "createdAt": "",
+  "updatedAt": "",
+  "isCenterClosed": false,
+  "schoolId": "1420",
+  "schoolName": "GMSSSS ADAMPUR"
+},
+{
+  "_id": {
+    "$oid": "6866ed5619149098c28f60e5"
+  },
+  "districtId": "18",
+  "districtName": "Yamunanagar",
+  "blockId": "117",
+  "blockName": "Saraswati Nagar",
+  "createdAt": "",
+  "updatedAt": "",
+  "isCenterClosed": false,
+  "schoolId": "184",
+  "schoolName": "GMSSSS SARASWATI NAGAR"
+},
+{
+  "_id": {
+    "$oid": "6866ed5619149098c28f60bf"
+  },
+  "districtId": "10",
+  "districtName": "Rohtak",
+  "blockId": "99",
+  "blockName": "Sampla",
+  "createdAt": "",
+  "updatedAt": "",
+  "isCenterClosed": false,
+  "schoolId": "2679",
+  "schoolName": "GMSSSS SAMPLA"
+},
+{
+  "_id": {
+    "$oid": "6866ed5619149098c28f60db"
+  },
+  "districtId": "16",
+  "districtName": "Karnal",
+  "blockId": "59",
+  "blockName": "Karnal",
+  "createdAt": "",
+  "updatedAt": "",
+  "isCenterClosed": false,
+  "schoolId": "1790",
+  "schoolName": "GMSSSS MODEL TOWN"
+},
+{
+  "_id": {
+    "$oid": "6866ed5619149098c28f60ee"
+  },
+  "districtId": "20",
+  "districtName": "Mahendragarh",
+  "blockId": "69",
+  "blockName": "Mahendragarh",
+  "createdAt": "",
+  "updatedAt": "",
+  "isCenterClosed": false,
+  "schoolId": "4100",
+  "schoolName": "GMSSSS MAHENDRAGARH"
+},
+{
+  "_id": {
+    "$oid": "6866ed5619149098c28f609e"
+  },
+  "districtId": "4",
+  "districtName": "Faridabad",
+  "blockId": "17",
+  "blockName": "Ballabgarh",
+  "createdAt": "",
+  "updatedAt": "",
+  "isCenterClosed": false,
+  "schoolId": "966",
+  "schoolName": "GSSS CHANDAWALI"
+},
+{
+  "_id": {
+    "$oid": "6866ed5619149098c28f60e2"
+  },
+  "districtId": "18",
+  "districtName": "Yamunanagar",
+  "blockId": "114",
+  "blockName": "Bilaspur",
+  "createdAt": "",
+  "updatedAt": "",
+  "isCenterClosed": false,
+  "schoolId": "175",
+  "schoolName": "GMSSSS BILASPUR"
+},
+{
+  "_id": {
+    "$oid": "6866ed5619149098c28f60e4"
+  },
+  "districtId": "18",
+  "districtName": "Yamunanagar",
+  "blockId": "116",
+  "blockName": "Jagadhri",
+  "createdAt": "",
+  "updatedAt": "",
+  "isCenterClosed": false,
+  "schoolId": "4187",
+  "schoolName": "SNVGSS MODEL TOWN YAMUNANAGAR"
+},
+{
+  "_id": {
+    "$oid": "6866ed5619149098c28f60a6"
+  },
+  "districtId": "5",
+  "districtName": "Fatehabad",
+  "blockId": "24",
+  "blockName": "Tohana",
+  "createdAt": "",
+  "updatedAt": "",
+  "isCenterClosed": false,
+  "schoolId": "3288",
+  "schoolName": "GSSS TOHANA"
+},
+{
+  "_id": {
+    "$oid": "6866ed5619149098c28f60e9"
+  },
+  "districtId": "19",
+  "districtName": "Jind",
+  "blockId": "45",
+  "blockName": "Julana",
+  "createdAt": "",
+  "updatedAt": "",
+  "isCenterClosed": false,
+  "schoolId": "1507",
+  "schoolName": "GGSSS JULANA"
+},
+{
+  "_id": {
+    "$oid": "6866ed5619149098c28f60a1"
+  },
+  "districtId": "4",
+  "districtName": "Faridabad",
+  "blockId": "18",
+  "blockName": "Faridabad",
+  "createdAt": "",
+  "updatedAt": "",
+  "isCenterClosed": false,
+  "schoolId": "1088",
+  "schoolName": "GSSS NIT-5"
+},
+{
+  "_id": {
+    "$oid": "6866ed5619149098c28f60ea"
+  },
+  "districtId": "19",
+  "districtName": "Jind",
+  "blockId": "46",
+  "blockName": "Narwana",
+  "createdAt": "",
+  "updatedAt": "",
+  "isCenterClosed": false,
+  "schoolId": "1515",
+  "schoolName": "GSSS NARWANA"
+},
+{
+  "_id": {
+    "$oid": "6866ed5619149098c28f60c5"
+  },
+  "districtId": "12",
+  "districtName": "Sonipat",
+  "blockId": "107",
+  "blockName": "Ganaur",
+  "createdAt": "",
+  "updatedAt": "",
+  "isCenterClosed": false,
+  "schoolId": "3679",
+  "schoolName": "GSSS GANAUR"
+},
+{
+  "_id": {
+    "$oid": "6866ed5619149098c28f60cf"
+  },
+  "districtId": "14",
+  "districtName": "Jhajjar",
+  "blockId": "38",
+  "blockName": "Bahadurgarh",
+  "createdAt": "",
+  "updatedAt": "",
+  "isCenterClosed": false,
+  "schoolId": "3109",
+  "schoolName": "GMSSSS BAHADURGARH"
+},
+{
+  "_id": {
+    "$oid": "68b28d0306c30e7129ad5e5b"
+  },
+  "districtId": "7",
+  "districtName": "Panchkula",
+  "blockId": "81",
+  "blockName": "Barwala",
+  "createdAt": "",
+  "updatedAt": "",
+  "isCenterClosed": false,
+  "schoolId": "3716",
+  "schoolName": "GMSSSS BATAUR"
+},
+{
+  "_id": {
+    "$oid": "6866ed5619149098c28f60c8"
+  },
+  "districtId": "12",
+  "districtName": "Sonipat",
+  "blockId": "113",
+  "blockName": "Sonipat",
+  "createdAt": "",
+  "updatedAt": "",
+  "isCenterClosed": false,
+  "schoolId": "3482",
+  "schoolName": "GMSSSS MODEL TOWN SONIPAT"
+},
+{
+  "_id": {
+    "$oid": "6866ed5619149098c28f60dc"
+  },
+  "districtId": "16",
+  "districtName": "Karnal",
+  "blockId": "60",
+  "blockName": "Nilokheri",
+  "createdAt": "",
+  "updatedAt": "",
+  "isCenterClosed": false,
+  "schoolId": "1798",
+  "schoolName": "GSSS NILOKHERI"
+},
+{
+  "_id": {
+    "$oid": "6866ed5619149098c28f60f4"
+  },
+  "districtId": "22",
+  "districtName": "Palwal",
+  "blockId": "78",
+  "blockName": "Hathin",
+  "createdAt": "",
+  "updatedAt": "",
+  "isCenterClosed": false,
+  "schoolId": "979",
+  "schoolName": "SNRSGMSSS HATHIN"
+},
+{
+  "_id": {
+    "$oid": "6866ed5619149098c28f60c2"
+  },
+  "districtId": "11",
+  "districtName": "Sirsa",
+  "blockId": "103",
+  "blockName": "Nathusari Chopta",
+  "createdAt": "",
+  "updatedAt": "",
+  "isCenterClosed": false,
+  "schoolId": "2923",
+  "schoolName": "GMSSSS NATHUSARI CHOPTA"
+},
+{
+  "_id": {
+    "$oid": "6866ed5619149098c28f60d6"
+  },
+  "districtId": "15",
+  "districtName": "Kaithal",
+  "blockId": "53",
+  "blockName": "Pundri",
+  "createdAt": "",
+  "updatedAt": "",
+  "isCenterClosed": false,
+  "schoolId": "2179",
+  "schoolName": "GMSSSS PUNDRI"
+},
+{
+  "_id": {
+    "$oid": "6866ed5619149098c28f60ed"
+  },
+  "districtId": "20",
+  "districtName": "Mahendragarh",
+  "blockId": "68",
+  "blockName": "Kanina",
+  "createdAt": "",
+  "updatedAt": "",
+  "isCenterClosed": false,
+  "schoolId": "3874",
+  "schoolName": "GMSSSS KANINA"
+},
+{
+  "_id": {
+    "$oid": "6866ed5619149098c28f60c3"
+  },
+  "districtId": "11",
+  "districtName": "Sirsa",
+  "blockId": "104",
+  "blockName": "Odhan",
+  "createdAt": "",
+  "updatedAt": "",
+  "isCenterClosed": false,
+  "schoolId": "4025",
+  "schoolName": "GSSS ODHAN"
+},
+{
+  "_id": {
+    "$oid": "6866ed5619149098c28f60a3"
+  },
+  "districtId": "5",
+  "districtName": "Fatehabad",
+  "blockId": "20",
+  "blockName": "Bhuna",
+  "createdAt": "",
+  "updatedAt": "",
+  "isCenterClosed": false,
+  "schoolId": "3267",
+  "schoolName": "GMSSSS BHUNA"
+},
+{
+  "_id": {
+    "$oid": "6866ed5619149098c28f6099"
+  },
+  "districtId": "2",
+  "districtName": "Bhiwani",
+  "blockId": "16",
+  "blockName": "Tosham",
+  "createdAt": "",
+  "updatedAt": "",
+  "isCenterClosed": false,
+  "schoolId": "356",
+  "schoolName": "GMSSSS TOSHAM"
+},
+{
+  "_id": {
+    "$oid": "6866ed5619149098c28f60c7"
+  },
+  "districtId": "12",
+  "districtName": "Sonipat",
+  "blockId": "112",
+  "blockName": "Rai",
+  "createdAt": "",
+  "updatedAt": "",
+  "isCenterClosed": false,
+  "schoolId": "3609",
+  "schoolName": "DIET BISWAMEEL/GMSSSS BISWAMEEL"
+},
+{
+  "_id": {
+    "$oid": "6866ed5619149098c28f60aa"
+  },
+  "districtId": "6",
+  "districtName": "Gurugram",
+  "blockId": "27",
+  "blockName": "Pataudi",
+  "createdAt": "",
+  "updatedAt": "",
+  "isCenterClosed": false,
+  "schoolId": "736",
+  "schoolName": "GMSSSS PATAUDI"
+},
+{
+  "_id": {
+    "$oid": "6866ed5619149098c28f60be"
+  },
+  "districtId": "10",
+  "districtName": "Rohtak",
+  "blockId": "98",
+  "blockName": "Rohtak",
+  "createdAt": "",
+  "updatedAt": "",
+  "isCenterClosed": false,
+  "schoolId": "2672",
+  "schoolName": "GMSSSS BHIWANI ROAD, ROHTAK"
+},
+{
+  "_id": {
+    "$oid": "6866ed5619149098c28f60ef"
+  },
+  "districtId": "20",
+  "districtName": "Mahendragarh",
+  "blockId": "71",
+  "blockName": "Narnaul",
+  "createdAt": "",
+  "updatedAt": "",
+  "isCenterClosed": false,
+  "schoolId": "3887",
+  "schoolName": "GMSSSS NARNAUL"
+},
+{
+  "_id": {
+    "$oid": "6866ed5619149098c28f60b2"
+  },
+  "districtId": "8",
+  "districtName": "Panipat",
+  "blockId": "86",
+  "blockName": "Israna",
+  "createdAt": "",
+  "updatedAt": "",
+  "isCenterClosed": false,
+  "schoolId": "2093",
+  "schoolName": "GMSSSS ISRANA"
+},
+{
+  "_id": {
+    "$oid": "6866ed5619149098c28f60b8"
+  },
+  "districtId": "9",
+  "districtName": "Rewari",
+  "blockId": "94",
+  "blockName": "Rewari",
+  "createdAt": "",
+  "updatedAt": "",
+  "isCenterClosed": false,
+  "schoolId": "2541",
+  "schoolName": "GGSSS REWARI"
+},
+{
+  "_id": {
+    "$oid": "6866ed5619149098c28f60d5"
+  },
+  "districtId": "15",
+  "districtName": "Kaithal",
+  "blockId": "52",
+  "blockName": "Kalayat",
+  "createdAt": "",
+  "updatedAt": "",
+  "isCenterClosed": false,
+  "schoolId": "2149",
+  "schoolName": "GMSSSS KALAYAT"
+},
+{
+  "_id": {
+    "$oid": "6866ed5619149098c28f60a4"
+  },
+  "districtId": "5",
+  "districtName": "Fatehabad",
+  "blockId": "21",
+  "blockName": "Fatehabad",
+  "createdAt": "",
+  "updatedAt": "",
+  "isCenterClosed": false,
+  "schoolId": "3274",
+  "schoolName": "GMSSSS FATEHABAD"
+},
+{
+  "_id": {
+    "$oid": "6866ed5619149098c28f60b9"
+  },
+  "districtId": "9",
+  "districtName": "Rewari",
+  "blockId": "94",
+  "blockName": "Rewari",
+  "createdAt": "",
+  "updatedAt": "",
+  "isCenterClosed": true,
+  "schoolId": "2534",
+  "schoolName": "GSSS MASANI"
+},
+{
+  "_id": {
+    "$oid": "6866ed5619149098c28f60ba"
+  },
+  "districtId": "9",
+  "districtName": "Rewari",
+  "blockId": "94",
+  "blockName": "Rewari",
+  "createdAt": "",
+  "updatedAt": "",
+  "isCenterClosed": false,
+  "schoolId": "2540",
+  "schoolName": "GSSS REWARI"
+},
+{
+  "_id": {
+    "$oid": "6866ed5619149098c28f609f"
+  },
+  "districtId": "4",
+  "districtName": "Faridabad",
+  "blockId": "18",
+  "blockName": "Faridabad",
+  "createdAt": "",
+  "updatedAt": "",
+  "isCenterClosed": false,
+  "schoolId": "6880",
+  "schoolName": "GMSSS SEC-28"
+},
+{
+  "_id": {
+    "$oid": "6866ed5619149098c28f60ec"
+  },
+  "districtId": "20",
+  "districtName": "Mahendragarh",
+  "blockId": "67",
+  "blockName": "Ateli",
+  "createdAt": "",
+  "updatedAt": "",
+  "isCenterClosed": false,
+  "schoolId": "3856",
+  "schoolName": "GMSSSS ATELI"
+},
+{
+  "_id": {
+    "$oid": "6866ed5619149098c28f60ad"
+  },
+  "districtId": "7",
+  "districtName": "Panchkula",
+  "blockId": "83",
+  "blockName": "Pinjore",
+  "createdAt": "",
+  "updatedAt": "",
+  "isCenterClosed": true,
+  "schoolId": "5522",
+  "schoolName": "GMSSSS SEC-20, PANCHKULA"
+},
+{
+  "_id": {
+    "$oid": "6866ed5619149098c28f60dd"
+  },
+  "districtId": "17",
+  "districtName": "Kurukshetra",
+  "blockId": "63",
+  "blockName": "Ladwa",
+  "createdAt": "",
+  "updatedAt": "",
+  "isCenterClosed": false,
+  "schoolId": "2407",
+  "schoolName": "GSSS LADWA"
+},
+{
+  "_id": {
+    "$oid": "6866ed5619149098c28f60d7"
+  },
+  "districtId": "15",
+  "districtName": "Kaithal",
+  "blockId": "54",
+  "blockName": "Rajaund",
+  "createdAt": "",
+  "updatedAt": "",
+  "isCenterClosed": false,
+  "schoolId": "2175",
+  "schoolName": "GMSSSS RAJOUND"
+},
+{
+  "_id": {
+    "$oid": "6866ed5619149098c28f60d4"
+  },
+  "districtId": "15",
+  "districtName": "Kaithal",
+  "blockId": "51",
+  "blockName": "Kaithal",
+  "createdAt": "",
+  "updatedAt": "",
+  "isCenterClosed": false,
+  "schoolId": "6642",
+  "schoolName": "AMSSS GEONG"
+},
+{
+  "_id": {
+    "$oid": "6866ed5619149098c28f60eb"
+  },
+  "districtId": "19",
+  "districtName": "Jind",
+  "blockId": "48",
+  "blockName": "Safidon",
+  "createdAt": "",
+  "updatedAt": "",
+  "isCenterClosed": false,
+  "schoolId": "1512",
+  "schoolName": "GMSSSS SAFIDON"
+},
+{
+  "_id": {
+    "$oid": "6866ed5619149098c28f6092"
+  },
+  "districtId": "1",
+  "districtName": "Ambala",
+  "blockId": "3",
+  "blockName": "Barara",
+  "createdAt": "",
+  "updatedAt": "",
+  "isCenterClosed": false,
+  "schoolId": "13",
+  "schoolName": "GMSSSS BARARA"
+},
+{
+  "_id": {
+    "$oid": "6866ed5619149098c28f60b7"
+  },
+  "districtId": "9",
+  "districtName": "Rewari",
+  "blockId": "93",
+  "blockName": "Nahar",
+  "createdAt": "",
+  "updatedAt": "",
+  "isCenterClosed": false,
+  "schoolId": "2546",
+  "schoolName": "GSSS KOSLI"
+},
+{
+  "_id": {
+    "$oid": "6866ed5619149098c28f60e1"
+  },
+  "districtId": "17",
+  "districtName": "Kurukshetra",
+  "blockId": "66",
+  "blockName": "Thanesar",
+  "createdAt": "",
+  "updatedAt": "",
+  "isCenterClosed": false,
+  "schoolId": "2406",
+  "schoolName": "GMSSSS UNIVERSITY GATE- 2"
+},
+{
+  "_id": {
+    "$oid": "6866ed5619149098c28f60bb"
+  },
+  "districtId": "10",
+  "districtName": "Rohtak",
+  "blockId": "95",
+  "blockName": "Kalanaur",
+  "createdAt": "",
+  "updatedAt": "",
+  "isCenterClosed": false,
+  "schoolId": "2655",
+  "schoolName": "GSSS KAHNAUR"
+},
+{
+  "_id": {
+    "$oid": "6866ed5619149098c28f60d3"
+  },
+  "districtId": "15",
+  "districtName": "Kaithal",
+  "blockId": "50",
+  "blockName": "Guhla At Cheeka",
+  "createdAt": "",
+  "updatedAt": "",
+  "isCenterClosed": false,
+  "schoolId": "2196",
+  "schoolName": "GMSSSS CHEEKA"
+},
+{
+  "_id": {
+    "$oid": "6866ed5619149098c28f60af"
+  },
+  "districtId": "7",
+  "districtName": "Panchkula",
+  "blockId": "83",
+  "blockName": "Pinjore",
+  "createdAt": "",
+  "updatedAt": "",
+  "isCenterClosed": false,
+  "schoolId": "3704",
+  "schoolName": "GSSS SEC-6 PANCHKULA"
+},
+{
+  "_id": {
+    "$oid": "6866ed5619149098c28f60de"
+  },
+  "districtId": "17",
+  "districtName": "Kurukshetra",
+  "blockId": "64",
+  "blockName": "Pehowa",
+  "createdAt": "",
+  "updatedAt": "",
+  "isCenterClosed": false,
+  "schoolId": "2425",
+  "schoolName": "GSSS PEHOWA"
+},
+{
+  "_id": {
+    "$oid": "6866ed5619149098c28f6097"
+  },
+  "districtId": "2",
+  "districtName": "Bhiwani",
+  "blockId": "14",
+  "blockName": "Loharu",
+  "createdAt": "",
+  "updatedAt": "",
+  "isCenterClosed": false,
+  "schoolId": "393",
+  "schoolName": "GMSSSS LOHARU"
+},
+{
+  "_id": {
+    "$oid": "6866ed5619149098c28f60a7"
+  },
+  "districtId": "6",
+  "districtName": "Gurugram",
+  "blockId": "25",
+  "blockName": "Farukh Nagar",
+  "createdAt": "",
+  "updatedAt": "",
+  "isCenterClosed": false,
+  "schoolId": "735",
+  "schoolName": "GMSSSS FARUKHNAGAR"
+},
+{
+  "_id": {
+    "$oid": "6866ed5619149098c28f60c4"
+  },
+  "districtId": "11",
+  "districtName": "Sirsa",
+  "blockId": "106",
+  "blockName": "Sirsa",
+  "createdAt": "",
+  "updatedAt": "",
+  "isCenterClosed": false,
+  "schoolId": "2844",
+  "schoolName": "GMSSSS SIRSA"
+},
+{
+  "_id": {
+    "$oid": "6866ed5619149098c28f60da"
+  },
+  "districtId": "16",
+  "districtName": "Karnal",
+  "blockId": "58",
+  "blockName": "Indri",
+  "createdAt": "",
+  "updatedAt": "",
+  "isCenterClosed": false,
+  "schoolId": "1786",
+  "schoolName": "GSSS INDRI"
+},
+{
+  "_id": {
+    "$oid": "6866ed5619149098c28f60f1"
+  },
+  "districtId": "21",
+  "districtName": "Nuh",
+  "blockId": "74",
+  "blockName": "Nuh",
+  "createdAt": "",
+  "updatedAt": "",
+  "isCenterClosed": false,
+  "schoolId": "6625",
+  "schoolName": "GMSSSS NUH"
+},
+{
+  "_id": {
+    "$oid": "68b158eb4dd73043c7f2fe4c"
+  },
+  "districtId": "14",
+  "districtName": "Jhajjar",
+  "blockId": "118",
+  "blockName": "Beri",
+  "createdAt": "",
+  "updatedAt": "",
+  "isCenterClosed": false,
+  "schoolId": "3261",
+  "schoolName": "GSSS BERI"
+},
+{
+  "_id": {
+    "$oid": "68b28d8d06c30e7129ad5e5d"
+  },
+  "districtId": "9",
+  "districtName": "Rewari",
+  "blockId": "94",
+  "blockName": "Rewari",
+  "createdAt": "",
+  "updatedAt": "",
+  "isCenterClosed": false,
+  "schoolId": "2637",
+  "schoolName": "GSSS DHARUHERA"
+},
+{
+  "_id": {
+    "$oid": "6866ed5619149098c28f60cb"
+  },
+  "districtId": "13",
+  "districtName": "Hisar",
+  "blockId": "33",
+  "blockName": "Hansi",
+  "createdAt": "",
+  "updatedAt": "",
+  "isCenterClosed": false,
+  "schoolId": "1441",
+  "schoolName": "GMSSSS HANSI"
+},
+{
+  "_id": {
+    "$oid": "6866ed5619149098c28f60cc"
+  },
+  "districtId": "13",
+  "districtName": "Hisar",
+  "blockId": "34",
+  "blockName": "Hisar - I",
+  "createdAt": "",
+  "updatedAt": "",
+  "isCenterClosed": false,
+  "schoolId": "1443",
+  "schoolName": "GMSSSS JHAJPUL"
+},
+{
+  "_id": {
+    "$oid": "6866ed5619149098c28f60f3"
+  },
+  "districtId": "21",
+  "districtName": "Nuh",
+  "blockId": "76",
+  "blockName": "Taoru",
+  "createdAt": "",
+  "updatedAt": "",
+  "isCenterClosed": false,
+  "schoolId": "866",
+  "schoolName": "GMSSSS TAURU"
+},
+{
+  "_id": {
+    "$oid": "6866ed5619149098c28f60f5"
+  },
+  "districtId": "22",
+  "districtName": "Palwal",
+  "blockId": "79",
+  "blockName": "Hodal",
+  "createdAt": "",
+  "updatedAt": "",
+  "isCenterClosed": false,
+  "schoolId": "1002",
+  "schoolName": "GMSSSS HODAL"
+},
+{
+  "_id": {
+    "$oid": "6866ed5619149098c28f60a0"
+  },
+  "districtId": "4",
+  "districtName": "Faridabad",
+  "blockId": "18",
+  "blockName": "Faridabad",
+  "createdAt": "",
+  "updatedAt": "",
+  "isCenterClosed": false,
+  "schoolId": "1175",
+  "schoolName": "GSSS FARIDPUR"
+},
+{
+  "_id": {
+    "$oid": "6866ed5619149098c28f6093"
+  },
+  "districtId": "1",
+  "districtName": "Ambala",
+  "blockId": "4",
+  "blockName": "Naraingarh",
+  "createdAt": "",
+  "updatedAt": "",
+  "isCenterClosed": false,
+  "schoolId": "30",
+  "schoolName": "GMSSSS NARAINGARH"
+},
+{
+  "_id": {
+    "$oid": "6866ed5619149098c28f60bc"
+  },
+  "districtId": "10",
+  "districtName": "Rohtak",
+  "blockId": "96",
+  "blockName": "Lakhan Majra",
+  "createdAt": "",
+  "updatedAt": "",
+  "isCenterClosed": false,
+  "schoolId": "2665",
+  "schoolName": "GMSSSS LAKHAN MAJRA"
+},
+{
+  "_id": {
+    "$oid": "6866ed5619149098c28f60ab"
+  },
+  "districtId": "6",
+  "districtName": "Gurugram",
+  "blockId": "28",
+  "blockName": "Sohna",
+  "createdAt": "",
+  "updatedAt": "",
+  "isCenterClosed": false,
+  "schoolId": "738",
+  "schoolName": "GSSS BADSHAHPUR"
+},
+{
+  "_id": {
+    "$oid": "6866ed5619149098c28f60b6"
+  },
+  "districtId": "9",
+  "districtName": "Rewari",
+  "blockId": "90",
+  "blockName": "Bawal",
+  "createdAt": "",
+  "updatedAt": "",
+  "isCenterClosed": false,
+  "schoolId": "2516",
+  "schoolName": "GSSS BAWAL"
+},
+{
+  "_id": {
+    "$oid": "68b28d5406c30e7129ad5e5c"
+  },
+  "districtId": "7",
+  "districtName": "Panchkula",
+  "blockId": "83",
+  "blockName": "Pinjore",
+  "createdAt": "",
+  "updatedAt": "",
+  "isCenterClosed": false,
+  "schoolId": "4300",
+  "schoolName": "SARTHAK GIMSSS SECTOR-12A PANCHKULA"
+},
+{
+  "_id": {
+    "$oid": "6866ed5619149098c28f60a2"
+  },
+  "districtId": "5",
+  "districtName": "Fatehabad",
+  "blockId": "19",
+  "blockName": "Bhattu Kalan",
+  "createdAt": "",
+  "updatedAt": "",
+  "isCenterClosed": false,
+  "schoolId": "3266",
+  "schoolName": "GMSSSS BHATTU KALAN"
+},
+{
+  "_id": {
+    "$oid": "6866ed5619149098c28f60b5"
+  },
+  "districtId": "8",
+  "districtName": "Panipat",
+  "blockId": "89",
+  "blockName": "Samalkha",
+  "createdAt": "",
+  "updatedAt": "",
+  "isCenterClosed": false,
+  "schoolId": "2134",
+  "schoolName": "GMSSSS SAMALKHA"
+},
+{
+  "_id": {
+    "$oid": "6866ed5619149098c28f6096"
+  },
+  "districtId": "2",
+  "districtName": "Bhiwani",
+  "blockId": "13",
+  "blockName": "Kairu",
+  "createdAt": "",
+  "updatedAt": "",
+  "isCenterClosed": false,
+  "schoolId": "395",
+  "schoolName": "GMSSSS KAIRU"
+},
+{
+  "_id": {
+    "$oid": "6866ed5619149098c28f60c1"
+  },
+  "districtId": "11",
+  "districtName": "Sirsa",
+  "blockId": "102",
+  "blockName": "Ellenabad",
+  "createdAt": "",
+  "updatedAt": "",
+  "isCenterClosed": false,
+  "schoolId": "2825",
+  "schoolName": "GMSSSS ELLENABAD"
+},
+{
+  "_id": {
+    "$oid": "6866ed5619149098c28f60d8"
+  },
+  "districtId": "16",
+  "districtName": "Karnal",
+  "blockId": "56",
+  "blockName": "Assandh",
+  "createdAt": "",
+  "updatedAt": "",
+  "isCenterClosed": false,
+  "schoolId": "1768",
+  "schoolName": "PM. SHRI GMSSSS ASSANDH"
+},
+{
+  "_id": {
+    "$oid": "6866ed5619149098c28f60d9"
+  },
+  "districtId": "16",
+  "districtName": "Karnal",
+  "blockId": "57",
+  "blockName": "Gharaunda",
+  "createdAt": "",
+  "updatedAt": "",
+  "isCenterClosed": false,
+  "schoolId": "1782",
+  "schoolName": "GMSSSS GHARAUNDA"
+},
+{
+  "_id": {
+    "$oid": "6866ed5619149098c28f60e7"
+  },
+  "districtId": "19",
+  "districtName": "Jind",
+  "blockId": "44",
+  "blockName": "Jind",
+  "createdAt": "",
+  "updatedAt": "",
+  "isCenterClosed": false,
+  "schoolId": "1748",
+  "schoolName": "GGSSS JIND"
+},
+{
+  "_id": {
+    "$oid": "6866ed5619149098c28f60d1"
+  },
+  "districtId": "14",
+  "districtName": "Jhajjar",
+  "blockId": "40",
+  "blockName": "Jhajjar",
+  "createdAt": "",
+  "updatedAt": "",
+  "isCenterClosed": true,
+  "schoolId": "3083",
+  "schoolName": "GSSS DUJANA"
+},
+{
+  "_id": {
+    "$oid": "6866ed5619149098c28f60a9"
+  },
+  "districtId": "6",
+  "districtName": "Gurugram",
+  "blockId": "26",
+  "blockName": "Gurgaon",
+  "createdAt": "",
+  "updatedAt": "",
+  "isCenterClosed": false,
+  "schoolId": "860",
+  "schoolName": "GSSS SARHAUL"
+},
+{
+  "_id": {
+    "$oid": "6866ed5619149098c28f60ae"
+  },
+  "districtId": "7",
+  "districtName": "Panchkula",
+  "blockId": "83",
+  "blockName": "Pinjore",
+  "createdAt": "",
+  "updatedAt": "",
+  "isCenterClosed": false,
+  "schoolId": "3706",
+  "schoolName": "GSSS PINJORE"
+},
+{
+  "_id": {
+    "$oid": "6866ed5619149098c28f609d"
+  },
+  "districtId": "4",
+  "districtName": "Faridabad",
+  "blockId": "17",
+  "blockName": "Ballabgarh",
+  "createdAt": "",
+  "updatedAt": "",
+  "isCenterClosed": false,
+  "schoolId": "7134",
+  "schoolName": "GMSSSS SECTOR-55"
+},
+{
+  "_id": {
+    "$oid": "6866ed5619149098c28f609c"
+  },
+  "districtId": "3",
+  "districtName": "Charkhi Dadri",
+  "blockId": "12",
+  "blockName": "Dadri",
+  "createdAt": "",
+  "updatedAt": "",
+  "isCenterClosed": false,
+  "schoolId": "377",
+  "schoolName": "GMSSSS CHARKHI DADRI"
+},
+{
+  "_id": {
+    "$oid": "6866ed5619149098c28f60d0"
+  },
+  "districtId": "14",
+  "districtName": "Jhajjar",
+  "blockId": "40",
+  "blockName": "Jhajjar",
+  "createdAt": "",
+  "updatedAt": "",
+  "isCenterClosed": false,
+  "schoolId": "3099",
+  "schoolName": "GMSSSS JHAJJAR"
+},
+{
+  "_id": {
+    "$oid": "6866ed5619149098c28f60e0"
+  },
+  "districtId": "17",
+  "districtName": "Kurukshetra",
+  "blockId": "65",
+  "blockName": "Shahabad",
+  "createdAt": "",
+  "updatedAt": "",
+  "isCenterClosed": false,
+  "schoolId": "2411",
+  "schoolName": "GSSS SHAHBAD"
+},
+{
+  "_id": {
+    "$oid": "6866ed5619149098c28f60e3"
+  },
+  "districtId": "18",
+  "districtName": "Yamunanagar",
+  "blockId": "115",
+  "blockName": "Chhachhrauli",
+  "createdAt": "",
+  "updatedAt": "",
+  "isCenterClosed": false,
+  "schoolId": "4059",
+  "schoolName": "GSSS PRATAP NAGAR (CHHACHROLI)"
+}]

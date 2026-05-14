@@ -31,49 +31,6 @@ export const GetAttendanceByUserId = (queryParams) => {
 
 //________________________________________________
 
-// export const PatchUserAttendanceByUserId = (queryParams, formData) => {
-    
-//      // Prepare query parameters to send in the URL
-//      const queryString = new URLSearchParams(queryParams).toString();
-    
-
-
-//     try {
-//         const response = axios.patch(`${API_BASE_URL}/api/updatedattendanceby-userid?${queryString}`, formData)
-//         return response;
-
-//     } catch (error) {
-//         console.log("Error occured while fetching user attendance data", error)
-//     };
-
-
-// }
-
-
-
-
-// export const PatchUserAttendanceByUserId = async (queryParams, formData) => {
-  
-//   const queryString = new URLSearchParams(queryParams).toString();
-
-//   try {
-//     const response = await axios.patch(
-//       `${API_BASE_URL}/api/updatedattendanceby-userid?${queryString}`,
-//       formData,
- 
-//     );
-
-   
-    
-//     return response;
-    
-//   } catch (error) {
-//     alert('Error❌! Attendance Not Updated. Please Retry!')
-//     console.error("❌ Error occurred while patching attendance:", error);
-//     throw error; // Optional: rethrow for caller to handle
-//   }
-// };
-
 
 
 
@@ -217,3 +174,38 @@ export const getUserAttendanceSummaryData = async (payLoad) => {
         console.log(error.message)
     }
 }
+
+
+
+//New Api 07-05-2026
+
+export const markUserAttendance = async (formData) => {
+
+
+    try {
+        const response = await axios.post(`${API_BASE_URL}/api/mark-user-attendance`, formData);
+        return response
+    } catch (error) {
+        console.log(error.status)
+      
+        console.log(error.message)
+    }
+}
+
+
+
+
+
+export const getUserAttendanceData = async (reqBody) => {
+
+
+    try {
+        const response = await axios.post(`${API_BASE_URL}/api/get-user-attendance`, reqBody);
+        return response
+    } catch (error) {
+        console.log(error.status)
+      
+        console.log(error.message)
+    }
+}
+

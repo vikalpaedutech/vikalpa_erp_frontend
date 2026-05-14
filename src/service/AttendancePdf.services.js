@@ -83,3 +83,52 @@ export const PatchAttendancePdf = async (queyrParams, file) => {
     }
     //_____________________________________________________________________________
 
+
+
+
+
+
+    //Version 2 apis
+
+    export const getAttendancePdf = async (reqBody) => {
+  
+        try {
+
+
+
+            const response = await axios.post(`${API_BASE_URL}/api/get-attendance-pdf`, reqBody)
+
+            console.log(response.status)
+
+            return response.data;
+        } catch (error) {
+            console.log("Some error occured ", error.message)
+        }
+    }
+    //_____________________________________________________________________________
+
+export const uploadAttendancePdf = async (formData) => {
+
+    console.log(formData)
+  try {
+    const response = await axios.post(`${API_BASE_URL}/api/upload-attendance-pdf`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+      // Optional: Add upload progress tracking
+      onUploadProgress: (progressEvent) => {
+        const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+        console.log(`Upload Progress: ${percentCompleted}%`);
+      }
+    });
+
+    console.log("Upload successful:", response.status);
+    return response.data;
+  } catch (error) {
+    console.log("Error uploading attendance PDF:", error.message);
+    if (error.response) {
+      console.log("Server response:", error.response.data);
+    }
+    throw error;
+  }
+};

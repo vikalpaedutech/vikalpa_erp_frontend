@@ -796,6 +796,7 @@ import { UserAttendance } from "../../components/user/UserAttendance";
 import { studentAndAttendanceAndAbsenteeCallingCount, attendancePdfUploadStatusCountByClass } from "../../service/dashboardServices/dashboardCounts.services";
 import { Link } from "react-router-dom";
 import { NewNavbar } from "../../components/Navbar/NewNavbar";
+import { District_block_school, District_School, School_drop_down } from "../../components/Utils/DependentDropDowns.v2";
 
 export const UserMainLayout = () =>{
 
@@ -884,7 +885,7 @@ const allSchoolIds = regions.flatMap(region =>
           id: "2",
           label: "Student-Attendance",
           logo: "/studentattendancesummary.png",
-          path: "student-attendance-dashboard",
+          path: "mb-student-attendance-dashboard",
           accessedBy: ['MIS','ACI', 'Community Manager', 'Community Incharge', 'Project Coordinator', 'Admin', 'Tech']
         },
         {
@@ -920,7 +921,7 @@ const allSchoolIds = regions.flatMap(region =>
           id: "1",
           label: "Attendance",
           logo: "/attendance.png",
-          path: "mb-attendance",
+          path: "mb-student-attendance",
           accessedBy: ['hkrn', 'MIS','ACI', 'Community Manager', 'Community Incharge', 'Project Coordinator', 'Admin', 'Tech', 'CC']
         },
         {
@@ -948,7 +949,7 @@ const allSchoolIds = regions.flatMap(region =>
           id: "5",
           label: "Manual Attendance",
           logo: "/upload.png",
-          path: "manual-attendance",
+          path: "attendance-pdf",
           accessedBy: ['hkrn', 'MIS','ACI', 'Community Manager', 'Community Incharge', 'Project Coordinator', 'Admin', 'Tech', 'CC']
         },
         {
@@ -1239,42 +1240,25 @@ const allSchoolIds = regions.flatMap(region =>
   
     return(
         <Container fluid>
-            {/* <h1>Hello User Layout</h1>
-            <h3>cc layout</h3>
-            <h3>aci layout</h3>
-            <h3>community manager layout</h3>
-            <h3>community incharge layout</h3>
-            <h3>project coordinator layout</h3>
-            <h3>academic coordinator layout</h3>
-            <h3>dtp layout</h3>
-            <h3>teacher layout</h3>
-            <h3>technician layout</h3>
-            <h3>tech layout</h3> */}
-
-            <hr></hr>
-
+<hr></hr>
+<label style={{color:"red"}}>New updates</label>
+            <ol>
+              
+              <li>Self Attendance</li>
+              <li>Student Attendance</li>
+              <li>Attendance Pdf upload and Format Donwload</li>
+            </ol>
+      <hr></hr>
+        <p style={{color:'red'}}>
+  Note: Since the ERP is currently undergoing updates, some features may not work properly.
+  <br />
+  Please try using those features again later.
+  <br />
+  (नोट: ERP में वर्तमान में अपडेट चल रहे हैं, इसलिए कुछ फीचर्स सही तरीके से काम नहीं कर सकते। कृपया उन फीचर्स को बाद में फिर से उपयोग करने का प्रयास करें।)
+</p>
+<hr></hr>
 <div>
 
-
-{/* Performance rank */}
-  {/* <Card
-  style={{
-    width: '250px',            // reduced width
-    margin: '20px auto',       // center horizontally
-    borderRadius: '15px',      // rounded edges
-    boxShadow: '0 4px 15px rgba(0,0,0,0.2)', // subtle shadow
-    background: 'linear-gradient(135deg, #f6d365 0%, #fda085 100%)', // nice gradient
-    textAlign: 'center',       // center text
-  }}
->
-  <Card.Body style={{ 
-    fontSize: '1.5rem',        // larger font for rank
-    fontWeight: '600', 
-    color: '#fff', 
-  }}>
-     Performance Rank: {userData.rank}
-  </Card.Body>
-</Card> */}
 
 
       <div className="main-layout">

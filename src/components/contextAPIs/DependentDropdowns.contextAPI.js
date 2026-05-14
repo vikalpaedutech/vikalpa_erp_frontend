@@ -114,3 +114,37 @@ export const ClassOfStudentProvider = ({children}) => {
 
 }
 
+
+
+
+
+
+//Version 2 Context Api
+
+export const DistrictBlockSschoolContextV2 = createContext();
+
+export const DistrictBlockSschoolContextV2Provider = ({ children }) => {
+    const [districtContext, setDistrictContext] = useState([]);
+    const [blockContext, setBlockContext] = useState([]);
+    const [schoolContext, setSchoolContext] = useState([]);
+     const [batchContext, setBatchContext] = useState([]);
+
+
+    const value = {
+        districtContext,
+        setDistrictContext,
+        blockContext,
+        setBlockContext,
+        schoolContext,
+        setSchoolContext,
+        batchContext, 
+        setBatchContext
+    };
+
+    return (
+        <DistrictBlockSschoolContextV2.Provider value={value}>
+            {children}
+        </DistrictBlockSschoolContextV2.Provider>
+    );
+};
+
