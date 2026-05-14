@@ -19,7 +19,7 @@
 import React, { useEffect, useContext, useState, useMemo, useCallback } from "react";
 import { UserContext } from "../contextAPIs/User.context";
 import { DateNDateRangeContext } from "../contextAPIs/DateNDateRangePicker";
-import { UserAttendanceDashboard, MarkUserAttendance } from "../../service/User.service";
+import { UserAttendanceDashboard, MarkUserAttendanceManually } from "../../service/User.service";
 import { Container, Row, Col, Card, Table, Badge, Button, Form, Spinner, Alert } from 'react-bootstrap';
 import Select from 'react-select';
 import { SingleDatePicker } from "../Utils/DateNDateRangePicker";
@@ -226,7 +226,7 @@ export const UserAttendanceDashboardV2 = () => {
         remarkForManualAttendance: formData.remarkForManualAttendance || null
       };
       
-      const response = await MarkUserAttendance(reqBody);
+      const response = await MarkUserAttendanceManually(reqBody);
       if (response.status === "Ok") {
         // Update local state without page reload
         const updatedAttendanceData = attendanceData.map(existingUser => {

@@ -185,11 +185,43 @@ export const UserAttendanceDashboard = async (reqBody) => {
 
 
 
-export const MarkUserAttendance = async (reqBody) => {
-    const response = await axios.post (`${API_BASE_URL}/api/mark-user-attendance`, reqBody);
+export const MarkUserAttendanceManually = async (reqBody) => {
+    const response = await axios.post (`${API_BASE_URL}/api/mark-user-attendance-manually`, reqBody);
     return response.data;
 }
 
+
+
+
+
+
+
+
+// export const MarkUserAttendance = async (formData) => {
+
+//     console.log(formData)
+//   try {
+//     const response = await axios.post(`${API_BASE_URL}/api/mark-user-attendance`, formData, {
+//       headers: {
+//         'Content-Type': 'multipart/form-data',
+//       },
+//       // Optional: Add upload progress tracking
+//       onUploadProgress: (progressEvent) => {
+//         const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+//         console.log(`Upload Progress: ${percentCompleted}%`);
+//       }
+//     });
+
+//     console.log("Upload successful:", response.status);
+//     return response.data;
+//   } catch (error) {
+//     console.log("Error uploading attendance PDF:", error.message);
+//     if (error.response) {
+//       console.log("Server response:", error.response.data);
+//     }
+//     throw error;
+//   }
+// };
 
 
 
