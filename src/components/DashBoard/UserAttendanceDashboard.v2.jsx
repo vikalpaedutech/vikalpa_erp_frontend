@@ -30,6 +30,9 @@ export const UserAttendanceDashboardV2 = () => {
   const { userData } = useContext(UserContext);
   const { startDate, setStartDate } = useContext(DateNDateRangeContext);
   
+
+  console.log(userData)
+  
   const [attendanceData, setAttendanceData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -68,6 +71,25 @@ export const UserAttendanceDashboardV2 = () => {
     return [...users].sort((a, b) => a.name?.localeCompare(b.name));
   }, []);
 
+
+
+  const getSchoolIdsFromUserAccess = (userData) => {
+  const schoolIds = [];
+  
+  if (userData?.userAccess?.region) {
+    userData.userAccess.region.forEach(district => {
+      district.blockIds?.forEach(block => {
+        block.schoolIds?.forEach(school => {
+          if (school.schoolId) {
+            schoolIds.push(school.schoolId);
+          }
+        });
+      });
+    });
+  }
+  
+  return schoolIds;
+};
   // Fetch dashboard data
   const fetchAttendanceData = useCallback(async () => {
     setLoading(true);
@@ -75,9 +97,14 @@ export const UserAttendanceDashboardV2 = () => {
       const roleFilter = getRoleFilter();
       const currentDate = getCurrentDate();
       console.log(startDate)
+
+         // Get school IDs from user access
+    const schoolIds = getSchoolIdsFromUserAccess(userData);
+
       const reqBody = {
         date: startDate || currentDate,
         role: roleFilter,
+        schoolIds: schoolIds
       };
       
       const response = await UserAttendanceDashboard(reqBody);
