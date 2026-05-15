@@ -928,7 +928,7 @@ const allSchoolIds = regions.flatMap(region =>
           id: "2",
           label: "Upload Marks/Student Answer Sheet",
           logo: "/exam.png",
-          path: "upload-marks",
+          path: "mb-marks-upload",
           accessedBy: ['hkrn','MIS','ACI', 'Community Manager', 'Community Incharge', 'Project Coordinator', 'Admin', 'Tech', 'CC']
         },
         {
@@ -1066,7 +1066,7 @@ const allSchoolIds = regions.flatMap(region =>
           id: "1",
           label: "Absentee Callings",
           logo: "/call.png",
-          path: "absent-calling",
+          path: "student-absentee-calling",
           accessedBy: ['hkrn', 'MIS','ACI', 'Community Manager', 'Community Incharge', 'Project Coordinator', 'Admin', 'Tech', 'CC']
         },
 

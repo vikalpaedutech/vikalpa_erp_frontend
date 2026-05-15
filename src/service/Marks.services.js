@@ -94,3 +94,36 @@ export const uploadTestFileService = async (formData) => {
         throw error;
     }
 }
+
+
+
+
+
+
+//Version 2
+
+
+export const getStudentMarksByExam = async (formData) => {
+    try {
+        const response = await axios.post(`${API_BASE_URL}/api/get-mb-student-marks`, formData);
+        return response.data;
+    } catch (error) {
+        console.error("Error fetching data", error.message);
+        throw error;
+    }
+}
+
+
+
+
+export const updateMarksByExamAndStudent   = async (formData) => {
+    try {
+        const response = await axios.post(`${API_BASE_URL}/api/update-mb-student-marks`, formData);
+        return response.data;
+    } catch (error) {
+        console.error("Error fetching data", error.message);
+        throw error;
+    }
+}
+
+

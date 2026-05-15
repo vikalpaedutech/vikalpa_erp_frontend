@@ -141,6 +141,8 @@ import { UserAttendanceDashboardV2 } from "./components/DashBoard/UserAttendance
 import { AttendancePdfv2 } from "./components/Students/AttendancePdf.v2.jsx";
 import { AttendanceSheetFormat } from "./components/Utils/AttendanceSheetFormat.jsx";
 import { MBStudentsAttendanceDashboard } from "./components/Students/MBStudentsAttendanceDashboard.jsx";
+import { StudentAbsenteeCallingV2 } from "./components/Students/StudentAbsenteeCalling.v2.jsx";
+import { MBMarksUpload } from "./components/Students/MBMarksUpload.jsx";
 
 
 function App() {
@@ -386,6 +388,11 @@ function App() {
                         <Route path="/attendance-sheet-format" element = {<AttendanceSheetFormat/>}/>
 
                         <Route path="/mb-student-attendance-dashboard" element= {<MBStudentsAttendanceDashboard/>}/>  
+
+
+                        <Route path="/student-absentee-calling" element = {<StudentAbsenteeCallingV2/>}/>
+
+                        <Route path="/mb-marks-upload" element = {<MBMarksUpload/>}/>
 
                       </Route>
                     </Routes>
