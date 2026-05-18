@@ -904,9 +904,9 @@ const allSchoolIds = regions.flatMap(region =>
         },
         {
           id: "5",
-          label: "Copy-Checking/Student Disciplinary",
+          label: "Copy-Checking Dashboard",
           logo: "/copychecking.png",
-          path: "student-disciplinary-dashboard",
+          path: "mb-student-copy-checking-dashboard",
           accessedBy: ['MIS','ACI', 'Community Manager', 'Community Incharge', 'Project Coordinator', 'Admin', 'Tech']
         },
       ],
@@ -942,7 +942,7 @@ const allSchoolIds = regions.flatMap(region =>
           id: "4",
           label: "Copy-checking",
           logo: "/copy-checking.png",
-          path: "copy-checking",
+          path: "mb-student-copy-checking",
           accessedBy: ['hkrn','MIS','ACI', 'Community Manager', 'Community Incharge', 'Project Coordinator', 'Admin', 'Tech', 'CC']
         },
         {
@@ -1244,9 +1244,10 @@ const allSchoolIds = regions.flatMap(region =>
 <label style={{color:"red"}}>New updates</label>
             <ol>
               
-              <li>Self Attendance</li>
-              <li>Student Attendance</li>
-              <li>Attendance Pdf upload and Format Donwload</li>
+               <li>Copy Checking</li>
+               <li>Copy Checking Dashboard</li>
+                <li>Absentee Calling</li>
+                <li>Attendance Dashboard/Attendance Report download</li>
             </ol>
       <hr></hr>
         <p style={{color:'red'}}>

@@ -147,3 +147,39 @@ export const StudentAbsenteeCalling = async (reqBody) => {
         throw error;
     }
 }
+
+
+
+
+//Updating student-absentee calling 
+export const StudentAttendanceDashboard = async (reqBody) => {
+    try {
+     
+        const response = await axios.post (`${API_BASE_URL}/api/mb-student-attendance-dashboard`,reqBody)
+        
+        return response.data;
+
+
+    } catch (error) {
+        console.error("Error getting students data", error.message);
+        throw error;
+    }
+}
+
+
+
+
+//GET ALL MB STUDENTS DATA
+export const GetAllMbStudentsData = async (reqBody) => {
+    try {
+     
+        const response = await axios.post (`${API_BASE_URL}/api/get-all-mb-student-data`,reqBody)
+        
+        return response.data;
+
+
+    } catch (error) {
+        console.error("Error getting students data", error.message);
+        throw error;
+    }
+}
