@@ -183,3 +183,48 @@ export const GetAllMbStudentsData = async (reqBody) => {
         throw error;
     }
 }
+
+
+
+
+
+
+
+
+
+
+//CREATE MB STUDENTS DATA
+export const CreateStudent = async (reqBody) => {
+    try {
+     
+        const response = await axios.post (`${API_BASE_URL}/api/create-mb-student-data`,reqBody)
+        
+        return response.data;
+
+
+    } catch (error) {
+        console.error("Error getting students data", error.message);
+        throw error;
+    }
+}
+
+
+
+
+
+
+//CREATE MB STUDENTS DATA
+export const UpdateStudentBySrn = async (reqBody) => {
+    try {
+     
+        const response = await axios.post (`${API_BASE_URL}/api/update-mb-student-data`,reqBody)
+        
+        return response.data;
+
+
+    } catch (error) {
+        console.error("Error getting students data", error.message);
+        throw error;
+    }
+}
+

@@ -197,6 +197,91 @@ export const getAllBillsWithUserDetails = async (reqBody) => {
 
 //Version 2 apis
 
+export const ViewBillSByLoggedInUserIdandDateRange = async (reqBody) => {
+  
+  try {
+
+    const response = await axios.post(`${API_BASE_URL}/api/view-bills-by-userid-date-range`, reqBody);
+
+    return response.data;
+
+  } catch (error) {
+
+    console.error("Error getting bills", error.message);
+
+    throw error;
+
+  }
+
+};
+
+
+
+
+export const GetBillsForVerification = async (reqBody) => {
+  
+  try {
+
+    const response = await axios.post(`${API_BASE_URL}/api/get-data-for-bills-verification`, reqBody);
+
+    return response.data;
+
+  } catch (error) {
+
+    console.error("Error getting bills", error.message);
+
+    throw error;
+
+  }
+
+};
+
+
+
+
+export const BillsVerification = async (reqBody) => {
+  
+  try {
+
+    const response = await axios.post(`${API_BASE_URL}/api/bills-verification`, reqBody);
+
+    return response.data;
+
+  } catch (error) {
+
+    console.error("Error getting bills", error.message);
+
+    throw error;
+
+  }
+
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 //Below api patches bills data. Ony approval part
 

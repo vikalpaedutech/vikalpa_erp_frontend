@@ -987,7 +987,7 @@ const allSchoolIds = regions.flatMap(region =>
           id: "1",
           label: "Upload Bills",
           logo: "/bills.png",
-          path: "upload-bills",
+          path: "upload-bills-v2",
           accessedBy: ['Teacher', 'Photographer', 'MIS','ACI', 'Community Manager', 'Community Incharge', 
             'Project Coordinator', 'Admin', 'Tech', 'CC',
         'DTP', 'Video Grapher', 'Media Manager', 'Editor', 'HR', 'Technician', 'Academic Coordinator']
@@ -1002,7 +1002,7 @@ const allSchoolIds = regions.flatMap(region =>
           id: "2",
           label: "Bills Verification",
           logo: "/bill-verification.png",
-          path: "bills-pending-verification",
+          path: "bills-verification-v2",
           accessedBy: ['MIS','ACI', 'Community Manager',  'Admin', 'Tech']
         },
         {
@@ -1129,6 +1129,21 @@ const allSchoolIds = regions.flatMap(region =>
          },
 
           { id: "2", label: "Update User", path: "update-user",
+            accessedBy: ['MIS','Admin', 'Tech']
+         },
+       
+      ],
+    },
+    {
+      indexKey: "10",
+      label: "Student Controller",
+      module: "TRUE",
+      main: [
+        { id: "1", label: "Create Student", path: "create-student",
+            accessedBy: ['MIS','Admin', 'Tech']
+         },
+
+          { id: "2", label: "Update Student", path: "update-student",
             accessedBy: ['MIS','Admin', 'Tech']
          },
        

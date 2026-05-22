@@ -298,7 +298,7 @@ export const DateNDateRangePicker = () => {
 
 
 
-export const SingleDatePicker = () => {
+export const SingleDatePicker = (props) => {
   const { 
     startDate, 
     setStartDate
@@ -429,6 +429,8 @@ export const SingleDatePicker = () => {
     setTempStartDate(dateStr);
   };
 
+  const labelValue = props.labelText || "Select Date"
+
   return (
     <Container className="mt-4 mb-4" fluid>
       <Card className="shadow-sm">
@@ -437,7 +439,7 @@ export const SingleDatePicker = () => {
           <Row className="g-3 mb-4">
             <Col xs={12}>
               <label className="fw-bold mb-2">
-                Select Date <span className="text-danger">*</span>
+                {labelValue} <span className="text-danger">*</span>
               </label>
               <Form.Control
                 type="date"

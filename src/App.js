@@ -146,7 +146,11 @@ import { MBMarksUpload } from "./components/Students/MBMarksUpload.jsx";
 import { MBStudentCopyChecking } from "./components/Students/MBStudentCopyChecking.jsx";
 import { MBStudentCopyCheckingDashboard } from "./components/Students/MBStudentCopyCheckingDashboard.jsx";
 import { DownloadMBStudentAttendance } from "./components/Utils/DownloadMBStudentAttendnace.jsx";
-
+import {CreateStudentBulk} from "./components/Admin/CreateStudent.jsx";
+import { UpdateStudentBulk } from "./components/Admin/UpdateStudent.jsx";
+import { UploadBillsV2 } from "./components/Bills/UploadBills.v2.jsx";
+import { ViewBillsV2 } from "./components/Bills/ViewBills.v2.jsx";
+import { BillsVerificationV2 } from "./components/Bills/BillsVerification.v2.jsx";
 
 function App() {
   
@@ -402,6 +406,20 @@ function App() {
                         <Route path="/mb-student-copy-checking-dashboard" element = {<MBStudentCopyCheckingDashboard/>}/>
 
                         <Route path="/download-mb-student-attendance" element = {<DownloadMBStudentAttendance/>}/>
+
+
+                        <Route path="/create-student" element = {<CreateStudentBulk/>}/>
+
+                         <Route path="/update-student" element = {<UpdateStudentBulk/>}/>
+
+
+                        <Route path="/upload-bills-v2" element = {<UploadBillsV2/>}/>
+
+
+                        
+                        <Route path="/view-bills-v2" element = {<ViewBillsV2/>}/>
+
+                            <Route path="/bills-verification-v2" element = {<BillsVerificationV2/>}/>
 
                       </Route>
                     </Routes>
