@@ -151,6 +151,7 @@ import { UpdateStudentBulk } from "./components/Admin/UpdateStudent.jsx";
 import { UploadBillsV2 } from "./components/Bills/UploadBills.v2.jsx";
 import { ViewBillsV2 } from "./components/Bills/ViewBills.v2.jsx";
 import { BillsVerificationV2 } from "./components/Bills/BillsVerification.v2.jsx";
+import { BillsApprovalV2 } from "./components/Bills/BillsApproval.v2.jsx";
 
 function App() {
   
@@ -420,6 +421,8 @@ function App() {
                         <Route path="/view-bills-v2" element = {<ViewBillsV2/>}/>
 
                             <Route path="/bills-verification-v2" element = {<BillsVerificationV2/>}/>
+
+                             <Route path="/bills-approval-v2" element = {<BillsApprovalV2/>}/>
 
                       </Route>
                     </Routes>

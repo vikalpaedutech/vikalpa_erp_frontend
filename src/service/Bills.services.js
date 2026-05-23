@@ -259,6 +259,25 @@ export const BillsVerification = async (reqBody) => {
 
 
 
+export const BillsApproval = async (reqBody) => {
+  
+  try {
+
+    const response = await axios.post(`${API_BASE_URL}/api/bills-approval`, reqBody);
+
+    return response.data;
+
+  } catch (error) {
+
+    console.error("Error getting bills", error.message);
+
+    throw error;
+
+  }
+
+};
+
+
 
 
 

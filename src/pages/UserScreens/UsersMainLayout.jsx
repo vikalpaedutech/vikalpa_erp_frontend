@@ -1006,12 +1006,20 @@ const allSchoolIds = regions.flatMap(region =>
           accessedBy: ['MIS','ACI', 'Community Manager',  'Admin', 'Tech']
         },
         {
+          id: "9",
+          label: "Bill Approval",
+          logo: "/approved.png",
+          path: "bills-approval-v2",
+          accessedBy: ['MIS','Admin','Tech','Community Manager', "Accountant"]
+        },
+        {
           id: "3",
           label: "Bill Dashboard",
           logo: "/billdashboard.png",
           path: "bill-dashboard",
           accessedBy: ['MIS','Admin','Tech','Community Manager', "Accountant"]
         },
+         
         {
           id: "7",
           label: "School Concerns Request",
@@ -1255,24 +1263,7 @@ const allSchoolIds = regions.flatMap(region =>
   
     return(
         <Container fluid>
-<hr></hr>
-<label style={{color:"red"}}>New updates</label>
-            <ol>
-              
-               <li>Copy Checking</li>
-               <li>Copy Checking Dashboard</li>
-                <li>Absentee Calling</li>
-                <li>Attendance Dashboard/Attendance Report download</li>
-            </ol>
-      <hr></hr>
-        <p style={{color:'red'}}>
-  Note: Since the ERP is currently undergoing updates, some features may not work properly.
-  <br />
-  Please try using those features again later.
-  <br />
-  (नोट: ERP में वर्तमान में अपडेट चल रहे हैं, इसलिए कुछ फीचर्स सही तरीके से काम नहीं कर सकते। कृपया उन फीचर्स को बाद में फिर से उपयोग करने का प्रयास करें।)
-</p>
-<hr></hr>
+
 <div>
 
 
