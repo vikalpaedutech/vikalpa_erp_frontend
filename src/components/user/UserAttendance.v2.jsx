@@ -599,7 +599,7 @@ export const MarkUserAttendance = () => {
     { value: 'Field Visit', label: 'Field Visit' },
     { value: 'Center Visit', label: 'Center Visit' },
   ];
-  
+    
   const [selectedAttendance, setSelectedAttendance] = useState(null);
   const [visitingLocation, setVisitingLocation] = useState('');
   const [showLocationInput, setShowLocationInput] = useState(false);

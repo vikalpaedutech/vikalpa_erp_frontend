@@ -74,7 +74,7 @@ export const NewNavbar = () => {
   };
 
   const handleAwardPoints = () =>{
-    navigate("/award-points");
+    navigate("/claim-gamification-point");
   }
 
   const handleProfileClick = () => {
@@ -294,9 +294,11 @@ if (userData?.role === "ACI"){
               Individual Concerns
             </NavDropdown.Item>
 
-            <NavDropdown.Item onClick={handleAwardPoints}>
-              Award Points
-            </NavDropdown.Item>
+            {userData?.role === "CC" ? ( <NavDropdown.Item onClick={handleAwardPoints}>
+              Claim Points
+            </NavDropdown.Item>):(null)}
+
+           
             {/* <NavDropdown.Item>Other</NavDropdown.Item> */}
             <NavDropdown.Divider />
             <NavDropdown.Item
