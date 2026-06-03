@@ -154,6 +154,9 @@ import { BillsVerificationV2 } from "./components/Bills/BillsVerification.v2.jsx
 import { BillsApprovalV2 } from "./components/Bills/BillsApproval.v2.jsx";
 import { SchoolDisciplinaries } from "./components/Centers/SchoolDisciplinaries.jsx";
 import { ClaimGamificationPoint, ClaimGamificationPointS } from "./components/Gamification/ClaimGamificationPoint.jsx";
+import { StudentsUpload } from "./components/Students/StudentsUpload.jsx";
+import { StudentUploadDashboard } from "./service/StudentUploadServices/StudentUpload.services.js";
+import { StudentsUploadDashboard } from "./components/DashBoard/StudentUploadDashboard.jsx";
 
 function App() {
   
@@ -432,6 +435,12 @@ function App() {
 
 
                             <Route path="/claim-gamification-point" element = {<ClaimGamificationPointS/>}/>
+
+
+                            <Route path="/student-upload" element = {<StudentsUpload/>}/>
+
+
+                            <Route path="/student-upload-dashboard" element = {<StudentsUploadDashboard/>}/>
 
                       </Route>
                     </Routes>

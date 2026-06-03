@@ -132,6 +132,13 @@ const allSchoolIds = regions.flatMap(region =>
           path: "mb-student-copy-checking-dashboard",
           accessedBy: ['MIS','ACI', 'Community Manager', 'Community Incharge', 'Project Coordinator', 'Admin', 'Tech']
         },
+          {
+          id: "5",
+          label: "Student-upload-dashboard",
+          logo: "/copychecking.png",
+          path: "student-upload-dashboard",
+          accessedBy: ['MIS','ACI', 'Community Manager', 'Community Incharge', 'Project Coordinator', 'Admin', 'Tech']
+        },
       ],
     },
     {
@@ -196,6 +203,13 @@ const allSchoolIds = regions.flatMap(region =>
           label: "Attendance Verification",
           logo: "/taverification.png",
           path: "ta-verification-data",
+          accessedBy: ['hkrn', 'MIS','ACI', 'Community Manager', 'Community Incharge', 'Project Coordinator', 'Admin', 'Tech', 'CC']
+        },
+        {
+          id: "9",
+          label: "Student HW/WORKSHEET Upload",
+          logo: "/uploadstudentfiles.png",
+          path: "student-upload",
           accessedBy: ['hkrn', 'MIS','ACI', 'Community Manager', 'Community Incharge', 'Project Coordinator', 'Admin', 'Tech', 'CC']
         },
       ],
