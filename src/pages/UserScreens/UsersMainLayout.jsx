@@ -130,7 +130,7 @@ const allSchoolIds = regions.flatMap(region =>
           label: "Copy-Checking Dashboard",
           logo: "/copychecking.png",
           path: "mb-student-copy-checking-dashboard",
-          accessedBy: ['MIS','ACI', 'Community Manager', 'Community Incharge', 'Project Coordinator', 'Admin', 'Tech']
+          accessedBy: ['MIS','ACI', 'Community Manager', 'Community Incharge', 'Project Coordinator', 'Admin', 'Tech', 'Teacher']
         },
         //   {
         //   id: "5",
