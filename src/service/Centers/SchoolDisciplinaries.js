@@ -31,7 +31,7 @@ export const createSchoolDisciplinaryRecord = async (reqBody) => {
             const response = await axios.post(`${API_BASE_URL}/api/get-disciplinary-record`, reqBody)
             return response.data;
         } catch (error) {
-            console.log("Some error occuredcreating data", error.message)
+            console.log("Some error while getting data", error.message)
         }
     }
     //_____________________________________________________________________________

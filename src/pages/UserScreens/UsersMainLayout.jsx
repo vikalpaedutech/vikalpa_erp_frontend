@@ -132,11 +132,19 @@ const allSchoolIds = regions.flatMap(region =>
           path: "mb-student-copy-checking-dashboard",
           accessedBy: ['MIS','ACI', 'Community Manager', 'Community Incharge', 'Project Coordinator', 'Admin', 'Tech']
         },
-          {
+        //   {
+        //   id: "5",
+        //   label: "Student-upload-dashboard",
+        //   logo: "/copychecking.png",
+        //   path: "student-upload-dashboard",
+        //   accessedBy: ['MIS','ACI', 'Community Manager', 'Community Incharge', 'Project Coordinator', 'Admin', 'Tech']
+        // },
+
+         {
           id: "5",
-          label: "Student-upload-dashboard",
+          label: "Student-upload-objectives-dashboard",
           logo: "/copychecking.png",
-          path: "student-upload-dashboard",
+          path: "student-upload-objectives-dashboard",
           accessedBy: ['MIS','ACI', 'Community Manager', 'Community Incharge', 'Project Coordinator', 'Admin', 'Tech']
         },
       ],

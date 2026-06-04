@@ -155,8 +155,8 @@ import { BillsApprovalV2 } from "./components/Bills/BillsApproval.v2.jsx";
 import { SchoolDisciplinaries } from "./components/Centers/SchoolDisciplinaries.jsx";
 import { ClaimGamificationPoint, ClaimGamificationPointS } from "./components/Gamification/ClaimGamificationPoint.jsx";
 import { StudentsUpload } from "./components/Students/StudentsUpload.jsx";
-import { StudentUploadDashboard } from "./service/StudentUploadServices/StudentUpload.services.js";
 import { StudentsUploadDashboard } from "./components/DashBoard/StudentUploadDashboard.jsx";
+import { StudentUploadObjectiveDashboard } from "./components/DashBoard/StudentUploadObjectivesDashboard.jsx";
 
 function App() {
   
@@ -441,6 +441,11 @@ function App() {
 
 
                             <Route path="/student-upload-dashboard" element = {<StudentsUploadDashboard/>}/>
+
+                            <Route path="/student-upload-objectives-dashboard" element = {<StudentUploadObjectiveDashboard/>}/>
+
+
+
 
                       </Route>
                     </Routes>

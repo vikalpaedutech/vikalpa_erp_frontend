@@ -122,3 +122,27 @@ export const StudentUploadDashboard = async (reqBody)=> {
 
 }
 
+
+
+
+
+
+
+export const StudentUploadObjectivesDashboard = async (reqBody)=> {
+
+    try {
+        const response = await axios.post(`${API_BASE_URL}/api/student-upload-objectives-dashboard`, reqBody)
+
+        if(response.status === 200){
+        console.log('data fetched successfully')
+        } 
+        return response;
+    } catch (error) {
+        console.log(error)
+        if (error.status === 400){
+            alert('Server error occured.')
+        }
+    }
+
+}
+
