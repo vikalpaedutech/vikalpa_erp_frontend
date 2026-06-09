@@ -1359,7 +1359,7 @@ export const StudentsUpload = () => {
 
   // Compress image file if needed
   const compressFile = async (file) => {
-    const maxSizeMB = 10;
+    const maxSizeMB = 25;
     
     if (file.size <= maxSizeMB * 1024 * 1024) {
       return file;
