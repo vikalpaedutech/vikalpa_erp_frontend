@@ -115,7 +115,7 @@ const allSchoolIds = regions.flatMap(region =>
           id: "3",
           label: "Absentee-Calling",
           logo: "/callingsummary.png",
-          path: "student-calling-dashboard",
+          path: "mb-student-absentee-calling-dashboard",
           accessedBy: ['MIS','ACI', 'Community Manager', 'Community Incharge', 'Project Coordinator', 'Admin', 'Tech']
         },
         {

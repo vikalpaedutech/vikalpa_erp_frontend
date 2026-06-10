@@ -168,6 +168,23 @@ export const StudentAttendanceDashboard = async (reqBody) => {
 
 
 
+//Updating student-absentee calling 
+export const StudentAbsenteeCallingDashboard = async (reqBody) => {
+    try {
+     
+        const response = await axios.post (`${API_BASE_URL}/api/mb-student-absentee-calling-dashboard`,reqBody)
+        
+        return response.data;
+
+
+    } catch (error) {
+        console.error("Error getting students data", error.message);
+        throw error;
+    }
+}
+
+
+
 
 //GET ALL MB STUDENTS DATA
 export const GetAllMbStudentsData = async (reqBody) => {

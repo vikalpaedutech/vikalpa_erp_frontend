@@ -157,6 +157,7 @@ import { ClaimGamificationPoint, ClaimGamificationPointS } from "./components/Ga
 import { StudentsUpload } from "./components/Students/StudentsUpload.jsx";
 import { StudentsUploadDashboard } from "./components/DashBoard/StudentUploadDashboard.jsx";
 import { StudentUploadObjectiveDashboard } from "./components/DashBoard/StudentUploadObjectivesDashboard.jsx";
+import { MBStudentsAbsenteeCallingDashboard } from "./components/Students/MBStudentsAbsenteeCallingDashboar.jsx";
 
 function App() {
   
@@ -445,7 +446,7 @@ function App() {
                             <Route path="/student-upload-objectives-dashboard" element = {<StudentUploadObjectiveDashboard/>}/>
 
 
-
+                           <Route path="/mb-student-absentee-calling-dashboard" element = {<MBStudentsAbsenteeCallingDashboard/>}/>
 
                       </Route>
                     </Routes>
