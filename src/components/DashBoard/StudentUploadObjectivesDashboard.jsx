@@ -813,7 +813,200 @@ export const StudentUploadObjectiveDashboard = () => {
       alert(`Filtered Objective IDs (${objectiveIds.length}):\n\n${objectiveIdsString}`);
     }
   };
-// Handle Export with API data - School-wise rows with repeated objective names
+  
+// // Handle Export with API data - School-wise rows with repeated objective names
+// const handleExportWithAPI = async () => {
+//   if (filteredData.length === 0) {
+//     alert("No data available to export");
+//     return;
+//   }
+
+//   setExportLoading(true);
+  
+//   try {
+//     // Group objectives by batch
+//     const objectivesByBatch = {};
+    
+//     filteredData.forEach(objective => {
+//       const batch = objective.batch;
+//       if (!objectivesByBatch[batch]) {
+//         objectivesByBatch[batch] = [];
+//       }
+//       objectivesByBatch[batch].push(objective);
+//     });
+    
+//     const batches = Object.keys(objectivesByBatch);
+    
+//     // If multiple batches, create separate files
+//     if (batches.length > 1) {
+//       const zip = new JSZip();
+      
+//       for (const batch of batches) {
+//         const objectives = objectivesByBatch[batch];
+//         const exportData = [];
+        
+//         // Prepare data - each school as separate row with objective name repeated
+//         objectives.forEach(objective => {
+//           const schools = objective.schoolWiseDetails?.schools || [];
+          
+//           if (schools.length === 0) {
+//             // One row with no school
+//             exportData.push({
+//               "Objective Name": objective.objectiveName,
+//               "Date of Objective": objective.dateOfObjective ? new Date(objective.dateOfObjective).toLocaleDateString() : "",
+//               "Batch": batch,
+//               "District Name": "",
+//               "School Name": "No schools found",
+//               "Total Students": 0,
+//               "Uploaded Count": 0,
+//               "Pending Uploads": 0,
+//               "Completion %": "0%",
+//               "Objective Total Students": objective.overallStats?.totalStudents || 0,
+//               "Objective Total Uploads": objective.overallStats?.totalUploads || 0,
+//               "Objective Completion %": (objective.overallStats?.completionPercentage || 0) + "%"
+//             });
+//           } else {
+//             // Each school gets its own row with objective name repeated
+//             schools.forEach(school => {
+//               exportData.push({
+//                 "Objective Name": objective.objectiveName,
+//                 "Date of Objective": objective.dateOfObjective ? new Date(objective.dateOfObjective).toLocaleDateString() : "",
+//                 "Batch": batch,
+//                 "District Name": school.districtName || "",
+//                 "School Name": school.schoolName || "",
+//                 "Total Students": school.totalStudents || 0,
+//                 "Uploaded Count": school.uploadedCount || 0,
+//                 "Pending Uploads": school.pendingUploads || 0,
+//                 "Completion %": school.completionPercentage + "%",
+//                 "Objective Total Students": objective.overallStats?.totalStudents || 0,
+//                 "Objective Total Uploads": objective.overallStats?.totalUploads || 0,
+//                 "Objective Completion %": (objective.overallStats?.completionPercentage || 0) + "%"
+//               });
+//             });
+//           }
+//         });
+        
+//         // Create worksheet
+//         const worksheet = XLSX.utils.json_to_sheet(exportData);
+//         const workbook = XLSX.utils.book_new();
+//         XLSX.utils.book_append_sheet(workbook, worksheet, `Batch_${batch}_Report`);
+        
+//         // Auto-size columns
+//         worksheet['!cols'] = [
+//           { wch: 35 }, // Objective Name
+//           { wch: 18 }, // Date of Objective
+//           { wch: 12 }, // Batch
+//           { wch: 20 }, // District Name
+//           { wch: 35 }, // School Name
+//           { wch: 15 }, // Total Students
+//           { wch: 15 }, // Uploaded Count
+//           { wch: 15 }, // Pending Uploads
+//           { wch: 15 }, // Completion %
+//           { wch: 22 }, // Objective Total Students
+//           { wch: 22 }, // Objective Total Uploads
+//           { wch: 22 }  // Objective Completion %
+//         ];
+        
+//         const excelData = XLSX.write(workbook, { type: 'array', bookType: 'xlsx' });
+//         zip.file(`Objective_Wise_School_Report_Batch_${batch}_${dateRange?.startDate?.YYYYMMDD || 'report'}.xlsx`, excelData);
+//       }
+      
+//       // Generate and download zip file
+//       const zipBlob = await zip.generateAsync({ type: 'blob' });
+//       const zipUrl = URL.createObjectURL(zipBlob);
+//       const zipLink = document.createElement('a');
+//       zipLink.href = zipUrl;
+//       zipLink.download = `Objective_Reports_${dateRange?.startDate?.YYYYMMDD || 'report'}_to_${dateRange?.endDate?.YYYYMMDD || 'report'}.zip`;
+//       document.body.appendChild(zipLink);
+//       zipLink.click();
+//       document.body.removeChild(zipLink);
+//       URL.revokeObjectURL(zipUrl);
+      
+//       alert(`Export successful! ${batches.length} batch(es) exported as separate Excel files in ZIP.`);
+      
+//     } else {
+//       // Single batch - create single Excel file
+//       const batch = batches[0];
+//       const objectives = objectivesByBatch[batch];
+//       const exportData = [];
+      
+//       // Prepare data - each school as separate row with objective name repeated
+//       objectives.forEach(objective => {
+//         const schools = objective.schoolWiseDetails?.schools || [];
+        
+//         if (schools.length === 0) {
+//           exportData.push({
+//             "Objective Name": objective.objectiveName,
+//             "Date of Objective": objective.dateOfObjective ? new Date(objective.dateOfObjective).toLocaleDateString() : "",
+//             "Batch": batch,
+//             "District Name": "",
+//             "School Name": "No schools found",
+//             "Total Students": 0,
+//             "Uploaded Count": 0,
+//             "Pending Uploads": 0,
+//             "Completion %": "0%",
+//             "Objective Total Students": objective.overallStats?.totalStudents || 0,
+//             "Objective Total Uploads": objective.overallStats?.totalUploads || 0,
+//             "Objective Completion %": (objective.overallStats?.completionPercentage || 0) + "%"
+//           });
+//         } else {
+//           // Each school gets its own row with objective name repeated
+//           schools.forEach(school => {
+//             exportData.push({
+//               "Objective Name": objective.objectiveName,
+//               "Date of Objective": objective.dateOfObjective ? new Date(objective.dateOfObjective).toLocaleDateString() : "",
+//               "Batch": batch,
+//               "District Name": school.districtName || "",
+//               "School Name": school.schoolName || "",
+//               "Total Students": school.totalStudents || 0,
+//               "Uploaded Count": school.uploadedCount || 0,
+//               "Pending Uploads": school.pendingUploads || 0,
+//               "Completion %": school.completionPercentage + "%",
+//               "Objective Total Students": objective.overallStats?.totalStudents || 0,
+//               "Objective Total Uploads": objective.overallStats?.totalUploads || 0,
+//               "Objective Completion %": (objective.overallStats?.completionPercentage || 0) + "%"
+//             });
+//           });
+//         }
+//       });
+      
+//       const worksheet = XLSX.utils.json_to_sheet(exportData);
+//       const workbook = XLSX.utils.book_new();
+//       XLSX.utils.book_append_sheet(workbook, worksheet, `Batch_${batch}_Report`);
+      
+//       // Auto-size columns
+//       worksheet['!cols'] = [
+//         { wch: 35 }, // Objective Name
+//         { wch: 18 }, // Date of Objective
+//         { wch: 12 }, // Batch
+//         { wch: 20 }, // District Name
+//         { wch: 35 }, // School Name
+//         { wch: 15 }, // Total Students
+//         { wch: 15 }, // Uploaded Count
+//         { wch: 15 }, // Pending Uploads
+//         { wch: 15 }, // Completion %
+//         { wch: 22 }, // Objective Total Students
+//         { wch: 22 }, // Objective Total Uploads
+//         { wch: 22 }  // Objective Completion %
+//       ];
+      
+//       const fileName = `Objective_Wise_School_Report_${batch}_${dateRange?.startDate?.YYYYMMDD || 'start'}_to_${dateRange?.endDate?.YYYYMMDD || 'end'}.xlsx`;
+//       XLSX.writeFile(workbook, fileName);
+      
+//       alert(`Export successful! ${objectives.length} objective(s) exported for batch ${batch}`);
+//     }
+    
+//   } catch (error) {
+//     console.error("Error exporting data:", error);
+//     alert("Failed to export data. Please try again.");
+//   } finally {
+//     setExportLoading(false);
+//   }
+// };
+
+
+
+// Handle Export with API data - One row per school with multiple objective columns
 const handleExportWithAPI = async () => {
   if (filteredData.length === 0) {
     alert("No data available to export");
@@ -842,48 +1035,80 @@ const handleExportWithAPI = async () => {
       
       for (const batch of batches) {
         const objectives = objectivesByBatch[batch];
-        const exportData = [];
         
-        // Prepare data - each school as separate row with objective name repeated
+        // Create a map of school data for this batch
+        const schoolMap = new Map();
+        
         objectives.forEach(objective => {
           const schools = objective.schoolWiseDetails?.schools || [];
           
-          if (schools.length === 0) {
-            // One row with no school
-            exportData.push({
-              "Objective Name": objective.objectiveName,
-              "Date of Objective": objective.dateOfObjective ? new Date(objective.dateOfObjective).toLocaleDateString() : "",
-              "Batch": batch,
-              "District Name": "",
-              "School Name": "No schools found",
-              "Total Students": 0,
-              "Uploaded Count": 0,
-              "Pending Uploads": 0,
-              "Completion %": "0%",
-              "Objective Total Students": objective.overallStats?.totalStudents || 0,
-              "Objective Total Uploads": objective.overallStats?.totalUploads || 0,
-              "Objective Completion %": (objective.overallStats?.completionPercentage || 0) + "%"
-            });
-          } else {
-            // Each school gets its own row with objective name repeated
-            schools.forEach(school => {
-              exportData.push({
-                "Objective Name": objective.objectiveName,
-                "Date of Objective": objective.dateOfObjective ? new Date(objective.dateOfObjective).toLocaleDateString() : "",
-                "Batch": batch,
-                "District Name": school.districtName || "",
-                "School Name": school.schoolName || "",
-                "Total Students": school.totalStudents || 0,
-                "Uploaded Count": school.uploadedCount || 0,
-                "Pending Uploads": school.pendingUploads || 0,
-                "Completion %": school.completionPercentage + "%",
-                "Objective Total Students": objective.overallStats?.totalStudents || 0,
-                "Objective Total Uploads": objective.overallStats?.totalUploads || 0,
-                "Objective Completion %": (objective.overallStats?.completionPercentage || 0) + "%"
+          schools.forEach(school => {
+            const schoolKey = `${school.schoolId}`;
+            if (!schoolMap.has(schoolKey)) {
+              schoolMap.set(schoolKey, {
+                schoolName: school.schoolName,
+                districtName: school.districtName,
+                blockName: school.blockName,
+                totalStudents: school.totalStudents,
+                objectiveUploads: {}
               });
-            });
-          }
+            }
+            
+            const schoolData = schoolMap.get(schoolKey);
+            schoolData.objectiveUploads[objective.objectiveName] = {
+              uploadedCount: school.uploadedCount,
+              pendingUploads: school.pendingUploads
+            };
+          });
         });
+        
+        // Convert map to array and sort by District Name then School Name
+        let schoolsArray = Array.from(schoolMap, ([schoolId, schoolData]) => ({
+          schoolId,
+          ...schoolData
+        }));
+        
+        // Sort by District Name first, then School Name
+        schoolsArray.sort((a, b) => {
+          const districtCompare = (a.districtName || "").localeCompare(b.districtName || "");
+          if (districtCompare !== 0) return districtCompare;
+          return (a.schoolName || "").localeCompare(b.schoolName || "");
+        });
+        
+        // Prepare export data - one row per school with S.No
+        const exportData = [];
+        let serialNo = 1;
+        
+        // Create headers
+        const baseHeaders = ["S.No", "District Name", "School Name", "Total Students"];
+        const objectiveHeaders = [];
+        
+        objectives.forEach(objective => {
+          objectiveHeaders.push(`${objective.objectiveName} (Uploaded Count)`);
+          objectiveHeaders.push(`${objective.objectiveName} (Pending Uploads)`);
+        });
+        
+        // Create rows
+        for (const school of schoolsArray) {
+          const row = {
+            "S.No": serialNo++,
+            "District Name": school.districtName || "",
+            "School Name": school.schoolName || "",
+            "Total Students": school.totalStudents || 0
+          };
+          
+          objectives.forEach(objective => {
+            const uploads = school.objectiveUploads[objective.objectiveName] || {
+              uploadedCount: 0,
+              pendingUploads: 0
+            };
+            
+            row[`${objective.objectiveName} (Uploaded Count)`] = uploads.uploadedCount;
+            row[`${objective.objectiveName} (Pending Uploads)`] = uploads.pendingUploads;
+          });
+          
+          exportData.push(row);
+        }
         
         // Create worksheet
         const worksheet = XLSX.utils.json_to_sheet(exportData);
@@ -891,23 +1116,12 @@ const handleExportWithAPI = async () => {
         XLSX.utils.book_append_sheet(workbook, worksheet, `Batch_${batch}_Report`);
         
         // Auto-size columns
-        worksheet['!cols'] = [
-          { wch: 35 }, // Objective Name
-          { wch: 18 }, // Date of Objective
-          { wch: 12 }, // Batch
-          { wch: 20 }, // District Name
-          { wch: 35 }, // School Name
-          { wch: 15 }, // Total Students
-          { wch: 15 }, // Uploaded Count
-          { wch: 15 }, // Pending Uploads
-          { wch: 15 }, // Completion %
-          { wch: 22 }, // Objective Total Students
-          { wch: 22 }, // Objective Total Uploads
-          { wch: 22 }  // Objective Completion %
-        ];
+        const allHeaders = [...baseHeaders, ...objectiveHeaders];
+        const colWidths = allHeaders.map(header => ({ wch: Math.max(header.length, 20) }));
+        worksheet['!cols'] = colWidths;
         
         const excelData = XLSX.write(workbook, { type: 'array', bookType: 'xlsx' });
-        zip.file(`Objective_Wise_School_Report_Batch_${batch}_${dateRange?.startDate?.YYYYMMDD || 'report'}.xlsx`, excelData);
+        zip.file(`School_Wise_Objective_Report_Batch_${batch}_${dateRange?.startDate?.YYYYMMDD || 'report'}.xlsx`, excelData);
       }
       
       // Generate and download zip file
@@ -915,7 +1129,7 @@ const handleExportWithAPI = async () => {
       const zipUrl = URL.createObjectURL(zipBlob);
       const zipLink = document.createElement('a');
       zipLink.href = zipUrl;
-      zipLink.download = `Objective_Reports_${dateRange?.startDate?.YYYYMMDD || 'report'}_to_${dateRange?.endDate?.YYYYMMDD || 'report'}.zip`;
+      zipLink.download = `School_Wise_Reports_${dateRange?.startDate?.YYYYMMDD || 'report'}_to_${dateRange?.endDate?.YYYYMMDD || 'report'}.zip`;
       document.body.appendChild(zipLink);
       zipLink.click();
       document.body.removeChild(zipLink);
@@ -927,72 +1141,90 @@ const handleExportWithAPI = async () => {
       // Single batch - create single Excel file
       const batch = batches[0];
       const objectives = objectivesByBatch[batch];
-      const exportData = [];
       
-      // Prepare data - each school as separate row with objective name repeated
+      // Create a map of school data for this batch
+      const schoolMap = new Map();
+      
       objectives.forEach(objective => {
         const schools = objective.schoolWiseDetails?.schools || [];
         
-        if (schools.length === 0) {
-          exportData.push({
-            "Objective Name": objective.objectiveName,
-            "Date of Objective": objective.dateOfObjective ? new Date(objective.dateOfObjective).toLocaleDateString() : "",
-            "Batch": batch,
-            "District Name": "",
-            "School Name": "No schools found",
-            "Total Students": 0,
-            "Uploaded Count": 0,
-            "Pending Uploads": 0,
-            "Completion %": "0%",
-            "Objective Total Students": objective.overallStats?.totalStudents || 0,
-            "Objective Total Uploads": objective.overallStats?.totalUploads || 0,
-            "Objective Completion %": (objective.overallStats?.completionPercentage || 0) + "%"
-          });
-        } else {
-          // Each school gets its own row with objective name repeated
-          schools.forEach(school => {
-            exportData.push({
-              "Objective Name": objective.objectiveName,
-              "Date of Objective": objective.dateOfObjective ? new Date(objective.dateOfObjective).toLocaleDateString() : "",
-              "Batch": batch,
-              "District Name": school.districtName || "",
-              "School Name": school.schoolName || "",
-              "Total Students": school.totalStudents || 0,
-              "Uploaded Count": school.uploadedCount || 0,
-              "Pending Uploads": school.pendingUploads || 0,
-              "Completion %": school.completionPercentage + "%",
-              "Objective Total Students": objective.overallStats?.totalStudents || 0,
-              "Objective Total Uploads": objective.overallStats?.totalUploads || 0,
-              "Objective Completion %": (objective.overallStats?.completionPercentage || 0) + "%"
+        schools.forEach(school => {
+          const schoolKey = `${school.schoolId}`;
+          if (!schoolMap.has(schoolKey)) {
+            schoolMap.set(schoolKey, {
+              schoolName: school.schoolName,
+              districtName: school.districtName,
+              blockName: school.blockName,
+              totalStudents: school.totalStudents,
+              objectiveUploads: {}
             });
-          });
-        }
+          }
+          
+          const schoolData = schoolMap.get(schoolKey);
+          schoolData.objectiveUploads[objective.objectiveName] = {
+            uploadedCount: school.uploadedCount,
+            pendingUploads: school.pendingUploads
+          };
+        });
       });
+      
+      // Convert map to array and sort by District Name then School Name
+      let schoolsArray = Array.from(schoolMap, ([schoolId, schoolData]) => ({
+        schoolId,
+        ...schoolData
+      }));
+      
+      // Sort by District Name first, then School Name
+      schoolsArray.sort((a, b) => {
+        const districtCompare = (a.districtName || "").localeCompare(b.districtName || "");
+        if (districtCompare !== 0) return districtCompare;
+        return (a.schoolName || "").localeCompare(b.schoolName || "");
+      });
+      
+      // Prepare export data - one row per school with S.No
+      const exportData = [];
+      let serialNo = 1;
+      
+      for (const school of schoolsArray) {
+        const row = {
+          "S.No": serialNo++,
+          "District Name": school.districtName || "",
+          "School Name": school.schoolName || "",
+          "Total Students": school.totalStudents || 0
+        };
+        
+        objectives.forEach(objective => {
+          const uploads = school.objectiveUploads[objective.objectiveName] || {
+            uploadedCount: 0,
+            pendingUploads: 0
+          };
+          
+          row[`${objective.objectiveName} (Uploaded Count)`] = uploads.uploadedCount;
+          row[`${objective.objectiveName} (Pending Uploads)`] = uploads.pendingUploads;
+        });
+        
+        exportData.push(row);
+      }
       
       const worksheet = XLSX.utils.json_to_sheet(exportData);
       const workbook = XLSX.utils.book_new();
       XLSX.utils.book_append_sheet(workbook, worksheet, `Batch_${batch}_Report`);
       
       // Auto-size columns
-      worksheet['!cols'] = [
-        { wch: 35 }, // Objective Name
-        { wch: 18 }, // Date of Objective
-        { wch: 12 }, // Batch
-        { wch: 20 }, // District Name
-        { wch: 35 }, // School Name
-        { wch: 15 }, // Total Students
-        { wch: 15 }, // Uploaded Count
-        { wch: 15 }, // Pending Uploads
-        { wch: 15 }, // Completion %
-        { wch: 22 }, // Objective Total Students
-        { wch: 22 }, // Objective Total Uploads
-        { wch: 22 }  // Objective Completion %
-      ];
+      const baseHeaders = ["S.No", "District Name", "School Name", "Total Students"];
+      const objectiveHeaders = [];
+      objectives.forEach(objective => {
+        objectiveHeaders.push(`${objective.objectiveName} (Uploaded Count)`);
+        objectiveHeaders.push(`${objective.objectiveName} (Pending Uploads)`);
+      });
+      const allHeaders = [...baseHeaders, ...objectiveHeaders];
+      const colWidths = allHeaders.map(header => ({ wch: Math.max(header.length, 20) }));
+      worksheet['!cols'] = colWidths;
       
-      const fileName = `Objective_Wise_School_Report_${batch}_${dateRange?.startDate?.YYYYMMDD || 'start'}_to_${dateRange?.endDate?.YYYYMMDD || 'end'}.xlsx`;
+      const fileName = `School_Wise_Objective_Report_${batch}_${dateRange?.startDate?.YYYYMMDD || 'start'}_to_${dateRange?.endDate?.YYYYMMDD || 'end'}.xlsx`;
       XLSX.writeFile(workbook, fileName);
       
-      alert(`Export successful! ${objectives.length} objective(s) exported for batch ${batch}`);
+      alert(`Export successful! ${schoolsArray.length} school(s) exported for batch ${batch}`);
     }
     
   } catch (error) {
@@ -1002,6 +1234,8 @@ const handleExportWithAPI = async () => {
     setExportLoading(false);
   }
 };
+
+
 
   // Handle View Report
   const handleViewReport = (objectiveId, batch, objectiveName) => {
