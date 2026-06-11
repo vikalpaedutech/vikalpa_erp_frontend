@@ -684,6 +684,14 @@ const callingStatusOptions = [
 ];
 
 const connectedRemarkOptions = [
+  { value: "Health Issues", label: "Health Issues" },
+   { value: "Student was travelling", label: "Student was travelling" },
+    { value: "Did not receive class link", label: "Did not receive class link" },
+     { value: "No internet available", label: "No internet available" },
+      { value: "Attending a function", label: "Attending a function" },
+       { value: " Do not have mobile phone", label: " Do not have mobile phone" },
+
+       
   { value: "Sick", label: "Sick" },
   { value: "Out of town", label: "Out of town" },
   { value: "Not interested", label: "Not interested" },
