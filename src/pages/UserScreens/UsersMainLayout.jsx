@@ -220,6 +220,20 @@ const allSchoolIds = regions.flatMap(region =>
           path: "student-upload",
           accessedBy: ['hkrn', 'MIS','ACI', 'Community Manager', 'Community Incharge', 'Project Coordinator', 'Admin', 'Tech', 'CC']
         },
+             {
+          id: "9",
+          label: "Add Student",
+          logo: "/addstudent.gif",
+          path: "create-student-form",
+          accessedBy: ['hkrn', 'MIS','ACI', 'Community Manager', 'Community Incharge', 'Project Coordinator', 'Admin', 'Tech', 'CC']
+        },
+          {
+          id: "9",
+          label: "Remove Student",
+          logo: "/removestudent.gif",
+          path: "remove-or-release-slc",
+          accessedBy: ['hkrn', 'MIS','ACI', 'Community Manager', 'Community Incharge', 'Project Coordinator', 'Admin', 'Tech', 'CC']
+        },
       ],
     },
     {

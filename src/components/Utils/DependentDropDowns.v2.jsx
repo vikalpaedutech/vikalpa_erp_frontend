@@ -1056,6 +1056,194 @@ export const District_School = () => {
 
 
 
+// export const School_drop_down = () => {
+//   const { userData } = useContext(UserContext);
+//   const { 
+//     schoolContext,
+//     setSchoolContext
+//   } = useContext(DistrictBlockSschoolContextV2);
+  
+//   // State variables
+//   const [loading, setLoading] = useState(false);
+//   const [schools, setSchools] = useState([]);
+  
+//   // Selected value for dropdown display
+//   const [selectedSchool, setSelectedSchool] = useState(null);
+  
+//   // Extract school IDs from userAccess
+//   const schoolIds = [...new Set(userData?.userAccess?.region.flatMap(item => 
+//     item.blockIds.flatMap(block => 
+//       block.schoolIds.map(school => school.schoolId)
+//     )
+//   ))];
+  
+//   // Fetch schools data
+//   const fetchSchoolsByUser = async () => {
+//     setLoading(true);
+//     const reqBody = {
+//       schoolId: schoolIds
+//     };
+    
+//     try {
+//       const response = await GetDistrictBlockSchoolByParams(reqBody);
+//       console.log("Fetched Schools Data:", response.data);
+      
+//       // Extract unique schools from the response and sort A to Z
+//       const uniqueSchools = [];
+//       const schoolMap = new Map();
+      
+//       response.data.forEach(item => {
+//         if (!schoolMap.has(item.schoolId)) {
+//           schoolMap.set(item.schoolId, {
+//             value: item.schoolId,
+//             label: item.schoolName,
+//             schoolName: item.schoolName,
+//             schoolId: item.schoolId
+//           });
+//           uniqueSchools.push({
+//             value: item.schoolId,
+//             label: item.schoolName,
+//             schoolName: item.schoolName,
+//             schoolId: item.schoolId
+//           });
+//         }
+//       });
+      
+//       // Sort schools alphabetically by name
+//       const sortedSchools = uniqueSchools.sort((a, b) => 
+//         a.schoolName.localeCompare(b.schoolName)
+//       );
+//       setSchools(sortedSchools);
+      
+//     } catch (error) {
+//       console.error("Error fetching schools data:", error);
+//     } finally {
+//       setLoading(false);
+//     }
+//   };
+  
+//   // Handle school change
+//   const handleSchoolChange = (selectedOption) => {
+//     setSelectedSchool(selectedOption);
+    
+//     // Store in context and log
+//     if (selectedOption) {
+//       const schoolData = {
+//         schoolId: selectedOption.schoolId,
+//         schoolName: selectedOption.schoolName
+//       };
+//       setSchoolContext(schoolData);
+//       console.log("Selected School:", schoolData);
+//     } else {
+//       setSchoolContext(null);
+//       console.log("School cleared");
+//     }
+//   };
+  
+//   // Reset selection
+//   const handleReset = () => {
+//     setSelectedSchool(null);
+//     setSchoolContext(null);
+//     console.log("School selection cleared");
+//   };
+  
+//   useEffect(() => {
+//     if (schoolIds.length > 0) {
+//       fetchSchoolsByUser();
+//     }
+//   }, []);
+  
+//   // Log current context value whenever it changes
+//   useEffect(() => {
+//     console.log("Current School Context:", schoolContext);
+//   }, [schoolContext]);
+  
+//   // Custom styles for React Select
+//   const customStyles = {
+//     control: (base, state) => ({
+//       ...base,
+//       borderColor: state.isFocused ? '#86b7fe' : '#ced4da',
+//       boxShadow: state.isFocused ? '0 0 0 0.2rem rgba(13, 110, 253, 0.25)' : 'none',
+//       '&:hover': {
+//         borderColor: '#86b7fe'
+//       }
+//     }),
+//     option: (base, state) => ({
+//       ...base,
+//       backgroundColor: state.isSelected ? '#0d6efd' : state.isFocused ? '#e7f1ff' : 'white',
+//       color: state.isSelected ? 'white' : '#212529',
+//       '&:active': {
+//         backgroundColor: '#0d6efd'
+//       }
+//     })
+//   };
+  
+//   return (
+//     <Container className="mt-4 mb-4" fluid>
+//       <Card className="shadow-sm">
+//         <Card.Body>
+//           {loading ? (
+//             <div className="text-center py-5">
+//               <Spinner animation="border" variant="primary" />
+//               <p className="mt-3">Loading schools...</p>
+//             </div>
+//           ) : (
+//             <>
+//               {/* Single School Dropdown */}
+//               <Row className="mb-4">
+//                 <Col xs={12}>
+//                   <label className="fw-bold mb-2">
+//                     Select School <span className="text-danger">*</span>
+//                   </label>
+//                   <Select
+//                     options={schools}
+//                     value={selectedSchool}
+//                     onChange={handleSchoolChange}
+//                     placeholder="Choose school..."
+//                     isClearable
+//                     isSearchable
+//                     styles={customStyles}
+//                     className="react-select-container"
+//                     classNamePrefix="react-select"
+//                     isDisabled={schools.length === 0}
+//                   />
+//                   {schools.length === 0 && !loading && (
+//                     <small className="text-muted d-block mt-1">No schools assigned to you</small>
+//                   )}
+//                   {schools.length > 0 && (
+//                     <small className="text-muted d-block mt-1">
+//                       Total {schools.length} school(s) available
+//                     </small>
+//                   )}
+//                 </Col>
+//               </Row>
+              
+//               {/* Reset Button */}
+//               {selectedSchool && (
+//                 <Row className="mb-4">
+//                   <Col md={12}>
+//                     <button 
+//                       className="btn btn-outline-secondary w-100"
+//                       onClick={handleReset}
+//                     >
+//                       Clear Selection
+//                     </button>
+//                   </Col>
+//                 </Row>
+//               )}
+              
+             
+//             </>
+//           )}
+//         </Card.Body>
+//       </Card>
+//     </Container>
+//   );
+// };
+
+
+
+
 export const School_drop_down = () => {
   const { userData } = useContext(UserContext);
   const { 
@@ -1070,12 +1258,37 @@ export const School_drop_down = () => {
   // Selected value for dropdown display
   const [selectedSchool, setSelectedSchool] = useState(null);
   
-  // Extract school IDs from userAccess
-  const schoolIds = [...new Set(userData?.userAccess?.region.flatMap(item => 
-    item.blockIds.flatMap(block => 
-      block.schoolIds.map(school => school.schoolId)
-    )
-  ))];
+  // Extract school IDs with their district and block info from userAccess
+  const schoolAccessData = [];
+  const schoolIds = [];
+  
+  userData?.userAccess?.region.forEach(region => {
+    region.blockIds.forEach(block => {
+      block.schoolIds.forEach(school => {
+        schoolIds.push(school.schoolId);
+        schoolAccessData.push({
+          schoolId: school.schoolId,
+          districtId: region.districtId,
+          districtName: region.districtName,
+          blockId: block.blockId,
+          blockName: block.blockName
+        });
+      });
+    });
+  });
+  
+  // Create a map for quick lookup of district/block info by schoolId
+  const schoolInfoMap = new Map();
+  schoolAccessData.forEach(item => {
+    if (!schoolInfoMap.has(item.schoolId)) {
+      schoolInfoMap.set(item.schoolId, {
+        districtId: item.districtId,
+        districtName: item.districtName,
+        blockId: item.blockId,
+        blockName: item.blockName
+      });
+    }
+  });
   
   // Fetch schools data
   const fetchSchoolsByUser = async () => {
@@ -1088,23 +1301,34 @@ export const School_drop_down = () => {
       const response = await GetDistrictBlockSchoolByParams(reqBody);
       console.log("Fetched Schools Data:", response.data);
       
-      // Extract unique schools from the response and sort A to Z
+      // Extract unique schools with their district and block info
       const uniqueSchools = [];
       const schoolMap = new Map();
       
       response.data.forEach(item => {
         if (!schoolMap.has(item.schoolId)) {
+          // Get district and block info from the map we created
+          const additionalInfo = schoolInfoMap.get(item.schoolId) || {};
+          
           schoolMap.set(item.schoolId, {
             value: item.schoolId,
             label: item.schoolName,
             schoolName: item.schoolName,
-            schoolId: item.schoolId
+            schoolId: item.schoolId,
+            districtId: additionalInfo.districtId || item.districtId || null,
+            districtName: additionalInfo.districtName || item.districtName || null,
+            blockId: additionalInfo.blockId || item.blockId || null,
+            blockName: additionalInfo.blockName || item.blockName || null
           });
           uniqueSchools.push({
             value: item.schoolId,
             label: item.schoolName,
             schoolName: item.schoolName,
-            schoolId: item.schoolId
+            schoolId: item.schoolId,
+            districtId: additionalInfo.districtId || item.districtId || null,
+            districtName: additionalInfo.districtName || item.districtName || null,
+            blockId: additionalInfo.blockId || item.blockId || null,
+            blockName: additionalInfo.blockName || item.blockName || null
           });
         }
       });
@@ -1126,14 +1350,18 @@ export const School_drop_down = () => {
   const handleSchoolChange = (selectedOption) => {
     setSelectedSchool(selectedOption);
     
-    // Store in context and log
+    // Store in context with all information
     if (selectedOption) {
       const schoolData = {
         schoolId: selectedOption.schoolId,
-        schoolName: selectedOption.schoolName
+        schoolName: selectedOption.schoolName,
+        districtId: selectedOption.districtId,
+        districtName: selectedOption.districtName,
+        blockId: selectedOption.blockId,
+        blockName: selectedOption.blockName
       };
       setSchoolContext(schoolData);
-      console.log("Selected School:", schoolData);
+      console.log("Selected School with Details:", schoolData);
     } else {
       setSchoolContext(null);
       console.log("School cleared");
@@ -1231,8 +1459,6 @@ export const School_drop_down = () => {
                   </Col>
                 </Row>
               )}
-              
-             
             </>
           )}
         </Card.Body>
@@ -1240,9 +1466,6 @@ export const School_drop_down = () => {
     </Container>
   );
 };
-
-
-
 
 
 

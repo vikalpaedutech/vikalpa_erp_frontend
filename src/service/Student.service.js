@@ -229,6 +229,60 @@ export const CreateStudent = async (reqBody) => {
 
 
 
+// // In Student.service.js
+// // CREATE MB STUDENTS DATA
+// export const CreateStudentFormAPI = async (reqBody) => {
+//   try {
+//     const response = await axios.post(`${API_BASE_URL}/api/create-student-form`, reqBody);
+//     return response.data;
+//   } catch (error) {
+//     console.error("Error creating student:", error);
+//     throw error.response?.data || error;
+//   }
+// };
+
+// // Check SRN availability
+// export const checkSRNAvailability = async (srn) => {
+//   try {
+//     const response = await axios.post(`${API_BASE_URL}/api/check-srn-availability`, { studentSrn: srn });
+//     return response.data;
+//   } catch (error) {
+//     console.error("Error checking SRN:", error);
+//     throw error.response?.data || error;
+//   }
+// };
+
+
+
+
+
+// In Student.service.js
+// CREATE MB STUDENTS DATA
+export const CreateStudentFormAPI = async (reqBody) => {
+  try {
+    const response = await axios.post(`${API_BASE_URL}/api/create-student-form`, reqBody);
+    return response.data;
+  } catch (error) {
+    console.error("Error creating student:", error);
+    throw error.response?.data || error;
+  }
+};
+
+// Check SRN availability
+export const checkSRNAvailability = async (srn) => {
+  try {
+    const response = await axios.post(`${API_BASE_URL}/api/check-srn-availability`, { studentSrn: srn });
+    return response.data;
+  } catch (error) {
+    console.error("Error checking SRN:", error);
+    throw error.response?.data || error;
+  }
+};
+
+
+
+
+
 
 //CREATE MB STUDENTS DATA
 export const UpdateStudentBySrn = async (reqBody) => {

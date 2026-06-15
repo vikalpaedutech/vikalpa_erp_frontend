@@ -158,6 +158,8 @@ import { StudentsUpload } from "./components/Students/StudentsUpload.jsx";
 import { StudentsUploadDashboard } from "./components/DashBoard/StudentUploadDashboard.jsx";
 import { StudentUploadObjectiveDashboard } from "./components/DashBoard/StudentUploadObjectivesDashboard.jsx";
 import { MBStudentsAbsenteeCallingDashboard } from "./components/Students/MBStudentsAbsenteeCallingDashboar.jsx";
+import { CreateStudentForm } from "./components/Admin/CreateStudentForm.jsx";
+import { RemoveOrReleaseSLC } from "./components/Admin/RemoveOrReleaseSLC.jsx";
 
 function App() {
   
@@ -447,6 +449,10 @@ function App() {
 
 
                            <Route path="/mb-student-absentee-calling-dashboard" element = {<MBStudentsAbsenteeCallingDashboard/>}/>
+
+                    <Route path="/create-student-form" element = {<CreateStudentForm/>}/>
+
+                    <Route path="/remove-or-release-slc" element = {<RemoveOrReleaseSLC/>}/>
 
                       </Route>
                     </Routes>
