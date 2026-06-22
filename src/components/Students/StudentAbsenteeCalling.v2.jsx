@@ -673,6 +673,7 @@ import {
 } from "react-icons/fa";
 
 import Select from "react-select";
+import { ClaimGamificationPoint } from "../../service/Gamification/ClaimGamification.services";
 
 /* =========================
    OPTIONS
@@ -1078,6 +1079,7 @@ export const StudentAbsenteeCallingV2 = () => {
     DistrictBlockSschoolContextV2
   );
 
+  const {userData} = useContext(UserContext)
   const { startDate } = useContext(
     DateNDateRangeContext
   );
@@ -1217,6 +1219,22 @@ export const StudentAbsenteeCallingV2 = () => {
         setTimeout(() => {
           setSuccessMessage(null);
         }, 3000);
+
+  const currentDate = new Date().toISOString().split("T")[0]; // "2026-06-18"
+
+
+  if (startDate === currentDate) {
+  //Gamification setup
+       await ClaimGamificationPoint({
+
+         pointType:"callingAbsentee",
+        date: new Date().toISOString().split("T")[0],
+        batch: batchContext?.batch || batchContext,
+        schoolId: schoolContext?.schoolId,
+        // district_block_schoolsObjectId,
+        unqObjectId: userData?._id,
+       })
+}
       }
     } catch (error) {
       console.log(error);

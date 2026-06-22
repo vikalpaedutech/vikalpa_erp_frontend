@@ -4261,6 +4261,7 @@ export const CreateStudentForm = ({ onSuccess, onCancel, selectedSchoolId, selec
     bothSideDistance: null,
     userId: userData?._id || null,
     studentCRUDStatus: "Added",
+    studentCreationDate: new Date()
   });
 
   const [touched, setTouched] = useState({});

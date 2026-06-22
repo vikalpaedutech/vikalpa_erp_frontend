@@ -114,3 +114,21 @@ export const fetchUserGamificationPoints = async (reqBody) => {
 
 
 
+
+
+
+
+
+//Dashboard
+
+export const gamificationDashboardV2 = async (reqBody) => {
+
+        try {
+            const response = await axios.post(`${API_BASE_URL}/api/gamification-dashboard-v2`, reqBody)
+            return response.data;
+        } catch (error) {
+            console.log("Some error", error.message)
+        }
+    }
+    //_____________________________________________________________________________
+

@@ -13,7 +13,7 @@
 //   const { schoolContext } = useContext(DistrictBlockSschoolContextV2);
 //   const { startDate, setStartDate } = useContext(DateNDateRangeContext); // Only startDate for single date picker
 //   const { batchContext } = useContext(DistrictBlockSschoolContextV2);
-  
+
 //   const [students, setStudents] = useState([]);
 //   const [loading, setLoading] = useState(false);
 //   const [viewMode, setViewMode] = useState('table'); // 'table' or 'card'
@@ -26,7 +26,7 @@
 //   const fetchStudents = async () => {
 //     setLoading(true);
 //     setError(null);
-    
+
 //     // Build request body with single date
 //     const reqBody = {
 //       schoolId: schoolContext?.schoolId,
@@ -35,15 +35,15 @@
 //     };
 
 //     console.log("Fetching students with:", reqBody);
-    
+
 //     try {
 //       const response = await GetMBStudents(reqBody);
 //       console.log("Students data:", response.data);
 //       console.log("Selected date from API:", response.selectedDate);
-      
+
 //       setStudents(response.data || []);
 //       setSelectedDate(response.selectedDate || null);
-      
+
 //       // Initialize attendance status from API response
 //       const initialStatus = {};
 //       response.data?.forEach(student => {
@@ -54,12 +54,12 @@
 //         } else if (student.status) {
 //           status = student.status;
 //         }
-        
+
 //         if (status && (status === "Present" || status === "Absent")) {
 //           initialStatus[student._id] = status;
 //         }
 //       });
-      
+
 //       console.log("Initial attendance status from API:", initialStatus);
 //       setAttendanceStatus(initialStatus);
 //     } catch (error) {
@@ -90,14 +90,14 @@
 //     try {
 //       const response = await MarkMBStudentAttendance(reqBody);
 //       console.log("Attendance marked response:", response);
-      
+
 //       if (response.success) {
 //         // Update local state with new status
 //         setAttendanceStatus(prev => ({
 //           ...prev,
 //           [student._id]: status
 //         }));
-        
+
 //         // Also update the student object in students array
 //         setStudents(prevStudents => 
 //           prevStudents.map(s => 
@@ -106,10 +106,10 @@
 //               : s
 //           )
 //         );
-        
+
 //         // Show success message
 //         setSuccessMessage(`Attendance marked as ${status} for ${student.firstName} on ${startDate || 'today'}`);
-        
+
 //         // Clear success message after 3 seconds
 //         setTimeout(() => {
 //           setSuccessMessage(null);
@@ -171,7 +171,7 @@
 //               const currentStatus = attendanceStatus[student._id];
 //               const isLoading = attendanceLoading[student._id];
 //               const isPresent = currentStatus === "Present";
-              
+
 //               return (
 //                 <tr key={student._id}>
 //                   <td>{index + 1}</td>
@@ -245,7 +245,7 @@
 //           const currentStatus = attendanceStatus[student._id];
 //           const isLoading = attendanceLoading[student._id];
 //           const isPresent = currentStatus === "Present";
-          
+
 //           return (
 //             <Col xs={12} md={6} lg={4} key={student._id}>
 //               <Card className="h-100 shadow-sm">
@@ -488,7 +488,7 @@
 //   const { schoolContext } = useContext(DistrictBlockSschoolContextV2);
 //   const { startDate, setStartDate } = useContext(DateNDateRangeContext); // Only startDate for single date picker
 //   const { batchContext } = useContext(DistrictBlockSschoolContextV2);
-  
+
 //   const [students, setStudents] = useState([]);
 //   const [loading, setLoading] = useState(false);
 //   const [viewMode, setViewMode] = useState('table'); // 'table' or 'card'
@@ -501,7 +501,7 @@
 //   const fetchStudents = async () => {
 //     setLoading(true);
 //     setError(null);
-    
+
 //     // Build request body with single date
 //     const reqBody = {
 //       schoolId: schoolContext?.schoolId,
@@ -510,15 +510,15 @@
 //     };
 
 //     console.log("Fetching students with:", reqBody);
-    
+
 //     try {
 //       const response = await GetMBStudents(reqBody);
 //       console.log("Students data:", response.data);
 //       console.log("Selected date from API:", response.selectedDate);
-      
+
 //       setStudents(response.data || []);
 //       setSelectedDate(response.selectedDate || null);
-      
+
 //       // Initialize attendance status from API response
 //       const initialStatus = {};
 //       response.data?.forEach(student => {
@@ -529,12 +529,12 @@
 //         } else if (student.status) {
 //           status = student.status;
 //         }
-        
+
 //         if (status && (status === "Present" || status === "Absent")) {
 //           initialStatus[student._id] = status;
 //         }
 //       });
-      
+
 //       console.log("Initial attendance status from API:", initialStatus);
 //       setAttendanceStatus(initialStatus);
 //     } catch (error) {
@@ -565,14 +565,14 @@
 //     try {
 //       const response = await MarkMBStudentAttendance(reqBody);
 //       console.log("Attendance marked response:", response);
-      
+
 //       if (response.success) {
 //         // Update local state with new status
 //         setAttendanceStatus(prev => ({
 //           ...prev,
 //           [student._id]: status
 //         }));
-        
+
 //         // Also update the student object in students array
 //         setStudents(prevStudents => 
 //           prevStudents.map(s => 
@@ -581,10 +581,10 @@
 //               : s
 //           )
 //         );
-        
+
 //         // Show success message
 //         setSuccessMessage(`Attendance marked as ${status} for ${student.firstName} on ${startDate || 'today'}`);
-        
+
 //         // Clear success message after 3 seconds
 //         setTimeout(() => {
 //           setSuccessMessage(null);
@@ -643,7 +643,7 @@
 //               const currentStatus = attendanceStatus[student._id];
 //               const isLoading = attendanceLoading[student._id];
 //               const isPresent = currentStatus === "Present";
-              
+
 //               return (
 //                 <tr key={student._id}>
 //                   <td>{index + 1}</td>
@@ -715,7 +715,7 @@
 //           const currentStatus = attendanceStatus[student._id];
 //           const isLoading = attendanceLoading[student._id];
 //           const isPresent = currentStatus === "Present";
-          
+
 //           return (
 //             <Col xs={12} md={6} lg={4} key={student._id}>
 //               <Card className="h-100 shadow-sm">
@@ -948,7 +948,7 @@
 //   const { schoolContext } = useContext(DistrictBlockSschoolContextV2);
 //   const { startDate, setStartDate } = useContext(DateNDateRangeContext); // Only startDate for single date picker
 //   const { batchContext } = useContext(DistrictBlockSschoolContextV2);
-  
+
 //   const [students, setStudents] = useState([]);
 //   const [loading, setLoading] = useState(false);
 //   const [viewMode, setViewMode] = useState('table'); // 'table' or 'card'
@@ -973,7 +973,7 @@
 //   const fetchStudents = async () => {
 //     setLoading(true);
 //     setError(null);
-    
+
 //     // Build request body with single date
 //     const reqBody = {
 //       schoolId: schoolContext?.schoolId,
@@ -982,18 +982,18 @@
 //     };
 
 //     console.log("Fetching students with:", reqBody);
-    
+
 //     try {
 //       const response = await GetMBStudents(reqBody);
 //       console.log("Students data:", response.data);
 //       console.log("Selected date from API:", response.selectedDate);
-      
+
 //       // Sort students alphabetically by first name
 //       const sortedStudents = sortStudentsAlphabetically(response.data || []);
-      
+
 //       setStudents(sortedStudents);
 //       setSelectedDate(response.selectedDate || null);
-      
+
 //       // Initialize attendance status from API response
 //       const initialStatus = {};
 //       sortedStudents.forEach(student => {
@@ -1004,12 +1004,12 @@
 //         } else if (student.status) {
 //           status = student.status;
 //         }
-        
+
 //         if (status && (status === "Present" || status === "Absent")) {
 //           initialStatus[student._id] = status;
 //         }
 //       });
-      
+
 //       console.log("Initial attendance status from API:", initialStatus);
 //       setAttendanceStatus(initialStatus);
 //     } catch (error) {
@@ -1040,14 +1040,14 @@
 //     try {
 //       const response = await MarkMBStudentAttendance(reqBody);
 //       console.log("Attendance marked response:", response);
-      
+
 //       if (response.success) {
 //         // Update local state with new status
 //         setAttendanceStatus(prev => ({
 //           ...prev,
 //           [student._id]: status
 //         }));
-        
+
 //         // Also update the student object in students array
 //         setStudents(prevStudents => 
 //           sortStudentsAlphabetically(
@@ -1058,10 +1058,10 @@
 //             )
 //           )
 //         );
-        
+
 //         // Show success message
 //         setSuccessMessage(`Attendance marked as ${status} for ${student.firstName} on ${startDate || 'today'}`);
-        
+
 //         // Clear success message after 3 seconds
 //         setTimeout(() => {
 //           setSuccessMessage(null);
@@ -1120,7 +1120,7 @@
 //               const currentStatus = attendanceStatus[student._id];
 //               const isLoading = attendanceLoading[student._id];
 //               const isPresent = currentStatus === "Present";
-              
+
 //               return (
 //                 <tr key={student._id}>
 //                   <td>{index + 1}</td>
@@ -1192,7 +1192,7 @@
 //           const currentStatus = attendanceStatus[student._id];
 //           const isLoading = attendanceLoading[student._id];
 //           const isPresent = currentStatus === "Present";
-          
+
 //           return (
 //             <Col xs={12} md={6} lg={4} key={student._id}>
 //               <Card className="h-100 shadow-sm">
@@ -1422,7 +1422,7 @@
 //   const { schoolContext } = useContext(DistrictBlockSschoolContextV2);
 //   const { startDate, setStartDate } = useContext(DateNDateRangeContext);
 //   const { batchContext } = useContext(DistrictBlockSschoolContextV2);
-  
+
 //   const [students, setStudents] = useState([]);
 //   const [loading, setLoading] = useState(false);
 //   const [viewMode, setViewMode] = useState('table');
@@ -1445,7 +1445,7 @@
 //   const fetchStudents = useCallback(async () => {
 //     setLoading(true);
 //     setError(null);
-    
+
 //     const reqBody = {
 //       schoolId: schoolContext?.schoolId,
 //       batch: batchContext?.batch,
@@ -1455,9 +1455,9 @@
 //     try {
 //       const response = await GetMBStudents(reqBody);
 //       const sortedStudents = sortStudentsAlphabetically(response.data || []);
-      
+
 //       setStudents(sortedStudents);
-      
+
 //       const initialStatus = {};
 //       sortedStudents.forEach(student => {
 //         let status = null;
@@ -1466,12 +1466,12 @@
 //         } else if (student.status) {
 //           status = student.status;
 //         }
-        
+
 //         if (status && (status === "Present" || status === "Absent")) {
 //           initialStatus[student._id] = status;
 //         }
 //       });
-      
+
 //       setAttendanceStatus(initialStatus);
 //     } catch (error) {
 //       setError("Failed to fetch students. Please try again.");
@@ -1495,13 +1495,13 @@
 
 //     try {
 //       const response = await MarkMBStudentAttendance(reqBody);
-      
+
 //       if (response.success) {
 //         setAttendanceStatus(prev => ({
 //           ...prev,
 //           [student._id]: status
 //         }));
-        
+
 //         setStudents(prevStudents => 
 //           sortStudentsAlphabetically(
 //             prevStudents.map(s => 
@@ -1511,7 +1511,7 @@
 //             )
 //           )
 //         );
-        
+
 //         setSuccessMessage(`Attendance marked as ${status} for ${student.firstName}`);
 //         setTimeout(() => setSuccessMessage(null), 3000);
 //       } else {
@@ -1546,7 +1546,7 @@
 //     const currentStatus = attendanceStatus[student._id];
 //     const isLoading = attendanceLoading[student._id];
 //     const isPresent = currentStatus === "Present";
-    
+
 //     return (
 //       <tr>
 //         <td className="text-center" style={{ fontSize: 'clamp(12px, 4vw, 14px)' }}>{index + 1}</td>
@@ -1650,7 +1650,7 @@
 //           const currentStatus = attendanceStatus[student._id];
 //           const isLoading = attendanceLoading[student._id];
 //           const isPresent = currentStatus === "Present";
-          
+
 //           return (
 //             <Col xs={12} sm={6} md={4} lg={3} key={student._id}>
 //               <Card className="h-100 shadow-sm">
@@ -1833,7 +1833,7 @@
 //           padding: clamp(4px, 2vw, 8px);
 //           vertical-align: middle;
 //         }
-        
+
 //         /* Mobile specific optimizations */
 //         @media (max-width: 768px) {
 //           .container-fluid {
@@ -1847,7 +1847,7 @@
 //             padding: 0.5rem;
 //           }
 //         }
-        
+
 //         /* Small mobile devices */
 //         @media (max-width: 480px) {
 //           .table td, .table th {
@@ -3299,6 +3299,7 @@ import {
   FaUserCheck,
   FaUserTimes,
 } from "react-icons/fa";
+import { ClaimGamificationPoint } from "../../service/Gamification/ClaimGamification.services";
 
 const StudentRow = React.memo(
   ({
@@ -3360,9 +3361,9 @@ const StudentRow = React.memo(
   (prevProps, nextProps) => {
     return (
       prevProps.currentStatus ===
-        nextProps.currentStatus &&
+      nextProps.currentStatus &&
       prevProps.isLoading ===
-        nextProps.isLoading
+      nextProps.isLoading
     );
   }
 );
@@ -3404,7 +3405,11 @@ export const MBStudentsAttendanceV2 = () => {
   const [successMessage, setSuccessMessage] =
     useState(null);
 
+    const [selectedBatch, setSelectedBatch] = useState (null)
   const tableWrapperRef = useRef(null);
+
+
+
 
   const sortStudentsAlphabetically =
     useCallback((studentsArray) => {
@@ -3433,6 +3438,7 @@ export const MBStudentsAttendanceV2 = () => {
     }, []);
 
   const fetchStudents = useCallback(async () => {
+
     setLoading(true);
     setError(null);
 
@@ -3538,10 +3544,49 @@ export const MBStudentsAttendanceV2 = () => {
           await MarkMBStudentAttendance(
             reqBody
           );
+
+
+    
+
+          //Gamification
+          console.log('i am here')
+
+             const currentDate = new Date().toISOString().split("T")[0]; // "2026-06-18"
+
+         if (startDate === currentDate) {
+
+          const gamificationPoint = async () => {
+
+        console.log("Gamification point updated!")
+            await ClaimGamificationPoint(
+              {
+                pointType: "studentAttendance",
+                date: new Date().toISOString().split("T")[0],
+                batch: batchContext?.batch || batchContext,
+                
+                schoolId: schoolContext?.schoolId,
+                // district_block_schoolsObjectId,
+                unqObjectId: userData?._id,
+              }
+            )
+
+          }
+
+          gamificationPoint()
+
+         }
+
+
+
+        
+
+
+
         } catch (error) {
           setError(
             "Failed to mark attendance."
           );
+
 
           setAttendanceStatus(
             (prev) => ({
@@ -3552,6 +3597,7 @@ export const MBStudentsAttendanceV2 = () => {
                   : "Present",
             })
           );
+
 
           setTimeout(() => {
             setError(null);
@@ -3575,17 +3621,57 @@ export const MBStudentsAttendanceV2 = () => {
                 scrollLeft;
             }
           });
+
+
+
+        
+
         }
+
+        console.log(batchContext?.batch)
       },
-      [startDate]
+      [startDate, batchContext, schoolContext, userData]
+
+
+      //Gamification
+      
+      
     );
+
+    
+
+  //     const gamificationPoint = async () => {
+
+  //       console.log("Gamification point updated!")
+  //           await ClaimGamificationPoint(
+  //             {
+  //               pointType: "studentAttendance",
+  //               date: new Date().toISOString().split("T")[0],
+                
+  //               batch: batchContext?.batch || batchContext,
+  //               schoolId: schoolContext?.schoolId,
+  //               // district_block_schoolsObjectId,
+  //               unqObjectId: userData?._id,
+  //             }
+  //           )
+
+  //         }
+
+  //  useEffect(() => {
+  //   gamificationPoint()
+  // }, [
+  //   schoolContext?.shcoolId,
+  //   batchContext?.batch,
+  //   handleMarkAttendance
+  // ])
+
 
   const toggleAttendance =
     useCallback(
       (student) => {
         const currentStatus =
           attendanceStatus[
-            student._id
+          student._id
           ];
 
         const newStatus =
@@ -3603,6 +3689,8 @@ export const MBStudentsAttendanceV2 = () => {
         handleMarkAttendance,
       ]
     );
+
+   
 
   useEffect(() => {
     if (
@@ -3673,12 +3761,12 @@ export const MBStudentsAttendanceV2 = () => {
                   index={index}
                   currentStatus={
                     attendanceStatus[
-                      student._id
+                    student._id
                     ]
                   }
                   isLoading={
                     attendanceLoading[
-                      student._id
+                    student._id
                     ]
                   }
                   onToggle={
@@ -3703,12 +3791,12 @@ export const MBStudentsAttendanceV2 = () => {
       {students.map((student) => {
         const currentStatus =
           attendanceStatus[
-            student._id
+          student._id
           ];
 
         const isLoading =
           attendanceLoading[
-            student._id
+          student._id
           ];
 
         const isPresent =

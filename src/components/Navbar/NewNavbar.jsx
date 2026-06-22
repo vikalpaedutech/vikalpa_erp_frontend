@@ -6,7 +6,7 @@ import { UserContext } from "../../components/contextAPIs/User.context";
 
 import { GetNotificationByUserIdOnQueryParams } from "../../service/ConcernsServices/Concern.services";
 import { getNotificationsByUserId, patchNotificationByConcernTypeAndRole } from "../../service/notifications/notifications.service";
-
+import Region from "../Students/Region.json"
 
 import {
   getAllGamificationData,
@@ -19,24 +19,8 @@ export const NewNavbar = () => {
 
    const [gamificationData, setGamificationData] = useState([]);
 
-  // const fetchNotification = async () => {
-  //   const queryParams = {
-  //     userId: userData?.[0]?.userId,
-  //   };
 
-  //   try {
-  //     const response = await GetNotificationByUserIdOnQueryParams(queryParams);
-
-  //     // console.log(response.data.data);
-  //     setNotificationData(response.data.data);
-  //   } catch (error) {
-  //     console.log("Error fetching notification data", error);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   fetchNotification();
-  // }, []);
+   console.log(Region)
 
   const navigate = useNavigate();
 
@@ -172,6 +156,8 @@ if (userData?.role === "ACI"){
       fetchGamficationData();
     }, []);
   
+
+    console.log(userData)
 
 //-------------------------------------------
 
@@ -327,24 +313,150 @@ if (userData?.role === "ACI"){
 
 
 // import React, { useContext, useEffect, useState } from "react";
-// import { Container, Nav, Navbar, NavDropdown, Offcanvas, Button } from "react-bootstrap";
+// import { Container, Nav, Navbar, NavDropdown } from "react-bootstrap";
 // import { useNavigate } from "react-router-dom";
 // import { UserContext } from "../../components/contextAPIs/User.context";
 
 // import { getNotificationsByUserId, patchNotificationByConcernTypeAndRole } from "../../service/notifications/notifications.service";
-// import { getAllGamificationData } from "../../service/Gamification.services";
+
+// import {
+//   getAllGamificationData,
+//   pointClaimedUpdation,
+// } from "../../service/Gamification.services";
+// import { ClaimGamificationPoint } from "../../service/Gamification/ClaimGamification.services";
+// import Region from "../Students/Region.json";
 
 // export const NewNavbar = () => {
 //   const { userData, setUserData } = useContext(UserContext);
-
 //   const [notificationData, setNotificationData] = useState([]);
 //   const [gamificationData, setGamificationData] = useState([]);
-
-//   const [showOffcanvas, setShowOffcanvas] = useState(false); // ✅ Offcanvas state
-//   const handleCloseOffcanvas = () => setShowOffcanvas(false);
-//   const handleShowOffcanvas = () => setShowOffcanvas(true);
-
 //   const navigate = useNavigate();
+
+//   // ──────────────────────────────────────────────────────────────
+//   // ✅ FUNCTION TO EXTRACT SCHOOL IDs FROM NESTED STRUCTURE
+//   // ──────────────────────────────────────────────────────────────
+//   const extractSchoolIdsFromUserData = (userData) => {
+//     const schoolIds = [];
+    
+//     try {
+//       // Navigate through the nested structure
+//       const region = userData?.userAccess?.region || [];
+      
+//       region.forEach((district) => {
+//         const blockIds = district?.blockIds || [];
+        
+//         blockIds.forEach((block) => {
+//           const schools = block?.schoolIds || [];
+          
+//           schools.forEach((school) => {
+//             if (school?.schoolId) {
+//               schoolIds.push(school.schoolId);
+//             }
+//           });
+//         });
+//       });
+      
+//       // Remove duplicates
+//       return [...new Set(schoolIds)];
+//     } catch (error) {
+//       console.error("Error extracting school IDs:", error);
+//       return [];
+//     }
+//   };
+
+//   // ──────────────────────────────────────────────────────────────
+//   // ✅ FUNCTION TO GET DISTRICT_BLOCK_SCHOOL_OBJECT_IDS
+//   // ──────────────────────────────────────────────────────────────
+//   const getDistrictBlockSchoolObjectIds = (schoolIds) => {
+//     const objectIds = [];
+    
+//     try {
+//       // Iterate through Region data to find matching schoolIds
+//       Region.forEach((school) => {
+//         if (schoolIds.includes(school.schoolId)) {
+//           const id = school._id?.$oid || school._id;
+//           if (id) {
+//             objectIds.push(id);
+//           }
+//         }
+//       });
+      
+//       return objectIds;
+//     } catch (error) {
+//       console.error("Error getting district block school object IDs:", error);
+//       return [];
+//     }
+//   };
+
+//   // ──────────────────────────────────────────────────────────────
+//   // ✅ ASSIGNING GAMIFICATION FUNCTION
+//   // ──────────────────────────────────────────────────────────────
+//   const assigningGamification = async () => {
+//     try {
+//       console.log("🔄 Starting gamification assignment...");
+//       console.log("UserData:", userData);
+
+//       // Step 1: Extract school IDs from user's nested structure
+//       const schoolIds = extractSchoolIdsFromUserData(userData);
+//       console.log("✅ Extracted School IDs:", schoolIds);
+
+//       if (schoolIds.length === 0) {
+//         console.log("⚠️ No schools found for this user");
+//         return;
+//       }
+
+//       // Step 2: Get district_block_schoolsObjectIds from Region data
+//       const districtBlockSchoolIds = getDistrictBlockSchoolObjectIds(schoolIds);
+//       console.log("✅ District Block School Object IDs:", districtBlockSchoolIds);
+
+//       if (districtBlockSchoolIds.length === 0) {
+//         console.log("⚠️ No matching district_block_schoolsObjectId found in Region");
+//         return;
+//       }
+
+//       // Step 3: Get user's batches from userAccess
+//       const userBatches = userData?.userAccess?.batch || [];
+//       console.log("✅ User Batches:", userBatches);
+
+//       if (userBatches.length === 0) {
+//         console.log("⚠️ No batches found for this user");
+//         return;
+//       }
+
+//       // Step 4: Prepare and send payload for each batch
+//       for (const batch of userBatches) {
+//         if (!batch) continue;
+
+//         console.log(`📦 Processing batch: ${batch}`);
+
+//         const payload = {
+//           pointType: "disciplinary",
+//           date: new Date().toISOString().split("T")[0],
+//           batch: batch,
+//           schoolId: schoolIds.join(","), // Comma separated string
+//           district_block_schoolsObjectId: districtBlockSchoolIds, // Array of object IDs
+//           unqObjectId: userData?._id,
+//         };
+
+//         console.log(`📤 Sending payload for batch ${batch}:`, payload);
+
+//         try {
+//           const response = await ClaimGamificationPoint(payload);
+//           console.log(`✅ Success for batch ${batch}:`, response);
+//         } catch (error) {
+//           console.error(`❌ Error for batch ${batch}:`, error);
+//         }
+//       }
+
+//       console.log("✅ Gamification assignment completed!");
+//     } catch (error) {
+//       console.error("❌ Error in assigningGamification:", error);
+//     }
+//   };
+
+//   // ──────────────────────────────────────────────────────────────
+//   // HANDLERS
+//   // ──────────────────────────────────────────────────────────────
 
 //   const handleHome = () => {
 //     navigate("/user-dashboard");
@@ -355,14 +467,17 @@ if (userData?.role === "ACI"){
 //   };
 
 //   const handleAwardPoints = () => {
-//     navigate("/award-points");
+//     navigate("/claim-gamification-point");
 //   };
 
 //   const handleProfileClick = () => {
-//     navigate("/user-profile");
+//     navigate('/user-profile');
 //   };
 
-//   // Get notification api.
+//   // ──────────────────────────────────────────────────────────────
+//   // NOTIFICATIONS
+//   // ──────────────────────────────────────────────────────────────
+
 //   const fetchNotifications = async () => {
 //     const queryParams = {
 //       userId: userData?.userId,
@@ -370,6 +485,7 @@ if (userData?.role === "ACI"){
 
 //     try {
 //       const response = await getNotificationsByUserId(queryParams);
+//       console.log('Notification data:', response.data);
 //       setNotificationData(response.data);
 //     } catch (error) {
 //       console.log("Error fetching notification data", error);
@@ -377,33 +493,15 @@ if (userData?.role === "ACI"){
 //   };
 
 //   useEffect(() => {
-//     fetchNotifications();
-//   }, []);
-
-//   // role handling
-//   let role;
-//   if (userData?.role === "ACI") {
-//     role = "CC";
-//   } else if (userData?.role === "Community Manager") {
-//     role = "ACI";
-//   }
-
-//   // Handle ConcernClick
-//   const handleConcernClick = async (concernType) => {
-//     const payload = {
-//       concernType: concernType,
-//       role: role,
-//       userId: userData?.userId,
-//     };
-
-//     try {
-//       await patchNotificationByConcernTypeAndRole(payload);
-//     } catch (error) {
-//       console.log("Error:", error);
+//     if (userData?.userId) {
+//       fetchNotifications();
 //     }
-//   };
+//   }, [userData?.userId]);
 
-//   // Fetch gamification data
+//   // ──────────────────────────────────────────────────────────────
+//   // GAMIFICATION DATA
+//   // ──────────────────────────────────────────────────────────────
+
 //   const fetchGamficationData = async () => {
 //     const reqBody = { unqUserObjectId: userData?._id };
 
@@ -413,166 +511,183 @@ if (userData?.role === "ACI"){
 //         (a, b) => new Date(a.date) - new Date(b.date)
 //       );
 //       setGamificationData(sortedData);
-
-//       console.log(sortedData)
+//       console.log('Gamification data:', response.data);
 //     } catch (error) {
-//       console.log("Error::::>", error);
+//       console.log("Error fetching gamification data:", error);
 //     }
 //   };
 
 //   useEffect(() => {
-//     fetchGamficationData();
-//   }, []);
+//     if (userData?._id) {
+//       fetchGamficationData();
+//     }
+//   }, [userData?._id]);
 
-//   // ✅ calculate total gamification points
-//   const totalPoints = gamificationData?.reduce(
-//     (sum, item) => sum + (item.finalPoint || 0),
-//     0
-//   );
+//   // ──────────────────────────────────────────────────────────────
+//   // 🔥 TRIGGER ASSIGNING GAMIFICATION ON COMPONENT MOUNT
+//   // ──────────────────────────────────────────────────────────────
+//   // useEffect(() => {
+//   //   if (userData?._id && userData?.userAccess?.region?.length > 0) {
+//   //     console.log("🚀 Triggering assigningGamification on component mount...");
+//   //     assigningGamification();
+//   //   } else {
+//   //     console.log("⏳ Waiting for userData to be ready...");
+//   //   }
+//   // }, [userData]); // Re-run when userData changes
 
-//   //-------------------------------------------
+//   // ──────────────────────────────────────────────────────────────
+//   // ROLE HANDLING FOR NOTIFICATIONS
+//   // ──────────────────────────────────────────────────────────────
+
+
+// //////////////////////////////////////////////////////
+//   let role;
+//   if (userData?.role === "ACI") {
+//     role = "CC";
+//   } else if (userData?.role === "Community Manager") {
+//     role = "ACI";
+//   }
+
+//   const handleConcernClick = async (concernType) => {
+//     const payload = {
+//       concernType: concernType,
+//       role: role,
+//       userId: userData?.userId
+//     };
+
+//     console.log(payload);
+
+//     try {
+//       const response = await patchNotificationByConcernTypeAndRole(payload);
+//       console.log('Notification updated:', response);
+//     } catch (error) {
+//       console.log("Error updating notification:", error);
+//     }
+//   };
+
+//   console.log('UserData:', userData);
+
+//   // ──────────────────────────────────────────────────────────────
+//   // RENDER
+//   // ──────────────────────────────────────────────────────────────
 
 //   return (
-//     <Navbar bg="light" className="shadow-sm custom-navbar">
-//       <Container fluid className="navbar-container">
-//         {/* ✅ Row 1 */}
-//         <div className="navbar-row navbar-row-top">
-//           <div className="navbar-left">
-//             <p>Hello, {userData?.name}</p>
-//           </div>
-//           <div className="navbar-right">
-//             <section
-//               className="gamification-point-section"
-//               onClick={handleShowOffcanvas} // ✅ Open Offcanvas when clicked
-//               style={{ cursor: "pointer" }}
-//             >
-//               Pt. {totalPoints}
-//             </section>
-//           </div>
+//     <Navbar bg="light" className="shadow-sm">
+//       <Container
+//         fluid
+//         className="d-flex justify-content-between align-items-center"
+//       >
+//         {/* Left: Home Icon */}
+//         <div style={{ cursor: "pointer" }} onClick={handleHome}>
+//           <img
+//             src="/home-button.png"
+//             className="home-button"
+//             alt="Home"
+//             style={{ height: "30px" }}
+//           />
 //         </div>
 
-//         {/* ✅ Row 2 */}
-//         <div className="navbar-row navbar-row-bottom">
-//           {/* Left: Home Icon */}
-//           <div style={{ cursor: "pointer" }} onClick={handleHome}>
-//             <img
-//               src="/home-button.png"
-//               className="home-button"
-//               alt="Home"
-//               style={{ height: "30px" }}
-//             />
-//           </div>
+//         <Nav className="me-auto" />
 
-//           <Nav className="me-auto" />
-
-//           <Nav>
-//             {/* Notification Dropdown */}
-//             <NavDropdown
-//               align="end"
-//               title={
-//                 <div style={{ position: "relative", display: "inline-block" }}>
-//                   <img
-//                     src="/notification.png"
-//                     className="notification"
-//                     alt="notification"
-//                     style={{ height: "30px", cursor: "pointer" }}
-//                   />
-//                   {notificationData.length > 0 && (
-//                     <span className="notification-badge">
-//                       {notificationData.reduce(
-//                         (sum, item) => sum + (item.totalCount || 0),
-//                         0
-//                       )}
-//                     </span>
-//                   )}
-//                 </div>
-//               }
-//               id="settings-dropdown"
-//             >
-//               {notificationData.length > 0 &&
-//                 notificationData.map((item, index) => (
-//                   <NavDropdown.Item
-//                     key={index}
-//                     onClick={() => {
-//                       handleConcernClick(item.concernType);
-//                       if (item.concernType === "Leave") {
-//                         navigate("/individual-concerns-resolution");
-//                       } else if (item.concernType === "Tech Concern") {
-//                         navigate("/tech-concerns-resolution");
-//                       } else if (
-//                         item.concernType === "School-Individual-Student"
-//                       ) {
-//                         navigate("/school-concerns-request");
-//                       }
-//                     }}
-//                   >
-//                     <span style={{ fontWeight: "500" }}>
-//                       {item.concernType}
-//                     </span>
-//                     <span style={{ float: "right", color: "gray" }}>
-//                       {item.totalCount}
-//                     </span>
-//                   </NavDropdown.Item>
-//                 ))}
-//             </NavDropdown>
-
-//             {/* Settings Dropdown */}
-//             <NavDropdown
-//               align="end"
-//               title={
+//         {/* Right: Notification & Settings Dropdown */}
+//         <Nav>
+//           <NavDropdown
+//             align="end"
+//             title={
+//               <div style={{ position: "relative", display: "inline-block" }}>
 //                 <img
-//                   src="/settings.png"
-//                   className="logout"
-//                   alt="Settings"
+//                   src="/notification.png"
+//                   className="notification"
+//                   alt="notification"
 //                   style={{ height: "30px", cursor: "pointer" }}
 //                 />
-//               }
-//               id="settings-dropdown"
-//             >
-//               <NavDropdown.Item onClick={handleProfileClick}>
-//                 Profile
-//               </NavDropdown.Item>
-//               <NavDropdown.Item onClick={handleIndividualConcernClick}>
-//                 Individual Concerns
-//               </NavDropdown.Item>
-//               <NavDropdown.Item onClick={handleAwardPoints}>
-//                 Award Points
-//               </NavDropdown.Item>
-//               <NavDropdown.Divider />
-//               <NavDropdown.Item
-//                 onClick={() => {
-//                   setUserData([]);
-//                   navigate("/");
-//                 }}
-//               >
-//                 Logout
-//               </NavDropdown.Item>
-//             </NavDropdown>
-//           </Nav>
-//         </div>
-//       </Container>
-
-//       {/* ✅ Offcanvas (end overlay) */}
-//       <Offcanvas show={showOffcanvas} onHide={handleCloseOffcanvas} placement="end">
-//         <Offcanvas.Header closeButton>
-//           <Offcanvas.Title>Gamification Points</Offcanvas.Title>
-//         </Offcanvas.Header>
-//         <Offcanvas.Body>
-//           <p>Total Points: {totalPoints}</p>
-//           {/* You can map gamificationData here if you want to show history */}
-//           {gamificationData.length > 0 ? (
-//             <ul>
-//               {gamificationData.map((item, idx) => (
-//                 <li key={idx}>
-//                   {item.date} → {item.finalPoint} pts
-//                 </li>
+//                 {notificationData.length > 0 && (
+//                   <span
+//                     style={{
+//                       position: "absolute",
+//                       top: "-5px",
+//                       right: "-5px",
+//                       background: "red",
+//                       color: "white",
+//                       borderRadius: "50%",
+//                       padding: "2px 6px",
+//                       fontSize: "12px",
+//                       fontWeight: "bold",
+//                       lineHeight: "1",
+//                     }}
+//                   >
+//                     {notificationData.reduce(
+//                       (sum, item) => sum + (item.totalCount || 0),
+//                       0
+//                     )}
+//                   </span>
+//                 )}
+//               </div>
+//             }
+//             id="notification-dropdown"
+//           >
+//             {notificationData.length > 0 &&
+//               notificationData.map((item, index) => (
+//                 <NavDropdown.Item
+//                   key={index}
+//                   onClick={() => {
+//                     handleConcernClick(item.concernType);
+//                     if (item.concernType === "Leave") {
+//                       navigate("/individual-concerns-resolution");
+//                     } else if (item.concernType === "Tech Concern") {
+//                       navigate("/tech-concerns-resolution");
+//                     } else if (
+//                       item.concernType === "School-Individual-Student"
+//                     ) {
+//                       navigate("/school-concerns-request");
+//                     }
+//                   }}
+//                 >
+//                   <span style={{ fontWeight: "500" }}>{item.concernType}</span>
+//                   <span style={{ float: "right", color: "gray" }}>
+//                     {item.totalCount}
+//                   </span>
+//                 </NavDropdown.Item>
 //               ))}
-//             </ul>
-//           ) : (
-//             <p>No gamification records found.</p>
-//           )}
-//         </Offcanvas.Body>
-//       </Offcanvas>
+//           </NavDropdown>
+
+//           <NavDropdown
+//             align="end"
+//             title={
+//               <img
+//                 src="/settings.png"
+//                 className="logout"
+//                 alt="Settings"
+//                 style={{ height: "30px", cursor: "pointer" }}
+//               />
+//             }
+//             id="settings-dropdown"
+//           >
+//             <NavDropdown.Item onClick={handleProfileClick}>
+//               Profile
+//             </NavDropdown.Item>
+//             <NavDropdown.Item onClick={handleIndividualConcernClick}>
+//               Individual Concerns
+//             </NavDropdown.Item>
+
+//             {userData?.role === "CC" && (
+//               <NavDropdown.Item onClick={handleAwardPoints}>
+//                 Claim Points
+//               </NavDropdown.Item>
+//             )}
+
+//             <NavDropdown.Divider />
+//             <NavDropdown.Item
+//               onClick={() => {
+//                 setUserData([]);
+//                 navigate("/");
+//               }}
+//             >
+//               Logout
+//             </NavDropdown.Item>
+//           </NavDropdown>
+//         </Nav>
+//       </Container>
 //     </Navbar>
 //   );
 // };

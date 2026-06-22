@@ -160,6 +160,7 @@ import { StudentUploadObjectiveDashboard } from "./components/DashBoard/StudentU
 import { MBStudentsAbsenteeCallingDashboard } from "./components/Students/MBStudentsAbsenteeCallingDashboar.jsx";
 import { CreateStudentForm } from "./components/Admin/CreateStudentForm.jsx";
 import { RemoveOrReleaseSLC } from "./components/Admin/RemoveOrReleaseSLC.jsx";
+import { GamificationDashboardV2 } from "./components/Gamification/GamificationDashboard.v2.jsx";
 
 function App() {
   
@@ -453,6 +454,9 @@ function App() {
                     <Route path="/create-student-form" element = {<CreateStudentForm/>}/>
 
                     <Route path="/remove-or-release-slc" element = {<RemoveOrReleaseSLC/>}/>
+
+                      <Route path="/gamification-dashboard-v2" element = {<GamificationDashboardV2/>}/>
+
 
                       </Route>
                     </Routes>
