@@ -115,6 +115,22 @@ export const GetMBStudents = async (reqBody) => {
 
 
 
+
+export const GetMBStudentsForAttendance = async (reqBody) => {
+    try {
+     
+        const response = await axios.post (`${API_BASE_URL}/api/get-mb-students-for-attendance`,reqBody)
+        
+        return response.data;
+
+
+    } catch (error) {
+        console.error("Error getting students data", error.message);
+        throw error;
+    }
+}
+
+
 //Marking student attendance
 
 export const MarkMBStudentAttendance = async (reqBody) => {
@@ -298,4 +314,88 @@ export const UpdateStudentBySrn = async (reqBody) => {
         throw error;
     }
 }
+
+
+
+
+
+
+
+export const GetStudents = async (reqBody) => {
+    try {
+     
+        const response = await axios.post (`${API_BASE_URL}/api/get-students`,reqBody)
+        
+        return response.data;
+
+
+    } catch (error) {
+        console.error("Error getting students data", error.message);
+        throw error;
+    }
+}
+
+
+
+
+
+
+
+export const DownloadStudentData = async (reqBody) => {
+    try {
+     
+        const response = await axios.post (`${API_BASE_URL}/api/download-students-data`,reqBody)
+        
+        return response.data;
+
+
+    } catch (error) {
+        console.error("Error getting students data", error.message);
+        throw error;
+    }
+}
+
+
+export const getstudentAddRequest = async (reqBody) => {
+    try {
+     
+        const response = await axios.post (`${API_BASE_URL}/api/get-student-add-request`,reqBody)
+        
+        return response.data;
+
+
+    } catch (error) {
+        console.error("Error getting students data", error.message);
+        throw error;
+    }
+}
+
+
+
+
+
+
+
+export const studentAddUpdatedApi = async (reqBody) => {
+    try {
+     
+        const response = await axios.post (`${API_BASE_URL}/api/update-student-add-request`,reqBody)
+        
+        return response.data;
+
+
+    } catch (error) {
+        console.error("Error getting students data", error.message);
+        throw error;
+    }
+}
+
+
+
+
+
+
+
+
+
 

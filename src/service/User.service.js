@@ -194,6 +194,14 @@ export const MarkUserAttendanceManually = async (reqBody) => {
 
 
 
+export const leaveApproval = async (reqBody) => {
+    const response = await axios.post (`${API_BASE_URL}/api/leave-approval`, reqBody);
+    return response.data;
+}
+
+
+
+
 
 
 

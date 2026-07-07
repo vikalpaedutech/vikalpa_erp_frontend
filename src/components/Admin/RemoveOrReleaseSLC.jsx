@@ -51,23 +51,40 @@ import {
   FaExclamationTriangle,
 } from "react-icons/fa";
 
-// Helper function to get student status display
+// Simple function - sirf requestStatus show karega
 const getStudentStatusDisplay = (student) => {
-  const status = student?.studentCRUDStatus;
+  const requestStatus = student?.requestStatus;
   
-  if (!status || status === "Added" || status === null || status === undefined) {
-    return { text: "Studying", variant: "success" };
+  if (requestStatus === "Approved") {
+    return { text: "Approved", variant: "success" };
+  } else if (requestStatus === "Rejected") {
+    return { text: "Rejected", variant: "danger" };
+  } else if (requestStatus === "Pending") {
+    return { text: "Pending", variant: "secondary" };
+  } else {
+    return { text: requestStatus || "N/A", variant: "secondary" };
+  }
+};
+
+// Helper function to check if buttons should be enabled
+const shouldEnableButtons = (student) => {
+  const request = student?.request;
+  const requestStatus = student?.requestStatus;
+  
+  // DISABLE only when:
+  // 1. request === "SLC Released" AND requestStatus === "Approved"
+  // 2. request === "Removed" AND requestStatus === "Approved"
+  
+  if (request === "SLC Released" && requestStatus === "Approved") {
+    return false; // Disabled
   }
   
-  if (status === "Removed") {
-    return { text: "Deleted", variant: "danger" };
+  if (request === "Removed" && requestStatus === "Approved") {
+    return false; // Disabled
   }
   
-  if (status === "SLC Released") {
-    return { text: "SLC Released", variant: "warning" };
-  }
-  
-  return { text: "Studying", variant: "success" };
+  // ENABLED for all other cases
+  return true;
 };
 
 const StudentRow = React.memo(
@@ -84,6 +101,10 @@ const StudentRow = React.memo(
   }) => {
     const isPresent = currentStatus === "Present";
     const statusDisplay = getStudentStatusDisplay(student);
+    const buttonsEnabled = shouldEnableButtons(student);
+    
+    const isRemoveDisabled = !buttonsEnabled;
+    const isReleaseDisabled = !buttonsEnabled;
 
     return (
       <tr>
@@ -106,27 +127,15 @@ const StudentRow = React.memo(
           {student.fatherName || "N/A"}
         </td>
 
-        {/* <td className="text-center small-cell">
-          <Button
-            variant={isPresent ? "success" : "danger"}
-            onClick={() => onToggle(student)}
-            disabled={isLoading}
-            className="attendance-btn"
-            size="sm"
-          >
-            {isLoading ? (
-              <FaSpinner className="spin" />
-            ) : isPresent ? (
-              "P"
-            ) : (
-              "A"
-            )}
-          </Button>
-        </td> */}
-
         <td className="text-center small-cell">
           <Badge bg={statusDisplay.variant} className="px-2 py-1">
             {statusDisplay.text}
+          </Badge>
+        </td>
+
+        <td className="text-center small-cell">
+          <Badge bg="info" className="px-2 py-1">
+            {student?.request || "N/A"}
           </Badge>
         </td>
 
@@ -135,9 +144,15 @@ const StudentRow = React.memo(
             variant="danger"
             size="sm"
             onClick={() => onRemoveStudent(student)}
-            disabled={isRemoveLoading || statusDisplay.text === "Deleted"}
+            disabled={isRemoveDisabled || isRemoveLoading}
             className="action-btn"
-            title={statusDisplay.text === "Deleted" ? "Student already removed" : "Remove Student"}
+            title={
+              !buttonsEnabled ? 
+                (student?.request === "SLC Released" && student?.requestStatus === "Approved" ? "SLC already released" :
+                 student?.request === "Removed" && student?.requestStatus === "Approved" ? "Student already removed" :
+                 "Action not available") 
+              : "Remove Student"
+            }
           >
             {isRemoveLoading ? (
               <FaSpinner className="spin" />
@@ -152,9 +167,15 @@ const StudentRow = React.memo(
             variant="warning"
             size="sm"
             onClick={() => onReleaseSLC(student)}
-            disabled={isReleaseLoading || statusDisplay.text === "SLC Released" || statusDisplay.text === "Deleted"}
+            disabled={isReleaseDisabled || isReleaseLoading}
             className="action-btn"
-            title={statusDisplay.text === "SLC Released" ? "SLC already released" : statusDisplay.text === "Deleted" ? "Cannot release SLC for deleted student" : "Release SLC"}
+            title={
+              !buttonsEnabled ? 
+                (student?.request === "SLC Released" && student?.requestStatus === "Approved" ? "SLC already released" :
+                 student?.request === "Removed" && student?.requestStatus === "Approved" ? "Student already removed" :
+                 "Action not available") 
+              : "Release SLC"
+            }
           >
             {isReleaseLoading ? (
               <FaSpinner className="spin" />
@@ -171,14 +192,13 @@ const StudentRow = React.memo(
       prevProps.currentStatus === nextProps.currentStatus &&
       prevProps.isLoading === nextProps.isLoading &&
       prevProps.isRemoveLoading === nextProps.isRemoveLoading &&
-      prevProps.isReleaseLoading === nextProps.isReleaseLoading
+      prevProps.isReleaseLoading === nextProps.isReleaseLoading &&
+      prevProps.student === nextProps.student
     );
   }
 );
 
 export const RemoveOrReleaseSLC = () => {
-
-
 
   const { userData } = useContext(UserContext);
   const { schoolContext } = useContext(DistrictBlockSschoolContextV2);
@@ -198,9 +218,8 @@ export const RemoveOrReleaseSLC = () => {
   // Modal states
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [selectedStudent, setSelectedStudent] = useState(null);
-  const [actionType, setActionType] = useState(null); // 'remove' or 'release'
+  const [actionType, setActionType] = useState(null);
 
-  
   const tableWrapperRef = useRef(null);
 
   const sortStudentsAlphabetically = useCallback((studentsArray) => {
@@ -307,21 +326,18 @@ export const RemoveOrReleaseSLC = () => {
     [attendanceStatus, handleMarkAttendance]
   );
 
-  // Open confirmation modal for Remove
   const confirmRemoveStudent = useCallback((student) => {
     setSelectedStudent(student);
     setActionType("remove");
     setShowConfirmModal(true);
   }, []);
 
-  // Open confirmation modal for Release SLC
   const confirmReleaseSLC = useCallback((student) => {
     setSelectedStudent(student);
     setActionType("release");
     setShowConfirmModal(true);
   }, []);
 
-  // Execute the action after confirmation
   const executeAction = useCallback(async () => {
     if (!selectedStudent || !actionType) return;
 
@@ -337,6 +353,8 @@ export const RemoveOrReleaseSLC = () => {
       studentSrn: selectedStudent.studentSrn,
       userId: userData?._id,
       studentCRUDStatus: actionType === "remove" ? "Removed" : "SLC Released",
+      request: actionType === "remove" ? "Removed" : "SLC Released",
+      requestStatus: "Approved",
     };
 
     try {
@@ -349,7 +367,6 @@ export const RemoveOrReleaseSLC = () => {
             : `SLC released for ${selectedStudent.firstName} successfully!`
         );
         
-        // Refresh the student list to get updated status
         await fetchStudents();
         
         setTimeout(() => {
@@ -402,8 +419,8 @@ export const RemoveOrReleaseSLC = () => {
               <th className="small-heading">SRN</th>
               <th className="name-heading">Student Name</th>
               <th className="name-heading">Father's Name</th>
-              {/* <th className="small-heading">Att.</th> */}
               <th className="status-heading">Status</th>
+              <th className="status-heading">Requested For</th>
               <th className="action-heading">Remove</th>
               <th className="action-heading">Release SLC</th>
             </tr>
@@ -445,8 +462,10 @@ export const RemoveOrReleaseSLC = () => {
         const isLoading = attendanceLoading[student._id];
         const isPresent = currentStatus === "Present";
         const statusDisplay = getStudentStatusDisplay(student);
-        const isDeleted = statusDisplay.text === "Deleted";
-        const isSLCReleased = statusDisplay.text === "SLC Released";
+        const buttonsEnabled = shouldEnableButtons(student);
+        
+        const isRemoveDisabled = !buttonsEnabled;
+        const isReleaseDisabled = !buttonsEnabled;
 
         return (
           <Col xs={12} sm={6} md={4} lg={3} key={student._id}>
@@ -468,6 +487,15 @@ export const RemoveOrReleaseSLC = () => {
                   <Badge bg={statusDisplay.variant}>
                     {statusDisplay.text}
                   </Badge>
+                </p>
+                <p>
+                  <strong>Requested For:</strong>{" "}
+                  <Badge bg="info">
+                    {student?.request || "N/A"}
+                  </Badge>
+                </p>
+                <p>
+                  <strong>Request Status:</strong> {student.requestStatus || "N/A"}
                 </p>
               </Card.Body>
 
@@ -498,8 +526,15 @@ export const RemoveOrReleaseSLC = () => {
                     variant="danger"
                     className="flex-grow-1"
                     onClick={() => confirmRemoveStudent(student)}
-                    disabled={removeLoading[student._id] || isDeleted}
+                    disabled={isRemoveDisabled || removeLoading[student._id]}
                     size="sm"
+                    title={
+                      !buttonsEnabled ? 
+                        (student?.request === "SLC Released" && student?.requestStatus === "Approved" ? "SLC already released" :
+                         student?.request === "Removed" && student?.requestStatus === "Approved" ? "Student already removed" :
+                         "Action not available") 
+                      : "Remove Student"
+                    }
                   >
                     {removeLoading[student._id] ? (
                       <FaSpinner className="spin" />
@@ -511,8 +546,15 @@ export const RemoveOrReleaseSLC = () => {
                     variant="warning"
                     className="flex-grow-1"
                     onClick={() => confirmReleaseSLC(student)}
-                    disabled={releaseLoading[student._id] || isSLCReleased || isDeleted}
+                    disabled={isReleaseDisabled || releaseLoading[student._id]}
                     size="sm"
+                    title={
+                      !buttonsEnabled ? 
+                        (student?.request === "SLC Released" && student?.requestStatus === "Approved" ? "SLC already released" :
+                         student?.request === "Removed" && student?.requestStatus === "Approved" ? "Student already removed" :
+                         "Action not available") 
+                      : "Release SLC"
+                    }
                   >
                     {releaseLoading[student._id] ? (
                       <FaSpinner className="spin" />
@@ -545,7 +587,6 @@ export const RemoveOrReleaseSLC = () => {
         </Alert>
       )}
 
-      {/* Confirmation Modal */}
       <Modal show={showConfirmModal} onHide={() => setShowConfirmModal(false)} centered>
         <Modal.Header closeButton className={actionType === "remove" ? "bg-danger text-white" : "bg-warning"}>
           <Modal.Title>
@@ -567,6 +608,8 @@ export const RemoveOrReleaseSLC = () => {
               <p><strong>Father's Name:</strong> {selectedStudent?.fatherName}</p>
               <p><strong>Class:</strong> {selectedStudent?.classofStudent}</p>
               <p><strong>Batch:</strong> {selectedStudent?.batch}</p>
+              <p><strong>Current Request:</strong> {selectedStudent?.request || "N/A"}</p>
+              <p><strong>Request Status:</strong> {selectedStudent?.requestStatus || "N/A"}</p>
             </Card.Body>
           </Card>
           {actionType === "remove" ? (

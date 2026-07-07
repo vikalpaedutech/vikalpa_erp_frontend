@@ -109,14 +109,14 @@ const allSchoolIds = regions.flatMap(region =>
           label: "Student-Attendance",
           logo: "/studentattendancesummary.png",
           path: "mb-student-attendance-dashboard",
-          accessedBy: ['MIS','ACI', 'Community Manager', 'Community Incharge', 'Project Coordinator', 'Admin', 'Tech']
+          accessedBy: ['MIS','ACI', 'Community Manager', 'Community Incharge', 'Project Coordinator', 'Admin', 'Tech', 'Teacher', 'Academic Head']
         },
         {
           id: "3",
           label: "Absentee-Calling",
           logo: "/callingsummary.png",
           path: "mb-student-absentee-calling-dashboard",
-          accessedBy: ['MIS','ACI', 'Community Manager', 'Community Incharge', 'Project Coordinator', 'Admin', 'Tech']
+          accessedBy: ['MIS','ACI', 'Community Manager', 'Community Incharge', 'Project Coordinator', 'Admin', 'Tech', 'Teacher', 'Academic Head']
         },
         {
           id: "4",
@@ -130,7 +130,7 @@ const allSchoolIds = regions.flatMap(region =>
           label: "Copy-Checking Dashboard",
           logo: "/copychecking.png",
           path: "mb-student-copy-checking-dashboard",
-          accessedBy: ['MIS','ACI', 'Community Manager', 'Community Incharge', 'Project Coordinator', 'Admin', 'Tech', 'Teacher']
+          accessedBy: ['MIS','ACI', 'Community Manager', 'Community Incharge', 'Project Coordinator', 'Admin', 'Tech', 'Teacher', 'Academic Head', 'Teacher', 'Academic Head']
         },
         //   {
         //   id: "5",
@@ -145,7 +145,7 @@ const allSchoolIds = regions.flatMap(region =>
           label: "Student-upload-objectives-dashboard",
           logo: "/copychecking.png",
           path: "student-upload-objectives-dashboard",
-          accessedBy: ['MIS','ACI', 'Community Manager', 'Community Incharge', 'Project Coordinator', 'Admin', 'Tech']
+          accessedBy: ['MIS','ACI', 'Community Manager', 'Community Incharge', 'Project Coordinator', 'Admin', 'Tech', 'Teacher', 'Academic Head']
         },
       ],
     },
@@ -155,6 +155,7 @@ const allSchoolIds = regions.flatMap(region =>
       logo: "/attendance.png",
       module: "TRUE",
       main: [
+            
         {
           id: "1",
           label: "Attendance",
@@ -220,20 +221,21 @@ const allSchoolIds = regions.flatMap(region =>
           path: "student-upload",
           accessedBy: ['hkrn', 'MIS','ACI', 'Community Manager', 'Community Incharge', 'Project Coordinator', 'Admin', 'Tech', 'CC']
         },
-             {
-          id: "9",
-          label: "Add Student",
-          logo: "/addstudent.gif",
-          path: "create-student-form",
-          accessedBy: ['hkrn', 'MIS','ACI', 'Community Manager', 'Community Incharge', 'Project Coordinator', 'Admin', 'Tech', 'CC']
+           {
+          id: "createtimetable",
+          label: "Time Table",
+          logo: "/",
+          path: "create-time-table",
+          accessedBy: ['Teacher', 'Academic Coordinator', 'DTP', 'MIS', 'Admin', 'Academic Head']
         },
-          {
-          id: "9",
-          label: "Remove Student",
-          logo: "/removestudent.gif",
-          path: "remove-or-release-slc",
-          accessedBy: ['hkrn', 'MIS','ACI', 'Community Manager', 'Community Incharge', 'Project Coordinator', 'Admin', 'Tech', 'CC']
+           {
+          id: "lecturevideos",
+          label: "Lecture And Videos",
+          logo: "/",
+          path: "create-lecture-videos",
+          accessedBy: ['Teacher', 'Academic Coordinator', 'DTP', 'MIS', 'Admin', 'Academic Head']
         },
+            
       ],
     },
     {
@@ -247,7 +249,7 @@ const allSchoolIds = regions.flatMap(region =>
           label: "Upload Bills",
           logo: "/bills.png",
           path: "upload-bills-v2",
-          accessedBy: ['Teacher', 'Photographer', 'MIS','ACI', 'Community Manager', 'Community Incharge', 
+          accessedBy: ['Academic Head', 'Teacher', 'Photographer', 'MIS','ACI', 'Community Manager', 'Community Incharge', 
             'Project Coordinator', 'Admin', 'Tech', 'CC',
         'DTP', 'Video Grapher', 'Media Manager', 'Editor', 'HR', 'Technician', 'Academic Coordinator']
         },
@@ -413,6 +415,63 @@ const allSchoolIds = regions.flatMap(region =>
           { id: "2", label: "Update Student", path: "update-student",
             accessedBy: ['MIS','Admin', 'Tech']
          },
+       
+      ],
+    },
+
+
+    {
+      indexKey: "10",
+      label: "Accessibility",
+      module: "TRUE",
+      main: [
+        {
+          id: "students",
+          label: "Students",
+          logo: "/",
+          path: "students-v2",
+          accessedBy: ['hkrn', 'MIS','ACI', 'Community Manager', 'Community Incharge', 'Project Coordinator', 'Admin', 'Tech', 'CC']
+        },
+          {
+          id: "downloadstudentsdata",
+          label: "Download Students Data",
+          logo: "/",
+          path: "download-students-data",
+          accessedBy: ['hkrn', 'MIS','ACI', 'Community Manager', 'Community Incharge', 'Project Coordinator', 'Admin', 'Tech', 'CC']
+        },
+       
+
+            {
+          id: "addstudentrequest",
+          label: "Add Students' Requests",
+          logo: "/",
+          path: "student-add-request",
+          accessedBy: ['hkrn', 'MIS','ACI', 'Community Manager', 'Community Incharge', 'Project Coordinator', 'Admin', 'Tech', 'CC']
+        },
+
+   {
+          id: "removestudentrequest",
+          label: "SLC/Remove Students' Requests",
+          logo: "/",
+          path: "student-remove-slc-request",
+          accessedBy: ['hkrn', 'MIS','ACI', 'Community Manager', 'Community Incharge', 'Project Coordinator', 'Admin', 'Tech', 'CC']
+        },
+         {
+          id: "9",
+          label: "Add Student",
+          logo: "/addstudent.gif",
+          path: "create-student-form",
+          accessedBy: ['hkrn', 'MIS','ACI', 'Community Manager', 'Community Incharge', 'Project Coordinator', 'Admin', 'Tech', 'CC']
+        },
+          {
+          id: "9",
+          label: "Remove Student",
+          logo: "/removestudent.gif",
+          path: "remove-or-release-slc",
+          accessedBy: ['hkrn', 'MIS','ACI', 'Community Manager', 'Community Incharge', 'Project Coordinator', 'Admin', 'Tech', 'CC']
+        },
+
+      
        
       ],
     },

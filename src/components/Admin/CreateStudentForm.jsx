@@ -4237,8 +4237,8 @@ export const CreateStudentForm = ({ onSuccess, onCancel, selectedSchoolId, selec
     session2: null,
     enrollmentDate: new Date().toISOString().split('T')[0],
     erpEnrollingDate: new Date().toISOString().split('T')[0],
-    slc: true,
-    isSlcTaken: false,
+    slc: null,
+    isSlcTaken: null,
     slcReleasingDate: null,
     isDressGiven: false,
     isTabGiven: false,
@@ -4261,7 +4261,12 @@ export const CreateStudentForm = ({ onSuccess, onCancel, selectedSchoolId, selec
     bothSideDistance: null,
     userId: userData?._id || null,
     studentCRUDStatus: "Added",
-    studentCreationDate: new Date()
+    studentCreationDate: new Date(),
+    request:"Added",
+    requestDate:new Date(),
+    requestStatus:"Pending",
+    requestApprovedBy:null
+
   });
 
   const [touched, setTouched] = useState({});

@@ -161,8 +161,19 @@ import { MBStudentsAbsenteeCallingDashboard } from "./components/Students/MBStud
 import { CreateStudentForm } from "./components/Admin/CreateStudentForm.jsx";
 import { RemoveOrReleaseSLC } from "./components/Admin/RemoveOrReleaseSLC.jsx";
 import { GamificationDashboardV2 } from "./components/Gamification/GamificationDashboard.v2.jsx";
+import { StudentsV2 } from "./components/Students/Students.v2.jsx";
+import { DownloadStudentsData } from "./components/Utils/DownloadStudents.jsx";
+import { StudentAddRequest } from "./components/Admin/StudentAddRequest.jsx";
+import { StudentRemoveSLCRequest } from "./components/Admin/RemoveSLCRequest.jsx";
+import { UserSelfAttendanceDashboard } from "./components/DashBoard/UserSelfAttendanceDashboard.jsx";
+import { TimeTable } from "./components/Academics/TimeTable.jsx";
+import { LectureVideos } from "./components/Academics/LectureVideos.jsx";
+import { CertificateGenerator } from "./Admin/GENERATETEMPLATE.jsx";
+import ViewTimeTable from "./components/Academics/ViewTimeTable.jsx";
+import ViewLectureVideos from "./components/Academics/ViewLecturVideos.jsx";
 
 function App() {
+  
   
   return (
     <>
@@ -458,6 +469,33 @@ function App() {
                       <Route path="/gamification-dashboard-v2" element = {<GamificationDashboardV2/>}/>
 
 
+ 
+                      <Route path="/students-v2" element = {<StudentsV2/>}/>
+
+                      <Route path="/download-students-data" element = {<DownloadStudentsData/>}/>
+
+
+                      <Route path="/student-add-request" element = {<StudentAddRequest/>}/>
+
+
+                       <Route path="/student-remove-slc-request" element = {<StudentRemoveSLCRequest/>}/>
+
+
+                       <Route path="/user-self-attendance-dashboard" element = {<UserSelfAttendanceDashboard/>}/>
+
+                        <Route path="/create-time-table" element = {<TimeTable/>}/>
+
+                         <Route path="/create-lecture-videos" element = {<LectureVideos/>}/>
+
+          <Route path="/certificate-generator" element = {<CertificateGenerator/>}/>
+
+        
+
+          <Route path="/view-time-table" element = {<ViewTimeTable/>}/>
+
+   <Route path="/view-lecture-videos" element = {<ViewLectureVideos/>}/>
+
+        
                       </Route>
                     </Routes>
                   </UserProvider>

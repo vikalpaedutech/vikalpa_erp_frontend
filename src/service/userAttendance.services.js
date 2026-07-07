@@ -209,3 +209,23 @@ export const getUserAttendanceData = async (reqBody) => {
     }
 }
 
+
+
+
+
+
+//version 2 api
+
+export const userSelfAttendanceDashboard = async (reqBody) => {
+
+
+    try {
+        const response = await axios.post(`${API_BASE_URL}/api/user-self-attendance-dashboard`, reqBody);
+        return response
+    } catch (error) {
+        console.log(error.status)
+      
+        console.log(error.message)
+    }
+}
+

@@ -686,13 +686,17 @@ const callingStatusOptions = [
 
 const connectedRemarkOptions = [
   { value: "Health Issues", label: "Health Issues" },
-   { value: "Student was travelling", label: "Student was travelling" },
-    { value: "Did not receive class link", label: "Did not receive class link" },
-     { value: "No internet available", label: "No internet available" },
-      { value: "Attending a function", label: "Attending a function" },
-       { value: " Do not have mobile phone", label: " Do not have mobile phone" },
+  { value: "Family Function", label: "Family Function" },
+  { value: "Urgent Work at Home", label: "Urgent Work at Home" },
+  { value: "Rainy Day / Bad Weather", label: "Rainy Day / Bad Weather" },
+  { value: "Health Issue", label: "Health Issue" },
+  { value: "Other Reason", label: "Other Reason" },
+  { value: "Student was travelling", label: "Student was travelling" },
+    // { value: "Did not receive class link", label: "Did not receive class link" },
+    //  { value: "No internet available", label: "No internet available" },
+  { value: "Attending a function", label: "Attending a function" },
+      //  { value: " Do not have mobile phone", label: " Do not have mobile phone" },
 
-       
   { value: "Sick", label: "Sick" },
   { value: "Out of town", label: "Out of town" },
   { value: "Not interested", label: "Not interested" },
@@ -703,6 +707,9 @@ const connectedRemarkOptions = [
 const notConnectedRemarkOptions = [
   { value: "Call not picked", label: "Call not picked" },
   { value: "Wrong number", label: "Wrong number" },
+  { value: "Switch Off", label: "No Answer" },
+  { value: "Temporary Out of Service", label: "Temporary Out of Service" },
+  { value: "Number Busy", label: "Number Busy" },
 ];
 
 /* =========================
