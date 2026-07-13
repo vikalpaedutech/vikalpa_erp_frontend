@@ -156,7 +156,7 @@ export const AMEAttendanceSheet = () => {
         gender: student.gender,
         centerName: student.centerName,
         district: student.districtName,
-        venue: student.examinationVenue,
+        venue: student.focus200ExamVenue,
       }));
       
       setAttendanceData(formattedData);
@@ -281,7 +281,9 @@ export const AMEAttendanceSheet = () => {
         // Add header text
         pdf.setFontSize(16);
         pdf.setFont("helvetica", "bold");
-        pdf.text("ANNUAL MERIT EXAMINATION (2026-28)", w / 2, 18, { align: "center" });
+        // pdf.text("ANNUAL MERIT EXAMINATION (2026-28)", w / 2, 18, { align: "center" });
+
+          pdf.text("MISSION BUNIYAAD FOCUS 200 EXAMINATION (2026-28)", w / 2, 18, { align: "center" });
         
         pdf.setFontSize(14);
         pdf.setFont("helvetica", "bold");
@@ -292,7 +294,7 @@ export const AMEAttendanceSheet = () => {
         pdf.text(`District: ${selectedDistrict?.label || "N/A"}`, w / 2, 34, { align: "center" });
         
         // Add venue name below district
-        const venueName = attendanceData[0]?.venue || "The Multipurpose Hall (MPH) at Chaudhary Devi Lal University (CDLU), Sirsa";
+        const venueName = attendanceData[0]?.venue || "_____________________________________";
         pdf.setFontSize(10);
         pdf.setFont("helvetica", "italic");
         pdf.text(`Venue: ${venueName}`, w / 2, 41, { align: "center" });
@@ -429,7 +431,8 @@ export const AMEAttendanceSheet = () => {
       <Card className="shadow">
         <Card.Header className="bg-primary text-white d-flex align-items-center">
           <FaFilter className="me-2" /> 
-          <h5 className="mb-0">AME L-3 ATTENDANCE SHEET GENERATOR</h5>
+          {/* <h5 className="mb-0">AME L-3 ATTENDANCE SHEET GENERATOR</h5> */}
+            <h5 className="mb-0">MISSION BUNIYAAD FOCUS 200 ATTENDANCE SHEET</h5>
         </Card.Header>
 
         <Card.Body>
@@ -626,7 +629,7 @@ export const AMEAttendanceSheet = () => {
         <Card.Footer className="text-muted small">
           <div className="d-flex justify-content-between">
             <span><FaBuilding className="me-1" /> Total Districts: {districts.length}</span>
-            <span>AME Attendance Sheet Generator v2.0</span>
+            {/* <span>AME Attendance Sheet Generator v2.0</span> */}
           </div>
         </Card.Footer>
       </Card>

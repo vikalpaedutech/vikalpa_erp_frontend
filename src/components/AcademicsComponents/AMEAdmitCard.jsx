@@ -981,19 +981,23 @@ export const AMEAdmitCard = () => {
 
     // Header
     doc.setFontSize(12);
-    doc.text("Directorate of School Education (DSE) Shiksha Sadan, Haryana", pageWidth / 2, 10, { align: "center" });
+    // doc.text("Directorate of School Education (DSE) Shiksha Sadan, Haryana", pageWidth / 2, 10, { align: "center" });
     doc.setFontSize(13);
-    doc.text("ANNUAL MERIT EXAMINATION, (2026-28)", pageWidth / 2, 15, { align: "center" });
+    // doc.text("ANNUAL MERIT EXAMINATION, (2026-28)", pageWidth / 2, 15, { align: "center" });
+    doc.text("MISSION BUNIYAAD FOCUS 200, (2026-28)", pageWidth / 2, 15, { align: "center" });
+   
     doc.setFontSize(12);
     doc.text("E – Admit Card", pageWidth / 2, 22, { align: "center" });
 
     // Exam details
     doc.setFont("helvetica", "bold");
     doc.setFontSize(10);
-    const examDate = student.ameExaminationDate || "To be announced";
+    const examDate = student.focus200ExamDate || "To be announced";
     doc.text(`Examination Date: ${examDate}`, pageWidth / 2, 27, { align: "center" });
     doc.setFontSize(10);
-    doc.text("Reporting Time: 08:00 AM, Exam Time: 09:15 AM to 10:30 AM", pageWidth / 2, 32, { align: "center" });
+    // doc.text("Reporting Time: 08:00 AM, Exam Time: 09:15 AM to 10:30 AM", pageWidth / 2, 32, { align: "center" });
+
+    doc.text("Reporting Time: 09:30 AM, Exam Time: 10:00 AM to 11:30 AM", pageWidth / 2, 32, { align: "center" });
 
     // Student data for PDF (Date of Birth removed)
     const dataForPdf = [
@@ -1006,7 +1010,8 @@ export const AMEAdmitCard = () => {
       ["District", student.districtName ?? "-"],
       ["Block", student.blockName ?? "-"],
       ["School", student.schoolName ?? "-"],
-      ["Examination Venue", student.ameExaminationVenue ?? "-"],
+      // ["Examination Venue", student.ameExaminationVenue ?? "-"],
+        ["Examination Venue", student.focus200ExamVenue ?? "-"],
     ];
 
     doc.autoTable({
@@ -1058,7 +1063,9 @@ export const AMEAdmitCard = () => {
     try {
       const blob = await buildPdfBlob(foundStudent);
       const safeName = (foundStudent.studentSrn || foundStudent.firstName || "admit").toString().replace(/\s+/g, "_");
-      saveAs(blob, `${safeName}_AME_admit_card.pdf`);
+      // saveAs(blob, `${safeName}_AME_admit_card.pdf`);
+
+      saveAs(blob, `${safeName}_Focus_200_admit_card.pdf`);
     } catch (err) {
       console.error("PDF generation error:", err);
       setError("Error generating admit card. Please try again.");
@@ -1078,7 +1085,8 @@ export const AMEAdmitCard = () => {
     setFoundStudent(null);
     setSrnInput("");
     setError(null);
-    navigate("/ame-admit-card");
+    // navigate("/ame-admit-card");
+    navigate("/focus-200-admit-card");
   };
 
   const cardStyle = {
@@ -1092,7 +1100,8 @@ export const AMEAdmitCard = () => {
       <Card style={cardStyle}>
         <Card.Header className="bg-white text-center border-0 py-3">
           <div style={{ textAlign: "center" }}>
-            <h2 style={{ fontWeight: 700, color: "#2c3e50" }}>Annual Merit Examination (2026-28)</h2>
+            {/* <h2 style={{ fontWeight: 700, color: "#2c3e50" }}>Annual Merit Examination (2026-28)</h2> */}
+            <h2 style={{ fontWeight: 700, color: "#2c3e50" }}>Mission Buniyaad Focus 200 Examination (2026-28)</h2>
             <h3 className="text-muted">Admit Card</h3>
             <hr />
           </div>
@@ -1102,8 +1111,11 @@ export const AMEAdmitCard = () => {
           {!foundStudent ? (
             // Search Form
             <div>
-              <Alert variant="info" className="mb-4">
+              {/* <Alert variant="info" className="mb-4">
                 <strong>Instructions:</strong> Please enter your SRN (Student Registration Number) to download your AME Admit Card.
+              </Alert> */}
+              <Alert variant="info" className="mb-4">
+                <strong>Instructions:</strong> Please enter your SRN (Student Registration Number) to download your Focus 200 Admit Card.
               </Alert>
 
               <Form.Group className="mb-4">
@@ -1154,8 +1166,12 @@ export const AMEAdmitCard = () => {
           ) : (
             // Student Found - Show Details and Download Button
             <div>
-              <Alert variant="success" className="mb-4">
+              {/* <Alert variant="success" className="mb-4">
                 <strong>Admit Card Status:</strong> Please verify your details below and click download to get your AME Admit Card.
+              </Alert> */}
+
+              <Alert variant="success" className="mb-4">
+                <strong>Admit Card Status:</strong> Please verify your details below and click download to get your Focus 200 Admit Card.
               </Alert>
 
               <div className="student-details mb-4">
@@ -1179,8 +1195,8 @@ export const AMEAdmitCard = () => {
                 </div>
                 <div className="row mt-2">
                   <div className="col-12">
-                    <p><strong>Examination Venue:</strong> {foundStudent.ameExaminationVenue || "-"}</p>
-                    <p><strong>Examination Date:</strong> {foundStudent.ameExaminationDate || "To be announced"}</p>
+                    <p><strong>Examination Venue:</strong> {foundStudent.focus200ExamVenue || "-"}</p>
+                    <p><strong>Examination Date:</strong> {foundStudent.focus200ExamDate || "To be announced"}</p>
                   </div>
                 </div>
               </div>

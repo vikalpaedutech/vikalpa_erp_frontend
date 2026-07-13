@@ -388,9 +388,11 @@ function App() {
 
                       <Route path="/ame-score-card-202527" element = {<AMEScoreCard202527/>}/>
 
-                      <Route path="/ame-attendance-sheet" element = {<AMEAttendanceSheet/>}/>
+                      {/* <Route path="/ame-attendance-sheet" element = {<AMEAttendanceSheet/>}/> */}
+                       <Route path="/focus-200-attendance-sheet" element = {<AMEAttendanceSheet/>}/>
 
-                      <Route path="/ame-admit-card" element = {<AMEAdmitCard/>}/>
+                      {/* <Route path="/ame-admit-card" element = {<AMEAdmitCard/>}/> */}
+                       <Route path="/focus-200-admit-card" element = {<AMEAdmitCard/>}/>
 
                        <Route path="/calling-dasbhaord-of-all-users"  element = {<CallingDashboardOfAllUsers/>}/>
 
