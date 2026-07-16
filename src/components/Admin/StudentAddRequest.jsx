@@ -144,45 +144,91 @@ export const StudentAddRequest = () => {
   };
 
   // Handle Approve/Reject action
-  const handleAction = async () => {
-    if (!selectedStudent || !actionType) return;
+  // const handleAction = async () => {
+  //   if (!selectedStudent || !actionType) return;
 
-    setUpdatingId(selectedStudent._id);
-    setShowModal(false);
+  //   setUpdatingId(selectedStudent._id);
+  //   setShowModal(false);
 
-    const reqBody = {
-      studentId: selectedStudent._id,
-      requestStatus: actionType === "approve" ? "Approved" : "Rejected",
-      approvedByUserId: userData?._id
-    };
+  //   const reqBody = {
+  //     studentId: selectedStudent._id,
+  //     requestStatus: actionType === "approve" ? "Approved" : "Rejected",
+  //     approvedByUserId: userData?._id
+  //   };
 
-    console.log("Update Request Body:", reqBody);
+  //   console.log("Update Request Body:", reqBody);
 
-    try {
-      const response = await studentAddUpdatedApi(reqBody);
-      console.log("Update Response:", response);
+  //   try {
+  //     const response = await studentAddUpdatedApi(reqBody);
+  //     console.log("Update Response:", response);
       
-      if (response.success) {
-        setSuccessMessage(
-          `Student ${selectedStudent.firstName} request ${actionType === "approve" ? "approved" : "rejected"} successfully!`
-        );
-        // Refresh data
-        await fetchStudentAddOrRemoveRequestData();
-        setTimeout(() => setSuccessMessage(null), 3000);
-      } else {
-        setError(response.message || "Failed to update request");
-        setTimeout(() => setError(null), 3000);
-      }
-    } catch (error) {
-      console.error("Error updating student request:", error);
-      setError(error.message || "Failed to update student request");
-      setTimeout(() => setError(null), 3000);
-    } finally {
-      setUpdatingId(null);
-      setSelectedStudent(null);
-      setActionType("");
-    }
+  //     if (response.success) {
+  //       setSuccessMessage(
+  //         `Student ${selectedStudent.firstName} request ${actionType === "approve" ? "approved" : "rejected"} successfully!`
+  //       );
+  //       // Refresh data
+  //       await fetchStudentAddOrRemoveRequestData();
+  //       setTimeout(() => setSuccessMessage(null), 3000);
+  //     } else {
+  //       setError(response.message || "Failed to update request");
+  //       setTimeout(() => setError(null), 3000);
+  //     }
+  //   } catch (error) {
+  //     console.error("Error updating student request:", error);
+  //     setError(error.message || "Failed to update student request");
+  //     setTimeout(() => setError(null), 3000);
+  //   } finally {
+  //     setUpdatingId(null);
+  //     setSelectedStudent(null);
+  //     setActionType("");
+  //   }
+  // };
+
+
+
+
+  // Handle Approve/Reject action
+const handleAction = async () => {
+  if (!selectedStudent || !actionType) return;
+
+  setUpdatingId(selectedStudent._id);
+  setShowModal(false);
+
+  const reqBody = {
+    studentId: selectedStudent._id,
+    requestStatus: actionType === "approve" ? "Approved" : "Rejected",
+    approvedByUserId: userData?._id,
+    request: selectedStudent.request || "Added"  // Add this line - use the student's request type
   };
+
+  console.log("Update Request Body:", reqBody);
+
+  try {
+    const response = await studentAddUpdatedApi(reqBody);
+    console.log("Update Response:", response);
+    
+    if (response.success) {
+      setSuccessMessage(
+        `Student ${selectedStudent.firstName} request ${actionType === "approve" ? "approved" : "rejected"} successfully!`
+      );
+      // Refresh data
+      await fetchStudentAddOrRemoveRequestData();
+      setTimeout(() => setSuccessMessage(null), 3000);
+    } else {
+      setError(response.message || "Failed to update request");
+      setTimeout(() => setError(null), 3000);
+    }
+  } catch (error) {
+    console.error("Error updating student request:", error);
+    setError(error.message || "Failed to update student request");
+    setTimeout(() => setError(null), 3000);
+  } finally {
+    setUpdatingId(null);
+    setSelectedStudent(null);
+    setActionType("");
+  }
+};
+
 
   // Open modal for approve/reject
   const openModal = (student, type) => {
