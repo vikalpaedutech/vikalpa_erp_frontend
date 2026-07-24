@@ -399,3 +399,27 @@ export const studentAddUpdatedApi = async (reqBody) => {
 
 
 
+export const updateDressSize = async (reqBody) => {
+    try {
+     
+        const response = await axios.post (`${API_BASE_URL}/api/update-dress-size`,reqBody)
+        
+        return response.data;
+
+
+    } catch (error) {
+        console.error("Error updating dress size students data", error.message);
+        throw error;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
