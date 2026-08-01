@@ -233,6 +233,14 @@ export const leaveApproval = async (reqBody) => {
 
 
 
+export const createGamificationUser = async (reqBody) =>{
+    const response = await axios.post(`${API_BASE_URL}/api/create-gamificationuser`, reqBody)
+    return response.data
+}
 
 
 
+export const getGamificationUser = async (reqBody) =>{
+    const response = await axios.post(`${API_BASE_URL}/api/get-gamificationuser`, reqBody)
+    return response.data
+}

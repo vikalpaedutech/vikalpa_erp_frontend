@@ -171,6 +171,7 @@ import { LectureVideos } from "./components/Academics/LectureVideos.jsx";
 import { CertificateGenerator } from "./Admin/GENERATETEMPLATE.jsx";
 import ViewTimeTable from "./components/Academics/ViewTimeTable.jsx";
 import ViewLectureVideos from "./components/Academics/ViewLecturVideos.jsx";
+import { CreateGamificationUsers } from "./components/Admin/CreateGamificationUsers.jsx";
 
 function App() {
   
@@ -496,6 +497,8 @@ function App() {
           <Route path="/view-time-table" element = {<ViewTimeTable/>}/>
 
    <Route path="/view-lecture-videos" element = {<ViewLectureVideos/>}/>
+
+   <Route path="/create-gamification-users" element = {<CreateGamificationUsers/>}/>
 
         
                       </Route>

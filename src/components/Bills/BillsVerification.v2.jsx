@@ -2627,7 +2627,7 @@ export const BillsVerificationV2 = () => {
         { value: "ACI", label: "ACI" },
         { value: "CC", label: "CC" }
       ];
-    } else if (userRole === "ACI") {
+    } else if (userRole === "ACI" || userRole === 'Project Coordinator') {
       return [
         { value: "CC", label: "CC" }
       ];

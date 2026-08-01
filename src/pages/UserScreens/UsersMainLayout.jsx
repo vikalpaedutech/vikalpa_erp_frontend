@@ -143,7 +143,7 @@ const allSchoolIds = regions.flatMap(region =>
          {
           id: "5",
           label: "Student-upload-objectives-dashboard",
-          logo: "/copychecking.png",
+          logo: "/landing-page-logos/stuUploadObjective.png",
           path: "student-upload-objectives-dashboard",
           accessedBy: ['MIS','ACI', 'Community Manager', 'Community Incharge', 'Project Coordinator', 'Admin', 'Tech', 'Teacher', 'Academic Head']
         },
@@ -175,7 +175,8 @@ const allSchoolIds = regions.flatMap(region =>
           label: "Disciplinary",
           logo: "/disciplinary.png",
           path: "student-disciplinary-or-interaction",
-          accessedBy: ['hkrn','MIS','ACI', 'Community Manager', 'Community Incharge', 'Project Coordinator', 'Admin', 'Tech', 'CC']
+          // accessedBy: ['hkrn','MIS','ACI', 'Community Manager', 'Community Incharge', 'Project Coordinator', 'Admin', 'Tech', 'CC']
+          accessedBy: ['Admin']
         },
         {
           id: "4",
@@ -194,7 +195,7 @@ const allSchoolIds = regions.flatMap(region =>
         {
           id: "6",
           label: "Gamification Disciplinary",
-          logo: "/gamification.png",
+          logo: "/landing-page-logos/gamiFication.png",
           path: "school-disciplinaries",
           accessedBy: [ 'MIS','Community Incharge', 'Project Coordinator', 'Admin', 'Tech', 'Academic Coordinator', 'Community Manager']
         },
@@ -264,7 +265,7 @@ const allSchoolIds = regions.flatMap(region =>
           label: "Bills Verification",
           logo: "/bill-verification.png",
           path: "bills-verification-v2",
-          accessedBy: ['MIS','ACI', 'Community Manager',  'Admin', 'Tech']
+          accessedBy: ['MIS','ACI', 'Community Manager',  'Admin', 'Tech', 'Project Coordinator']
         },
         {
           id: "9",
@@ -286,28 +287,33 @@ const allSchoolIds = regions.flatMap(region =>
           label: "School Concerns Request",
           logo: "/school.png",
           path: "school-concerns-request",
-          accessedBy: ['MIS','ACI', 'Community Manager', 'Community Incharge', 'Project Coordinator', 'Admin', 'Tech']
+          // accessedBy: ['MIS','ACI', 'Community Manager', 'Community Incharge', 'Project Coordinator', 'Admin', 'Tech']
+          accessedBy: ['Admin']
         },
         {
           id: "5",
           label: "Tech Solution",
           logo: "/techSolution.png",
           path: "tech-concerns-resolution",
-          accessedBy: ['MIS','ACI', 'Community Manager', 'Community Incharge', 'Project Coordinator', 'Admin', 'Tech', 'Technician']
+          // accessedBy: ['MIS','ACI', 'Community Manager', 'Community Incharge', 'Project Coordinator', 'Admin', 'Tech', 'Technician']
+          accessedBy: ['Admin']
         },
         {
           id: "6",
           label: "Leave Requests",
           logo: "/leave.png",
           path: "individual-concerns-resolution",
-          accessedBy: ['MIS','ACI', 'Community Manager', 'Community Incharge', 'Project Coordinator', 'Admin', 'Tech']
+          // accessedBy: ['MIS','ACI', 'Community Manager', 'Community Incharge', 'Project Coordinator', 'Admin', 'Tech']
+          accessedBy: ['Admin']
         },
         {
           id: "8",
           label: "Individual Concerns",
           logo: "/individualconcern.png",
           path: "self-cocnerns-resolution",
-          accessedBy: ['MIS','Community Incharge', 'Project Coordinator', 'Admin', 'Tech']
+          // accessedBy: ['MIS','Community Incharge', 'Project Coordinator', 'Admin', 'Tech']
+          accessedBy: ['Admin']
+          
         },
       ],
     },
@@ -321,6 +327,7 @@ const allSchoolIds = regions.flatMap(region =>
           id: "1",
           label: "Center Disciplinary/Interaction",
           path: "center-disciplinary-or-interaction",
+          logo:"/landing-page-logos/classMonitoring.png",
           accessedBy: [ 'MIS','Community Incharge', 'Project Coordinator', 'Admin', 'Tech', 'Academic Coordinator']
         },
       ],
@@ -342,7 +349,7 @@ const allSchoolIds = regions.flatMap(region =>
            {
           id: "2",
           label: "Calling",
-          logo: "/call.png",
+          logo: "/landing-page-logos/misccalling.png",
           path: "calling-dashboard-objective-of-calling",
           accessedBy: ['hkrn', 'MIS','ACI', 'Community Manager', 'Community Incharge', 'Project Coordinator', 'Admin', 'Tech', 'CC']
         },
@@ -400,6 +407,9 @@ const allSchoolIds = regions.flatMap(region =>
           { id: "2", label: "Update User", path: "update-user",
             accessedBy: ['MIS','Admin', 'Tech']
          },
+          { id: "create-gamification-users", label: "Create Gamification Users", path: "create-gamification-users",
+            accessedBy: ['MIS','Admin', 'Tech']
+         },
        
       ],
     },
@@ -430,21 +440,24 @@ const allSchoolIds = regions.flatMap(region =>
           label: "Students",
           logo: "/",
           path: "students-v2",
-          accessedBy: ['hkrn', 'MIS','ACI', 'Community Manager', 'Community Incharge', 'Project Coordinator', 'Admin', 'Tech', 'CC']
+          // accessedBy: ['hkrn', 'MIS','ACI', 'Community Manager', 'Community Incharge', 'Project Coordinator', 'Admin', 'Tech', 'CC']
+          accessedBy: [ 'Admin']
         },
           {
           id: "downloadstudentsdata",
           label: "Download Students Data",
           logo: "/",
           path: "download-students-data",
-          accessedBy: ['hkrn', 'MIS','ACI', 'Community Manager', 'Community Incharge', 'Project Coordinator', 'Admin', 'Tech', 'CC']
+          // accessedBy: ['hkrn', 'MIS','ACI', 'Community Manager', 'Community Incharge', 'Project Coordinator', 'Admin', 'Tech', 'CC']
+
+          accessedBy: ['Community Manager', 'Community Incharge',  'Admin', 'Tech']
         },
        
 
             {
           id: "addstudentrequest",
           label: "Add Students' Requests",
-          logo: "/",
+          logo: "/landing-page-logos/addStudentReq.png",
           path: "student-add-request",
           accessedBy: ['hkrn', 'MIS','ACI', 'Community Manager', 'Community Incharge', 'Project Coordinator', 'Admin', 'Tech', 'CC']
         },
@@ -452,7 +465,7 @@ const allSchoolIds = regions.flatMap(region =>
    {
           id: "removestudentrequest",
           label: "SLC/Remove Students' Requests",
-          logo: "/",
+          logo: "/landing-page-logos/remStudentReq.png",
           path: "student-remove-slc-request",
           accessedBy: ['hkrn', 'MIS','ACI', 'Community Manager', 'Community Incharge', 'Project Coordinator', 'Admin', 'Tech', 'CC']
         },

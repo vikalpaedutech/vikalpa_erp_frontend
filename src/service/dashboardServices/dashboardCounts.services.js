@@ -70,3 +70,28 @@ export const PresentAbsentCallingDashboard= async (payload) => {
     }
 
 }
+
+
+
+
+
+
+
+
+export const uploadedAttendancePdfDashboard= async (payload) => {
+
+    console.log(payload)
+
+    try {
+        
+        const response = await axios.post(`${API_BASE_URL}/api/uploaded-attendance-pdf-dashboard`, payload);
+       
+        console.log(response.status)
+        return response.data
+    } catch (error) {
+        
+        console.log('error occured while fetching uploaded attendance pdf dashboard')
+        console.log(error)
+    }
+
+}
