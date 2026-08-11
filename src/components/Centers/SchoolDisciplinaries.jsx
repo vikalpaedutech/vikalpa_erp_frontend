@@ -1619,6 +1619,2027 @@
 
 
 
+// import React, {
+//   useEffect, useState, useContext, useMemo, useCallback, useRef
+// } from "react";
+// import Select from "react-select";
+// import { UserContext } from "../contextAPIs/User.context";
+// import { DistrictBlockSschoolContextV2 } from "../contextAPIs/DependentDropdowns.contextAPI";
+// import { DateNDateRangeContext } from "../contextAPIs/DateNDateRangePicker";
+// import Region from "../Students/Region.json";
+// import { Batch_drop_down } from "../Utils/DependentDropDowns.v2";
+// import { SingleDatePicker } from "../Utils/DateNDateRangePicker";
+// import {
+//   createSchoolDisciplinaryRecord,
+//   GetSchoolDisciplinaryData,
+// } from "../../service/Centers/SchoolDisciplinaries";
+// import { ClaimGamificationPoint } from "../../service/Gamification/ClaimGamification.services";
+// import { getGamificationUser } from "../../service/User.service";
+// // ─────────────────────────────────────────────────────────────────────────────
+// const STATUS_CONFIG = {
+//   Poor:      { variant: "danger",  icon: "📉", label: "Poor",      bg: "#fff5f5", color: "#c62828", border: "#ffcdd2" },
+//   Average:   { variant: "warning", icon: "📊", label: "Average",   bg: "#fffde7", color: "#e65100", border: "#ffe0b2" },
+//   Good:      { variant: "primary", icon: "📈", label: "Good",      bg: "#e8eaf6", color: "#283593", border: "#c5cae9" },
+//   Excellent: { variant: "success", icon: "🌟", label: "Excellent", bg: "#f1f8e9", color: "#2e7d32", border: "#c8e6c9" },
+//   CamOff:    { variant: "secondary", icon: "📷❌", label: "Cam-Off", bg: "#fce4ec", color: "#880e4f", border: "#f8bbd0" },
+// };
+// const STATUS_ORDER = ["Poor", "Average", "Good", "Excellent", "CamOff"];
+
+// const getTodayStr = () => {
+//   const d = new Date();
+//   return [d.getFullYear(), String(d.getMonth() + 1).padStart(2, "0"), String(d.getDate()).padStart(2, "0")].join("-");
+// };
+
+// const rsStyles = {
+//   control: (base, state) => ({
+//     ...base, minHeight: 31, height: 31, fontSize: "0.82rem", borderRadius: 8,
+//     borderColor: state.isFocused ? "#3949ab" : "#ced4da",
+//     boxShadow: state.isFocused ? "0 0 0 2px rgba(57,73,171,0.18)" : "none",
+//     "&:hover": { borderColor: "#3949ab" }, cursor: "text",
+//   }),
+//   valueContainer: (base) => ({ ...base, padding: "0 8px" }),
+//   input:          (base) => ({ ...base, margin: 0, padding: 0 }),
+//   indicatorsContainer: (base) => ({ ...base, height: 31 }),
+//   indicatorSeparator: () => ({ display: "none" }),
+//   dropdownIndicator: (base) => ({ ...base, padding: "0 6px" }),
+//   clearIndicator:    (base) => ({ ...base, padding: "0 4px" }),
+//   menu:    (base) => ({ ...base, fontSize: "0.82rem", zIndex: 9999 }),
+//   option:  (base, state) => ({
+//     ...base,
+//     background: state.isSelected ? "#3949ab" : state.isFocused ? "#e8eaf6" : "#fff",
+//     color: state.isSelected ? "#fff" : "#263238", padding: "6px 12px",
+//   }),
+//   placeholder: (base) => ({ ...base, color: "#adb5bd" }),
+//   singleValue: (base) => ({ ...base, color: "#263238" }),
+// };
+// // ─────────────────────────────────────────────────────────────────────────────
+
+// export const SchoolDisciplinaries = () => {
+//   const { userData }                       = useContext(UserContext);
+//   const { schoolContext, batchContext }    = useContext(DistrictBlockSschoolContextV2);
+//   const { startDate }                      = useContext(DateNDateRangeContext);
+
+//   // ✅ Fix: Define effectiveDate
+//   const effectiveDate  = startDate || getTodayStr();
+
+//   // ✅ State for gamification user data
+//   const [gamificationUser, setGamificationUser] = useState(null);
+//   const [gamificationLoading, setGamificationLoading] = useState(false);
+  
+//   // ✅ State for filtered districts based on gamification user
+//   const [userDistricts, setUserDistricts] = useState([]);
+  
+//   // ✅ State for user's batches
+//   const [userBatches, setUserBatches] = useState([]);
+  
+//   // ✅ Selected batch from user's data
+//   const [selectedUserBatch, setSelectedUserBatch] = useState(null);
+
+//   const [disciplinaryData, setDisciplinaryData] = useState([]);
+//   const [optimistic, setOptimistic]             = useState({});
+//   const [postingKey, setPostingKey]             = useState(null);
+//   const [fetchLoading, setFetchLoading]         = useState(false);
+//   const [toast, setToast]                       = useState(null);
+//   const [showBatchModal, setShowBatchModal]      = useState(false);
+//   const [viewMode, setViewMode]                 = useState("table");
+
+//   const [filterDistrict, setFilterDistrict] = useState(null);
+//   const [filterSchool, setFilterSchool]     = useState("");
+//   const [showUnmarkedOnly, setShowUnmarkedOnly] = useState(false);
+
+//   const toastTimer = useRef(null);
+
+//   // ─────────────────────────────────────────────────────────────────────────────
+//   // ✅ Get Gamification User Data
+//   // ─────────────────────────────────────────────────────────────────────────────
+//   const GetGamificationUser = useCallback(async () => {
+//     if (!userData?._id) return;
+    
+//     setGamificationLoading(true);
+//     try {
+//       const reqBody = {
+//         unqUserObjectId: userData._id,
+//         createdAt: new Date()
+//       };
+      
+//       const response = await getGamificationUser(reqBody);
+//       console.log('✅ Gamification User Response:', response);
+      
+//       if (response?.data && response.data.length > 0) {
+//         const userData = response.data[0];
+//         setGamificationUser(userData);
+        
+//         // ✅ Extract districts from region data
+//         if (userData.region && userData.region.length > 0) {
+//           const districts = userData.region.map(r => ({
+//             districtId: r.districtId,
+//             districtName: getDistrictName(r.districtId)
+//           })).filter(d => d.districtName);
+          
+//           setUserDistricts(districts);
+          
+//           // ✅ Auto-select first district by default
+//           if (districts.length > 0) {
+//             const firstDistrict = districts[0];
+//             setFilterDistrict({
+//               value: firstDistrict.districtId,
+//               label: firstDistrict.districtName
+//             });
+//           }
+//         }
+        
+//         // ✅ Extract batches
+//         if (userData.batch && userData.batch.length > 0) {
+//           const batches = userData.batch.map(b => ({
+//             value: b,
+//             label: b
+//           }));
+//           setUserBatches(batches);
+          
+//           // ✅ Auto-select first batch
+//           setSelectedUserBatch(batches[0]);
+//         } else {
+//           // ✅ If no batches in gamification data, use fallback
+//           setUserBatches([]);
+//           setSelectedUserBatch(null);
+//         }
+//       } else {
+//         // ✅ Fallback: No gamification data - use fallback batches
+//         console.log('⚠️ No gamification data found, using fallback');
+//         setUserDistricts([]);
+//         setUserBatches([]);
+//         setSelectedUserBatch(null);
+//       }
+//     } catch (error) {
+//       console.error('❌ Error fetching gamification user:', error);
+//       // ✅ Fallback: On error, use fallback batches
+//       setUserDistricts([]);
+//       setUserBatches([]);
+//       setSelectedUserBatch(null);
+//     } finally {
+//       setGamificationLoading(false);
+//     }
+//   }, [userData]);
+
+//   // ✅ Helper to get district name from ID
+//   const getDistrictName = useCallback((districtId) => {
+//     const district = Region.find(r => r.districtId === districtId);
+//     return district ? district.districtName : null;
+//   }, []);
+
+//   // ─────────────────────────────────────────────────────────────────────────────
+//   // ✅ Fetch gamification user on mount
+//   // ─────────────────────────────────────────────────────────────────────────────
+//   useEffect(() => {
+//     GetGamificationUser();
+//   }, [GetGamificationUser]);
+
+//   // ─────────────────────────────────────────────────────────────────────────────
+//   // ✅ Determine effective batch
+//   // ─────────────────────────────────────────────────────────────────────────────
+//   const effectiveBatch = useMemo(() => {
+//     // Priority: User's selected batch from gamification data
+//     if (selectedUserBatch) {
+//       return selectedUserBatch.value;
+//     }
+//     // Fallback: batch from context
+//     if (batchContext?.batch?.trim()) {
+//       return batchContext.batch.trim();
+//     }
+//     return null;
+//   }, [selectedUserBatch, batchContext]);
+
+//   // ─────────────────────────────────────────────────────────────────────────────
+//   // ✅ Determine effective districts for filtering
+//   // ─────────────────────────────────────────────────────────────────────────────
+//   const effectiveDistricts = useMemo(() => {
+//     // If user has districts from gamification, use those
+//     if (userDistricts.length > 0) {
+//       return userDistricts.map(d => d.districtId);
+//     }
+//     // Fallback: all districts
+//     return null;
+//   }, [userDistricts]);
+
+//   // ─────────────────────────────────────────────────────────────────────────────
+//   // ✅ Active centers based on user districts
+//   // ─────────────────────────────────────────────────────────────────────────────
+//   const activeCenters = useMemo(() => {
+//     let centers = Region.filter((r) => !r.isCenterClosed);
+    
+//     // Filter by user's districts if available
+//     if (effectiveDistricts) {
+//       centers = centers.filter((c) => effectiveDistricts.includes(c.districtId));
+//     }
+    
+//     return centers;
+//   }, [effectiveDistricts]);
+
+//   // ─────────────────────────────────────────────────────────────────────────────
+//   // ✅ District options (only from active centers)
+//   // ─────────────────────────────────────────────────────────────────────────────
+//   const districtOptions = useMemo(() => {
+//     const map = new Map();
+//     activeCenters.forEach((c) => { 
+//       if (!map.has(c.districtId)) map.set(c.districtId, c.districtName); 
+//     });
+//     return Array.from(map.entries())
+//       .map(([id, name]) => ({ value: id, label: name }))
+//       .sort((a, b) => a.label.localeCompare(b.label));
+//   }, [activeCenters]);
+
+//   // ─────────────────────────────────────────────────────────────────────────────
+//   // ✅ Batch options for dropdown - FIXED with hardcoded fallback
+//   // ─────────────────────────────────────────────────────────────────────────────
+//   const batchOptions = useMemo(() => {
+//     // Priority 1: User's batches from gamification
+//     if (userBatches.length > 0) {
+//       return userBatches;
+//     }
+    
+//     // Priority 2: Batch from context
+//     if (batchContext?.batch?.trim()) {
+//       return [{ value: batchContext.batch, label: batchContext.batch }];
+//     }
+    
+//     // Priority 3: HARDCODED FALLBACK BATCHES
+//     return [
+//       { value: '2025-27', label: '2025-27' },
+//       { value: '2026-28', label: '2026-28' }
+//     ];
+//   }, [userBatches, batchContext]);
+
+//   // ─────────────────────────────────────────────────────────────────────────────
+//   // ✅ Is batch dropdown disabled?
+//   // ─────────────────────────────────────────────────────────────────────────────
+//   const isBatchDisabled = useMemo(() => {
+//     // If we have gamification data and only 1 batch
+//     if (userBatches.length > 0) {
+//       return userBatches.length <= 1;
+//     }
+//     // If no gamification data but we have batch from context
+//     if (batchContext?.batch?.trim()) {
+//       return true; // Disable if only one batch from context
+//     }
+//     // If using hardcoded fallback with 2 batches, enable dropdown
+//     if (batchOptions.length > 1) {
+//       return false;
+//     }
+//     return true;
+//   }, [userBatches, batchContext, batchOptions]);
+
+//   // ─────────────────────────────────────────────────────────────────────────────
+//   // ✅ Auto-select first batch if nothing is selected and we have options
+//   // ─────────────────────────────────────────────────────────────────────────────
+//   useEffect(() => {
+//     if (!selectedUserBatch && batchOptions.length > 0 && !gamificationLoading) {
+//       setSelectedUserBatch(batchOptions[0]);
+//     }
+//   }, [batchOptions, selectedUserBatch, gamificationLoading]);
+
+//   // ─────────────────────────────────────────────────────────────────────────────
+//   // ✅ Server record map
+//   // ─────────────────────────────────────────────────────────────────────────────
+//   const serverRecordMap = useMemo(() => {
+//     const m = new Map();
+//     disciplinaryData.forEach((d) => m.set(d._id, d.schoolDisciplinaryData ?? []));
+//     return m;
+//   }, [disciplinaryData]);
+
+//   // ─────────────────────────────────────────────────────────────────────────────
+//   // ✅ Count helpers
+//   // ─────────────────────────────────────────────────────────────────────────────
+//   const getCount = useCallback((oid, status, batch) => {
+//     const real  = (serverRecordMap.get(oid) ?? []).filter((r) => r.status === status && (!batch || r.batch === batch)).length;
+//     const delta = optimistic?.[oid]?.[status] ?? 0;
+//     return real + delta;
+//   }, [serverRecordMap, optimistic]);
+
+//   const getTotal = useCallback((oid, batch) => {
+//     const real  = (serverRecordMap.get(oid) ?? []).filter((r) => !batch || r.batch === batch).length;
+//     const delta = Object.values(optimistic?.[oid] ?? {}).reduce((s, v) => s + v, 0);
+//     return real + delta;
+//   }, [serverRecordMap, optimistic]);
+
+//   // ─────────────────────────────────────────────────────────────────────────────
+//   // ✅ Filtered + sorted rows
+//   // ─────────────────────────────────────────────────────────────────────────────
+//   const filteredCenters = useMemo(() => {
+//     let list = activeCenters;
+//     if (filterDistrict) list = list.filter((c) => c.districtId === filterDistrict.value);
+//     if (filterSchool.trim()) list = list.filter((c) => c.schoolName.toLowerCase().includes(filterSchool.trim().toLowerCase()));
+//     if (showUnmarkedOnly) list = list.filter((c) => getTotal(c._id?.$oid ?? c._id, effectiveBatch) === 0);
+//     return [...list].sort((a, b) => a.districtName.localeCompare(b.districtName) || a.schoolName.localeCompare(b.schoolName));
+//   }, [activeCenters, filterDistrict, filterSchool, showUnmarkedOnly, getTotal, effectiveBatch]);
+
+//   // ─────────────────────────────────────────────────────────────────────────────
+//   // ✅ Fetch disciplinary data
+//   // ─────────────────────────────────────────────────────────────────────────────
+//   const fetchData = useCallback(async () => {
+//     if (!effectiveBatch) {
+//       console.log('⚠️ No batch selected, skipping fetch');
+//       return;
+//     }
+    
+//     setFetchLoading(true);
+//     try {
+//       const res = await GetSchoolDisciplinaryData({ 
+//         date: effectiveDate, 
+//         unqUserObjectId: userData?._id,
+//         batch: effectiveBatch // ✅ Pass batch to filter data
+//       });
+//       if (res?.status === "Ok") { 
+//         setDisciplinaryData(res.data); 
+//         setOptimistic({}); 
+//       }
+//     } catch (error) {
+//       console.error('❌ Error fetching data:', error);
+//       showToast("Failed to fetch data", "danger");
+//     } finally { 
+//       setFetchLoading(false); 
+//     }
+//   }, [effectiveDate, userData?._id, effectiveBatch]);
+
+//   // ✅ Fetch when effective batch changes
+//   useEffect(() => {
+//     if (effectiveBatch) {
+//       fetchData();
+//     }
+//   }, [effectiveBatch, fetchData]);
+
+//   // ─────────────────────────────────────────────────────────────────────────────
+//   // ✅ Mark handler
+//   // ─────────────────────────────────────────────────────────────────────────────
+//   const handleMark = useCallback(async (center, status) => {
+//     if (!effectiveBatch) {
+//       console.log('❌ No batch selected - showing modal');
+//       setShowBatchModal(true);
+//       return;
+//     }
+
+//     console.log('✅ Batch selected:', effectiveBatch);
+    
+//     const oid    = center._id?.$oid ?? center._id;
+//     const rowKey = `${oid}-${status}`;
+//     setPostingKey(rowKey);
+
+//     setOptimistic((prev) => ({
+//       ...prev,
+//       [oid]: { ...(prev[oid] ?? {}), [status]: (prev[oid]?.[status] ?? 0) + 1 },
+//     }));
+
+//     const payload = {
+//       district_block_schoolsObjectId: oid,
+//       subject: schoolContext?.schoolName ?? null,
+//       batch: effectiveBatch,
+//       status, remark: null,
+//       unqUserObjectId: userData?._id,
+//     };
+
+//     try {
+//       const res = await createSchoolDisciplinaryRecord(payload);
+//       if (res?.status === "Ok") {
+//         setDisciplinaryData((prev) => {
+//           const exists = prev.some((d) => d._id === oid);
+//           if (!exists) return [...prev, { _id: oid, schoolDisciplinaryData: [{ status, batch: effectiveBatch }] }];
+//           return prev.map((school) =>
+//             school._id !== oid ? school : {
+//               ...school,
+//               schoolDisciplinaryData: [...(school.schoolDisciplinaryData || []), { status, batch: effectiveBatch }],
+//             }
+//           );
+//         });
+//         setOptimistic((prev) => {
+//           const next = { ...prev };
+//           if (next[oid]?.[status]) {
+//             next[oid][status]--;
+//             if (next[oid][status] <= 0) delete next[oid][status];
+//             if (Object.keys(next[oid]).length === 0) delete next[oid];
+//           }
+//           return next;
+//         });
+
+//         showToast(`✅ Marked as ${status} successfully`, "success");
+//       } else {
+//         rollback(oid, status);
+//         showToast("Failed to save record", "danger");
+//       }
+//     } catch (error) {
+//       console.error('Error in handleMark:', error);
+//       rollback(oid, status); 
+//       showToast("Error posting data", "danger");
+//     } finally { 
+//       setPostingKey(null); 
+//     }
+//   }, [effectiveBatch, schoolContext, userData]);
+
+//   const rollback = (oid, status) =>
+//     setOptimistic((prev) => ({
+//       ...prev,
+//       [oid]: { ...(prev[oid] ?? {}), [status]: Math.max(0, (prev[oid]?.[status] ?? 1) - 1) },
+//     }));
+
+//   const showToast = (message, type = "success") => {
+//     if (toastTimer.current) clearTimeout(toastTimer.current);
+//     setToast({ message, type });
+//     toastTimer.current = setTimeout(() => setToast(null), 3000);
+//   };
+
+//   // ─────────────────────────────────────────────────────────────────────────────
+//   // ✅ Footer totals
+//   // ─────────────────────────────────────────────────────────────────────────────
+//   const footerTotals = useMemo(() => STATUS_ORDER.reduce((acc, status) => {
+//     acc[status] = disciplinaryData.reduce(
+//       (sum, d) => sum + (d.schoolDisciplinaryData?.filter(
+//         (r) => r.status === status && (!effectiveBatch || r.batch === effectiveBatch)
+//       ).length ?? 0), 0
+//     );
+//     return acc;
+//   }, {}), [disciplinaryData, effectiveBatch]);
+
+//   // ─────────────────────────────────────────────────────────────────────────────
+//   // ✅ Render
+//   // ─────────────────────────────────────────────────────────────────────────────
+//   return (
+//     <div style={{ fontFamily: "'DM Sans', sans-serif", minHeight: "100vh", background: "#f4f6fb" }}>
+//       {/* <h1>Hellos</h1>
+//       <Batch_drop_down /> */}
+//       {/* Header */}
+//       <div style={S.header}>
+//         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 10 }}>
+//           <div>
+//             <h4 className="mb-0 fw-bold" style={{ letterSpacing: "0.5px", fontSize: "1.28rem" }}>
+//               🏫 School Disciplinary Tracker
+//             </h4>
+//             <small style={{ opacity: 0.72 }}>Mark and monitor disciplinary status across all active centers</small>
+//           </div>
+//           {/* View toggle */}
+//           <div style={{ display: "flex", background: "rgba(255,255,255,0.12)", borderRadius: 10, padding: 3, gap: 2 }}>
+//             {[
+//               { mode: "table", icon: "⊞", label: "Table" },
+//               { mode: "card",  icon: "❏", label: "Cards" },
+//             ].map(({ mode, icon, label }) => (
+//               <button
+//                 key={mode}
+//                 onClick={() => setViewMode(mode)}
+//                 style={{
+//                   background: viewMode === mode ? "#fff" : "transparent",
+//                   color: viewMode === mode ? "#1a237e" : "rgba(255,255,255,0.75)",
+//                   border: "none", borderRadius: 8, padding: "5px 14px",
+//                   fontSize: "0.78rem", fontWeight: 700, cursor: "pointer",
+//                   transition: "all 0.18s", whiteSpace: "nowrap",
+//                   boxShadow: viewMode === mode ? "0 1px 6px rgba(0,0,0,0.12)" : "none",
+//                 }}
+//               >
+//                 {icon} {label}
+//               </button>
+//             ))}
+//           </div>
+//         </div>
+//       </div>
+
+//       {/* Filter bar */}
+//       <div style={S.filterBar}>
+//         <div style={{ minWidth: 165 }}><SingleDatePicker /></div>
+        
+//         {/* ✅ Custom Batch Dropdown - Controlled by Gamification User */}
+//         <div style={{ minWidth: 165 }}>
+//           <Select
+//             options={batchOptions}
+//             value={selectedUserBatch}
+//             onChange={(option) => {
+//               setSelectedUserBatch(option);
+//               // ✅ Reset optimistic states when batch changes
+//               setOptimistic({});
+//             }}
+//             placeholder={batchOptions.length === 0 ? "No batches available" : "Select Batch"}
+//             isClearable={!isBatchDisabled && batchOptions.length > 1}
+//             isDisabled={isBatchDisabled || gamificationLoading}
+//             styles={rsStyles}
+//             isLoading={gamificationLoading}
+//           />
+//           {isBatchDisabled && batchOptions.length === 1 && (
+//             <small style={{ color: "#7986cb", fontSize: "0.7rem", display: "block", marginTop: 2 }}>
+//               ℹ️ Single batch available
+//             </small>
+//           )}
+//           {batchOptions.length > 1 && userBatches.length === 0 && !gamificationLoading && (
+//             <small style={{ color: "#f57c00", fontSize: "0.7rem", display: "block", marginTop: 2 }}>
+//               ⚠️ Using fallback batches (not from gamification)
+//             </small>
+//           )}
+//         </div>
+
+//         <div style={{ minWidth: 190 }}>
+//           <Select 
+//             options={districtOptions} 
+//             value={filterDistrict} 
+//             onChange={setFilterDistrict}
+//             placeholder={userDistricts.length > 0 ? "All Districts (User)" : "All Districts"}
+//             isClearable 
+//             styles={rsStyles}
+//             isLoading={gamificationLoading}
+//           />
+//         </div>
+//         <input
+//           type="text" className="form-control form-control-sm"
+//           placeholder="🔍 Search school…"
+//           style={{ minWidth: 180, borderRadius: 8, fontSize: "0.82rem", height: 31 }}
+//           value={filterSchool} onChange={(e) => setFilterSchool(e.target.value)}
+//         />
+//         <label style={{ display: "flex", alignItems: "center", gap: 6, cursor: "pointer", whiteSpace: "nowrap",
+//           fontSize: "0.8rem", color: showUnmarkedOnly ? "#c62828" : "#546e7a",
+//           fontWeight: showUnmarkedOnly ? 700 : 400, userSelect: "none" }}>
+//           <input type="checkbox" checked={showUnmarkedOnly} onChange={(e) => setShowUnmarkedOnly(e.target.checked)}
+//             style={{ accentColor: "#c62828", width: 14, height: 14 }} />
+//           0-marked only
+//         </label>
+//         {(filterDistrict || filterSchool || showUnmarkedOnly) && (
+//           <button className="btn btn-sm btn-outline-secondary"
+//             style={{ borderRadius: 8, fontSize: "0.78rem", whiteSpace: "nowrap", height: 31 }}
+//             onClick={() => { setFilterDistrict(null); setFilterSchool(""); setShowUnmarkedOnly(false); }}>
+//             ✕ Clear
+//           </button>
+//         )}
+//         <button className="btn btn-outline-secondary btn-sm ms-auto" onClick={fetchData}
+//           disabled={fetchLoading} style={{ borderRadius: 8, whiteSpace: "nowrap", height: 31 }}>
+//           {fetchLoading ? <><span className="spinner-border spinner-border-sm me-1" />Refreshing…</> : <>🔄 Refresh</>}
+//         </button>
+//       </div>
+
+//       {/* Toast */}
+//       {toast && (
+//         <div style={S.toastWrap}>
+//           <div className={`alert alert-${toast.type} shadow-lg mb-0 py-2 px-3`}
+//             style={{ borderRadius: 10, fontSize: "0.84rem" }}>
+//             {toast.message}
+//           </div>
+//         </div>
+//       )}
+
+//       {/* Batch Modal */}
+//       {showBatchModal && (
+//         <div style={S.backdrop} onClick={() => setShowBatchModal(false)}>
+//           <div style={S.modal} onClick={(e) => e.stopPropagation()}>
+//             <div style={{ fontSize: "2.4rem", marginBottom: 8 }}>📋</div>
+//             <h5 style={{ fontWeight: 700, color: "#1a237e", marginBottom: 6 }}>Batch Not Selected</h5>
+//             <p style={{ color: "#546e7a", fontSize: "0.88rem", marginBottom: 20 }}>
+//               Please select a <strong>batch</strong> before marking disciplinary status.
+//             </p>
+//             <button className="btn btn-primary btn-sm px-4" style={{ borderRadius: 20 }}
+//               onClick={() => setShowBatchModal(false)}>
+//               Got it
+//             </button>
+//           </div>
+//         </div>
+//       )}
+
+//       {/* Content */}
+//       <div style={{ padding: "18px 20px 32px" }}>
+//         {/* Meta row */}
+//         <div style={{ marginBottom: 12, fontSize: "0.79rem", color: "#7986cb", display: "flex", gap: 14, flexWrap: "wrap", alignItems: "center" }}>
+//           <span>Showing <strong>{filteredCenters.length}</strong> of <strong>{activeCenters.length}</strong> active centers</span>
+//           <span style={{ color: "#90a4ae" }}>
+//             📅 {new Date(effectiveDate + "T00:00:00").toLocaleDateString("en-IN", { day: "2-digit", month: "short", year: "numeric" })}
+//           </span>
+//           {effectiveBatch && (
+//             <span style={{ background: "#e8eaf6", color: "#3949ab", borderRadius: 12, padding: "1px 10px", fontWeight: 700, fontSize: "0.76rem" }}>
+//               Batch: {effectiveBatch}
+//             </span>
+//           )}
+//           {userDistricts.length > 0 && (
+//             <span style={{ background: "#e8f5e9", color: "#2e7d32", borderRadius: 12, padding: "1px 10px", fontWeight: 600, fontSize: "0.76rem" }}>
+//               👤 {userDistricts.length} district(s) assigned
+//             </span>
+//           )}
+//         </div>
+
+//         {fetchLoading ? (
+//           <div className="text-center py-5 text-muted">
+//             <div className="spinner-border text-primary mb-3" />
+//             <div style={{ fontSize: "0.85rem" }}>Loading disciplinary data…</div>
+//           </div>
+//         ) : viewMode === "table" ? (
+//           /* ══════════════════ TABLE VIEW ══════════════════ */
+//           <div style={S.tableCard}>
+//             <div style={{ overflowX: "auto" }}>
+//               <table className="table table-hover mb-0" style={{ fontSize: "0.875rem" }}>
+//                 <thead>
+//                   <tr style={{ background: "linear-gradient(90deg,#e8eaf6 0%,#f3f4fd 100%)", borderBottom: "2px solid #c5cae9" }}>
+//                     <th style={th}>#</th>
+//                     <th style={th}>District</th>
+//                     <th style={th}>Block</th>
+//                     <th style={th}>School Name</th>
+//                     <th style={{ ...th, textAlign: "center" }}>
+//                       Mark Status
+//                       {effectiveBatch && (
+//                         <span style={{ display: "block", fontWeight: 400, color: "#7986cb", fontSize: "0.69rem", textTransform: "none", letterSpacing: 0 }}>
+//                           counts for batch: {effectiveBatch}
+//                         </span>
+//                       )}
+//                     </th>
+//                     <th style={{ ...th, textAlign: "center" }}>Total</th>
+//                   </tr>
+//                 </thead>
+//                 <tbody>
+//                   {filteredCenters.length === 0 ? (
+//                     <tr>
+//                       <td colSpan={6} className="text-center py-5 text-muted">
+//                         <div style={{ fontSize: "2rem" }}>🔍</div>
+//                         <div style={{ fontSize: "0.85rem" }}>No centers match your filters.</div>
+//                       </td>
+//                     </tr>
+//                   ) : (
+//                     filteredCenters.map((center, idx) => (
+//                       <TableRow key={center._id?.$oid ?? center._id}
+//                         center={center} idx={idx}
+//                         getCount={getCount} getTotal={getTotal}
+//                         handleMark={handleMark} postingKey={postingKey}
+//                         effectiveBatch={effectiveBatch} />
+//                     ))
+//                   )}
+//                 </tbody>
+//               </table>
+//             </div>
+//             {/* Footer */}
+//             <div style={S.footer}>
+//               <span style={{ fontWeight: 700, color: "#3949ab" }}>{activeCenters.length} centers</span>
+//               <span style={S.divider} />
+//               {STATUS_ORDER.map((status) => {
+//                 const cfg = STATUS_CONFIG[status];
+//                 return (
+//                   <span key={status} style={{ background: cfg.bg, color: cfg.color, borderRadius: 12, padding: "2px 10px", fontWeight: 700, fontSize: "0.77rem" }}>
+//                     {cfg.icon} {footerTotals[status]} {cfg.label}
+//                   </span>
+//                 );
+//               })}
+//             </div>
+//           </div>
+//         ) : (
+//           /* ══════════════════ CARD VIEW ══════════════════ */
+//           <>
+//             {filteredCenters.length === 0 ? (
+//               <div className="text-center py-5 text-muted">
+//                 <div style={{ fontSize: "2.5rem" }}>🔍</div>
+//                 <div style={{ fontSize: "0.88rem" }}>No centers match your filters.</div>
+//               </div>
+//             ) : (
+//               <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(310px, 1fr))", gap: 16 }}>
+//                 {filteredCenters.map((center, idx) => (
+//                   <CenterCard key={center._id?.$oid ?? center._id}
+//                     center={center} idx={idx}
+//                     getCount={getCount} getTotal={getTotal}
+//                     handleMark={handleMark} postingKey={postingKey}
+//                     effectiveBatch={effectiveBatch} />
+//                 ))}
+//               </div>
+//             )}
+//             {/* Footer summary for card view */}
+//             <div style={{ ...S.footer, borderRadius: 12, marginTop: 20, border: "1px solid #e8eaf6" }}>
+//               <span style={{ fontWeight: 700, color: "#3949ab" }}>{activeCenters.length} centers</span>
+//               <span style={S.divider} />
+//               {STATUS_ORDER.map((status) => {
+//                 const cfg = STATUS_CONFIG[status];
+//                 return (
+//                   <span key={status} style={{ background: cfg.bg, color: cfg.color, borderRadius: 12, padding: "2px 10px", fontWeight: 700, fontSize: "0.77rem" }}>
+//                     {cfg.icon} {footerTotals[status]} {cfg.label}
+//                   </span>
+//                 );
+//               })}
+//             </div>
+//           </>
+//         )}
+//       </div>
+//     </div>
+//   );
+// };
+
+// // ── Memoised Table Row ────────────────────────────────────────────────────────
+// const TableRow = React.memo(({ center, idx, getCount, getTotal, handleMark, postingKey, effectiveBatch }) => {
+//   const oid   = center._id?.$oid ?? center._id;
+//   const total = getTotal(oid, effectiveBatch);
+//   return (
+//     <tr>
+//       <td style={td}>
+//         <span style={{ background: "#e8eaf6", color: "#3949ab", borderRadius: 6, padding: "2px 8px", fontWeight: 700, fontSize: "0.74rem" }}>
+//           {idx + 1}
+//         </span>
+//       </td>
+//       <td style={td}><span style={{ color: "#5c6bc0", fontWeight: 600 }}>{center.districtName}</span></td>
+//       <td style={td}><span style={{ color: "#78909c", fontSize: "0.81rem" }}>{center.blockName}</span></td>
+//       <td style={td}><span style={{ fontWeight: 600, color: "#263238" }}>{center.schoolName}</span></td>
+//       <td style={{ ...td, textAlign: "center" }}>
+//         <div className="d-flex gap-1 justify-content-center flex-wrap">
+//           {STATUS_ORDER.map((status) => {
+//             const cfg     = STATUS_CONFIG[status];
+//             const rowKey  = `${oid}-${status}`;
+//             const posting = postingKey === rowKey;
+//             const cnt     = getCount(oid, status, effectiveBatch);
+//             return (
+//               <button key={status} className={`btn btn-${cfg.variant} btn-sm`}
+//                 style={{ borderRadius: 20, fontSize: "0.72rem", padding: "3px 10px", fontWeight: 600, minWidth: 82, opacity: posting ? 0.65 : 1 }}
+//                 disabled={posting} onClick={() => handleMark(center, status)}
+//                 title={`Mark ${center.schoolName} as ${status}`}>
+//                 {posting ? <span className="spinner-border spinner-border-sm" /> : (
+//                   <>{cfg.icon} {cfg.label}{cnt > 0 && (
+//                     <span style={{ background: "rgba(255,255,255,0.35)", borderRadius: 10, padding: "0 5px", marginLeft: 4, fontSize: "0.67rem", fontWeight: 800 }}>
+//                       {cnt}
+//                     </span>
+//                   )}</>
+//                 )}
+//               </button>
+//             );
+//           })}
+//         </div>
+//       </td>
+//       <td style={{ ...td, textAlign: "center" }}>
+//         {total > 0 ? (
+//           <span style={{ background: "linear-gradient(135deg,#1a237e,#3949ab)", color: "#fff", borderRadius: 20, padding: "3px 14px", fontWeight: 700, fontSize: "0.81rem", display: "inline-block", minWidth: 36 }}>
+//             {total}
+//           </span>
+//         ) : <span style={{ color: "#cfd8dc" }}>—</span>}
+//       </td>
+//     </tr>
+//   );
+// });
+
+// // ── Memoised Card ─────────────────────────────────────────────────────────────
+// const CenterCard = React.memo(({ center, idx, getCount, getTotal, handleMark, postingKey, effectiveBatch }) => {
+//   const oid   = center._id?.$oid ?? center._id;
+//   const total = getTotal(oid, effectiveBatch);
+
+//   return (
+//     <div style={{
+//       background: "#fff", borderRadius: 14,
+//       boxShadow: "0 2px 14px rgba(40,53,147,0.08)",
+//       border: "1px solid #e8eaf6", overflow: "hidden",
+//       display: "flex", flexDirection: "column",
+//       transition: "box-shadow 0.18s",
+//     }}>
+//       {/* Card header */}
+//       <div style={{
+//         background: "linear-gradient(135deg,#e8eaf6 0%,#f3f4fd 100%)",
+//         padding: "12px 16px", borderBottom: "1px solid #dde1f4",
+//         display: "flex", alignItems: "flex-start", gap: 10,
+//       }}>
+//         {/* Index badge */}
+//         <span style={{
+//           background: "linear-gradient(135deg,#1a237e,#3949ab)", color: "#fff",
+//           borderRadius: 8, padding: "3px 9px", fontWeight: 700, fontSize: "0.72rem",
+//           flexShrink: 0, marginTop: 2,
+//         }}>
+//           {idx + 1}
+//         </span>
+//         <div style={{ flex: 1, minWidth: 0 }}>
+//           <div style={{ fontWeight: 700, color: "#1a237e", fontSize: "0.88rem", lineHeight: 1.3, marginBottom: 3 }}
+//             title={center.schoolName}>
+//             {center.schoolName}
+//           </div>
+//           <div style={{ display: "flex", gap: 8, flexWrap: "wrap", alignItems: "center" }}>
+//             <span style={{ background: "#e8eaf6", color: "#3949ab", borderRadius: 10, padding: "1px 8px", fontSize: "0.72rem", fontWeight: 600 }}>
+//               📍 {center.districtName}
+//             </span>
+//             <span style={{ color: "#90a4ae", fontSize: "0.72rem" }}>
+//               {center.blockName}
+//             </span>
+//           </div>
+//         </div>
+//         {/* Total badge */}
+//         {total > 0 && (
+//           <span style={{
+//             background: "linear-gradient(135deg,#1a237e,#3949ab)", color: "#fff",
+//             borderRadius: 20, padding: "3px 11px", fontWeight: 700, fontSize: "0.78rem",
+//             flexShrink: 0,
+//           }}>
+//             {total}
+//           </span>
+//         )}
+//       </div>
+
+//       {/* Status buttons */}
+//       <div style={{ padding: "14px 14px 16px", display: "flex", flexDirection: "column", gap: 8, flex: 1 }}>
+//         {/* Per-status rows */}
+//         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 8 }}>
+//           {STATUS_ORDER.map((status) => {
+//             const cfg     = STATUS_CONFIG[status];
+//             const rowKey  = `${oid}-${status}`;
+//             const posting = postingKey === rowKey;
+//             const cnt     = getCount(oid, status, effectiveBatch);
+//             return (
+//               <button key={status}
+//                 onClick={() => handleMark(center, status)}
+//                 disabled={posting}
+//                 title={`Mark as ${status}`}
+//                 style={{
+//                   display: "flex", alignItems: "center", justifyContent: "space-between",
+//                   background: cfg.bg, border: `1.5px solid ${cfg.border}`,
+//                   borderRadius: 10, padding: "8px 12px",
+//                   cursor: posting ? "not-allowed" : "pointer",
+//                   opacity: posting ? 0.65 : 1,
+//                   transition: "transform 0.1s, box-shadow 0.1s",
+//                   width: "100%",
+//                 }}>
+//                 <span style={{ display: "flex", alignItems: "center", gap: 5, fontSize: "0.78rem", fontWeight: 700, color: cfg.color }}>
+//                   {posting
+//                     ? <span className="spinner-border spinner-border-sm" style={{ width: 13, height: 13 }} />
+//                     : <span>{cfg.icon}</span>}
+//                   {cfg.label}
+//                 </span>
+//                 <span style={{
+//                   background: cnt > 0 ? cfg.color : "#e0e0e0",
+//                   color: cnt > 0 ? "#fff" : "#9e9e9e",
+//                   borderRadius: 20, minWidth: 22, height: 22,
+//                   display: "flex", alignItems: "center", justifyContent: "center",
+//                   fontSize: "0.72rem", fontWeight: 800, padding: "0 6px",
+//                   transition: "background 0.2s",
+//                 }}>
+//                   {cnt}
+//                 </span>
+//               </button>
+//             );
+//           })}
+//         </div>
+
+//         {/* Total row */}
+//         <div style={{
+//           marginTop: 2, background: "#f8f9fe", borderRadius: 8, border: "1px solid #e8eaf6",
+//           padding: "7px 12px", display: "flex", alignItems: "center", justifyContent: "space-between",
+//           fontSize: "0.76rem",
+//         }}>
+//           <span style={{ color: "#78909c", fontWeight: 600 }}>Total marks today</span>
+//           <span style={{
+//             background: total > 0 ? "linear-gradient(135deg,#1a237e,#3949ab)" : "#eeeeee",
+//             color: total > 0 ? "#fff" : "#9e9e9e",
+//             borderRadius: 20, padding: "2px 12px", fontWeight: 700, fontSize: "0.78rem",
+//           }}>
+//             {total || "None"}
+//           </span>
+//         </div>
+//       </div>
+//     </div>
+//   );
+// });
+
+// // ── Style tokens ──────────────────────────────────────────────────────────────
+// const S = {
+//   header: {
+//     background: "linear-gradient(135deg,#1a237e 0%,#283593 60%,#3949ab 100%)",
+//     padding: "20px 28px 16px", color: "#fff",
+//     boxShadow: "0 4px 20px rgba(26,35,126,0.18)",
+//   },
+//   filterBar: {
+//     background: "#fff", borderBottom: "1px solid #e3e8f0",
+//     padding: "11px 24px", display: "flex", gap: 10, flexWrap: "wrap", alignItems: "center",
+//   },
+//   toastWrap: { position: "fixed", top: 20, right: 24, zIndex: 9999, minWidth: 260 },
+//   backdrop:  { 
+//     position: "fixed", 
+//     inset: 0, 
+//     background: "rgba(0,0,0,0.5)", 
+//     zIndex: 99999, 
+//     display: "flex", 
+//     alignItems: "center", 
+//     justifyContent: "center" 
+//   },
+//   modal: { 
+//     background: "#fff", 
+//     borderRadius: 18, 
+//     padding: "36px 40px", 
+//     textAlign: "center", 
+//     boxShadow: "0 8px 40px rgba(0,0,0,0.18)", 
+//     maxWidth: 340, 
+//     width: "90%",
+//     zIndex: 100000
+//   },
+//   tableCard: { background: "#fff", borderRadius: 14, boxShadow: "0 2px 16px rgba(40,53,147,0.08)", overflow: "hidden" },
+//   footer:    { background: "#f8f9fe", borderTop: "1px solid #e8eaf6", padding: "10px 20px", display: "flex", gap: 10, flexWrap: "wrap", fontSize: "0.8rem", alignItems: "center" },
+//   divider:   { width: 1, height: 16, background: "#c5cae9", display: "inline-block" },
+// };
+
+// const th = { padding: "11px 16px", fontWeight: 700, color: "#3949ab", fontSize: "0.78rem", textTransform: "uppercase", letterSpacing: "0.5px", whiteSpace: "nowrap", background: "transparent", border: "none" };
+// const td = { padding: "10px 16px", verticalAlign: "middle", borderBottom: "1px solid #f0f2fa" };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// import React, {
+//   useEffect, useState, useContext, useMemo, useCallback, useRef
+// } from "react";
+// import Select from "react-select";
+// import { UserContext } from "../contextAPIs/User.context";
+// import { DistrictBlockSschoolContextV2 } from "../contextAPIs/DependentDropdowns.contextAPI";
+// import { DateNDateRangeContext } from "../contextAPIs/DateNDateRangePicker";
+// import Region from "../Students/Region.json";
+// import { Batch_drop_down } from "../Utils/DependentDropDowns.v2";
+// import { SingleDatePicker } from "../Utils/DateNDateRangePicker";
+// import {
+//   createSchoolDisciplinaryRecord,
+//   GetSchoolDisciplinaryData,
+// } from "../../service/Centers/SchoolDisciplinaries";
+// import { ClaimGamificationPoint } from "../../service/Gamification/ClaimGamification.services";
+// import { getGamificationUser } from "../../service/User.service";
+// // ─────────────────────────────────────────────────────────────────────────────
+// const STATUS_CONFIG = {
+//   Poor:      { variant: "danger",  icon: "📉", label: "Poor",      bg: "#fff5f5", color: "#c62828", border: "#ffcdd2" },
+//   Average:   { variant: "warning", icon: "📊", label: "Average",   bg: "#fffde7", color: "#e65100", border: "#ffe0b2" },
+//   Good:      { variant: "primary", icon: "📈", label: "Good",      bg: "#e8eaf6", color: "#283593", border: "#c5cae9" },
+//   Excellent: { variant: "success", icon: "🌟", label: "Excellent", bg: "#f1f8e9", color: "#2e7d32", border: "#c8e6c9" },
+//   CamOff:    { variant: "secondary", icon: "📷❌", label: "Cam-Off", bg: "#fce4ec", color: "#880e4f", border: "#f8bbd0" },
+// };
+// const STATUS_ORDER = ["Poor", "Average", "Good", "Excellent", "CamOff"];
+
+// const getTodayStr = () => {
+//   const d = new Date();
+//   return [d.getFullYear(), String(d.getMonth() + 1).padStart(2, "0"), String(d.getDate()).padStart(2, "0")].join("-");
+// };
+
+// const rsStyles = {
+//   control: (base, state) => ({
+//     ...base, minHeight: 31, height: 31, fontSize: "0.82rem", borderRadius: 8,
+//     borderColor: state.isFocused ? "#3949ab" : "#ced4da",
+//     boxShadow: state.isFocused ? "0 0 0 2px rgba(57,73,171,0.18)" : "none",
+//     "&:hover": { borderColor: "#3949ab" }, cursor: "text",
+//   }),
+//   valueContainer: (base) => ({ ...base, padding: "0 8px" }),
+//   input:          (base) => ({ ...base, margin: 0, padding: 0 }),
+//   indicatorsContainer: (base) => ({ ...base, height: 31 }),
+//   indicatorSeparator: () => ({ display: "none" }),
+//   dropdownIndicator: (base) => ({ ...base, padding: "0 6px" }),
+//   clearIndicator:    (base) => ({ ...base, padding: "0 4px" }),
+//   menu:    (base) => ({ ...base, fontSize: "0.82rem", zIndex: 9999 }),
+//   option:  (base, state) => ({
+//     ...base,
+//     background: state.isSelected ? "#3949ab" : state.isFocused ? "#e8eaf6" : "#fff",
+//     color: state.isSelected ? "#fff" : "#263238", padding: "6px 12px",
+//   }),
+//   placeholder: (base) => ({ ...base, color: "#adb5bd" }),
+//   singleValue: (base) => ({ ...base, color: "#263238" }),
+// };
+// // ─────────────────────────────────────────────────────────────────────────────
+
+// export const SchoolDisciplinaries = () => {
+//   const { userData }                       = useContext(UserContext);
+//   const { schoolContext, batchContext }    = useContext(DistrictBlockSschoolContextV2);
+//   const { startDate }                      = useContext(DateNDateRangeContext);
+
+//   // ✅ Fix: Define effectiveDate
+//   const effectiveDate  = startDate || getTodayStr();
+
+//   // ✅ State for gamification user data
+//   const [gamificationUser, setGamificationUser] = useState(null);
+//   const [gamificationLoading, setGamificationLoading] = useState(false);
+  
+//   // ✅ State for filtered districts based on gamification user
+//   const [userDistricts, setUserDistricts] = useState([]);
+  
+//   // ✅ State for user's batches
+//   const [userBatches, setUserBatches] = useState([]);
+  
+//   // ✅ Selected batch from user's data
+//   const [selectedUserBatch, setSelectedUserBatch] = useState(null);
+
+//   const [disciplinaryData, setDisciplinaryData] = useState([]);
+//   const [optimistic, setOptimistic]             = useState({});
+//   const [postingKey, setPostingKey]             = useState(null);
+//   const [fetchLoading, setFetchLoading]         = useState(false);
+//   const [toast, setToast]                       = useState(null);
+//   const [showBatchModal, setShowBatchModal]      = useState(false);
+//   const [viewMode, setViewMode]                 = useState("table");
+
+//   const [filterDistrict, setFilterDistrict] = useState(null);
+//   const [filterSchool, setFilterSchool]     = useState("");
+//   const [showUnmarkedOnly, setShowUnmarkedOnly] = useState(false);
+
+//   const toastTimer = useRef(null);
+
+//   // ✅ State to track if date is selected
+//   const [isDateSelected, setIsDateSelected] = useState(false);
+
+//   // ─────────────────────────────────────────────────────────────────────────────
+//   // ✅ Get User's District IDs from userAccess.region (Fallback)
+//   // ─────────────────────────────────────────────────────────────────────────────
+//   const getUserDistrictsFromAccess = useCallback(() => {
+//     const districts = [];
+//     if (userData?.userAccess?.region && Array.isArray(userData.userAccess.region)) {
+//       userData.userAccess.region.forEach((region) => {
+//         if (region.districtId) {
+//           districts.push(region.districtId);
+//         }
+//       });
+//     }
+//     return districts;
+//   }, [userData]);
+
+//   // ─────────────────────────────────────────────────────────────────────────────
+//   // ✅ Get User's Batches from userAccess (Fallback)
+//   // ─────────────────────────────────────────────────────────────────────────────
+//   const getUserBatchesFromAccess = useCallback(() => {
+//     if (userData?.userAccess?.batch && Array.isArray(userData.userAccess.batch)) {
+//       return userData.userAccess.batch;
+//     }
+//     return [];
+//   }, [userData]);
+
+//   // ─────────────────────────────────────────────────────────────────────────────
+//   // ✅ Get Gamification User Data (Priority 1)
+//   // ─────────────────────────────────────────────────────────────────────────────
+//   const GetGamificationUser = useCallback(async () => {
+//     if (!userData?._id) return;
+    
+//     setGamificationLoading(true);
+//     try {
+//       const reqBody = {
+//         unqUserObjectId: userData._id,
+//         createdAt: new Date()
+//       };
+      
+//       const response = await getGamificationUser(reqBody);
+//       console.log('✅ Gamification User Response:', response);
+      
+//       if (response?.data && response.data.length > 0) {
+//         const gamificationData = response.data[0];
+//         setGamificationUser(gamificationData);
+        
+//         // ✅ Priority 1: Extract districts from gamification region data
+//         if (gamificationData.region && gamificationData.region.length > 0) {
+//           const districts = gamificationData.region.map(r => ({
+//             districtId: r.districtId,
+//             districtName: getDistrictName(r.districtId)
+//           })).filter(d => d.districtName);
+          
+//           setUserDistricts(districts);
+          
+//           // ✅ Auto-select first district by default
+//           if (districts.length > 0) {
+//             const firstDistrict = districts[0];
+//             setFilterDistrict({
+//               value: firstDistrict.districtId,
+//               label: firstDistrict.districtName
+//             });
+//           }
+//         } else {
+//           // ✅ If no region in gamification, try fallback to userAccess
+//           const fallbackDistricts = getUserDistrictsFromAccess();
+//           if (fallbackDistricts.length > 0) {
+//             const districts = fallbackDistricts.map(id => ({
+//               districtId: id,
+//               districtName: getDistrictName(id)
+//             })).filter(d => d.districtName);
+            
+//             setUserDistricts(districts);
+            
+//             if (districts.length > 0) {
+//               const firstDistrict = districts[0];
+//               setFilterDistrict({
+//                 value: firstDistrict.districtId,
+//                 label: firstDistrict.districtName
+//               });
+//             }
+//           }
+//         }
+        
+//         // ✅ Priority 1: Extract batches from gamification
+//         if (gamificationData.batch && gamificationData.batch.length > 0) {
+//           const batches = gamificationData.batch.map(b => ({
+//             value: b,
+//             label: b
+//           }));
+//           setUserBatches(batches);
+//           setSelectedUserBatch(batches[0]);
+//         } else {
+//           // ✅ Fallback: Get batches from userAccess
+//           const fallbackBatches = getUserBatchesFromAccess();
+//           if (fallbackBatches.length > 0) {
+//             const batches = fallbackBatches.map(b => ({
+//               value: b,
+//               label: b
+//             }));
+//             setUserBatches(batches);
+//             setSelectedUserBatch(batches[0]);
+//           } else {
+//             setUserBatches([]);
+//             setSelectedUserBatch(null);
+//           }
+//         }
+//       } else {
+//         // ✅ No gamification data found - use userAccess as fallback
+//         console.log('⚠️ No gamification data found, using userAccess as fallback');
+        
+//         // Fallback districts from userAccess
+//         const fallbackDistricts = getUserDistrictsFromAccess();
+//         if (fallbackDistricts.length > 0) {
+//           const districts = fallbackDistricts.map(id => ({
+//             districtId: id,
+//             districtName: getDistrictName(id)
+//           })).filter(d => d.districtName);
+          
+//           setUserDistricts(districts);
+          
+//           if (districts.length > 0) {
+//             const firstDistrict = districts[0];
+//             setFilterDistrict({
+//               value: firstDistrict.districtId,
+//               label: firstDistrict.districtName
+//             });
+//           }
+//         } else {
+//           setUserDistricts([]);
+//         }
+        
+//         // Fallback batches from userAccess
+//         const fallbackBatches = getUserBatchesFromAccess();
+//         if (fallbackBatches.length > 0) {
+//           const batches = fallbackBatches.map(b => ({
+//             value: b,
+//             label: b
+//           }));
+//           setUserBatches(batches);
+//           setSelectedUserBatch(batches[0]);
+//         } else {
+//           setUserBatches([]);
+//           setSelectedUserBatch(null);
+//         }
+//       }
+//     } catch (error) {
+//       console.error('❌ Error fetching gamification user:', error);
+      
+//       // ✅ On error, fallback to userAccess
+//       const fallbackDistricts = getUserDistrictsFromAccess();
+//       if (fallbackDistricts.length > 0) {
+//         const districts = fallbackDistricts.map(id => ({
+//           districtId: id,
+//           districtName: getDistrictName(id)
+//         })).filter(d => d.districtName);
+        
+//         setUserDistricts(districts);
+        
+//         if (districts.length > 0) {
+//           const firstDistrict = districts[0];
+//           setFilterDistrict({
+//             value: firstDistrict.districtId,
+//             label: firstDistrict.districtName
+//           });
+//         }
+//       } else {
+//         setUserDistricts([]);
+//       }
+      
+//       const fallbackBatches = getUserBatchesFromAccess();
+//       if (fallbackBatches.length > 0) {
+//         const batches = fallbackBatches.map(b => ({
+//           value: b,
+//           label: b
+//         }));
+//         setUserBatches(batches);
+//         setSelectedUserBatch(batches[0]);
+//       } else {
+//         setUserBatches([]);
+//         setSelectedUserBatch(null);
+//       }
+//     } finally {
+//       setGamificationLoading(false);
+//     }
+//   }, [userData, getUserDistrictsFromAccess, getUserBatchesFromAccess]);
+
+//   // ✅ Helper to get district name from ID
+//   const getDistrictName = useCallback((districtId) => {
+//     const district = Region.find(r => r.districtId === districtId);
+//     return district ? district.districtName : null;
+//   }, []);
+
+//   // ─────────────────────────────────────────────────────────────────────────────
+//   // ✅ Fetch gamification user on mount
+//   // ─────────────────────────────────────────────────────────────────────────────
+//   useEffect(() => {
+//     GetGamificationUser();
+//   }, [GetGamificationUser]);
+
+//   // ─────────────────────────────────────────────────────────────────────────────
+//   // ✅ Determine effective batch
+//   // ─────────────────────────────────────────────────────────────────────────────
+//   const effectiveBatch = useMemo(() => {
+//     // Priority: User's selected batch from gamification data
+//     if (selectedUserBatch) {
+//       return selectedUserBatch.value;
+//     }
+//     // Fallback: batch from context
+//     if (batchContext?.batch?.trim()) {
+//       return batchContext.batch.trim();
+//     }
+//     return null;
+//   }, [selectedUserBatch, batchContext]);
+
+//   // ─────────────────────────────────────────────────────────────────────────────
+//   // ✅ Determine effective districts for filtering
+//   // ─────────────────────────────────────────────────────────────────────────────
+//   const effectiveDistricts = useMemo(() => {
+//     // If user has districts from gamification or userAccess, use those
+//     if (userDistricts.length > 0) {
+//       return userDistricts.map(d => d.districtId);
+//     }
+//     // Fallback: all districts
+//     return null;
+//   }, [userDistricts]);
+
+//   // ─────────────────────────────────────────────────────────────────────────────
+//   // ✅ Active centers based on user districts
+//   // ─────────────────────────────────────────────────────────────────────────────
+//   const activeCenters = useMemo(() => {
+//     let centers = Region.filter((r) => !r.isCenterClosed);
+    
+//     // Filter by user's districts if available
+//     if (effectiveDistricts) {
+//       centers = centers.filter((c) => effectiveDistricts.includes(c.districtId));
+//     }
+    
+//     return centers;
+//   }, [effectiveDistricts]);
+
+//   // ─────────────────────────────────────────────────────────────────────────────
+//   // ✅ District options (only from active centers)
+//   // ─────────────────────────────────────────────────────────────────────────────
+//   const districtOptions = useMemo(() => {
+//     const map = new Map();
+//     activeCenters.forEach((c) => { 
+//       if (!map.has(c.districtId)) map.set(c.districtId, c.districtName); 
+//     });
+//     return Array.from(map.entries())
+//       .map(([id, name]) => ({ value: id, label: name }))
+//       .sort((a, b) => a.label.localeCompare(b.label));
+//   }, [activeCenters]);
+
+//   // ─────────────────────────────────────────────────────────────────────────────
+//   // ✅ Batch options for dropdown
+//   // ─────────────────────────────────────────────────────────────────────────────
+//   const batchOptions = useMemo(() => {
+//     // Priority 1: User's batches from gamification
+//     if (userBatches.length > 0) {
+//       return userBatches;
+//     }
+    
+//     // Priority 2: Batch from context
+//     if (batchContext?.batch?.trim()) {
+//       return [{ value: batchContext.batch, label: batchContext.batch }];
+//     }
+    
+//     // Priority 3: HARDCODED FALLBACK BATCHES (only if nothing else works)
+//     return [
+//       { value: '2025-27', label: '2025-27' },
+//       { value: '2026-28', label: '2026-28' }
+//     ];
+//   }, [userBatches, batchContext]);
+
+//   // ─────────────────────────────────────────────────────────────────────────────
+//   // ✅ Is batch dropdown disabled?
+//   // ─────────────────────────────────────────────────────────────────────────────
+//   const isBatchDisabled = useMemo(() => {
+//     // If we have batches and only 1 batch
+//     if (userBatches.length > 0) {
+//       return userBatches.length <= 1;
+//     }
+//     // If no batches but we have batch from context
+//     if (batchContext?.batch?.trim()) {
+//       return true; // Disable if only one batch from context
+//     }
+//     // If using hardcoded fallback with 2 batches, enable dropdown
+//     if (batchOptions.length > 1) {
+//       return false;
+//     }
+//     return true;
+//   }, [userBatches, batchContext, batchOptions]);
+
+//   // ─────────────────────────────────────────────────────────────────────────────
+//   // ✅ Auto-select first batch if nothing is selected and we have options
+//   // ─────────────────────────────────────────────────────────────────────────────
+//   useEffect(() => {
+//     if (!selectedUserBatch && batchOptions.length > 0 && !gamificationLoading) {
+//       setSelectedUserBatch(batchOptions[0]);
+//     }
+//   }, [batchOptions, selectedUserBatch, gamificationLoading]);
+
+//   // ─────────────────────────────────────────────────────────────────────────────
+//   // ✅ Check if date is selected
+//   // ─────────────────────────────────────────────────────────────────────────────
+//   useEffect(() => {
+//     if (startDate && startDate !== "" && startDate !== null && startDate !== undefined) {
+//       setIsDateSelected(true);
+//     } else {
+//       setIsDateSelected(false);
+//     }
+//   }, [startDate]);
+
+//   // ─────────────────────────────────────────────────────────────────────────────
+//   // ✅ Server record map
+//   // ─────────────────────────────────────────────────────────────────────────────
+//   const serverRecordMap = useMemo(() => {
+//     const m = new Map();
+//     disciplinaryData.forEach((d) => m.set(d._id, d.schoolDisciplinaryData ?? []));
+//     return m;
+//   }, [disciplinaryData]);
+
+//   // ─────────────────────────────────────────────────────────────────────────────
+//   // ✅ Count helpers
+//   // ─────────────────────────────────────────────────────────────────────────────
+//   const getCount = useCallback((oid, status, batch) => {
+//     const real  = (serverRecordMap.get(oid) ?? []).filter((r) => r.status === status && (!batch || r.batch === batch)).length;
+//     const delta = optimistic?.[oid]?.[status] ?? 0;
+//     return real + delta;
+//   }, [serverRecordMap, optimistic]);
+
+//   const getTotal = useCallback((oid, batch) => {
+//     const real  = (serverRecordMap.get(oid) ?? []).filter((r) => !batch || r.batch === batch).length;
+//     const delta = Object.values(optimistic?.[oid] ?? {}).reduce((s, v) => s + v, 0);
+//     return real + delta;
+//   }, [serverRecordMap, optimistic]);
+
+//   // ─────────────────────────────────────────────────────────────────────────────
+//   // ✅ Filtered + sorted rows
+//   // ─────────────────────────────────────────────────────────────────────────────
+//   const filteredCenters = useMemo(() => {
+//     let list = activeCenters;
+//     if (filterDistrict) list = list.filter((c) => c.districtId === filterDistrict.value);
+//     if (filterSchool.trim()) list = list.filter((c) => c.schoolName.toLowerCase().includes(filterSchool.trim().toLowerCase()));
+//     if (showUnmarkedOnly) list = list.filter((c) => getTotal(c._id?.$oid ?? c._id, effectiveBatch) === 0);
+//     return [...list].sort((a, b) => a.districtName.localeCompare(b.districtName) || a.schoolName.localeCompare(b.schoolName));
+//   }, [activeCenters, filterDistrict, filterSchool, showUnmarkedOnly, getTotal, effectiveBatch]);
+
+//   // ─────────────────────────────────────────────────────────────────────────────
+//   // ✅ Fetch disciplinary data
+//   // ─────────────────────────────────────────────────────────────────────────────
+//   const fetchData = useCallback(async () => {
+//     if (!effectiveBatch) {
+//       console.log('⚠️ No batch selected, skipping fetch');
+//       return;
+//     }
+    
+//     setFetchLoading(true);
+//     try {
+//       const res = await GetSchoolDisciplinaryData({ 
+//         date: effectiveDate, 
+//         unqUserObjectId: userData?._id,
+//         batch: effectiveBatch // ✅ Pass batch to filter data
+//       });
+//       if (res?.status === "Ok") { 
+//         setDisciplinaryData(res.data); 
+//         setOptimistic({}); 
+//       }
+//     } catch (error) {
+//       console.error('❌ Error fetching data:', error);
+//       showToast("Failed to fetch data", "danger");
+//     } finally { 
+//       setFetchLoading(false); 
+//     }
+//   }, [effectiveDate, userData?._id, effectiveBatch]);
+
+//   // ✅ Fetch when effective batch changes
+//   useEffect(() => {
+//     if (effectiveBatch && isDateSelected) {
+//       fetchData();
+//     }
+//   }, [effectiveBatch, fetchData, isDateSelected]);
+
+//   // ─────────────────────────────────────────────────────────────────────────────
+//   // ✅ Mark handler
+//   // ─────────────────────────────────────────────────────────────────────────────
+//   const handleMark = useCallback(async (center, status) => {
+//     // ✅ Check if date is selected
+//     if (!isDateSelected) {
+//       showToast("⚠️ Please select a date first!", "warning");
+//       return;
+//     }
+
+//     if (!effectiveBatch) {
+//       console.log('❌ No batch selected - showing modal');
+//       setShowBatchModal(true);
+//       return;
+//     }
+
+//     console.log('✅ Batch selected:', effectiveBatch);
+    
+//     const oid    = center._id?.$oid ?? center._id;
+//     const rowKey = `${oid}-${status}`;
+//     setPostingKey(rowKey);
+
+//     setOptimistic((prev) => ({
+//       ...prev,
+//       [oid]: { ...(prev[oid] ?? {}), [status]: (prev[oid]?.[status] ?? 0) + 1 },
+//     }));
+
+//     const payload = {
+//       district_block_schoolsObjectId: oid,
+//       subject: schoolContext?.schoolName ?? null,
+//       batch: effectiveBatch,
+//       status, remark: null,
+//       unqUserObjectId: userData?._id,
+//     };
+
+//     try {
+//       const res = await createSchoolDisciplinaryRecord(payload);
+//       if (res?.status === "Ok") {
+//         setDisciplinaryData((prev) => {
+//           const exists = prev.some((d) => d._id === oid);
+//           if (!exists) return [...prev, { _id: oid, schoolDisciplinaryData: [{ status, batch: effectiveBatch }] }];
+//           return prev.map((school) =>
+//             school._id !== oid ? school : {
+//               ...school,
+//               schoolDisciplinaryData: [...(school.schoolDisciplinaryData || []), { status, batch: effectiveBatch }],
+//             }
+//           );
+//         });
+//         setOptimistic((prev) => {
+//           const next = { ...prev };
+//           if (next[oid]?.[status]) {
+//             next[oid][status]--;
+//             if (next[oid][status] <= 0) delete next[oid][status];
+//             if (Object.keys(next[oid]).length === 0) delete next[oid];
+//           }
+//           return next;
+//         });
+
+//         showToast(`✅ Marked as ${status} successfully`, "success");
+//       } else {
+//         rollback(oid, status);
+//         showToast("Failed to save record", "danger");
+//       }
+//     } catch (error) {
+//       console.error('Error in handleMark:', error);
+//       rollback(oid, status); 
+//       showToast("Error posting data", "danger");
+//     } finally { 
+//       setPostingKey(null); 
+//     }
+//   }, [effectiveBatch, schoolContext, userData, isDateSelected]);
+
+//   const rollback = (oid, status) =>
+//     setOptimistic((prev) => ({
+//       ...prev,
+//       [oid]: { ...(prev[oid] ?? {}), [status]: Math.max(0, (prev[oid]?.[status] ?? 1) - 1) },
+//     }));
+
+//   const showToast = (message, type = "success") => {
+//     if (toastTimer.current) clearTimeout(toastTimer.current);
+//     setToast({ message, type });
+//     toastTimer.current = setTimeout(() => setToast(null), 3000);
+//   };
+
+//   // ─────────────────────────────────────────────────────────────────────────────
+//   // ✅ Footer totals
+//   // ─────────────────────────────────────────────────────────────────────────────
+//   const footerTotals = useMemo(() => STATUS_ORDER.reduce((acc, status) => {
+//     acc[status] = disciplinaryData.reduce(
+//       (sum, d) => sum + (d.schoolDisciplinaryData?.filter(
+//         (r) => r.status === status && (!effectiveBatch || r.batch === effectiveBatch)
+//       ).length ?? 0), 0
+//     );
+//     return acc;
+//   }, {}), [disciplinaryData, effectiveBatch]);
+
+//   // ─────────────────────────────────────────────────────────────────────────────
+//   // ✅ Check if data should be shown
+//   // ─────────────────────────────────────────────────────────────────────────────
+//   const shouldShowData = isDateSelected && effectiveBatch;
+
+//   // ─────────────────────────────────────────────────────────────────────────────
+//   // ✅ Render
+//   // ─────────────────────────────────────────────────────────────────────────────
+//   return (
+//     <div style={{ fontFamily: "'DM Sans', sans-serif", minHeight: "100vh", background: "#f4f6fb" }}>
+
+//       {/* Header */}
+//       <div style={S.header}>
+//         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 10 }}>
+//           <div>
+//             <h4 className="mb-0 fw-bold" style={{ letterSpacing: "0.5px", fontSize: "1.28rem" }}>
+//               🏫 School Disciplinary Tracker
+//             </h4>
+//             <small style={{ opacity: 0.72 }}>Mark and monitor disciplinary status across all active centers</small>
+//           </div>
+//           {/* View toggle */}
+//           <div style={{ display: "flex", background: "rgba(255,255,255,0.12)", borderRadius: 10, padding: 3, gap: 2 }}>
+//             {[
+//               { mode: "table", icon: "⊞", label: "Table" },
+//               { mode: "card",  icon: "❏", label: "Cards" },
+//             ].map(({ mode, icon, label }) => (
+//               <button
+//                 key={mode}
+//                 onClick={() => setViewMode(mode)}
+//                 style={{
+//                   background: viewMode === mode ? "#fff" : "transparent",
+//                   color: viewMode === mode ? "#1a237e" : "rgba(255,255,255,0.75)",
+//                   border: "none", borderRadius: 8, padding: "5px 14px",
+//                   fontSize: "0.78rem", fontWeight: 700, cursor: "pointer",
+//                   transition: "all 0.18s", whiteSpace: "nowrap",
+//                   boxShadow: viewMode === mode ? "0 1px 6px rgba(0,0,0,0.12)" : "none",
+//                 }}
+//               >
+//                 {icon} {label}
+//               </button>
+//             ))}
+//           </div>
+//         </div>
+//       </div>
+
+//       {/* Filter bar */}
+//       <div style={S.filterBar}>
+//         <div style={{ minWidth: 165 }}>
+//           <SingleDatePicker />
+//           {!isDateSelected && (
+//             <small style={{ color: "#c62828", fontSize: "0.7rem", display: "block", marginTop: 2 }}>
+//               ⚠️ Date is mandatory
+//             </small>
+//           )}
+//         </div>
+        
+//         {/* ✅ Custom Batch Dropdown - Controlled by Gamification User */}
+//         <div style={{ minWidth: 165 }}>
+//           <Select
+//             options={batchOptions}
+//             value={selectedUserBatch}
+//             onChange={(option) => {
+//               setSelectedUserBatch(option);
+//               // ✅ Reset optimistic states when batch changes
+//               setOptimistic({});
+//             }}
+//             placeholder={batchOptions.length === 0 ? "No batches available" : "Select Batch"}
+//             isClearable={!isBatchDisabled && batchOptions.length > 1}
+//             isDisabled={isBatchDisabled || gamificationLoading}
+//             styles={rsStyles}
+//             isLoading={gamificationLoading}
+//           />
+//           {!effectiveBatch && (
+//             <small style={{ color: "#c62828", fontSize: "0.7rem", display: "block", marginTop: 2 }}>
+//               ⚠️ Batch is mandatory
+//             </small>
+//           )}
+//           {isBatchDisabled && batchOptions.length === 1 && (
+//             <small style={{ color: "#7986cb", fontSize: "0.7rem", display: "block", marginTop: 2 }}>
+//               ℹ️ Single batch available
+//             </small>
+//           )}
+//           {batchOptions.length > 1 && userBatches.length === 0 && !gamificationLoading && (
+//             <small style={{ color: "#f57c00", fontSize: "0.7rem", display: "block", marginTop: 2 }}>
+//               ⚠️ Using fallback batches
+//             </small>
+//           )}
+//         </div>
+
+//         <div style={{ minWidth: 190 }}>
+//           <Select 
+//             options={districtOptions} 
+//             value={filterDistrict} 
+//             onChange={setFilterDistrict}
+//             placeholder={userDistricts.length > 0 ? "All Districts (User)" : "All Districts"}
+//             isClearable 
+//             styles={rsStyles}
+//             isLoading={gamificationLoading}
+//           />
+//           {userDistricts.length > 0 && (
+//             <small style={{ color: "#2e7d32", fontSize: "0.65rem", display: "block", marginTop: 1 }}>
+//               ✅ {userDistricts.length} district(s) assigned
+//             </small>
+//           )}
+//         </div>
+//         <input
+//           type="text" className="form-control form-control-sm"
+//           placeholder="🔍 Search school…"
+//           style={{ minWidth: 180, borderRadius: 8, fontSize: "0.82rem", height: 31 }}
+//           value={filterSchool} onChange={(e) => setFilterSchool(e.target.value)}
+//         />
+//         <label style={{ display: "flex", alignItems: "center", gap: 6, cursor: "pointer", whiteSpace: "nowrap",
+//           fontSize: "0.8rem", color: showUnmarkedOnly ? "#c62828" : "#546e7a",
+//           fontWeight: showUnmarkedOnly ? 700 : 400, userSelect: "none" }}>
+//           <input type="checkbox" checked={showUnmarkedOnly} onChange={(e) => setShowUnmarkedOnly(e.target.checked)}
+//             style={{ accentColor: "#c62828", width: 14, height: 14 }} />
+//           0-marked only
+//         </label>
+//         {(filterDistrict || filterSchool || showUnmarkedOnly) && (
+//           <button className="btn btn-sm btn-outline-secondary"
+//             style={{ borderRadius: 8, fontSize: "0.78rem", whiteSpace: "nowrap", height: 31 }}
+//             onClick={() => { setFilterDistrict(null); setFilterSchool(""); setShowUnmarkedOnly(false); }}>
+//             ✕ Clear
+//           </button>
+//         )}
+//         <button className="btn btn-outline-secondary btn-sm ms-auto" onClick={fetchData}
+//           disabled={fetchLoading || !shouldShowData} style={{ borderRadius: 8, whiteSpace: "nowrap", height: 31 }}>
+//           {fetchLoading ? <><span className="spinner-border spinner-border-sm me-1" />Refreshing…</> : <>🔄 Refresh</>}
+//         </button>
+//       </div>
+
+//       {/* Toast */}
+//       {toast && (
+//         <div style={S.toastWrap}>
+//           <div className={`alert alert-${toast.type} shadow-lg mb-0 py-2 px-3`}
+//             style={{ borderRadius: 10, fontSize: "0.84rem" }}>
+//             {toast.message}
+//           </div>
+//         </div>
+//       )}
+
+//       {/* Batch Modal */}
+//       {showBatchModal && (
+//         <div style={S.backdrop} onClick={() => setShowBatchModal(false)}>
+//           <div style={S.modal} onClick={(e) => e.stopPropagation()}>
+//             <div style={{ fontSize: "2.4rem", marginBottom: 8 }}>📋</div>
+//             <h5 style={{ fontWeight: 700, color: "#1a237e", marginBottom: 6 }}>Batch Not Selected</h5>
+//             <p style={{ color: "#546e7a", fontSize: "0.88rem", marginBottom: 20 }}>
+//               Please select a <strong>batch</strong> before marking disciplinary status.
+//             </p>
+//             <button className="btn btn-primary btn-sm px-4" style={{ borderRadius: 20 }}
+//               onClick={() => setShowBatchModal(false)}>
+//               Got it
+//             </button>
+//           </div>
+//         </div>
+//       )}
+
+//       {/* Content */}
+//       <div style={{ padding: "18px 20px 32px" }}>
+//         {/* Meta row */}
+//         <div style={{ marginBottom: 12, fontSize: "0.79rem", color: "#7986cb", display: "flex", gap: 14, flexWrap: "wrap", alignItems: "center" }}>
+//           {shouldShowData ? (
+//             <>
+//               <span>Showing <strong>{filteredCenters.length}</strong> of <strong>{activeCenters.length}</strong> active centers</span>
+//               <span style={{ color: "#90a4ae" }}>
+//                 📅 {new Date(effectiveDate + "T00:00:00").toLocaleDateString("en-IN", { day: "2-digit", month: "short", year: "numeric" })}
+//               </span>
+//               {effectiveBatch && (
+//                 <span style={{ background: "#e8eaf6", color: "#3949ab", borderRadius: 12, padding: "1px 10px", fontWeight: 700, fontSize: "0.76rem" }}>
+//                   Batch: {effectiveBatch}
+//                 </span>
+//               )}
+//               {userDistricts.length > 0 && (
+//                 <span style={{ background: "#e8f5e9", color: "#2e7d32", borderRadius: 12, padding: "1px 10px", fontWeight: 600, fontSize: "0.76rem" }}>
+//                   👤 {userDistricts.length} district(s) assigned
+//                 </span>
+//               )}
+//             </>
+//           ) : (
+//             <span style={{ color: "#c62828" }}>
+//               ⚠️ Please select both <strong>Date</strong> and <strong>Batch</strong> to view data
+//             </span>
+//           )}
+//         </div>
+
+//         {/* ✅ Condition: Show data ONLY if date AND batch are selected */}
+//         {!shouldShowData ? (
+//           <div style={{
+//             background: "#fff",
+//             borderRadius: 14,
+//             boxShadow: "0 2px 16px rgba(40,53,147,0.08)",
+//             padding: "60px 20px",
+//             textAlign: "center",
+//           }}>
+//             <div style={{ fontSize: "3rem", marginBottom: 16 }}>📋</div>
+//             <h5 style={{ color: "#1a237e", fontWeight: 700, marginBottom: 8 }}>
+//               {!isDateSelected && !effectiveBatch && "Select Date & Batch First"}
+//               {!isDateSelected && effectiveBatch && "Select Date First"}
+//               {isDateSelected && !effectiveBatch && "Select Batch First"}
+//             </h5>
+//             <p style={{ color: "#78909c", fontSize: "0.88rem" }}>
+//               {!isDateSelected && !effectiveBatch && "Please select both a date and a batch from the filters above to view disciplinary data."}
+//               {!isDateSelected && effectiveBatch && "Please select a date from the date picker above to view disciplinary data."}
+//               {isDateSelected && !effectiveBatch && "Please select a batch from the dropdown above to view disciplinary data."}
+//             </p>
+//           </div>
+//         ) : fetchLoading ? (
+//           <div className="text-center py-5 text-muted">
+//             <div className="spinner-border text-primary mb-3" />
+//             <div style={{ fontSize: "0.85rem" }}>Loading disciplinary data…</div>
+//           </div>
+//         ) : viewMode === "table" ? (
+//           /* ══════════════════ TABLE VIEW ══════════════════ */
+//           <div style={S.tableCard}>
+//             <div style={{ overflowX: "auto" }}>
+//               <table className="table table-hover mb-0" style={{ fontSize: "0.875rem" }}>
+//                 <thead>
+//                   <tr style={{ background: "linear-gradient(90deg,#e8eaf6 0%,#f3f4fd 100%)", borderBottom: "2px solid #c5cae9" }}>
+//                     <th style={th}>#</th>
+//                     <th style={th}>District</th>
+//                     <th style={th}>Block</th>
+//                     <th style={th}>School Name</th>
+//                     <th style={{ ...th, textAlign: "center" }}>
+//                       Mark Status
+//                       {effectiveBatch && (
+//                         <span style={{ display: "block", fontWeight: 400, color: "#7986cb", fontSize: "0.69rem", textTransform: "none", letterSpacing: 0 }}>
+//                           counts for batch: {effectiveBatch}
+//                         </span>
+//                       )}
+//                     </th>
+//                     <th style={{ ...th, textAlign: "center" }}>Total</th>
+//                   </tr>
+//                 </thead>
+//                 <tbody>
+//                   {filteredCenters.length === 0 ? (
+//                     <tr>
+//                       <td colSpan={6} className="text-center py-5 text-muted">
+//                         <div style={{ fontSize: "2rem" }}>🔍</div>
+//                         <div style={{ fontSize: "0.85rem" }}>No centers match your filters.</div>
+//                       </td>
+//                     </tr>
+//                   ) : (
+//                     filteredCenters.map((center, idx) => (
+//                       <TableRow key={center._id?.$oid ?? center._id}
+//                         center={center} idx={idx}
+//                         getCount={getCount} getTotal={getTotal}
+//                         handleMark={handleMark} postingKey={postingKey}
+//                         effectiveBatch={effectiveBatch} />
+//                     ))
+//                   )}
+//                 </tbody>
+//               </table>
+//             </div>
+//             {/* Footer */}
+//             <div style={S.footer}>
+//               <span style={{ fontWeight: 700, color: "#3949ab" }}>{activeCenters.length} centers</span>
+//               <span style={S.divider} />
+//               {STATUS_ORDER.map((status) => {
+//                 const cfg = STATUS_CONFIG[status];
+//                 return (
+//                   <span key={status} style={{ background: cfg.bg, color: cfg.color, borderRadius: 12, padding: "2px 10px", fontWeight: 700, fontSize: "0.77rem" }}>
+//                     {cfg.icon} {footerTotals[status]} {cfg.label}
+//                   </span>
+//                 );
+//               })}
+//             </div>
+//           </div>
+//         ) : (
+//           /* ══════════════════ CARD VIEW ══════════════════ */
+//           <>
+//             {filteredCenters.length === 0 ? (
+//               <div className="text-center py-5 text-muted">
+//                 <div style={{ fontSize: "2.5rem" }}>🔍</div>
+//                 <div style={{ fontSize: "0.88rem" }}>No centers match your filters.</div>
+//               </div>
+//             ) : (
+//               <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(310px, 1fr))", gap: 16 }}>
+//                 {filteredCenters.map((center, idx) => (
+//                   <CenterCard key={center._id?.$oid ?? center._id}
+//                     center={center} idx={idx}
+//                     getCount={getCount} getTotal={getTotal}
+//                     handleMark={handleMark} postingKey={postingKey}
+//                     effectiveBatch={effectiveBatch} />
+//                 ))}
+//               </div>
+//             )}
+//             {/* Footer summary for card view */}
+//             <div style={{ ...S.footer, borderRadius: 12, marginTop: 20, border: "1px solid #e8eaf6" }}>
+//               <span style={{ fontWeight: 700, color: "#3949ab" }}>{activeCenters.length} centers</span>
+//               <span style={S.divider} />
+//               {STATUS_ORDER.map((status) => {
+//                 const cfg = STATUS_CONFIG[status];
+//                 return (
+//                   <span key={status} style={{ background: cfg.bg, color: cfg.color, borderRadius: 12, padding: "2px 10px", fontWeight: 700, fontSize: "0.77rem" }}>
+//                     {cfg.icon} {footerTotals[status]} {cfg.label}
+//                   </span>
+//                 );
+//               })}
+//             </div>
+//           </>
+//         )}
+//       </div>
+//     </div>
+//   );
+// };
+
+// // ── Memoised Table Row ────────────────────────────────────────────────────────
+// const TableRow = React.memo(({ center, idx, getCount, getTotal, handleMark, postingKey, effectiveBatch }) => {
+//   const oid   = center._id?.$oid ?? center._id;
+//   const total = getTotal(oid, effectiveBatch);
+//   return (
+//     <tr>
+//       <td style={td}>
+//         <span style={{ background: "#e8eaf6", color: "#3949ab", borderRadius: 6, padding: "2px 8px", fontWeight: 700, fontSize: "0.74rem" }}>
+//           {idx + 1}
+//         </span>
+//       </td>
+//       <td style={td}><span style={{ color: "#5c6bc0", fontWeight: 600 }}>{center.districtName}</span></td>
+//       <td style={td}><span style={{ color: "#78909c", fontSize: "0.81rem" }}>{center.blockName}</span></td>
+//       <td style={td}><span style={{ fontWeight: 600, color: "#263238" }}>{center.schoolName}</span></td>
+//       <td style={{ ...td, textAlign: "center" }}>
+//         <div className="d-flex gap-1 justify-content-center flex-wrap">
+//           {STATUS_ORDER.map((status) => {
+//             const cfg     = STATUS_CONFIG[status];
+//             const rowKey  = `${oid}-${status}`;
+//             const posting = postingKey === rowKey;
+//             const cnt     = getCount(oid, status, effectiveBatch);
+//             return (
+//               <button key={status} className={`btn btn-${cfg.variant} btn-sm`}
+//                 style={{ borderRadius: 20, fontSize: "0.72rem", padding: "3px 10px", fontWeight: 600, minWidth: 82, opacity: posting ? 0.65 : 1 }}
+//                 disabled={posting} onClick={() => handleMark(center, status)}
+//                 title={`Mark ${center.schoolName} as ${status}`}>
+//                 {posting ? <span className="spinner-border spinner-border-sm" /> : (
+//                   <>{cfg.icon} {cfg.label}{cnt > 0 && (
+//                     <span style={{ background: "rgba(255,255,255,0.35)", borderRadius: 10, padding: "0 5px", marginLeft: 4, fontSize: "0.67rem", fontWeight: 800 }}>
+//                       {cnt}
+//                     </span>
+//                   )}</>
+//                 )}
+//               </button>
+//             );
+//           })}
+//         </div>
+//       </td>
+//       <td style={{ ...td, textAlign: "center" }}>
+//         {total > 0 ? (
+//           <span style={{ background: "linear-gradient(135deg,#1a237e,#3949ab)", color: "#fff", borderRadius: 20, padding: "3px 14px", fontWeight: 700, fontSize: "0.81rem", display: "inline-block", minWidth: 36 }}>
+//             {total}
+//           </span>
+//         ) : <span style={{ color: "#cfd8dc" }}>—</span>}
+//       </td>
+//     </tr>
+//   );
+// });
+
+// // ── Memoised Card ─────────────────────────────────────────────────────────────
+// const CenterCard = React.memo(({ center, idx, getCount, getTotal, handleMark, postingKey, effectiveBatch }) => {
+//   const oid   = center._id?.$oid ?? center._id;
+//   const total = getTotal(oid, effectiveBatch);
+
+//   return (
+//     <div style={{
+//       background: "#fff", borderRadius: 14,
+//       boxShadow: "0 2px 14px rgba(40,53,147,0.08)",
+//       border: "1px solid #e8eaf6", overflow: "hidden",
+//       display: "flex", flexDirection: "column",
+//       transition: "box-shadow 0.18s",
+//     }}>
+//       {/* Card header */}
+//       <div style={{
+//         background: "linear-gradient(135deg,#e8eaf6 0%,#f3f4fd 100%)",
+//         padding: "12px 16px", borderBottom: "1px solid #dde1f4",
+//         display: "flex", alignItems: "flex-start", gap: 10,
+//       }}>
+//         {/* Index badge */}
+//         <span style={{
+//           background: "linear-gradient(135deg,#1a237e,#3949ab)", color: "#fff",
+//           borderRadius: 8, padding: "3px 9px", fontWeight: 700, fontSize: "0.72rem",
+//           flexShrink: 0, marginTop: 2,
+//         }}>
+//           {idx + 1}
+//         </span>
+//         <div style={{ flex: 1, minWidth: 0 }}>
+//           <div style={{ fontWeight: 700, color: "#1a237e", fontSize: "0.88rem", lineHeight: 1.3, marginBottom: 3 }}
+//             title={center.schoolName}>
+//             {center.schoolName}
+//           </div>
+//           <div style={{ display: "flex", gap: 8, flexWrap: "wrap", alignItems: "center" }}>
+//             <span style={{ background: "#e8eaf6", color: "#3949ab", borderRadius: 10, padding: "1px 8px", fontSize: "0.72rem", fontWeight: 600 }}>
+//               📍 {center.districtName}
+//             </span>
+//             <span style={{ color: "#90a4ae", fontSize: "0.72rem" }}>
+//               {center.blockName}
+//             </span>
+//           </div>
+//         </div>
+//         {/* Total badge */}
+//         {total > 0 && (
+//           <span style={{
+//             background: "linear-gradient(135deg,#1a237e,#3949ab)", color: "#fff",
+//             borderRadius: 20, padding: "3px 11px", fontWeight: 700, fontSize: "0.78rem",
+//             flexShrink: 0,
+//           }}>
+//             {total}
+//           </span>
+//         )}
+//       </div>
+
+//       {/* Status buttons */}
+//       <div style={{ padding: "14px 14px 16px", display: "flex", flexDirection: "column", gap: 8, flex: 1 }}>
+//         {/* Per-status rows */}
+//         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 8 }}>
+//           {STATUS_ORDER.map((status) => {
+//             const cfg     = STATUS_CONFIG[status];
+//             const rowKey  = `${oid}-${status}`;
+//             const posting = postingKey === rowKey;
+//             const cnt     = getCount(oid, status, effectiveBatch);
+//             return (
+//               <button key={status}
+//                 onClick={() => handleMark(center, status)}
+//                 disabled={posting}
+//                 title={`Mark as ${status}`}
+//                 style={{
+//                   display: "flex", alignItems: "center", justifyContent: "space-between",
+//                   background: cfg.bg, border: `1.5px solid ${cfg.border}`,
+//                   borderRadius: 10, padding: "8px 12px",
+//                   cursor: posting ? "not-allowed" : "pointer",
+//                   opacity: posting ? 0.65 : 1,
+//                   transition: "transform 0.1s, box-shadow 0.1s",
+//                   width: "100%",
+//                 }}>
+//                 <span style={{ display: "flex", alignItems: "center", gap: 5, fontSize: "0.78rem", fontWeight: 700, color: cfg.color }}>
+//                   {posting
+//                     ? <span className="spinner-border spinner-border-sm" style={{ width: 13, height: 13 }} />
+//                     : <span>{cfg.icon}</span>}
+//                   {cfg.label}
+//                 </span>
+//                 <span style={{
+//                   background: cnt > 0 ? cfg.color : "#e0e0e0",
+//                   color: cnt > 0 ? "#fff" : "#9e9e9e",
+//                   borderRadius: 20, minWidth: 22, height: 22,
+//                   display: "flex", alignItems: "center", justifyContent: "center",
+//                   fontSize: "0.72rem", fontWeight: 800, padding: "0 6px",
+//                   transition: "background 0.2s",
+//                 }}>
+//                   {cnt}
+//                 </span>
+//               </button>
+//             );
+//           })}
+//         </div>
+
+//         {/* Total row */}
+//         <div style={{
+//           marginTop: 2, background: "#f8f9fe", borderRadius: 8, border: "1px solid #e8eaf6",
+//           padding: "7px 12px", display: "flex", alignItems: "center", justifyContent: "space-between",
+//           fontSize: "0.76rem",
+//         }}>
+//           <span style={{ color: "#78909c", fontWeight: 600 }}>Total marks today</span>
+//           <span style={{
+//             background: total > 0 ? "linear-gradient(135deg,#1a237e,#3949ab)" : "#eeeeee",
+//             color: total > 0 ? "#fff" : "#9e9e9e",
+//             borderRadius: 20, padding: "2px 12px", fontWeight: 700, fontSize: "0.78rem",
+//           }}>
+//             {total || "None"}
+//           </span>
+//         </div>
+//       </div>
+//     </div>
+//   );
+// });
+
+// // ── Style tokens ──────────────────────────────────────────────────────────────
+// const S = {
+//   header: {
+//     background: "linear-gradient(135deg,#1a237e 0%,#283593 60%,#3949ab 100%)",
+//     padding: "20px 28px 16px", color: "#fff",
+//     boxShadow: "0 4px 20px rgba(26,35,126,0.18)",
+//   },
+//   filterBar: {
+//     background: "#fff", borderBottom: "1px solid #e3e8f0",
+//     padding: "11px 24px", display: "flex", gap: 10, flexWrap: "wrap", alignItems: "center",
+//   },
+//   toastWrap: { position: "fixed", top: 20, right: 24, zIndex: 9999, minWidth: 260 },
+//   backdrop:  { 
+//     position: "fixed", 
+//     inset: 0, 
+//     background: "rgba(0,0,0,0.5)", 
+//     zIndex: 99999, 
+//     display: "flex", 
+//     alignItems: "center", 
+//     justifyContent: "center" 
+//   },
+//   modal: { 
+//     background: "#fff", 
+//     borderRadius: 18, 
+//     padding: "36px 40px", 
+//     textAlign: "center", 
+//     boxShadow: "0 8px 40px rgba(0,0,0,0.18)", 
+//     maxWidth: 340, 
+//     width: "90%",
+//     zIndex: 100000
+//   },
+//   tableCard: { background: "#fff", borderRadius: 14, boxShadow: "0 2px 16px rgba(40,53,147,0.08)", overflow: "hidden" },
+//   footer:    { background: "#f8f9fe", borderTop: "1px solid #e8eaf6", padding: "10px 20px", display: "flex", gap: 10, flexWrap: "wrap", fontSize: "0.8rem", alignItems: "center" },
+//   divider:   { width: 1, height: 16, background: "#c5cae9", display: "inline-block" },
+// };
+
+// const th = { padding: "11px 16px", fontWeight: 700, color: "#3949ab", fontSize: "0.78rem", textTransform: "uppercase", letterSpacing: "0.5px", whiteSpace: "nowrap", background: "transparent", border: "none" };
+// const td = { padding: "10px 16px", verticalAlign: "middle", borderBottom: "1px solid #f0f2fa" };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 import React, {
   useEffect, useState, useContext, useMemo, useCallback, useRef
 } from "react";
@@ -1652,22 +3673,23 @@ const getTodayStr = () => {
 
 const rsStyles = {
   control: (base, state) => ({
-    ...base, minHeight: 31, height: 31, fontSize: "0.82rem", borderRadius: 8,
+    ...base, minHeight: 38, height: 38, fontSize: "0.85rem", borderRadius: 8,
     borderColor: state.isFocused ? "#3949ab" : "#ced4da",
     boxShadow: state.isFocused ? "0 0 0 2px rgba(57,73,171,0.18)" : "none",
     "&:hover": { borderColor: "#3949ab" }, cursor: "text",
+    background: "#fff",
   }),
-  valueContainer: (base) => ({ ...base, padding: "0 8px" }),
+  valueContainer: (base) => ({ ...base, padding: "0 12px" }),
   input:          (base) => ({ ...base, margin: 0, padding: 0 }),
-  indicatorsContainer: (base) => ({ ...base, height: 31 }),
+  indicatorsContainer: (base) => ({ ...base, height: 38 }),
   indicatorSeparator: () => ({ display: "none" }),
-  dropdownIndicator: (base) => ({ ...base, padding: "0 6px" }),
-  clearIndicator:    (base) => ({ ...base, padding: "0 4px" }),
-  menu:    (base) => ({ ...base, fontSize: "0.82rem", zIndex: 9999 }),
+  dropdownIndicator: (base) => ({ ...base, padding: "0 8px", color: "#6c757d" }),
+  clearIndicator:    (base) => ({ ...base, padding: "0 6px", color: "#6c757d" }),
+  menu:    (base) => ({ ...base, fontSize: "0.85rem", zIndex: 9999, borderRadius: 8, boxShadow: "0 4px 20px rgba(0,0,0,0.12)" }),
   option:  (base, state) => ({
     ...base,
     background: state.isSelected ? "#3949ab" : state.isFocused ? "#e8eaf6" : "#fff",
-    color: state.isSelected ? "#fff" : "#263238", padding: "6px 12px",
+    color: state.isSelected ? "#fff" : "#263238", padding: "8px 12px",
   }),
   placeholder: (base) => ({ ...base, color: "#adb5bd" }),
   singleValue: (base) => ({ ...base, color: "#263238" }),
@@ -1709,8 +3731,36 @@ export const SchoolDisciplinaries = () => {
 
   const toastTimer = useRef(null);
 
+  // ✅ State to track if date is selected
+  const [isDateSelected, setIsDateSelected] = useState(false);
+
   // ─────────────────────────────────────────────────────────────────────────────
-  // ✅ Get Gamification User Data
+  // ✅ Get User's District IDs from userAccess.region (Fallback)
+  // ─────────────────────────────────────────────────────────────────────────────
+  const getUserDistrictsFromAccess = useCallback(() => {
+    const districts = [];
+    if (userData?.userAccess?.region && Array.isArray(userData.userAccess.region)) {
+      userData.userAccess.region.forEach((region) => {
+        if (region.districtId) {
+          districts.push(region.districtId);
+        }
+      });
+    }
+    return districts;
+  }, [userData]);
+
+  // ─────────────────────────────────────────────────────────────────────────────
+  // ✅ Get User's Batches from userAccess (Fallback)
+  // ─────────────────────────────────────────────────────────────────────────────
+  const getUserBatchesFromAccess = useCallback(() => {
+    if (userData?.userAccess?.batch && Array.isArray(userData.userAccess.batch)) {
+      return userData.userAccess.batch;
+    }
+    return [];
+  }, [userData]);
+
+  // ─────────────────────────────────────────────────────────────────────────────
+  // ✅ Get Gamification User Data (Priority 1)
   // ─────────────────────────────────────────────────────────────────────────────
   const GetGamificationUser = useCallback(async () => {
     if (!userData?._id) return;
@@ -1726,12 +3776,12 @@ export const SchoolDisciplinaries = () => {
       console.log('✅ Gamification User Response:', response);
       
       if (response?.data && response.data.length > 0) {
-        const userData = response.data[0];
-        setGamificationUser(userData);
+        const gamificationData = response.data[0];
+        setGamificationUser(gamificationData);
         
-        // ✅ Extract districts from region data
-        if (userData.region && userData.region.length > 0) {
-          const districts = userData.region.map(r => ({
+        // ✅ Priority 1: Extract districts from gamification region data
+        if (gamificationData.region && gamificationData.region.length > 0) {
+          const districts = gamificationData.region.map(r => ({
             districtId: r.districtId,
             districtName: getDistrictName(r.districtId)
           })).filter(d => d.districtName);
@@ -1746,40 +3796,129 @@ export const SchoolDisciplinaries = () => {
               label: firstDistrict.districtName
             });
           }
+        } else {
+          // ✅ If no region in gamification, try fallback to userAccess
+          const fallbackDistricts = getUserDistrictsFromAccess();
+          if (fallbackDistricts.length > 0) {
+            const districts = fallbackDistricts.map(id => ({
+              districtId: id,
+              districtName: getDistrictName(id)
+            })).filter(d => d.districtName);
+            
+            setUserDistricts(districts);
+            
+            if (districts.length > 0) {
+              const firstDistrict = districts[0];
+              setFilterDistrict({
+                value: firstDistrict.districtId,
+                label: firstDistrict.districtName
+              });
+            }
+          }
         }
         
-        // ✅ Extract batches
-        if (userData.batch && userData.batch.length > 0) {
-          const batches = userData.batch.map(b => ({
+        // ✅ Priority 1: Extract batches from gamification
+        if (gamificationData.batch && gamificationData.batch.length > 0) {
+          const batches = gamificationData.batch.map(b => ({
             value: b,
             label: b
           }));
           setUserBatches(batches);
-          
-          // ✅ Auto-select first batch
           setSelectedUserBatch(batches[0]);
         } else {
-          // ✅ If no batches in gamification data, use fallback
+          // ✅ Fallback: Get batches from userAccess
+          const fallbackBatches = getUserBatchesFromAccess();
+          if (fallbackBatches.length > 0) {
+            const batches = fallbackBatches.map(b => ({
+              value: b,
+              label: b
+            }));
+            setUserBatches(batches);
+            setSelectedUserBatch(batches[0]);
+          } else {
+            setUserBatches([]);
+            setSelectedUserBatch(null);
+          }
+        }
+      } else {
+        // ✅ No gamification data found - use userAccess as fallback
+        console.log('⚠️ No gamification data found, using userAccess as fallback');
+        
+        // Fallback districts from userAccess
+        const fallbackDistricts = getUserDistrictsFromAccess();
+        if (fallbackDistricts.length > 0) {
+          const districts = fallbackDistricts.map(id => ({
+            districtId: id,
+            districtName: getDistrictName(id)
+          })).filter(d => d.districtName);
+          
+          setUserDistricts(districts);
+          
+          if (districts.length > 0) {
+            const firstDistrict = districts[0];
+            setFilterDistrict({
+              value: firstDistrict.districtId,
+              label: firstDistrict.districtName
+            });
+          }
+        } else {
+          setUserDistricts([]);
+        }
+        
+        // Fallback batches from userAccess
+        const fallbackBatches = getUserBatchesFromAccess();
+        if (fallbackBatches.length > 0) {
+          const batches = fallbackBatches.map(b => ({
+            value: b,
+            label: b
+          }));
+          setUserBatches(batches);
+          setSelectedUserBatch(batches[0]);
+        } else {
           setUserBatches([]);
           setSelectedUserBatch(null);
         }
-      } else {
-        // ✅ Fallback: No gamification data - use fallback batches
-        console.log('⚠️ No gamification data found, using fallback');
-        setUserDistricts([]);
-        setUserBatches([]);
-        setSelectedUserBatch(null);
       }
     } catch (error) {
       console.error('❌ Error fetching gamification user:', error);
-      // ✅ Fallback: On error, use fallback batches
-      setUserDistricts([]);
-      setUserBatches([]);
-      setSelectedUserBatch(null);
+      
+      // ✅ On error, fallback to userAccess
+      const fallbackDistricts = getUserDistrictsFromAccess();
+      if (fallbackDistricts.length > 0) {
+        const districts = fallbackDistricts.map(id => ({
+          districtId: id,
+          districtName: getDistrictName(id)
+        })).filter(d => d.districtName);
+        
+        setUserDistricts(districts);
+        
+        if (districts.length > 0) {
+          const firstDistrict = districts[0];
+          setFilterDistrict({
+            value: firstDistrict.districtId,
+            label: firstDistrict.districtName
+          });
+        }
+      } else {
+        setUserDistricts([]);
+      }
+      
+      const fallbackBatches = getUserBatchesFromAccess();
+      if (fallbackBatches.length > 0) {
+        const batches = fallbackBatches.map(b => ({
+          value: b,
+          label: b
+        }));
+        setUserBatches(batches);
+        setSelectedUserBatch(batches[0]);
+      } else {
+        setUserBatches([]);
+        setSelectedUserBatch(null);
+      }
     } finally {
       setGamificationLoading(false);
     }
-  }, [userData]);
+  }, [userData, getUserDistrictsFromAccess, getUserBatchesFromAccess]);
 
   // ✅ Helper to get district name from ID
   const getDistrictName = useCallback((districtId) => {
@@ -1813,7 +3952,7 @@ export const SchoolDisciplinaries = () => {
   // ✅ Determine effective districts for filtering
   // ─────────────────────────────────────────────────────────────────────────────
   const effectiveDistricts = useMemo(() => {
-    // If user has districts from gamification, use those
+    // If user has districts from gamification or userAccess, use those
     if (userDistricts.length > 0) {
       return userDistricts.map(d => d.districtId);
     }
@@ -1849,7 +3988,7 @@ export const SchoolDisciplinaries = () => {
   }, [activeCenters]);
 
   // ─────────────────────────────────────────────────────────────────────────────
-  // ✅ Batch options for dropdown - FIXED with hardcoded fallback
+  // ✅ Batch options for dropdown
   // ─────────────────────────────────────────────────────────────────────────────
   const batchOptions = useMemo(() => {
     // Priority 1: User's batches from gamification
@@ -1862,7 +4001,7 @@ export const SchoolDisciplinaries = () => {
       return [{ value: batchContext.batch, label: batchContext.batch }];
     }
     
-    // Priority 3: HARDCODED FALLBACK BATCHES
+    // Priority 3: HARDCODED FALLBACK BATCHES (only if nothing else works)
     return [
       { value: '2025-27', label: '2025-27' },
       { value: '2026-28', label: '2026-28' }
@@ -1873,11 +4012,11 @@ export const SchoolDisciplinaries = () => {
   // ✅ Is batch dropdown disabled?
   // ─────────────────────────────────────────────────────────────────────────────
   const isBatchDisabled = useMemo(() => {
-    // If we have gamification data and only 1 batch
+    // If we have batches and only 1 batch
     if (userBatches.length > 0) {
       return userBatches.length <= 1;
     }
-    // If no gamification data but we have batch from context
+    // If no batches but we have batch from context
     if (batchContext?.batch?.trim()) {
       return true; // Disable if only one batch from context
     }
@@ -1896,6 +4035,17 @@ export const SchoolDisciplinaries = () => {
       setSelectedUserBatch(batchOptions[0]);
     }
   }, [batchOptions, selectedUserBatch, gamificationLoading]);
+
+  // ─────────────────────────────────────────────────────────────────────────────
+  // ✅ Check if date is selected
+  // ─────────────────────────────────────────────────────────────────────────────
+  useEffect(() => {
+    if (startDate && startDate !== "" && startDate !== null && startDate !== undefined) {
+      setIsDateSelected(true);
+    } else {
+      setIsDateSelected(false);
+    }
+  }, [startDate]);
 
   // ─────────────────────────────────────────────────────────────────────────────
   // ✅ Server record map
@@ -1962,15 +4112,21 @@ export const SchoolDisciplinaries = () => {
 
   // ✅ Fetch when effective batch changes
   useEffect(() => {
-    if (effectiveBatch) {
+    if (effectiveBatch && isDateSelected) {
       fetchData();
     }
-  }, [effectiveBatch, fetchData]);
+  }, [effectiveBatch, fetchData, isDateSelected]);
 
   // ─────────────────────────────────────────────────────────────────────────────
   // ✅ Mark handler
   // ─────────────────────────────────────────────────────────────────────────────
   const handleMark = useCallback(async (center, status) => {
+    // ✅ Check if date is selected
+    if (!isDateSelected) {
+      showToast("⚠️ Please select a date first!", "warning");
+      return;
+    }
+
     if (!effectiveBatch) {
       console.log('❌ No batch selected - showing modal');
       setShowBatchModal(true);
@@ -2031,7 +4187,7 @@ export const SchoolDisciplinaries = () => {
     } finally { 
       setPostingKey(null); 
     }
-  }, [effectiveBatch, schoolContext, userData]);
+  }, [effectiveBatch, schoolContext, userData, isDateSelected]);
 
   const rollback = (oid, status) =>
     setOptimistic((prev) => ({
@@ -2056,6 +4212,29 @@ export const SchoolDisciplinaries = () => {
     );
     return acc;
   }, {}), [disciplinaryData, effectiveBatch]);
+
+  // ─────────────────────────────────────────────────────────────────────────────
+  // ✅ Check if data should be shown
+  // ─────────────────────────────────────────────────────────────────────────────
+  const shouldShowData = isDateSelected && effectiveBatch;
+
+  // ─────────────────────────────────────────────────────────────────────────────
+  // ✅ Custom styles for batch and district filters to match date picker
+  // ─────────────────────────────────────────────────────────────────────────────
+  const filterWrapperStyle = {
+    display: "flex",
+    flexDirection: "column",
+    gap: "2px",
+    minWidth: "160px",
+  };
+
+  const filterLabelStyle = {
+    fontSize: "0.75rem",
+    fontWeight: 600,
+    color: "#495057",
+    marginBottom: "1px",
+    letterSpacing: "0.3px",
+  };
 
   // ─────────────────────────────────────────────────────────────────────────────
   // ✅ Render
@@ -2099,69 +4278,126 @@ export const SchoolDisciplinaries = () => {
 
       {/* Filter bar */}
       <div style={S.filterBar}>
-        <div style={{ minWidth: 165 }}><SingleDatePicker /></div>
+        {/* ✅ Date Filter - Matches design */}
+        <div style={filterWrapperStyle}>
+          <label style={filterLabelStyle}>Select Date <span style={{ color: "#dc3545" }}>*</span></label>
+          <div style={{ minWidth: 165 }}>
+            <SingleDatePicker />
+          </div>
+          {!isDateSelected && (
+            <small style={{ color: "#dc3545", fontSize: "0.65rem" }}>
+              ⚠️ Date is mandatory
+            </small>
+          )}
+        </div>
         
-        {/* ✅ Custom Batch Dropdown - Controlled by Gamification User */}
-        <div style={{ minWidth: 165 }}>
-          <Select
-            options={batchOptions}
-            value={selectedUserBatch}
-            onChange={(option) => {
-              setSelectedUserBatch(option);
-              // ✅ Reset optimistic states when batch changes
-              setOptimistic({});
-            }}
-            placeholder={batchOptions.length === 0 ? "No batches available" : "Select Batch"}
-            isClearable={!isBatchDisabled && batchOptions.length > 1}
-            isDisabled={isBatchDisabled || gamificationLoading}
-            styles={rsStyles}
-            isLoading={gamificationLoading}
-          />
+        {/* ✅ Batch Filter - Matches Date Picker Style */}
+        <div style={filterWrapperStyle}>
+          <label style={filterLabelStyle}>
+            Select Batch <span style={{ color: "#dc3545" }}>*</span>
+          </label>
+          <div style={{ minWidth: 150 }}>
+            <Select
+              options={batchOptions}
+              value={selectedUserBatch}
+              onChange={(option) => {
+                setSelectedUserBatch(option);
+                setOptimistic({});
+              }}
+              placeholder={batchOptions.length === 0 ? "No batches available" : "Choose batch..."}
+              isClearable={!isBatchDisabled && batchOptions.length > 1}
+              isDisabled={isBatchDisabled || gamificationLoading}
+              styles={rsStyles}
+              isLoading={gamificationLoading}
+            />
+          </div>
+          {!effectiveBatch && (
+            <small style={{ color: "#dc3545", fontSize: "0.65rem" }}>
+              ⚠️ Batch is mandatory
+            </small>
+          )}
           {isBatchDisabled && batchOptions.length === 1 && (
-            <small style={{ color: "#7986cb", fontSize: "0.7rem", display: "block", marginTop: 2 }}>
+            <small style={{ color: "#6c757d", fontSize: "0.65rem" }}>
               ℹ️ Single batch available
             </small>
           )}
           {batchOptions.length > 1 && userBatches.length === 0 && !gamificationLoading && (
-            <small style={{ color: "#f57c00", fontSize: "0.7rem", display: "block", marginTop: 2 }}>
-              ⚠️ Using fallback batches (not from gamification)
+            <small style={{ color: "#f57c00", fontSize: "0.65rem" }}>
+              ⚠️ Using fallback batches
             </small>
           )}
         </div>
 
-        <div style={{ minWidth: 190 }}>
-          <Select 
-            options={districtOptions} 
-            value={filterDistrict} 
-            onChange={setFilterDistrict}
-            placeholder={userDistricts.length > 0 ? "All Districts (User)" : "All Districts"}
-            isClearable 
-            styles={rsStyles}
-            isLoading={gamificationLoading}
+        {/* ✅ District Filter - Matches Date Picker Style */}
+        <div style={filterWrapperStyle}>
+          <label style={filterLabelStyle}>Select District</label>
+          <div style={{ minWidth: 170 }}>
+            <Select 
+              options={districtOptions} 
+              value={filterDistrict} 
+              onChange={setFilterDistrict}
+              placeholder={userDistricts.length > 0 ? "All Districts (User)" : "All Districts"}
+              isClearable 
+              styles={rsStyles}
+              isLoading={gamificationLoading}
+            />
+          </div>
+          {userDistricts.length > 0 && (
+            <small style={{ color: "#28a745", fontSize: "0.65rem" }}>
+              ✅ {userDistricts.length} district(s) assigned
+            </small>
+          )}
+        </div>
+
+        {/* ✅ School Search */}
+        <div style={filterWrapperStyle}>
+          <label style={filterLabelStyle}>Search School</label>
+          <input
+            type="text" className="form-control"
+            placeholder="🔍 Search school…"
+            style={{ 
+              minWidth: 170, 
+              borderRadius: 8, 
+              fontSize: "0.85rem", 
+              height: 38,
+              borderColor: "#ced4da",
+              padding: "0 12px",
+            }}
+            value={filterSchool} 
+            onChange={(e) => setFilterSchool(e.target.value)}
           />
         </div>
-        <input
-          type="text" className="form-control form-control-sm"
-          placeholder="🔍 Search school…"
-          style={{ minWidth: 180, borderRadius: 8, fontSize: "0.82rem", height: 31 }}
-          value={filterSchool} onChange={(e) => setFilterSchool(e.target.value)}
-        />
-        <label style={{ display: "flex", alignItems: "center", gap: 6, cursor: "pointer", whiteSpace: "nowrap",
-          fontSize: "0.8rem", color: showUnmarkedOnly ? "#c62828" : "#546e7a",
-          fontWeight: showUnmarkedOnly ? 700 : 400, userSelect: "none" }}>
+
+        {/* ✅ 0-marked only checkbox */}
+        <label style={{ 
+          display: "flex", 
+          alignItems: "center", 
+          gap: 6, 
+          cursor: "pointer", 
+          whiteSpace: "nowrap",
+          fontSize: "0.82rem", 
+          color: showUnmarkedOnly ? "#dc3545" : "#6c757d",
+          fontWeight: showUnmarkedOnly ? 700 : 400, 
+          userSelect: "none",
+          marginTop: "18px",
+        }}>
           <input type="checkbox" checked={showUnmarkedOnly} onChange={(e) => setShowUnmarkedOnly(e.target.checked)}
-            style={{ accentColor: "#c62828", width: 14, height: 14 }} />
+            style={{ accentColor: "#dc3545", width: 16, height: 16 }} />
           0-marked only
         </label>
+
+        {/* ✅ Clear button */}
         {(filterDistrict || filterSchool || showUnmarkedOnly) && (
           <button className="btn btn-sm btn-outline-secondary"
-            style={{ borderRadius: 8, fontSize: "0.78rem", whiteSpace: "nowrap", height: 31 }}
+            style={{ borderRadius: 8, fontSize: "0.78rem", whiteSpace: "nowrap", height: 38, marginTop: "18px" }}
             onClick={() => { setFilterDistrict(null); setFilterSchool(""); setShowUnmarkedOnly(false); }}>
             ✕ Clear
           </button>
         )}
+
+        {/* ✅ Refresh button */}
         <button className="btn btn-outline-secondary btn-sm ms-auto" onClick={fetchData}
-          disabled={fetchLoading} style={{ borderRadius: 8, whiteSpace: "nowrap", height: 31 }}>
+          disabled={fetchLoading || !shouldShowData} style={{ borderRadius: 8, whiteSpace: "nowrap", height: 38, marginTop: "18px" }}>
           {fetchLoading ? <><span className="spinner-border spinner-border-sm me-1" />Refreshing…</> : <>🔄 Refresh</>}
         </button>
       </div>
@@ -2196,24 +4432,53 @@ export const SchoolDisciplinaries = () => {
       {/* Content */}
       <div style={{ padding: "18px 20px 32px" }}>
         {/* Meta row */}
-        <div style={{ marginBottom: 12, fontSize: "0.79rem", color: "#7986cb", display: "flex", gap: 14, flexWrap: "wrap", alignItems: "center" }}>
-          <span>Showing <strong>{filteredCenters.length}</strong> of <strong>{activeCenters.length}</strong> active centers</span>
-          <span style={{ color: "#90a4ae" }}>
-            📅 {new Date(effectiveDate + "T00:00:00").toLocaleDateString("en-IN", { day: "2-digit", month: "short", year: "numeric" })}
-          </span>
-          {effectiveBatch && (
-            <span style={{ background: "#e8eaf6", color: "#3949ab", borderRadius: 12, padding: "1px 10px", fontWeight: 700, fontSize: "0.76rem" }}>
-              Batch: {effectiveBatch}
-            </span>
-          )}
-          {userDistricts.length > 0 && (
-            <span style={{ background: "#e8f5e9", color: "#2e7d32", borderRadius: 12, padding: "1px 10px", fontWeight: 600, fontSize: "0.76rem" }}>
-              👤 {userDistricts.length} district(s) assigned
+        <div style={{ marginBottom: 12, fontSize: "0.79rem", color: "#6c757d", display: "flex", gap: 14, flexWrap: "wrap", alignItems: "center" }}>
+          {shouldShowData ? (
+            <>
+              <span>Showing <strong>{filteredCenters.length}</strong> of <strong>{activeCenters.length}</strong> active centers</span>
+              <span style={{ color: "#6c757d" }}>
+                📅 {new Date(effectiveDate + "T00:00:00").toLocaleDateString("en-IN", { day: "2-digit", month: "short", year: "numeric" })}
+              </span>
+              {effectiveBatch && (
+                <span style={{ background: "#e8eaf6", color: "#3949ab", borderRadius: 12, padding: "1px 10px", fontWeight: 700, fontSize: "0.76rem" }}>
+                  Batch: {effectiveBatch}
+                </span>
+              )}
+              {userDistricts.length > 0 && (
+                <span style={{ background: "#e8f5e9", color: "#2e7d32", borderRadius: 12, padding: "1px 10px", fontWeight: 600, fontSize: "0.76rem" }}>
+                  👤 {userDistricts.length} district(s) assigned
+                </span>
+              )}
+            </>
+          ) : (
+            <span style={{ color: "#dc3545" }}>
+              ⚠️ Please select both <strong>Date</strong> and <strong>Batch</strong> to view data
             </span>
           )}
         </div>
 
-        {fetchLoading ? (
+        {/* ✅ Condition: Show data ONLY if date AND batch are selected */}
+        {!shouldShowData ? (
+          <div style={{
+            background: "#fff",
+            borderRadius: 14,
+            boxShadow: "0 2px 16px rgba(40,53,147,0.08)",
+            padding: "60px 20px",
+            textAlign: "center",
+          }}>
+            <div style={{ fontSize: "3rem", marginBottom: 16 }}>📋</div>
+            <h5 style={{ color: "#1a237e", fontWeight: 700, marginBottom: 8 }}>
+              {!isDateSelected && !effectiveBatch && "Select Date & Batch First"}
+              {!isDateSelected && effectiveBatch && "Select Date First"}
+              {isDateSelected && !effectiveBatch && "Select Batch First"}
+            </h5>
+            <p style={{ color: "#6c757d", fontSize: "0.88rem" }}>
+              {!isDateSelected && !effectiveBatch && "Please select both a date and a batch from the filters above to view disciplinary data."}
+              {!isDateSelected && effectiveBatch && "Please select a date from the date picker above to view disciplinary data."}
+              {isDateSelected && !effectiveBatch && "Please select a batch from the dropdown above to view disciplinary data."}
+            </p>
+          </div>
+        ) : fetchLoading ? (
           <div className="text-center py-5 text-muted">
             <div className="spinner-border text-primary mb-3" />
             <div style={{ fontSize: "0.85rem" }}>Loading disciplinary data…</div>
@@ -2232,7 +4497,7 @@ export const SchoolDisciplinaries = () => {
                     <th style={{ ...th, textAlign: "center" }}>
                       Mark Status
                       {effectiveBatch && (
-                        <span style={{ display: "block", fontWeight: 400, color: "#7986cb", fontSize: "0.69rem", textTransform: "none", letterSpacing: 0 }}>
+                        <span style={{ display: "block", fontWeight: 400, color: "#6c757d", fontSize: "0.69rem", textTransform: "none", letterSpacing: 0 }}>
                           counts for batch: {effectiveBatch}
                         </span>
                       )}
@@ -2325,7 +4590,7 @@ const TableRow = React.memo(({ center, idx, getCount, getTotal, handleMark, post
         </span>
       </td>
       <td style={td}><span style={{ color: "#5c6bc0", fontWeight: 600 }}>{center.districtName}</span></td>
-      <td style={td}><span style={{ color: "#78909c", fontSize: "0.81rem" }}>{center.blockName}</span></td>
+      <td style={td}><span style={{ color: "#6c757d", fontSize: "0.81rem" }}>{center.blockName}</span></td>
       <td style={td}><span style={{ fontWeight: 600, color: "#263238" }}>{center.schoolName}</span></td>
       <td style={{ ...td, textAlign: "center" }}>
         <div className="d-flex gap-1 justify-content-center flex-wrap">
@@ -2398,7 +4663,7 @@ const CenterCard = React.memo(({ center, idx, getCount, getTotal, handleMark, po
             <span style={{ background: "#e8eaf6", color: "#3949ab", borderRadius: 10, padding: "1px 8px", fontSize: "0.72rem", fontWeight: 600 }}>
               📍 {center.districtName}
             </span>
-            <span style={{ color: "#90a4ae", fontSize: "0.72rem" }}>
+            <span style={{ color: "#6c757d", fontSize: "0.72rem" }}>
               {center.blockName}
             </span>
           </div>
@@ -2465,7 +4730,7 @@ const CenterCard = React.memo(({ center, idx, getCount, getTotal, handleMark, po
           padding: "7px 12px", display: "flex", alignItems: "center", justifyContent: "space-between",
           fontSize: "0.76rem",
         }}>
-          <span style={{ color: "#78909c", fontWeight: 600 }}>Total marks today</span>
+          <span style={{ color: "#6c757d", fontWeight: 600 }}>Total marks today</span>
           <span style={{
             background: total > 0 ? "linear-gradient(135deg,#1a237e,#3949ab)" : "#eeeeee",
             color: total > 0 ? "#fff" : "#9e9e9e",
@@ -2487,8 +4752,13 @@ const S = {
     boxShadow: "0 4px 20px rgba(26,35,126,0.18)",
   },
   filterBar: {
-    background: "#fff", borderBottom: "1px solid #e3e8f0",
-    padding: "11px 24px", display: "flex", gap: 10, flexWrap: "wrap", alignItems: "center",
+    background: "#fff", 
+    borderBottom: "1px solid #e3e8f0",
+    padding: "16px 24px", 
+    display: "flex", 
+    gap: "16px", 
+    flexWrap: "wrap", 
+    alignItems: "flex-start",
   },
   toastWrap: { position: "fixed", top: 20, right: 24, zIndex: 9999, minWidth: 260 },
   backdrop:  { 

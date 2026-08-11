@@ -9,6 +9,7 @@ import { Container, Row, Col, Card, Button, Badge, Alert, Spinner, Form, Modal }
 import imageCompression from 'browser-image-compression';
 import { AttendanceSheetFormat } from "../Utils/AttendanceSheetFormat";
 import { ClaimGamificationPoint } from "../../service/Gamification/ClaimGamification.services";
+import { pdfUpload } from "../../service/Gamification/Gamification.services";
 
 export const AttendancePdfv2 = () => {
   const { userData } = useContext(UserContext);
@@ -243,13 +244,41 @@ export const AttendancePdfv2 = () => {
       
       if (response.status === 'Success') {
 
+
+        //Gamification (logically updating point. No points for backdated)
+        const currentDate = new Date().toISOString().split("T")[0]; // "2026-06-18"
+
+         if (startDate === currentDate) {
+
+        // await ClaimGamificationPoint(
+        //  {
+        // pointType:"uploadPdf",
+        // date:new Date().toISOString().split("T")[0],
+        // batch: batchContext?.batch ,
+        // schoolId: selectedSchool.schoolId,
+        // // district_block_schoolsObjectId,
+        // unqObjectId: userData?._id,
+        //  }
+        // )
+
+
+         await pdfUpload(
+         {
+        pointType:"uploadPdf",
+        date:new Date().toISOString().split("T")[0],
+        batch: batchContext?.batch ,
+        schoolId: selectedSchool.schoolId,
+        // district_block_schoolsObjectId,
+        unqObjectId: userData?._id,
+         }
+        )
+      } 
+      } else {
+     
+        setUploadError(response.message || "Failed to upload PDF");
+      }
    
-        //Gamification
-
- console.log(startDate)
         
-
-
         setUploadSuccess(response.message);
 
 
@@ -264,25 +293,7 @@ export const AttendancePdfv2 = () => {
 
 
         
-//Gamification (logically updating point. No points for backdated)
-        const currentDate = new Date().toISOString().split("T")[0]; // "2026-06-18"
 
-         if (startDate === currentDate) {
-
-        await ClaimGamificationPoint(
-         {
-        pointType:"uploadPdf",
-        date:new Date().toISOString().split("T")[0],
-        batch: batchContext?.batch ,
-        schoolId: selectedSchool.schoolId,
-        // district_block_schoolsObjectId,
-        unqObjectId: userData?._id,
-         }
-        )} 
-      } else {
-     
-        setUploadError(response.message || "Failed to upload PDF");
-      }
     } catch (err) {
       setUploadError("Error uploading PDF: " + err.message);
     } finally {
@@ -326,6 +337,37 @@ export const AttendancePdfv2 = () => {
       const response = await uploadAttendancePdf(formData);
       
       if (response.status === 'Success') {
+
+          //Gamification (logically updating point. No points for backdated)
+        const currentDate = new Date().toISOString().split("T")[0]; // "2026-06-18"
+
+         if (startDate === currentDate) {
+
+        // await ClaimGamificationPoint(
+        //  {
+        // pointType:"uploadPdf",
+        // date:new Date().toISOString().split("T")[0],
+        // batch: batchContext?.batch ,
+        // schoolId: selectedSchool.schoolId,
+        // // district_block_schoolsObjectId,
+        // unqObjectId: userData?._id,
+        //  }
+        // )} 
+    
+    await pdfUpload(
+         {
+        pointType:"uploadPdf",
+        date:new Date().toISOString().split("T")[0],
+        batch: batchContext?.batch ,
+        schoolId: selectedSchool.schoolId,
+        // district_block_schoolsObjectId,
+        unqObjectId: userData?._id,
+         }
+        )} 
+      
+
+
+
         setUploadSuccess(response.message);
         
         // Clear images

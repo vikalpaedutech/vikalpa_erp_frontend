@@ -58,7 +58,7 @@ export const NewNavbar = () => {
   };
 
   const handleAwardPoints = () =>{
-    navigate("/claim-gamification-point");
+    // navigate("/claim-gamification-point");
   }
 
   const handleProfileClick = () => {
@@ -280,9 +280,9 @@ if (userData?.role === "ACI"){
               Individual Concerns
             </NavDropdown.Item>
 
-            {userData?.role === "CC" ? ( <NavDropdown.Item onClick={handleAwardPoints}>
+            {/* {userData?.role === "CC" ? ( <NavDropdown.Item onClick={handleAwardPoints}>
               Claim Points
-            </NavDropdown.Item>):(null)}
+            </NavDropdown.Item>):(null)} */}
 
            
             {/* <NavDropdown.Item>Other</NavDropdown.Item> */}
