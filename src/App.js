@@ -172,6 +172,7 @@ import { CertificateGenerator } from "./Admin/GENERATETEMPLATE.jsx";
 import ViewTimeTable from "./components/Academics/ViewTimeTable.jsx";
 import ViewLectureVideos from "./components/Academics/ViewLecturVideos.jsx";
 import { CreateGamificationUsers } from "./components/Admin/CreateGamificationUsers.jsx";
+import { InititaeGamificationRank } from "./components/Admin/InitiateGamificationRanking.jsx";
 
 function App() {
   
@@ -307,7 +308,7 @@ function App() {
                         element={<CreateUploadAttendancePdf />}
                       />
 
-                  
+                     
 
                       {/* Concerns module */}
 
@@ -499,6 +500,8 @@ function App() {
    <Route path="/view-lecture-videos" element = {<ViewLectureVideos/>}/>
 
    <Route path="/create-gamification-users" element = {<CreateGamificationUsers/>}/>
+
+         <Route path="/initiate-gamification-rank" element = {<InititaeGamificationRank/>}/>
 
         
                       </Route>

@@ -83,3 +83,47 @@ export const studentAttendance = async (reqBody) => {
         }
     }
     //_____________________________________________________________________________
+
+
+
+
+    //update or initiate rak
+
+        export const updateMonthlyRankings = async (reqBody) => {
+
+        try {
+            const response = await axios.post(`${API_BASE_URL}/api/update-ranks`, reqBody)
+            return response.data;
+        } catch (error) {
+            console.log("Some error", error.message)
+        }
+    }
+
+
+    //gamification-rank-dashbaord
+
+          export const GamificationRankDashboard = async (reqBody) => {
+
+        try {
+            const response = await axios.post(`${API_BASE_URL}/api/gamification-rank-dashboard`, reqBody)
+            return response.data;
+        } catch (error) {
+            console.log("Some error", error.message)
+        }
+    }
+
+
+
+
+    
+    //gamification-rank-dashbaord-all
+
+          export const GamificationRankDashboardGeneral = async (reqBody) => {
+
+        try {
+            const response = await axios.post(`${API_BASE_URL}/api/gamification-rank-dashboard-all`, reqBody)
+            return response.data;
+        } catch (error) {
+            console.log("Some error", error.message)
+        }
+    }

@@ -20,7 +20,7 @@ import { studentAndAttendanceAndAbsenteeCallingCount, attendancePdfUploadStatusC
 import { Link } from "react-router-dom";
 import { NewNavbar } from "../../components/Navbar/NewNavbar";
 import { District_block_school, District_School, School_drop_down } from "../../components/Utils/DependentDropDowns.v2";
-
+import { GamificatonRankBulletin } from "../../components/Utils/GamificationRankBulletin";
 export const UserMainLayout = () =>{
 
 const navigate = useNavigate();
@@ -410,6 +410,9 @@ const allSchoolIds = regions.flatMap(region =>
           { id: "create-gamification-users", label: "Create Gamification Users", path: "create-gamification-users",
             accessedBy: ['MIS','Admin', 'Tech']
          },
+           { id: "init-user-rank", label: "init user rank", path: "initiate-gamification-rank",
+            accessedBy: ['MIS','Admin', 'Tech']
+         },
        
       ],
     },
@@ -459,7 +462,7 @@ const allSchoolIds = regions.flatMap(region =>
           label: "Add Students' Requests",
           logo: "/landing-page-logos/addStudentReq.png",
           path: "student-add-request",
-          accessedBy: ['hkrn', 'MIS','ACI', 'Community Manager', 'Community Incharge', 'Project Coordinator', 'Admin', 'Tech', 'CC']
+          accessedBy: ['MIS','ACI', 'Community Manager', 'Community Incharge', 'Project Coordinator', 'Admin', 'Tech']
         },
 
    {
@@ -467,7 +470,7 @@ const allSchoolIds = regions.flatMap(region =>
           label: "SLC/Remove Students' Requests",
           logo: "/landing-page-logos/remStudentReq.png",
           path: "student-remove-slc-request",
-          accessedBy: ['hkrn', 'MIS','ACI', 'Community Manager', 'Community Incharge', 'Project Coordinator', 'Admin', 'Tech', 'CC']
+          accessedBy: ['MIS','ACI', 'Community Manager', 'Community Incharge', 'Project Coordinator', 'Admin', 'Tech']
         },
          {
           id: "9",
@@ -595,145 +598,18 @@ const allSchoolIds = regions.flatMap(region =>
     return(
         <Container fluid>
 
+
+<hr></hr>
+
 <div>
 
 
 
       <div className="main-layout">
-        {['hkrn',"ACI", "CC", "Project Coordinator", "MIS", "Community Incharge", "Admin", "Community Manager"].includes(userData?.role) && (
-  <Carousel
-    fade
-    controls={true}
-    interval={null}
-    className="mainlayout-bulletin"
-  >
-    {/* attendance card */}
-    <Carousel.Item>
-      <Link to={"/mb-attendance"} onClick={(e) => e.stopPropagation()} style={{ textDecoration: "none" }}>
-        <Card className="mainlayout-cards">
-          <Card.Body>
-            <p className="mainlayout-cards-title">Attendance</p>
-            <Card.Subtitle className="mb-3 text-muted">
-              Summary:
-            </Card.Subtitle>
-            <div className="table-responsive">
-              <table className="table table-bordered text-center">
-                <thead className="thead-light">
-                  <tr>
-                    <th><p>Status</p></th>
-                    <th><p>9th Class</p></th>
-                    <th><p>10th Class</p></th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td><p>Students</p></td>
-                    <td><p>{getClassValue("9", "totalStudents")}</p></td>
-                    <td><p>{getClassValue("10", "totalStudents")}</p></td>
-                  </tr>
-                  <tr>
-                    <td><p>Present</p></td>
-                    <td><p>{getClassValue("9", "present")}</p></td>
-                    <td><p>{getClassValue("10", "present")}</p></td>
-                  </tr>
-                  <tr>
-                    <td><p>Absent</p></td>
-                    <td><p>{getClassValue("9", "absent")}</p></td>
-                    <td><p>{getClassValue("10", "absent")}</p></td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </Card.Body>
-        </Card>
-      </Link>
-    </Carousel.Item>
+        {["CC"].includes(userData?.role) && (
+  <GamificatonRankBulletin/>
 
-    {/* calling card */}
-    <Carousel.Item>
-      <Link to={"/student-calling-dashboard"} onClick={(e) => e.stopPropagation()} style={{ textDecoration: "none" }}>
-        <Card className="mainlayout-cards">
-          <Card.Body>
-            <p className="mainlayout-cards-title">Callings</p>
-            <Card.Subtitle className="mb-3 text-muted">Summary:</Card.Subtitle>
-            <div className="table-responsive">
-              <table className="table table-bordered text-center">
-                <thead className="thead-light">
-                  <tr>
-                    <th><p>Status</p></th>
-                    <th><p>9th Class</p></th>
-                    <th><p>10th Class</p></th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td><p>Total Callings</p></td>
-                    <td><p>{getCallingSummary("9", "totalAbsenteeCallings")}</p></td>
-                    <td><p>{getCallingSummary("10", "totalAbsenteeCallings")}</p></td>
-                  </tr>
-                  <tr>
-                    <td><p>Connected</p></td>
-                    <td><p>{getCallingSummary("9", "connectedCount")}</p></td>
-                    <td><p>{getCallingSummary("10", "connectedCount")}</p></td>
-                  </tr>
-                  <tr>
-                    <td><p>Not Connected</p></td>
-                    <td><p>{getCallingSummary("9", "notConnectedCount")}</p></td>
-                    <td><p>{getCallingSummary("10", "notConnectedCount")}</p></td>
-                  </tr>
-                  <tr>
-                    <td><p>Not Called</p></td>
-                    <td><p>{getCallingSummary("9", "notCalledCount")}</p></td>
-                    <td><p>{getCallingSummary("10", "notCalledCount")}</p></td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </Card.Body>
-        </Card>
-      </Link>
-    </Carousel.Item>
-
-    {/* pdf card */}
-    <Carousel.Item>
-      <Link to={"/attendance-pdf-count-dashboard"} onClick={(e) => e.stopPropagation()} style={{ textDecoration: "none" }}>
-        <Card className="mainlayout-cards">
-          <Card.Body>
-            <p className="mainlayout-cards-title">Attendance Pdf</p>
-            <Card.Subtitle className="mb-3 text-muted">Summary:</Card.Subtitle>
-            <div className="table-responsive">
-              <table className="table table-bordered text-center">
-                <thead className="thead-light">
-                  <tr>
-                    <th><p>Status</p></th>
-                    <th><p>9th Class</p></th>
-                    <th><p>10th Class</p></th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td><p>Total School</p></td>
-                    <td><p>{getPdfSummary("9", "total")}</p></td>
-                    <td><p>{getPdfSummary("10", "total")}</p></td>
-                  </tr>
-                  <tr>
-                    <td><p>Uploaded</p></td>
-                    <td><p>{getPdfSummary("9", "uploaded")}</p></td>
-                    <td><p>{getPdfSummary("10", "uploaded")}</p></td>
-                  </tr>
-                  <tr>
-                    <td><p>Not Uploaded</p></td>
-                    <td><p>{getPdfSummary("9", "notUploaded")}</p></td>
-                    <td><p>{getPdfSummary("10", "notUploaded")}</p></td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </Card.Body>
-        </Card>
-      </Link>
-    </Carousel.Item>
-  </Carousel>
+  
 )}
 
 
@@ -752,6 +628,7 @@ const allSchoolIds = regions.flatMap(region =>
 
     return (
       <div key={index} id={index} style={{ textAlign: "left" }}>
+        <hr></hr>
         <h1>{eachModule.label}</h1>
         <hr />
         <div className="sub-app-div" key={index}>
