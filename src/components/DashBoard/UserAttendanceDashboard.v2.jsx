@@ -9317,6 +9317,8 @@ export const UserAttendanceDashboardV2 = () => {
       return "CC";
     } else if (userData?.role === 'Community Manager') {
       return ["CC", "ACI"];
+    } else if(userData?.role === 'Project Coordinator'){
+      return ['CC', 'ACI']
     }
     return undefined;
   }, [userData]);
