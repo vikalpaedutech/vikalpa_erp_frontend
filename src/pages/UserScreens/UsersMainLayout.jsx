@@ -161,7 +161,7 @@ const allSchoolIds = regions.flatMap(region =>
           label: "Attendance",
           logo: "/attendance.png",
           path: "mb-student-attendance",
-          accessedBy: ['hkrn', 'MIS','ACI', 'Community Manager', 'Community Incharge', 'Project Coordinator', 'Admin', 'Tech', 'CC']
+          accessedBy: ['hkrn', 'MIS','ACI', 'Community Manager', 'Community Incharge', 'Project Coordinator', 'Admin', 'Tech', 'CC', 'hs100admin', 'hs100 executive']
         },
         {
           id: "2",
@@ -481,13 +481,26 @@ const allSchoolIds = regions.flatMap(region =>
         },
           {
           id: "9",
-          label: "Remove Student",
+          label: "Remove Student/Release SLC",
           logo: "/removestudent.gif",
           path: "remove-or-release-slc",
-          accessedBy: ['hkrn', 'MIS','ACI', 'Community Manager', 'Community Incharge', 'Project Coordinator', 'Admin', 'Tech', 'CC']
+          accessedBy: ['hkrn', 'MIS','ACI', 'Community Manager', 'Community Incharge', 'Project Coordinator', 'Admin', 'Tech', 'CC', 'hs100admin', 'hs100 executive']
         },
 
-      
+         {
+          id: "dpr",
+          label: "Daily Work Report",
+          logo: "",
+          path: "daily-work-report",
+          // accessedBy: ['hkrn', 'MIS','ACI', 'Community Manager', 'Community Incharge', 'Project Coordinator', 'Admin', 'Tech', 'CC', 'hs100admin', 'hs100 executive', 
+          //   'DTP'
+          // ]
+
+
+          accessedBy: [ 'Admin', 'Tech'
+          ]
+        },
+
        
       ],
     },

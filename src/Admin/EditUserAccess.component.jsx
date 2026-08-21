@@ -920,6 +920,8 @@ import { updateUserAccesses, getUsersByObjectId } from "../service/User.service"
 import { GetDistrictBlockSchoolByParams } from "../service/DistrictBlockSchool.service";
 
 export const EditUserAccess = () => {
+
+
   const location = useLocation();
   const navigate = useNavigate();
   const userAccessData = location.state?.fetchedAccessData;
@@ -965,7 +967,7 @@ export const EditUserAccess = () => {
   // Refresh user data from server
   const refreshUserData = useCallback(async () => {
     if (!unqObjectId) return;
-    
+
     try {
       const response = await getUsersByObjectId({ _id: unqObjectId });
       if (response.status === "Success" && response.data?.[0]) {
@@ -974,6 +976,7 @@ export const EditUserAccess = () => {
         
         // Update batch data
         const userBatches = newUserAccess?.batch || [];
+        
         setBatchData(
           allBatches.map(batchName => ({
             batchName,
@@ -1010,11 +1013,14 @@ export const EditUserAccess = () => {
 
   // Fetch district-block-school data
   const fetchDistrictBlockSchool = async () => {
+
+
+   
     setLoading(true);
     try {
       const response = await GetDistrictBlockSchoolByParams();
       setDbDistrictBlockSchoolData(response.data);
-      
+     
       // Debug log to check data structure
       if (response.data && response.data.length > 0) {
         console.log('📋 Sample school data:', response.data[0]);
@@ -1055,6 +1061,7 @@ export const EditUserAccess = () => {
     const schoolMap = new Map();
     
     dbDistrictBlockSchoolData.forEach(item => {
+          console.log('🔍 Item fields:', Object.keys(item));
       // Skip if schoolId is missing or empty
       if (!item.schoolId || item.schoolId === '') {
         return;

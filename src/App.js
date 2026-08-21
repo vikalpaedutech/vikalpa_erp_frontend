@@ -173,6 +173,9 @@ import ViewTimeTable from "./components/Academics/ViewTimeTable.jsx";
 import ViewLectureVideos from "./components/Academics/ViewLecturVideos.jsx";
 import { CreateGamificationUsers } from "./components/Admin/CreateGamificationUsers.jsx";
 import { InititaeGamificationRank } from "./components/Admin/InitiateGamificationRanking.jsx";
+import { DPR } from "./components/Admin/DPR.jsx";
+import DPRStatus from "./components/Admin/DPRStatus.jsx";
+import DPRReport from "./components/Admin/DPRReport.jsx";
 
 function App() {
   
@@ -503,7 +506,10 @@ function App() {
 
          <Route path="/initiate-gamification-rank" element = {<InititaeGamificationRank/>}/>
 
-        
+         <Route path="/daily-work-report" element = {<DPR/>}/>
+
+    <Route path="/admin/dpr-status/:taskId" element={<DPRStatus/>} />
+<Route path="/admin/dpr-report" element={<DPRReport />} />
                       </Route>
                     </Routes>
                   </UserProvider>
