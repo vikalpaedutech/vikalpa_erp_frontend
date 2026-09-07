@@ -181,3 +181,20 @@ try {
 }
 
 
+
+
+
+export const GetAllDistrictBlockSchoolForAccess = async (reqBody) =>{
+
+
+try {
+    const response = await axios.post (`${API_BASE_URL}/api/get-district-block-school-for-accesses`, reqBody)
+
+    return response.data
+} catch (error) {
+    console.log('Error occured while fetching district, block, and school data')
+}
+
+}
+
+

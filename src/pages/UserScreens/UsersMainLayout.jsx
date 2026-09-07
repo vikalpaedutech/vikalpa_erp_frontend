@@ -504,6 +504,25 @@ const allSchoolIds = regions.flatMap(region =>
        
       ],
     },
+
+
+     {
+      indexKey: "11",
+      label: "Admin",
+      module: "TRUE",
+      main: [
+        {
+          id: "create-objective-of-calling",
+          label: "Create Objective of Calling",
+          logo: "/",
+          path: "create-objective-of-calling",
+          // accessedBy: ['hkrn', 'MIS','ACI', 'Community Manager', 'Community Incharge', 'Project Coordinator', 'Admin', 'Tech', 'CC']
+          accessedBy: [ 'Admin']
+        }
+
+       
+      ],
+    },
   ];
 
   const filteredSidbarMenusByRole = sideBarMenusByRole.filter((item) =>

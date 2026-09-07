@@ -616,7 +616,7 @@ export const CreateUser = () => {
           {/* ✅ Batch Access (Replaced Class Access) */}
           <h5>Batch Access</h5>
           <div className="mb-3">
-            {["2024-26", "2025-27", "2026-28", "2025-27 (HS100)", "2026-28 (HS100)"].map((batch) => (
+            {["2024-26", "2025-27", "2026-28", "2025-27 (HS100)-Boys", "2025-27 (HS100)-Girls", "2026-28 (HS100)-Boys", "2026-28 (HS100)-Girls"].map((batch) => (
               <Form.Check
                 inline
                 key={batch}
