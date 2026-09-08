@@ -361,7 +361,7 @@ export const UserMainLayout = () => {
           id: "3",
           label: "TA Confirmation",
           logo: "/forms.png",
-          path: "form-dashboard-objective-of-calling",
+          path: "mb-student-attendance",
           accessedBy: ['hkrn', 'MIS', 'ACI', 'Community Manager', 'Community Incharge', 'Project Coordinator', 'Admin', 'Tech', 'CC']
         },
       ],
