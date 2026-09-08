@@ -1,7 +1,7 @@
 
 //This component will be the main layout for all other users, except for Admin
 
-import React, {useState, useEffect, useContext} from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   ListGroup,
   Accordion,
@@ -21,9 +21,10 @@ import { Link } from "react-router-dom";
 import { NewNavbar } from "../../components/Navbar/NewNavbar";
 import { District_block_school, District_School, School_drop_down } from "../../components/Utils/DependentDropDowns.v2";
 import { GamificatonRankBulletin } from "../../components/Utils/GamificationRankBulletin";
-export const UserMainLayout = () =>{
+import { DownloadAttachement } from "../../components/DownloadAttachements/DonwnloadAttachement";
+export const UserMainLayout = () => {
 
-const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const [show, setShow] = useState(false);
 
@@ -39,13 +40,13 @@ const navigate = useNavigate();
   const [studentCount, setStudentCount] = useState([]);
 
 
-    const [startDate, setStartDate] = useState(() => {
-        return new Date().toISOString().split("T")[0];
-      });
-      const [endDate, setEndDate] = useState(() => {
-        return new Date().toISOString().split("T")[0];
-      });
-  
+  const [startDate, setStartDate] = useState(() => {
+    return new Date().toISOString().split("T")[0];
+  });
+  const [endDate, setEndDate] = useState(() => {
+    return new Date().toISOString().split("T")[0];
+  });
+
 
   //------------------------------
   const handleLogout = () => {
@@ -56,20 +57,20 @@ const navigate = useNavigate();
   };
 
 
-console.log(userData)
+  console.log(userData)
 
   const regions = userData?.userAccess?.region || [];
-const allSchoolIds = regions.flatMap(region =>
-  region.blockIds.flatMap(block =>
-    block.schoolIds.map(school => school.schoolId)
-  )
-);
+  const allSchoolIds = regions.flatMap(region =>
+    region.blockIds.flatMap(block =>
+      block.schoolIds.map(school => school.schoolId)
+    )
+  );
 
   const fetchStudentRelatedCounts = async () => {
     const payload = {
       schoolIds: allSchoolIds,
       classFilters: userData.userAccess.classId || ['9', '10'],
-        startDate: startDate,
+      startDate: startDate,
       endDate: endDate
     };
 
@@ -89,7 +90,7 @@ const allSchoolIds = regions.flatMap(region =>
   }, []);
 
 
-  const  sideBarMenusByRole = [
+  const sideBarMenusByRole = [
     {
       indexKey: "1",
       label: "Dashboards",
@@ -109,28 +110,28 @@ const allSchoolIds = regions.flatMap(region =>
           label: "Student-Attendance",
           logo: "/studentattendancesummary.png",
           path: "mb-student-attendance-dashboard",
-          accessedBy: ['MIS','ACI', 'Community Manager', 'Community Incharge', 'Project Coordinator', 'Admin', 'Tech', 'Teacher', 'Academic Head']
+          accessedBy: ['MIS', 'ACI', 'Community Manager', 'Community Incharge', 'Project Coordinator', 'Admin', 'Tech', 'Teacher', 'Academic Head']
         },
         {
           id: "3",
           label: "Absentee-Calling",
           logo: "/callingsummary.png",
           path: "mb-student-absentee-calling-dashboard",
-          accessedBy: ['MIS','ACI', 'Community Manager', 'Community Incharge', 'Project Coordinator', 'Admin', 'Tech', 'Teacher', 'Academic Head']
+          accessedBy: ['MIS', 'ACI', 'Community Manager', 'Community Incharge', 'Project Coordinator', 'Admin', 'Tech', 'Teacher', 'Academic Head']
         },
         {
           id: "4",
           label: "Attendance PDF",
           logo: "/studentattendancepdfsummary.png",
           path: "attendance-pdf-count-dashboard",
-          accessedBy: ['MIS','ACI', 'Community Manager', 'Community Incharge', 'Project Coordinator', 'Admin', 'Tech']
+          accessedBy: ['MIS', 'ACI', 'Community Manager', 'Community Incharge', 'Project Coordinator', 'Admin', 'Tech']
         },
         {
           id: "5",
           label: "Copy-Checking Dashboard",
           logo: "/copychecking.png",
           path: "mb-student-copy-checking-dashboard",
-          accessedBy: ['MIS','ACI', 'Community Manager', 'Community Incharge', 'Project Coordinator', 'Admin', 'Tech', 'Teacher', 'Academic Head', 'Teacher', 'Academic Head']
+          accessedBy: ['MIS', 'ACI', 'Community Manager', 'Community Incharge', 'Project Coordinator', 'Admin', 'Tech', 'Teacher', 'Academic Head', 'Teacher', 'Academic Head']
         },
         //   {
         //   id: "5",
@@ -140,12 +141,12 @@ const allSchoolIds = regions.flatMap(region =>
         //   accessedBy: ['MIS','ACI', 'Community Manager', 'Community Incharge', 'Project Coordinator', 'Admin', 'Tech']
         // },
 
-         {
+        {
           id: "5",
           label: "Student-upload-objectives-dashboard",
           logo: "/landing-page-logos/stuUploadObjective.png",
           path: "student-upload-objectives-dashboard",
-          accessedBy: ['MIS','ACI', 'Community Manager', 'Community Incharge', 'Project Coordinator', 'Admin', 'Tech', 'Teacher', 'Academic Head']
+          accessedBy: ['MIS', 'ACI', 'Community Manager', 'Community Incharge', 'Project Coordinator', 'Admin', 'Tech', 'Teacher', 'Academic Head']
         },
       ],
     },
@@ -155,20 +156,20 @@ const allSchoolIds = regions.flatMap(region =>
       logo: "/attendance.png",
       module: "TRUE",
       main: [
-            
+
         {
           id: "1",
           label: "Attendance",
           logo: "/attendance.png",
           path: "mb-student-attendance",
-          accessedBy: ['hkrn', 'MIS','ACI', 'Community Manager', 'Community Incharge', 'Project Coordinator', 'Admin', 'Tech', 'CC', 'hs100admin', 'hs100 executive']
+          accessedBy: ['hkrn', 'MIS', 'ACI', 'Community Manager', 'Community Incharge', 'Project Coordinator', 'Admin', 'Tech', 'CC', 'hs100admin', 'hs100 executive']
         },
         {
           id: "2",
           label: "Upload Marks/Student Answer Sheet",
           logo: "/exam.png",
           path: "mb-marks-upload",
-          accessedBy: ['hkrn','MIS','ACI', 'Community Manager', 'Community Incharge', 'Project Coordinator', 'Admin', 'Tech', 'CC']
+          accessedBy: ['hkrn', 'MIS', 'ACI', 'Community Manager', 'Community Incharge', 'Project Coordinator', 'Admin', 'Tech', 'CC']
         },
         {
           id: "3",
@@ -183,28 +184,28 @@ const allSchoolIds = regions.flatMap(region =>
           label: "Copy-checking",
           logo: "/copy-checking.png",
           path: "mb-student-copy-checking",
-          accessedBy: ['hkrn','MIS','ACI', 'Community Manager', 'Community Incharge', 'Project Coordinator', 'Admin', 'Tech', 'CC']
+          accessedBy: ['hkrn', 'MIS', 'ACI', 'Community Manager', 'Community Incharge', 'Project Coordinator', 'Admin', 'Tech', 'CC']
         },
         {
           id: "5",
           label: "Manual Attendance",
           logo: "/upload.png",
           path: "attendance-pdf",
-          accessedBy: ['hkrn', 'MIS','ACI', 'Community Manager', 'Community Incharge', 'Project Coordinator', 'Admin', 'Tech', 'CC']
+          accessedBy: ['hkrn', 'MIS', 'ACI', 'Community Manager', 'Community Incharge', 'Project Coordinator', 'Admin', 'Tech', 'CC']
         },
         {
           id: "6",
           label: "Gamification Disciplinary",
           logo: "/landing-page-logos/gamiFication.png",
           path: "school-disciplinaries",
-          accessedBy: [ 'MIS','Community Incharge', 'Project Coordinator', 'Admin', 'Tech', 'Academic Coordinator', 'Community Manager']
+          accessedBy: ['MIS', 'Community Incharge', 'Project Coordinator', 'Admin', 'Tech', 'Academic Coordinator', 'Community Manager']
         },
         {
           id: "7",
           label: "S-100 Attendances",
           logo: "/gamification.png",
           path: "s100-attendance",
-          accessedBy: ['MIS','Tech','Admin']
+          accessedBy: ['MIS', 'Tech', 'Admin']
         },
 
 
@@ -213,30 +214,30 @@ const allSchoolIds = regions.flatMap(region =>
           label: "Attendance Verification",
           logo: "/taverification.png",
           path: "ta-verification-data",
-          accessedBy: ['hkrn', 'MIS','ACI', 'Community Manager', 'Community Incharge', 'Project Coordinator', 'Admin', 'Tech', 'CC']
+          accessedBy: ['hkrn', 'MIS', 'ACI', 'Community Manager', 'Community Incharge', 'Project Coordinator', 'Admin', 'Tech', 'CC']
         },
         {
           id: "9",
           label: "Student HW/WORKSHEET Upload",
           logo: "/uploadstudentfiles.png",
           path: "student-upload",
-          accessedBy: ['hkrn', 'MIS','ACI', 'Community Manager', 'Community Incharge', 'Project Coordinator', 'Admin', 'Tech', 'CC']
+          accessedBy: ['hkrn', 'MIS', 'ACI', 'Community Manager', 'Community Incharge', 'Project Coordinator', 'Admin', 'Tech', 'CC']
         },
-           {
+        {
           id: "createtimetable",
           label: "Time Table",
           logo: "/",
           path: "create-time-table",
           accessedBy: ['Teacher', 'Academic Coordinator', 'DTP', 'MIS', 'Admin', 'Academic Head']
         },
-           {
+        {
           id: "lecturevideos",
           label: "Lecture And Videos",
           logo: "/",
           path: "create-lecture-videos",
           accessedBy: ['Teacher', 'Academic Coordinator', 'DTP', 'MIS', 'Admin', 'Academic Head']
         },
-            
+
       ],
     },
     {
@@ -250,38 +251,40 @@ const allSchoolIds = regions.flatMap(region =>
           label: "Upload Bills",
           logo: "/bills.png",
           path: "upload-bills-v2",
-          accessedBy: ['Academic Head', 'Teacher', 'Photographer', 'MIS','ACI', 'Community Manager', 'Community Incharge', 
+          accessedBy: ['Academic Head', 'Teacher', 'Photographer', 'MIS', 'ACI', 'Community Manager', 'Community Incharge',
             'Project Coordinator', 'Admin', 'Tech', 'CC',
-        'DTP', 'Video Grapher', 'Media Manager', 'Editor', 'HR', 'Technician', 'Academic Coordinator']
+            'DTP', 'Video Grapher', 'Media Manager', 'Editor', 'HR', 'Technician', 'Academic Coordinator']
         },
-        { id: "3", label: "School Issues", logo: "/school.png", path: "school-concerns",
-            accessedBy: ['hkrn','MIS','CC']
-         },
-         { id: "4", label: "Tech Issues", logo: "/tech.png", path: "tech-concerns",
-             accessedBy: ['hkrn','MIS','CC']
-          },
+        {
+          id: "3", label: "School Issues", logo: "/school.png", path: "school-concerns",
+          accessedBy: ['hkrn', 'MIS', 'CC']
+        },
+        {
+          id: "4", label: "Tech Issues", logo: "/tech.png", path: "tech-concerns",
+          accessedBy: ['hkrn', 'MIS', 'CC']
+        },
         {
           id: "2",
           label: "Bills Verification",
           logo: "/bill-verification.png",
           path: "bills-verification-v2",
-          accessedBy: ['MIS','ACI', 'Community Manager',  'Admin', 'Tech', 'Project Coordinator']
+          accessedBy: ['MIS', 'ACI', 'Community Manager', 'Admin', 'Tech', 'Project Coordinator']
         },
         {
           id: "9",
           label: "Bill Approval",
           logo: "/approved.png",
           path: "bills-approval-v2",
-          accessedBy: ['MIS','Admin','Tech','Community Manager', "Accountant"]
+          accessedBy: ['MIS', 'Admin', 'Tech', 'Community Manager', "Accountant"]
         },
         {
           id: "3",
           label: "Bill Dashboard",
           logo: "/billdashboard.png",
           path: "bill-dashboard",
-          accessedBy: ['MIS','Admin','Tech','Community Manager', "Accountant"]
+          accessedBy: ['MIS', 'Admin', 'Tech', 'Community Manager', "Accountant"]
         },
-         
+
         {
           id: "7",
           label: "School Concerns Request",
@@ -313,7 +316,7 @@ const allSchoolIds = regions.flatMap(region =>
           path: "self-cocnerns-resolution",
           // accessedBy: ['MIS','Community Incharge', 'Project Coordinator', 'Admin', 'Tech']
           accessedBy: ['Admin']
-          
+
         },
       ],
     },
@@ -327,8 +330,8 @@ const allSchoolIds = regions.flatMap(region =>
           id: "1",
           label: "Center Disciplinary/Interaction",
           path: "center-disciplinary-or-interaction",
-          logo:"/landing-page-logos/classMonitoring.png",
-          accessedBy: [ 'MIS','Community Incharge', 'Project Coordinator', 'Admin', 'Tech', 'Academic Coordinator']
+          logo: "/landing-page-logos/classMonitoring.png",
+          accessedBy: ['MIS', 'Community Incharge', 'Project Coordinator', 'Admin', 'Tech', 'Academic Coordinator']
         },
       ],
     },
@@ -343,15 +346,23 @@ const allSchoolIds = regions.flatMap(region =>
           label: "Absentee Callings",
           logo: "/call.png",
           path: "student-absentee-calling",
-          accessedBy: ['hkrn', 'MIS','ACI', 'Community Manager', 'Community Incharge', 'Project Coordinator', 'Admin', 'Tech', 'CC']
+          accessedBy: ['hkrn', 'MIS', 'ACI', 'Community Manager', 'Community Incharge', 'Project Coordinator', 'Admin', 'Tech', 'CC']
         },
 
-           {
+        {
           id: "2",
           label: "Calling",
           logo: "/landing-page-logos/misccalling.png",
           path: "calling-dashboard-objective-of-calling",
-          accessedBy: ['hkrn', 'MIS','ACI', 'Community Manager', 'Community Incharge', 'Project Coordinator', 'Admin', 'Tech', 'CC']
+          accessedBy: ['hkrn', 'MIS', 'ACI', 'Community Manager', 'Community Incharge', 'Project Coordinator', 'Admin', 'Tech', 'CC']
+        },
+
+           {
+          id: "3",
+          label: "TA Confirmation",
+          logo: "/forms.png",
+          path: "form-dashboard-objective-of-calling",
+          accessedBy: ['hkrn', 'MIS', 'ACI', 'Community Manager', 'Community Incharge', 'Project Coordinator', 'Admin', 'Tech', 'CC']
         },
       ],
     },
@@ -366,19 +377,19 @@ const allSchoolIds = regions.flatMap(region =>
           id: "1",
           label: "Initiate Student Attendance",
           path: "initiate-student-attendance",
-          accessedBy: ['MIS','Admin', 'Tech']
+          accessedBy: ['MIS', 'Admin', 'Tech']
         },
         {
           id: "2",
           label: "Initiate User Attendance",
           path: "initiate-user-attendance",
-          accessedBy: ['MIS','Admin', 'Tech']
+          accessedBy: ['MIS', 'Admin', 'Tech']
         },
         {
           id: "3",
           label: "Initiate Upload-attendance-pdf",
           path: "initiate-upload-attendance-pdf",
-          accessedBy: ['MIS','Admin', 'Tech']
+          accessedBy: ['MIS', 'Admin', 'Tech']
         },
       ],
     },
@@ -387,12 +398,14 @@ const allSchoolIds = regions.flatMap(region =>
       label: "Test Controller",
       module: "TRUE",
       main: [
-        { id: "1", label: "Create Test", path: "test-controller",
-            accessedBy: ['MIS','Admin', 'Tech']
-         },
-        { id: "2", label: "Initiate Test", path: "initiate-test",
-            accessedBy: ['MIS','Admin', 'Tech']
-         },
+        {
+          id: "1", label: "Create Test", path: "test-controller",
+          accessedBy: ['MIS', 'Admin', 'Tech']
+        },
+        {
+          id: "2", label: "Initiate Test", path: "initiate-test",
+          accessedBy: ['MIS', 'Admin', 'Tech']
+        },
       ],
     },
     {
@@ -400,20 +413,24 @@ const allSchoolIds = regions.flatMap(region =>
       label: "User Controller",
       module: "TRUE",
       main: [
-        { id: "1", label: "Create User", path: "create-user",
-            accessedBy: ['MIS','Admin', 'Tech']
-         },
+        {
+          id: "1", label: "Create User", path: "create-user",
+          accessedBy: ['MIS', 'Admin', 'Tech']
+        },
 
-          { id: "2", label: "Update User", path: "update-user",
-            accessedBy: ['MIS','Admin', 'Tech']
-         },
-          { id: "create-gamification-users", label: "Create Gamification Users", path: "create-gamification-users",
-            accessedBy: ['MIS','Admin', 'Tech']
-         },
-           { id: "init-user-rank", label: "init user rank", path: "initiate-gamification-rank",
-            accessedBy: ['MIS','Admin', 'Tech']
-         },
-       
+        {
+          id: "2", label: "Update User", path: "update-user",
+          accessedBy: ['MIS', 'Admin', 'Tech']
+        },
+        {
+          id: "create-gamification-users", label: "Create Gamification Users", path: "create-gamification-users",
+          accessedBy: ['MIS', 'Admin', 'Tech']
+        },
+        {
+          id: "init-user-rank", label: "init user rank", path: "initiate-gamification-rank",
+          accessedBy: ['MIS', 'Admin', 'Tech']
+        },
+
       ],
     },
     {
@@ -421,14 +438,16 @@ const allSchoolIds = regions.flatMap(region =>
       label: "Student Controller",
       module: "TRUE",
       main: [
-        { id: "1", label: "Create Student", path: "create-student",
-            accessedBy: ['MIS','Admin', 'Tech']
-         },
+        {
+          id: "1", label: "Create Student", path: "create-student",
+          accessedBy: ['MIS', 'Admin', 'Tech']
+        },
 
-          { id: "2", label: "Update Student", path: "update-student",
-            accessedBy: ['MIS','Admin', 'Tech']
-         },
-       
+        {
+          id: "2", label: "Update Student", path: "update-student",
+          accessedBy: ['MIS', 'Admin', 'Tech']
+        },
+
       ],
     },
 
@@ -444,50 +463,50 @@ const allSchoolIds = regions.flatMap(region =>
           logo: "/",
           path: "students-v2",
           // accessedBy: ['hkrn', 'MIS','ACI', 'Community Manager', 'Community Incharge', 'Project Coordinator', 'Admin', 'Tech', 'CC']
-          accessedBy: [ 'Admin']
+          accessedBy: ['Admin']
         },
-          {
+        {
           id: "downloadstudentsdata",
           label: "Download Students Data",
           logo: "/",
           path: "download-students-data",
           // accessedBy: ['hkrn', 'MIS','ACI', 'Community Manager', 'Community Incharge', 'Project Coordinator', 'Admin', 'Tech', 'CC']
 
-          accessedBy: ['Community Manager', 'Community Incharge',  'Admin', 'Tech']
+          accessedBy: ['Community Manager', 'Community Incharge', 'Admin', 'Tech']
         },
-       
 
-            {
+
+        {
           id: "addstudentrequest",
           label: "Add Students' Requests",
           logo: "/landing-page-logos/addStudentReq.png",
           path: "student-add-request",
-          accessedBy: ['MIS','ACI', 'Community Manager', 'Community Incharge', 'Project Coordinator', 'Admin', 'Tech']
+          accessedBy: ['MIS', 'ACI', 'Community Manager', 'Community Incharge', 'Project Coordinator', 'Admin', 'Tech']
         },
 
-   {
+        {
           id: "removestudentrequest",
           label: "SLC/Remove Students' Requests",
           logo: "/landing-page-logos/remStudentReq.png",
           path: "student-remove-slc-request",
-          accessedBy: ['MIS','ACI', 'Community Manager', 'Community Incharge', 'Project Coordinator', 'Admin', 'Tech']
+          accessedBy: ['MIS', 'ACI', 'Community Manager', 'Community Incharge', 'Project Coordinator', 'Admin', 'Tech']
         },
-         {
+        {
           id: "9",
           label: "Add Student",
           logo: "/addstudent.gif",
           path: "create-student-form",
-          accessedBy: ['hkrn', 'MIS','ACI', 'Community Manager', 'Community Incharge', 'Project Coordinator', 'Admin', 'Tech', 'CC']
+          accessedBy: ['hkrn', 'MIS', 'ACI', 'Community Manager', 'Community Incharge', 'Project Coordinator', 'Admin', 'Tech', 'CC']
         },
-          {
+        {
           id: "9",
           label: "Remove Student/Release SLC",
           logo: "/removestudent.gif",
           path: "remove-or-release-slc",
-          accessedBy: ['hkrn', 'MIS','ACI', 'Community Manager', 'Community Incharge', 'Project Coordinator', 'Admin', 'Tech', 'CC', 'hs100admin', 'hs100 executive']
+          accessedBy: ['hkrn', 'MIS', 'ACI', 'Community Manager', 'Community Incharge', 'Project Coordinator', 'Admin', 'Tech', 'CC', 'hs100admin', 'hs100 executive']
         },
 
-         {
+        {
           id: "dpr",
           label: "Daily Work Report",
           logo: "",
@@ -497,16 +516,16 @@ const allSchoolIds = regions.flatMap(region =>
           // ]
 
 
-          accessedBy: [ 'Admin', 'Tech'
+          accessedBy: ['Admin', 'Tech'
           ]
         },
 
-       
+
       ],
     },
 
 
-     {
+    {
       indexKey: "11",
       label: "Admin",
       module: "TRUE",
@@ -517,10 +536,10 @@ const allSchoolIds = regions.flatMap(region =>
           logo: "/",
           path: "create-objective-of-calling",
           // accessedBy: ['hkrn', 'MIS','ACI', 'Community Manager', 'Community Incharge', 'Project Coordinator', 'Admin', 'Tech', 'CC']
-          accessedBy: [ 'Admin']
+          accessedBy: ['Admin']
         }
 
-       
+
       ],
     },
   ];
@@ -568,127 +587,128 @@ const allSchoolIds = regions.flatMap(region =>
   };
 
   const handleAppClicks = (e) => {
-    e.preventDefault(); 
+    e.preventDefault();
     navigate(`/${e.target.id}`);
   };
 
   const fetchPdfStatusData = async () => {
-      const payload = {
-        schoolIds: allSchoolIds,
-         startDate: startDate,
+    const payload = {
+      schoolIds: allSchoolIds,
+      startDate: startDate,
       endDate: endDate
-      };
-  
-      try {
-        const response = await attendancePdfUploadStatusCountByClass(payload);
-        console.log("PDF Upload Data", response.data);
-  
-        const sortedData = response.data.map((school) => {
-          const sortedClasses = [...school.classes].sort((a, b) => {
-            if (a.pdfUploadedCount === 0 && b.pdfUploadedCount !== 0) return -1;
-            if (a.pdfUploadedCount !== 0 && b.pdfUploadedCount === 0) return 1;
-            return 0;
-          });
-          return { ...school, classes: sortedClasses };
+    };
+
+    try {
+      const response = await attendancePdfUploadStatusCountByClass(payload);
+      console.log("PDF Upload Data", response.data);
+
+      const sortedData = response.data.map((school) => {
+        const sortedClasses = [...school.classes].sort((a, b) => {
+          if (a.pdfUploadedCount === 0 && b.pdfUploadedCount !== 0) return -1;
+          if (a.pdfUploadedCount !== 0 && b.pdfUploadedCount === 0) return 1;
+          return 0;
         });
-  
-        setPdfData(sortedData);
-      } catch (error) {
-        console.log("Error fetching attendance PDF status:", error);
-      }
-    };
-  
-    useEffect(() => {
-      fetchPdfStatusData();
-    }, []);
-  
-    const summary = {
-      '9': { total: 0, uploaded: 0 },
-      '10': { total: 0, uploaded: 0 }
-    };
-  
-    pdfData.forEach((school) => {
-      school.classes.forEach((cls) => {
-        if (cls.classofStudent === '9' || cls.classofStudent === '10') {
-          summary[cls.classofStudent].total += 1;
-          if (cls.pdfUploadedCount > 0) {
-            summary[cls.classofStudent].uploaded += 1;
-          }
-        }
+        return { ...school, classes: sortedClasses };
       });
-    });
-  
-    const getPdfSummary = (classNum, type) => {
-      const classSummary = summary[classNum];
-      if (!classSummary) return "0";
-      if (type === "uploaded") return classSummary.uploaded;
-      if (type === "notUploaded") return classSummary.total - classSummary.uploaded;
-      if (type === "total") return classSummary.total;
-      return "0";
-    };
-  
-    return(
-        <Container fluid>
 
-
-<hr></hr>
-
-<div>
-
-
-
-      <div className="main-layout">
-        {["CC"].includes(userData?.role) && (
-  <GamificatonRankBulletin/>
-
-  
-)}
-
-
-        <div className="mainlayout-other-functionalities">
-  {filteredSidbarMenusByRole.map((eachModule, index) => {
-    // Filter apps inside each module by role
-    const accessibleApps = eachModule.main.filter(
-      (eachApp) =>
-        !eachApp.accessedBy || eachApp.accessedBy.includes(userData?.role)
-    );
-
-    // If no accessible apps, skip rendering this module
-    if (accessibleApps.length === 0) {
-      return null;
+      setPdfData(sortedData);
+    } catch (error) {
+      console.log("Error fetching attendance PDF status:", error);
     }
+  };
 
-    return (
-      <div key={index} id={index} style={{ textAlign: "left" }}>
-        <hr></hr>
-        <h1>{eachModule.label}</h1>
-        <hr />
-        <div className="sub-app-div" key={index}>
-          {accessibleApps.map((eachApp, idx) => (
-            <div className="each-app-wrapper" key={idx}>
-              <div
-                id={eachApp.path}
-                onClick={(e) => handleAppClicks(e)}
-                className="each-div"
-                style={{
-                  backgroundImage: `url(${eachApp.logo})`,
-                  backgroundSize: "cover",
-                  backgroundPosition: "left",
-                  backgroundRepeat: "no-repeat",
-                }}
-              ></div>
-              <p className="app-label">{eachApp.label}</p>
-            </div>
-          ))}
+  useEffect(() => {
+    fetchPdfStatusData();
+  }, []);
+
+  const summary = {
+    '9': { total: 0, uploaded: 0 },
+    '10': { total: 0, uploaded: 0 }
+  };
+
+  pdfData.forEach((school) => {
+    school.classes.forEach((cls) => {
+      if (cls.classofStudent === '9' || cls.classofStudent === '10') {
+        summary[cls.classofStudent].total += 1;
+        if (cls.pdfUploadedCount > 0) {
+          summary[cls.classofStudent].uploaded += 1;
+        }
+      }
+    });
+  });
+
+  const getPdfSummary = (classNum, type) => {
+    const classSummary = summary[classNum];
+    if (!classSummary) return "0";
+    if (type === "uploaded") return classSummary.uploaded;
+    if (type === "notUploaded") return classSummary.total - classSummary.uploaded;
+    if (type === "total") return classSummary.total;
+    return "0";
+  };
+
+  return (
+    <Container fluid>
+
+
+      <hr></hr>
+<DownloadAttachement/>
+      <div>
+
+
+
+        <div className="main-layout">
+          {["CC"].includes(userData?.role) && (
+            <GamificatonRankBulletin />
+
+
+          )}
+
+
+          <div className="mainlayout-other-functionalities">
+            {filteredSidbarMenusByRole.map((eachModule, index) => {
+              // Filter apps inside each module by role
+              const accessibleApps = eachModule.main.filter(
+                (eachApp) =>
+                  !eachApp.accessedBy || eachApp.accessedBy.includes(userData?.role)
+              );
+
+              // If no accessible apps, skip rendering this module
+              if (accessibleApps.length === 0) {
+                return null;
+              }
+
+              return (
+                <div key={index} id={index} style={{ textAlign: "left" }}>
+
+                  <hr></hr>
+                  <h1>{eachModule.label}</h1>
+                  <hr />
+                  <div className="sub-app-div" key={index}>
+                    {accessibleApps.map((eachApp, idx) => (
+                      <div className="each-app-wrapper" key={idx}>
+                        <div
+                          id={eachApp.path}
+                          onClick={(e) => handleAppClicks(e)}
+                          className="each-div"
+                          style={{
+                            backgroundImage: `url(${eachApp.logo})`,
+                            backgroundSize: "cover",
+                            backgroundPosition: "left",
+                            backgroundRepeat: "no-repeat",
+                          }}
+                        ></div>
+                        <p className="app-label">{eachApp.label}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+
         </div>
       </div>
-    );
-  })}
-</div>
 
-      </div>
-    </div>
-
-        </Container>
-    )
+    </Container>
+  )
 }

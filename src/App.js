@@ -176,6 +176,8 @@ import { InititaeGamificationRank } from "./components/Admin/InitiateGamificatio
 import { DPR } from "./components/Admin/DPR.jsx";
 import DPRStatus from "./components/Admin/DPRStatus.jsx";
 import DPRReport from "./components/Admin/DPRReport.jsx";
+import { FormMain } from "./Callings/FormMain.jsx";
+import { FormDashboardByUserId } from "./Callings/FormDashboardUserId.jsx";
 
 function App() {
   
@@ -387,9 +389,15 @@ function App() {
 
                     <Route path="/calling-main" element = {<CallingMain/>}/>
 
+                    <Route path="/form-main" element = {<FormMain/>}/>
+
                     <Route path="/create-objective-of-calling" element = {<CreateObjectiveOfCalling/>}/>
 
+                  
                     <Route path="/calling-dashboard-objective-of-calling" element = {<CallingDashboardByUserId/>}/>
+
+                   <Route path="/form-dashboard-objective-of-calling" element = {<FormDashboardByUserId/>}/>
+
 
                       <Route path="/ame-score-card-202527" element = {<AMEScoreCard202527/>}/>
 
