@@ -110,7 +110,7 @@ export const UserMainLayout = () => {
           label: "Student-Attendance",
           logo: "/studentattendancesummary.png",
           path: "mb-student-attendance-dashboard",
-          accessedBy: ['MIS', 'ACI', 'Community Manager', 'Community Incharge', 'Project Coordinator', 'Admin', 'Tech', 'Teacher', 'Academic Head']
+          accessedBy: ['MIS', 'ACI', 'Community Manager', 'Community Incharge', 'Project Coordinator', 'Admin', 'Tech', 'Teacher', 'Academic Head', 'hs100 executive']
         },
         {
           id: "3",
@@ -124,7 +124,7 @@ export const UserMainLayout = () => {
           label: "Attendance PDF",
           logo: "/studentattendancepdfsummary.png",
           path: "attendance-pdf-count-dashboard",
-          accessedBy: ['MIS', 'ACI', 'Community Manager', 'Community Incharge', 'Project Coordinator', 'Admin', 'Tech']
+          accessedBy: ['MIS', 'ACI', 'Community Manager', 'Community Incharge', 'Project Coordinator', 'Admin', 'Tech', 'hs100 executive']
         },
         {
           id: "5",
@@ -191,7 +191,7 @@ export const UserMainLayout = () => {
           label: "Manual Attendance",
           logo: "/upload.png",
           path: "attendance-pdf",
-          accessedBy: ['hkrn', 'MIS', 'ACI', 'Community Manager', 'Community Incharge', 'Project Coordinator', 'Admin', 'Tech', 'CC']
+          accessedBy: ['hkrn', 'MIS', 'ACI', 'Community Manager', 'Community Incharge', 'Project Coordinator', 'Admin', 'Tech', 'CC', 'hs100 executive']
         },
         {
           id: "6",
