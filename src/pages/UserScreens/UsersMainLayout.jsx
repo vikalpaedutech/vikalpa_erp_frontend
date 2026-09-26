@@ -496,7 +496,7 @@ export const UserMainLayout = () => {
           label: "Add Student",
           logo: "/addstudent.gif",
           path: "create-student-form",
-          accessedBy: ['hkrn', 'MIS', 'ACI', 'Community Manager', 'Community Incharge', 'Project Coordinator', 'Admin', 'Tech', 'CC']
+          accessedBy: ['hkrn', 'MIS', 'ACI', 'Community Manager', 'Community Incharge', 'Project Coordinator', 'Admin', 'Tech', 'CC', 'hs100 executive']
         },
         {
           id: "9",
